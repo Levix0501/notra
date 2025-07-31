@@ -10,6 +10,8 @@ import {
 } from '@/constants/default';
 import { ENV_LOCALE } from '@/constants/env';
 
+import Providers from './providers';
+
 import type { Metadata } from 'next';
 
 const geistSans = Geist({
@@ -51,7 +53,7 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				{children}
+				<Providers>{children}</Providers>
 			</body>
 		</html>
 	);

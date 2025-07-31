@@ -120,3 +120,9 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+.disable-transition *,
+::after,
+::before {
+	transition: none !important;
+}
