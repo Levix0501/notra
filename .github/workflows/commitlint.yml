@@ -1,16 +1,12 @@
 name: Conventional Commitlint
 
-on:
-  push:
-  pull_request:
-  workflow_dispatch:
+on: [push, pull_request]
 
 permissions:
   contents: read
 
 jobs:
   commitlint:
-    name: Commitlint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,30 +14,26 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node
+      - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
-          cache: yarn
+          cache: npm
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Build packages
-        run: yarn build
+      - name: Install commitlint
+        run: npm install -D @commitlint/cli @commitlint/config-conventional
 
       - name: Print versions
         run: |
           git --version
           node --version
           npm --version
-          yarn --version
-          yarn commitlint --version
+          npx commitlint --version
 
       - name: Validate current commit (last commit) with commitlint
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        run: yarn commitlint --last --verbose
+        if: github.event_name == 'push'
+        run: npx commitlint --last --verbose
 
       - name: Validate PR commits with commitlint
         if: github.event_name == 'pull_request'
-        run: yarn commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
