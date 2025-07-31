@@ -1,4 +1,9 @@
 export const en = {
+	app_login_page: {
+		metadata_title: 'Login',
+		card_title: 'Admin Login',
+		card_description: 'An account will be created on first login.'
+	},
 	components_account_dropdown: {
 		settings: 'Settings',
 		logout: 'Logout'
@@ -22,6 +27,8 @@ export const en = {
 		system: 'System'
 	},
 	services_account: {
+		get_account_error: 'Failed to get account!',
+		create_account_error: 'Failed to create account!',
 		login_error: 'Failed to login!'
 	}
 };

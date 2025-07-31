@@ -1,3 +1,5 @@
+import { Metadata } from 'next';
+
 import { LoginForm } from '@/components/login-form';
 import NotraFooter from '@/components/notra-footer';
 import NotraHeader from '@/components/notra-header';
@@ -8,6 +10,16 @@ import {
 	CardHeader,
 	CardTitle
 } from '@/components/ui/card';
+import { DEFAULT_SITE_TITLE } from '@/constants/default';
+import { getTranslations } from '@/i18n';
+
+const t = getTranslations('app_login_page');
+
+export const generateMetadata = async (): Promise<Metadata> => {
+	return {
+		title: `${t.metadata_title} - ${DEFAULT_SITE_TITLE}`
+	};
+};
 
 export default function Page() {
 	return (
@@ -17,10 +29,8 @@ export default function Page() {
 			<main className="flex flex-1 items-center justify-center">
 				<Card className="w-sm">
 					<CardHeader>
-						<CardTitle>Login</CardTitle>
-						<CardDescription>
-							Enter your username and password to login
-						</CardDescription>
+						<CardTitle>{t.card_title}</CardTitle>
+						<CardDescription>{t.card_description}</CardDescription>
 					</CardHeader>
 					<CardContent>
 						<LoginForm />

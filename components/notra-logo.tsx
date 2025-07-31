@@ -15,6 +15,7 @@ export default function NotraLogo({ size }: NotraLogoProps) {
 		<>
 			<div className="dark:hidden">
 				<Image
+					priority
 					alt={`${DEFAULT_SITE_TITLE} Logo`}
 					height={size}
 					src={DEFAULT_SITE_LOGO}
@@ -24,6 +25,7 @@ export default function NotraLogo({ size }: NotraLogoProps) {
 
 			<div className="hidden dark:block">
 				<Image
+					priority
 					alt={`${DEFAULT_SITE_TITLE} Dark Logo`}
 					height={size}
 					src={DEFAULT_SITE_LOGO_DARK}

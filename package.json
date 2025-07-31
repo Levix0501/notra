@@ -17,20 +17,24 @@
 		"url": "https://github.com/Levix0501"
 	},
 	"scripts": {
-		"dev": "next dev --turbopack",
-		"build": "next build",
+		"dev": "prisma generate && next dev --turbopack",
+		"build": "prisma generate && prisma migrate deploy && next build",
 		"start": "next start",
 		"lint": "eslint . && prettier --check . && stylelint \"**/*.{css,scss}\" && pnpm check-types",
 		"lint:fix": "eslint . --fix && prettier --write . && stylelint \"**/*.{css,scss}\" --fix",
 		"check-types": "tsc --noEmit",
 		"prepare": "husky",
-		"commit": "git add -A && git-cz"
+		"commit": "git add -A && git-cz",
+		"db:generate": "prisma generate",
+		"db:migrate": "prisma migrate dev"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.1",
+		"@prisma/client": "^6.13.0",
 		"@radix-ui/react-dropdown-menu": "^2.1.15",
 		"@radix-ui/react-label": "^2.1.7",
 		"@radix-ui/react-slot": "^1.2.3",
+		"bcrypt-ts": "^7.1.0",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"lucide-react": "^0.534.0",
@@ -63,6 +67,7 @@
 		"eslint-plugin-react": "^7.37.5",
 		"husky": "^9.1.7",
 		"prettier": "^3.6.2",
+		"prisma": "^6.13.0",
 		"stylelint": "^16.23.0",
 		"stylelint-config-standard-scss": "^15.0.1",
 		"tailwindcss": "^4",

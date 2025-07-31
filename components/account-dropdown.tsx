@@ -31,6 +31,7 @@ export default function AccountDropdown() {
 				<div className="cursor-pointer rounded-sm px-1.5 py-1 hover:bg-accent">
 					<div className="dark:hidden">
 						<Image
+							priority
 							alt="Account Avatar"
 							height={24}
 							src={DEFAULT_ACCOUNT_AVATAR}
@@ -39,6 +40,7 @@ export default function AccountDropdown() {
 					</div>
 					<div className="hidden dark:block">
 						<Image
+							priority
 							alt="Account Dark Avatar"
 							height={24}
 							src={DEFAULT_ACCOUNT_AVATAR_DARK}

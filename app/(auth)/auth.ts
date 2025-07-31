@@ -1,5 +1,8 @@
+import { compare } from 'bcrypt-ts';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
+
+import { AccountService } from '@/services/account';
 
 import { authConfig } from './auth.config';
 
@@ -17,10 +20,32 @@ export const {
 				password: {}
 			},
 			async authorize({ username, password }) {
-				if (username === 'demo' && password === 'demo123') {
-					return {
-						id: 'demo'
-					};
+				const account = (await AccountService.getAccount()).data;
+
+				if (!account) {
+					const result = await AccountService.createAccount(
+						username as string,
+						password as string
+					);
+
+					if (result.success) {
+						return result.data;
+					}
+
+					return null;
+				}
+
+				if (account.username !== username) {
+					return null;
+				}
+
+				const passwordsMatch = await compare(
+					password as string,
+					account.password
+				);
+
+				if (passwordsMatch) {
+					return account;
 				}
 
 				return null;

@@ -1,4 +1,9 @@
 export const zh = {
+	app_login_page: {
+		metadata_title: '登录',
+		card_title: '管理员登录',
+		card_description: '首次登录会自动创建账户'
+	},
 	components_account_dropdown: {
 		settings: '设置',
 		logout: '退出登录'
@@ -22,6 +27,8 @@ export const zh = {
 		system: '系统'
 	},
 	services_account: {
+		get_account_error: '获取账户失败！',
+		create_account_error: '创建账户失败！',
 		login_error: '登录失败'
 	}
 };
