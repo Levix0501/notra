@@ -1,0 +1,11 @@
+{
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "always",
+		"source.removeUnusedImports": "always"
+	},
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"[prisma]": {
+		"editor.defaultFormatter": "Prisma.prisma"
+	}
+}

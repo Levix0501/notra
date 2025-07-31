@@ -1,0 +1,74 @@
+{
+	"name": "notra",
+	"version": "0.0.1",
+	"private": true,
+	"keywords": [
+		"knowledge-base",
+		"blog",
+		"note",
+		"nextjs",
+		"react"
+	],
+	"repository": "Levix0501/notra.git",
+	"license": "MIT",
+	"author": {
+		"name": "Levix",
+		"email": "1176891456@qq.com",
+		"url": "https://github.com/Levix0501"
+	},
+	"scripts": {
+		"dev": "next dev --turbopack",
+		"build": "next build",
+		"start": "next start",
+		"lint": "eslint . && prettier --check . && stylelint \"**/*.{css,scss}\" && pnpm check-types",
+		"lint:fix": "eslint . --fix && prettier --write . && stylelint \"**/*.{css,scss}\" --fix",
+		"check-types": "tsc --noEmit",
+		"prepare": "husky",
+		"commit": "git add -A && git-cz"
+	},
+	"dependencies": {
+		"@radix-ui/react-slot": "^1.2.3",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"lucide-react": "^0.534.0",
+		"next": "15.4.5",
+		"react": "19.1.0",
+		"react-dom": "19.1.0",
+		"tailwind-merge": "^3.3.1"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^19.8.1",
+		"@commitlint/config-conventional": "^19.8.1",
+		"@eslint/eslintrc": "^3",
+		"@hyoban/eslint-plugin-tailwindcss": "4.0.0-alpha.13",
+		"@tailwindcss/postcss": "^4",
+		"@types/node": "^20",
+		"@types/react": "^19",
+		"@types/react-dom": "^19",
+		"commitlint": "^19.8.1",
+		"cz-git": "^1.12.0",
+		"eslint": "^9",
+		"eslint-config-next": "15.4.5",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-import-resolver-typescript": "^4.4.4",
+		"eslint-plugin-import": "^2.32.0",
+		"eslint-plugin-react": "^7.37.5",
+		"husky": "^9.1.7",
+		"prettier": "^3.6.2",
+		"stylelint": "^16.23.0",
+		"stylelint-config-standard-scss": "^15.0.1",
+		"tailwindcss": "^4",
+		"tw-animate-css": "^1.3.6",
+		"typescript": "^5"
+	},
+	"engines": {
+		"node": ">=20.10.0",
+		"pnpm": ">=9.12.0"
+	},
+	"packageManager": "pnpm@9.15.6",
+	"config": {
+		"commitizen": {
+			"path": "node_modules/cz-git"
+		}
+	}
+}
