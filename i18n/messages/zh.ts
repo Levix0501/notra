@@ -11,6 +11,10 @@ export const zh = {
 		password_min_length: '请输入至少6个字符的密码',
 		login_error: '登录失败！'
 	},
+	components_notra_footer: {
+		powered_by:
+			'本网站由 <a href="https://notra.tech" target="_blank" class="font-bold hover:text-primary">Notra</a> 提供技术支持'
+	},
 	components_theme_changer: {
 		toggle_theme: '切换主题',
 		light: '亮色',
