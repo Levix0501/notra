@@ -10,4 +10,6 @@ const langMap: Record<string, Dictionary> = {
 
 const messages = langMap[ENV_LOCALE] ?? en;
 
-export const getTranslations = (module: keyof Dictionary) => messages[module];
+export const getTranslations = <T extends keyof Dictionary>(
+	module: T
+): Dictionary[T] => messages[module];

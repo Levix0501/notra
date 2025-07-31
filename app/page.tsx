@@ -8,7 +8,7 @@ import {
 	DEFAULT_SITE_TITLE
 } from '@/constants/default';
 
-export default function Home() {
+export default function Page() {
 	return (
 		<>
 			<header className="sticky top-0 z-40 h-14 px-6 backdrop-blur-[5px] backdrop-saturate-[180%]">
@@ -41,6 +41,11 @@ export default function Home() {
 					<ThemeChanger />
 				</div>
 			</header>
+
+			<main className="container mx-auto">
+				<h1>Home</h1>
+				<Link href="/dashboard">Dashboard</Link>
+			</main>
 		</>
 	);
 }
