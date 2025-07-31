@@ -1,4 +1,8 @@
 export const zh = {
+	components_account_dropdown: {
+		settings: '设置',
+		logout: '退出登录'
+	},
 	components_login_form: {
 		username_label: '用户名',
 		password_label: '密码',

@@ -1,4 +1,8 @@
 export const en = {
+	components_account_dropdown: {
+		settings: 'Settings',
+		logout: 'Logout'
+	},
 	components_login_form: {
 		username_label: 'Username',
 		password_label: 'Password',

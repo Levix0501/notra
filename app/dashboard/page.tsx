@@ -1,8 +1,6 @@
-'use client';
 import Link from 'next/link';
-import { signOut } from 'next-auth/react';
 
-import { Button } from '@/components/ui/button';
+import AccountDropdown from '@/components/account-dropdown';
 
 export default function Page() {
 	return (
@@ -10,7 +8,7 @@ export default function Page() {
 			<h1>Dashboard</h1>
 			<Link href="/">Home</Link>
 
-			<Button onClick={() => signOut()}>Logout</Button>
+			<AccountDropdown />
 		</main>
 	);
 }
