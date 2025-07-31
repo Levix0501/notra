@@ -19,17 +19,6 @@ const t = getTranslations('components_theme_changer');
 export function ThemeChanger() {
 	const { theme, setTheme } = useTheme();
 
-	const handleThemeChange = (value: string) => {
-		const root = document.documentElement;
-
-		root.classList.add('disable-transition');
-		setTheme(value);
-
-		setTimeout(() => {
-			root.classList.remove('disable-transition');
-		}, 500);
-	};
-
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -41,10 +30,7 @@ export function ThemeChanger() {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
 				<DropdownMenuGroup>
-					<DropdownMenuRadioGroup
-						value={theme}
-						onValueChange={handleThemeChange}
-					>
+					<DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
 						<DropdownMenuRadioItem value="light">
 							{t.light}
 						</DropdownMenuRadioItem>

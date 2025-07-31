@@ -6,7 +6,12 @@ export default function Providers({
 	children: React.ReactNode;
 }>) {
 	return (
-		<ThemeProvider enableSystem attribute="class" defaultTheme="system">
+		<ThemeProvider
+			disableTransitionOnChange
+			enableSystem
+			attribute="class"
+			defaultTheme="system"
+		>
 			{children}
 		</ThemeProvider>
 	);

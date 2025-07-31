@@ -12,26 +12,21 @@ export interface NotraLogoProps {
 
 export default function NotraLogo({ size }: NotraLogoProps) {
 	return (
-		<>
-			<div className="dark:hidden">
-				<Image
-					priority
-					alt={`${DEFAULT_SITE_TITLE} Logo`}
-					height={size}
-					src={DEFAULT_SITE_LOGO}
-					width={size}
-				/>
-			</div>
-
-			<div className="hidden dark:block">
-				<Image
-					priority
-					alt={`${DEFAULT_SITE_TITLE} Dark Logo`}
-					height={size}
-					src={DEFAULT_SITE_LOGO_DARK}
-					width={size}
-				/>
-			</div>
-		</>
+		<div className="relative" style={{ width: size, height: size }}>
+			<Image
+				fill
+				priority
+				alt={`${DEFAULT_SITE_TITLE} Logo`}
+				className="dark:invisible"
+				src={DEFAULT_SITE_LOGO}
+			/>
+			<Image
+				fill
+				priority
+				alt={`${DEFAULT_SITE_TITLE} Dark Logo`}
+				className="invisible dark:visible"
+				src={DEFAULT_SITE_LOGO_DARK}
+			/>
+		</div>
 	);
 }
