@@ -12,7 +12,7 @@ export default function Page() {
 				<h1>Home</h1>
 				<Link href="/dashboard">Dashboard</Link>
 			</main>
-
+			{/* 123 */}
 			<NotraFooter />
 		</div>
 	);
