@@ -1,4 +1,7 @@
 export const zh = {
+	app_api: {
+		unauthorized: '未授权'
+	},
 	app_dashboard_layout: {
 		metadata_title: '工作台'
 	},
@@ -11,11 +14,8 @@ export const zh = {
 		settings: '设置',
 		logout: '退出登录'
 	},
-	components_general_settings: {
-		theme: '主题'
-	},
 	components_global_settings_dialog: {
-		general: '通用'
+		site_settings: '站点设置'
 	},
 	components_login_form: {
 		username_label: '用户名',
@@ -29,6 +29,14 @@ export const zh = {
 		powered_by:
 			'本网站由 <a href="https://notra.tech" target="_blank" class="font-bold hover:text-primary">Notra</a> 提供技术支持'
 	},
+	components_site_settings_form: {
+		title: '站点标题',
+		description: '站点描述',
+		description_placeholder: '网站的简短描述',
+		update: '更新',
+		update_success: '更新成功！',
+		update_error: '更新失败！'
+	},
 	components_theme_changer: {
 		toggle_theme: '切换主题',
 		light: '亮色',
@@ -39,5 +47,9 @@ export const zh = {
 		get_account_error: '获取账户失败！',
 		create_account_error: '创建账户失败！',
 		login_error: '登录失败'
+	},
+	services_site_settings: {
+		get_site_settings_error: '获取站点设置失败',
+		update_site_settings_error: '更新站点设置失败'
 	}
 };

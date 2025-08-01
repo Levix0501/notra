@@ -10,15 +10,12 @@ import {
 	CardHeader,
 	CardTitle
 } from '@/components/ui/card';
-import { DEFAULT_SITE_TITLE } from '@/constants/default';
 import { getTranslations } from '@/i18n';
 
 const t = getTranslations('app_login_page');
 
-export const generateMetadata = async (): Promise<Metadata> => {
-	return {
-		title: `${t.metadata_title} - ${DEFAULT_SITE_TITLE}`
-	};
+export const metadata: Metadata = {
+	title: t.metadata_title
 };
 
 export default function Page() {

@@ -22,3 +22,16 @@ model AccountEntity {
 
   @@map("account")
 }
+
+// Represents site settings 
+// This entity is designed to store site information with only one record
+model SiteSettingsEntity {
+  id          String  @id @default("default")
+  title       String?
+  description String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+}

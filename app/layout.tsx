@@ -4,12 +4,12 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { Toaster } from 'sonner';
 
 import {
-	DEFAULT_SITE_DESCRIPTION,
 	DEFAULT_SITE_LOGO,
 	DEFAULT_SITE_LOGO_DARK,
 	DEFAULT_SITE_TITLE
 } from '@/constants/default';
 import { ENV_LOCALE } from '@/constants/env';
+import SiteSettingsService from '@/services/site-settings';
 
 import Providers from './providers';
 
@@ -26,9 +26,14 @@ const geistMono = Geist_Mono({
 });
 
 export const generateMetadata = async (): Promise<Metadata> => {
+	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
+
 	return {
-		title: DEFAULT_SITE_TITLE,
-		description: DEFAULT_SITE_DESCRIPTION,
+		title: {
+			template: `%s - ${siteSettings?.title ?? DEFAULT_SITE_TITLE}`,
+			default: siteSettings?.title ?? DEFAULT_SITE_TITLE
+		},
+		description: siteSettings?.description ?? '',
 		icons: {
 			icon: [
 				{
