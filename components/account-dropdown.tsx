@@ -18,9 +18,15 @@ import {
 } from '@/constants/default';
 import { getTranslations } from '@/i18n';
 
+import { useGlobalSettingsDialog } from './global-settings-dialog';
+
 const t = getTranslations('components_account_dropdown');
 
 export default function AccountDropdown() {
+	const handleOpenGlobalSettings = () => {
+		useGlobalSettingsDialog.setState({ open: true });
+	};
+
 	const handleLogout = () => {
 		signOut();
 	};
@@ -51,7 +57,7 @@ export default function AccountDropdown() {
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent align="end">
-				<DropdownMenuItem>
+				<DropdownMenuItem onClick={handleOpenGlobalSettings}>
 					<Settings />
 					{t.settings}
 				</DropdownMenuItem>

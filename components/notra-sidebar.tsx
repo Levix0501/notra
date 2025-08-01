@@ -86,7 +86,7 @@ export function NotraSidebar({
 		<aside
 			ref={sidebarRef}
 			className={cn(
-				'group/sidebar fixed top-0 bottom-0 left-0 z-50 w-80 translate-x-[-100%] overscroll-contain bg-[#fafafa] opacity-0 transition-[translate,opacity] duration-250 ease-[ease] md:w-(--sidebar-width,256px) md:translate-x-0 md:opacity-100 dark:bg-[#1f1f1f]',
+				'group/sidebar fixed top-0 bottom-0 left-0 z-50 w-80 translate-x-[-100%] overscroll-contain bg-elevated opacity-0 transition-[translate,opacity] duration-250 ease-[ease] md:w-(--sidebar-width,256px) md:translate-x-0 md:opacity-100',
 				mobileOpen &&
 					'translate-x-0 opacity-100 md:translate-x-[-100%] md:opacity-0',
 				className
@@ -95,9 +95,9 @@ export function NotraSidebar({
 			<button
 				aria-label="Resize Sidebar"
 				className={cn(
-					'invisible absolute top-0 -right-1.5 h-full w-1.5 after:absolute after:top-0 after:right-1.5 after:bottom-0 after:w-px after:bg-[#eff0f0] after:transition-colors group-data-[resizing=true]/sidebar:after:bg-[#e7e9e8] md:visible dark:after:bg-[#292929] dark:group-data-[resizing=true]/sidebar:after:bg-[#333]',
+					'invisible absolute top-0 -right-1.5 h-full w-1.5 after:absolute after:top-0 after:right-1.5 after:bottom-0 after:w-px after:bg-elevated-border after:transition-colors group-data-[resizing=true]/sidebar:after:bg-elevated-border-hover md:visible',
 					resizable &&
-						'md:cursor-col-resize md:hover:after:bg-[#e7e9e8] dark:md:hover:after:bg-[#333]'
+						'md:cursor-col-resize md:hover:after:bg-elevated-border-hover'
 				)}
 				onMouseDown={resizable ? handleMouseDown : void 0}
 			/>

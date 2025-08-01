@@ -11,6 +11,12 @@ export const en = {
 		settings: 'Settings',
 		logout: 'Logout'
 	},
+	components_general_settings: {
+		theme: 'Theme'
+	},
+	components_global_settings_dialog: {
+		general: 'General'
+	},
 	components_login_form: {
 		username_label: 'Username',
 		password_label: 'Password',

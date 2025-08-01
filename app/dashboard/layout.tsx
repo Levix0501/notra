@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 
+import GlobalSettingsDialog from '@/components/global-settings-dialog';
 import NotraBackdrop from '@/components/notra-backdrop';
 import { DEFAULT_SITE_TITLE } from '@/constants/default';
 import { getTranslations } from '@/i18n';
@@ -21,6 +22,7 @@ export default function Layout({
 		<div className="min-h-dvh">
 			<NotraBackdrop />
 			{children}
+			<GlobalSettingsDialog />
 		</div>
 	);
 }

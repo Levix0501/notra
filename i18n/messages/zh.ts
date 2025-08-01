@@ -11,6 +11,12 @@ export const zh = {
 		settings: '设置',
 		logout: '退出登录'
 	},
+	components_general_settings: {
+		theme: '主题'
+	},
+	components_global_settings_dialog: {
+		general: '通用'
+	},
 	components_login_form: {
 		username_label: '用户名',
 		password_label: '密码',
