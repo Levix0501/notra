@@ -63,7 +63,7 @@ export function SettingsTabs({ defaultValue, children }: SettingsTabsProps) {
 
 export function SettingsTabsList({ children }: ChildrenProps) {
 	return (
-		<TabsList className="flex h-full shrink-0 flex-row flex-wrap items-stretch justify-start rounded-none border-elevated-border bg-elevated p-0 text-elevated-foreground select-none max-md:overflow-x-auto max-md:border-b max-md:p-1.5 md:max-w-[200px] md:flex-col md:border-e dark:bg-black/10">
+		<TabsList className="flex h-full shrink-0 flex-row flex-wrap items-stretch justify-start rounded-none border-sidebar-accent bg-sidebar p-0 select-none max-md:overflow-x-auto max-md:border-b max-md:p-1.5 md:max-w-[200px] md:flex-col md:border-r">
 			{children}
 		</TabsList>
 	);
@@ -77,7 +77,7 @@ export function CloseButton({ onClick }: CloseButtonProps) {
 	return (
 		<div className="w-full py-3 ps-2.5 max-md:hidden">
 			<button
-				className="flex size-8 cursor-pointer items-center justify-center rounded-full bg-transparent hover:bg-elevated-hover focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-offset-transparent focus-visible:outline-hidden"
+				className="flex size-8 cursor-pointer items-center justify-center rounded-full bg-transparent hover:bg-accent focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-offset-transparent focus-visible:outline-hidden"
 				onClick={onClick}
 			>
 				<XIcon size={20} />
@@ -96,7 +96,7 @@ export function SettingsTabsTrigger({
 }: SettingsTabsTriggerProps) {
 	return (
 		<TabsPrimitive.Trigger
-			className="mx-1.5 flex w-auto cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-transparent px-2.5 py-1.5 text-start text-sm font-medium whitespace-nowrap text-primary transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-elevated-hover md:pe-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+			className="mx-1.5 flex w-auto cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-transparent px-2.5 py-1.5 text-start text-sm font-medium whitespace-nowrap text-primary transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-sidebar-accent md:pe-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
 			value={value}
 		>
 			{children}

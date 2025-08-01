@@ -35,22 +35,20 @@ export default function AccountDropdown() {
 		<DropdownMenu modal={false}>
 			<DropdownMenuTrigger>
 				<div className="cursor-pointer rounded-sm px-1.5 py-1 hover:bg-accent">
-					<div className="dark:hidden">
+					<div className="relative size-6">
 						<Image
+							fill
 							priority
 							alt="Account Avatar"
-							height={24}
+							className="dark:invisible"
 							src={DEFAULT_ACCOUNT_AVATAR}
-							width={24}
 						/>
-					</div>
-					<div className="hidden dark:block">
 						<Image
+							fill
 							priority
 							alt="Account Dark Avatar"
-							height={24}
+							className="invisible dark:visible"
 							src={DEFAULT_ACCOUNT_AVATAR_DARK}
-							width={24}
 						/>
 					</div>
 				</div>
