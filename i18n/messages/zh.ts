@@ -1,4 +1,7 @@
 export const zh = {
+	app_dashboard_layout: {
+		metadata_title: '工作台'
+	},
 	app_login_page: {
 		metadata_title: '登录',
 		card_title: '管理员登录',

@@ -1,14 +1,24 @@
-import Link from 'next/link';
-
-import AccountDropdown from '@/components/account-dropdown';
+import DashboardSidebarHeader from '@/components/dashboard-sidebar-header';
+import {
+	NotraInset,
+	NotraInsetHeader,
+	NotraSidebar
+} from '@/components/notra-sidebar';
 
 export default function Page() {
 	return (
-		<main className="container mx-auto">
-			<h1>Dashboard</h1>
-			<Link href="/">Home</Link>
+		<>
+			<NotraSidebar resizable>
+				<DashboardSidebarHeader />
+			</NotraSidebar>
 
-			<AccountDropdown />
-		</main>
+			<NotraInset>
+				<NotraInsetHeader>
+					<div>
+						<h1>Dashboard</h1>
+					</div>
+				</NotraInsetHeader>
+			</NotraInset>
+		</>
 	);
 }

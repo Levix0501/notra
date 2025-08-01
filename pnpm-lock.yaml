@@ -62,6 +62,9 @@ importers:
       zod:
         specifier: ^4.0.14
         version: 4.0.14
+      zustand:
+        specifier: ^5.0.7
+        version: 5.0.7(@types/react@19.1.9)(react@19.1.0)
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.8.1
@@ -73,8 +76,8 @@ importers:
         specifier: ^3
         version: 3.3.1
       '@hyoban/eslint-plugin-tailwindcss':
-        specifier: 4.0.0-alpha.13
-        version: 4.0.0-alpha.13(tailwindcss@4.1.11)
+        specifier: 4.0.0-alpha.12
+        version: 4.0.0-alpha.12(tailwindcss@4.1.11)
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.1.11
@@ -350,8 +353,8 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
-  '@hyoban/eslint-plugin-tailwindcss@4.0.0-alpha.13':
-    resolution: {integrity: sha512-ncM2yoHLITzoDfw1NfHLZxjJmw2n1o2hVRzJObrY2hObnPsysY2FbMOOkFDUelo4dzTSuLOU2f7az96MTrl4uQ==}
+  '@hyoban/eslint-plugin-tailwindcss@4.0.0-alpha.12':
+    resolution: {integrity: sha512-IKPK7PgoHoo9TEQLccNXLUXdlLxFHNrcr++NIEGtKMNfae99ygUdtLOPsq23zy6V7Xh3njzr/urADwdWYsql4Q==}
     engines: {node: '>=18.12.0'}
     peerDependencies:
       tailwindcss: ^3.4.0 || ^4.0.0
@@ -3164,6 +3167,24 @@ packages:
   zod@4.0.14:
     resolution: {integrity: sha512-nGFJTnJN6cM2v9kXL+SOBq3AtjQby3Mv5ySGFof5UGRHrRioSJ5iG680cYNjE/yWk671nROcpPj4hAS8nyLhSw==}
 
+  zustand@5.0.7:
+    resolution: {integrity: sha512-Ot6uqHDW/O2VdYsKLLU8GQu8sCOM1LcoE8RwvLv9uuRT9s6SOHCKs0ZEOhxg+I1Ld+A1Q5lwx+UlKXXUoCZITg==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=18.0.0'
+      immer: '>=9.0.6'
+      react: '>=18.0.0'
+      use-sync-external-store: '>=1.2.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+      use-sync-external-store:
+        optional: true
+
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
@@ -3411,7 +3432,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@hyoban/eslint-plugin-tailwindcss@4.0.0-alpha.13(tailwindcss@4.1.11)':
+  '@hyoban/eslint-plugin-tailwindcss@4.0.0-alpha.12(tailwindcss@4.1.11)':
     dependencies:
       fast-glob: 3.3.3
       postcss: 8.5.6
@@ -6412,3 +6433,8 @@ snapshots:
   yocto-queue@1.2.1: {}
 
   zod@4.0.14: {}
+
+  zustand@5.0.7(@types/react@19.1.9)(react@19.1.0):
+    optionalDependencies:
+      '@types/react': 19.1.9
+      react: 19.1.0

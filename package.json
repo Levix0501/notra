@@ -46,13 +46,14 @@
 		"react-hook-form": "^7.61.1",
 		"sonner": "^2.0.6",
 		"tailwind-merge": "^3.3.1",
-		"zod": "^4.0.14"
+		"zod": "^4.0.14",
+		"zustand": "^5.0.7"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
 		"@eslint/eslintrc": "^3",
-		"@hyoban/eslint-plugin-tailwindcss": "4.0.0-alpha.13",
+		"@hyoban/eslint-plugin-tailwindcss": "4.0.0-alpha.12",
 		"@tailwindcss/postcss": "^4",
 		"@types/node": "^20",
 		"@types/react": "^19",

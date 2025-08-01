@@ -1,4 +1,7 @@
 export const en = {
+	app_dashboard_layout: {
+		metadata_title: 'Dashboard'
+	},
 	app_login_page: {
 		metadata_title: 'Login',
 		card_title: 'Admin Login',
