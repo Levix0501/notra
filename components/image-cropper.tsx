@@ -106,12 +106,11 @@ export function ImageCropper({
 		<>
 			<AspectRatio className={disabled ? 'opacity-50' : ''} ratio={aspectRatio}>
 				{croppedImage ? (
-					<div
+					<button
 						className={cn(
 							'group/cropper relative size-full rounded-md border border-input p-2',
 							!disabled && 'cursor-pointer'
 						)}
-						role="button"
 						onClick={!disabled ? openFilePicker : void 0}
 					>
 						<div className="size-full overflow-hidden">
@@ -133,18 +132,17 @@ export function ImageCropper({
 								</div>
 							)}
 						</div>
-					</div>
+					</button>
 				) : (
-					<div
+					<button
 						className={cn(
 							'flex size-full items-center justify-center rounded-md border border-dashed border-input transition-colors duration-300 select-none',
 							!disabled && 'cursor-pointer hover:border-primary'
 						)}
-						role="button"
 						onClick={!disabled ? openFilePicker : void 0}
 					>
 						{placeholder}
-					</div>
+					</button>
 				)}
 			</AspectRatio>
 
