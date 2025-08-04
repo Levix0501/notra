@@ -14,7 +14,8 @@ export const SiteSettingsFormSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 	logo: z.instanceof(File).nullable().optional(),
-	darkLogo: z.instanceof(File).nullable().optional()
+	darkLogo: z.instanceof(File).nullable().optional(),
+	copyright: z.string()
 });
 
 export type SiteSettingsFormValues = z.infer<typeof SiteSettingsFormSchema>;

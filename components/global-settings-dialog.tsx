@@ -54,6 +54,7 @@ export default function GlobalSettingsDialog() {
 						<SettingsTabsContent value="site-settings">
 							<SiteSettingsForm
 								key={JSON.stringify(siteSettings)}
+								defaultCopyright={siteSettings?.copyright ?? ''}
 								defaultDarkLogo={siteSettings?.darkLogo ?? ''}
 								defaultDescription={siteSettings?.description ?? ''}
 								defaultLogo={siteSettings?.logo ?? ''}

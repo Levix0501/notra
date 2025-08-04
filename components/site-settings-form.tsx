@@ -12,6 +12,7 @@ import { SubmitButton } from '@/components/submit-button';
 import {
 	Form,
 	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -33,6 +34,7 @@ export interface SiteSettingsFormProps {
 	defaultDescription: string;
 	defaultLogo: string;
 	defaultDarkLogo: string;
+	defaultCopyright: string;
 	mutateSiteSettings: () => void;
 }
 
@@ -43,6 +45,7 @@ export default function SiteSettingsForm({
 	defaultDescription,
 	defaultLogo,
 	defaultDarkLogo,
+	defaultCopyright,
 	mutateSiteSettings
 }: Readonly<SiteSettingsFormProps>) {
 	const [isPending, setIsPending] = useState(false);
@@ -53,7 +56,8 @@ export default function SiteSettingsForm({
 			title: defaultTitle,
 			description: defaultDescription,
 			logo: void 0,
-			darkLogo: void 0
+			darkLogo: void 0,
+			copyright: defaultCopyright
 		}
 	});
 
@@ -95,7 +99,8 @@ export default function SiteSettingsForm({
 				title: values.title,
 				description: values.description,
 				logo: values.logo === null ? null : image?.url,
-				darkLogo: values.darkLogo === null ? null : darkImage?.url
+				darkLogo: values.darkLogo === null ? null : darkImage?.url,
+				copyright: values.copyright
 			});
 
 			if (result.success) {
@@ -196,6 +201,33 @@ export default function SiteSettingsForm({
 									}}
 								/>
 							</div>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="copyright"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>{t.copyright}</FormLabel>
+							<FormControl>
+								<Input
+									{...field}
+									disabled={isPending}
+									placeholder={t.copyright_placeholder.replace(
+										'{year}',
+										new Date().getFullYear().toString()
+									)}
+								/>
+							</FormControl>
+							<FormDescription>
+								{t.copyright_description.replace(
+									'{value}',
+									field.value ? `© ${field.value}` : ''
+								)}
+							</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
