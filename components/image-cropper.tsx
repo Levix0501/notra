@@ -47,10 +47,10 @@ export function ImageCropper({
 	disabled = false,
 	maxSize = 10,
 	onCrop
-}: ImageCropperProps) {
+}: Readonly<ImageCropperProps>) {
 	const cropperRef = useRef<ReactCropperElement>(null);
 
-	const [croppedImage, setCroppedImage] = useState(defaultImage || null);
+	const [croppedImage, setCroppedImage] = useState(defaultImage ?? null);
 	const [image, setImage] = useState<string | null>(null);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -116,7 +116,7 @@ export function ImageCropper({
 						<div className="size-full overflow-hidden">
 							<picture>
 								<img
-									alt="Image preview"
+									alt="preview"
 									className="size-full object-cover"
 									src={croppedImage}
 								/>

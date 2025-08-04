@@ -10,7 +10,7 @@ export interface NotraLogoProps {
 	size: number;
 }
 
-export default function NotraLogo({ size }: NotraLogoProps) {
+export default function NotraLogo({ size }: Readonly<NotraLogoProps>) {
 	return (
 		<div className="relative" style={{ width: size, height: size }}>
 			<Image

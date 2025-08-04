@@ -5,8 +5,6 @@ import { WrappedResponseError } from './errors/wrapped-response-error';
 import { RequestConfig } from './types';
 
 export class HttpClient {
-	constructor() {}
-
 	private async request<T = unknown>(path: string, config?: RequestConfig) {
 		const normalizedPath = path.startsWith('/') ? path : `/${path}`;
 
@@ -28,7 +26,7 @@ export class HttpClient {
 				...response,
 				url: response.url,
 				status: response.status,
-				statusText: errJson.errorMessage || response.statusText
+				statusText: errJson.errorMessage ?? response.statusText
 			});
 
 			throw err;

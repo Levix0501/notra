@@ -22,7 +22,7 @@ export function SettingsDialog({
 	open,
 	children,
 	onOpenChange
-}: SettingsDialogProps) {
+}: Readonly<SettingsDialogProps>) {
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent
@@ -50,7 +50,10 @@ export interface SettingsTabsProps extends ChildrenProps {
 	defaultValue: string;
 }
 
-export function SettingsTabs({ defaultValue, children }: SettingsTabsProps) {
+export function SettingsTabs({
+	defaultValue,
+	children
+}: Readonly<SettingsTabsProps>) {
 	return (
 		<Tabs
 			className="flex h-full flex-col gap-0 md:flex-row"
@@ -61,7 +64,7 @@ export function SettingsTabs({ defaultValue, children }: SettingsTabsProps) {
 	);
 }
 
-export function SettingsTabsList({ children }: ChildrenProps) {
+export function SettingsTabsList({ children }: Readonly<ChildrenProps>) {
 	return (
 		<TabsList className="flex h-full shrink-0 flex-row flex-wrap items-stretch justify-start rounded-none border-sidebar-accent bg-sidebar p-0 select-none max-md:overflow-x-auto max-md:border-b max-md:p-1.5 md:max-w-[200px] md:flex-col md:border-r">
 			{children}
@@ -73,7 +76,7 @@ export interface CloseButtonProps {
 	onClick: () => void;
 }
 
-export function CloseButton({ onClick }: CloseButtonProps) {
+export function CloseButton({ onClick }: Readonly<CloseButtonProps>) {
 	return (
 		<div className="w-full py-3 ps-2.5 max-md:hidden">
 			<button
@@ -93,7 +96,7 @@ export interface SettingsTabsTriggerProps extends ChildrenProps {
 export function SettingsTabsTrigger({
 	children,
 	value
-}: SettingsTabsTriggerProps) {
+}: Readonly<SettingsTabsTriggerProps>) {
 	return (
 		<TabsPrimitive.Trigger
 			className="mx-1.5 flex w-auto cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-transparent px-2.5 py-1.5 text-start text-sm font-medium whitespace-nowrap text-primary transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-sidebar-accent md:pe-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
@@ -111,7 +114,7 @@ export interface SettingsTabsContentProps extends ChildrenProps {
 export function SettingsTabsContent({
 	children,
 	value
-}: SettingsTabsContentProps) {
+}: Readonly<SettingsTabsContentProps>) {
 	return (
 		<TabsContent className="px-4 py-5 text-sm md:min-h-[380px]" value={value}>
 			{children}

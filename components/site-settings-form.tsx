@@ -36,7 +36,7 @@ export default function SiteSettingsForm({
 	defaultTitle,
 	defaultDescription,
 	mutateSiteSettings
-}: SiteSettingsFormProps) {
+}: Readonly<SiteSettingsFormProps>) {
 	const [isPending, setIsPending] = useState(false);
 
 	const form = useForm<SiteSettingsFormValues>({

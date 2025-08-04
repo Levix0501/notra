@@ -6,12 +6,11 @@ import { logger } from '@/lib/logger';
 import { IStorage } from '.';
 
 export default class SupabaseStorage implements IStorage {
-	private supabase: SupabaseClient;
+	private readonly supabase: SupabaseClient;
 	private readonly BUCKET_NAME = 'notra';
 
 	constructor() {
 		this.supabase = createClient(ENV_SUPABASE_URL!, ENV_SUPABASE_API_KEY!);
-		this.createBucket();
 	}
 
 	private async createBucket() {

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-function Card({ className, ...props }: React.ComponentProps<'div'>) {
+function Card({ className, ...props }: Readonly<React.ComponentProps<'div'>>) {
 	return (
 		<div
 			className={cn(
@@ -15,7 +15,10 @@ function Card({ className, ...props }: React.ComponentProps<'div'>) {
 	);
 }
 
-function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
+function CardHeader({
+	className,
+	...props
+}: Readonly<React.ComponentProps<'div'>>) {
 	return (
 		<div
 			className={cn(
@@ -28,7 +31,10 @@ function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
 	);
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
+function CardTitle({
+	className,
+	...props
+}: Readonly<React.ComponentProps<'div'>>) {
 	return (
 		<div
 			className={cn('leading-none font-semibold', className)}
@@ -38,7 +44,10 @@ function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
 	);
 }
 
-function CardDescription({ className, ...props }: React.ComponentProps<'div'>) {
+function CardDescription({
+	className,
+	...props
+}: Readonly<React.ComponentProps<'div'>>) {
 	return (
 		<div
 			className={cn('text-sm text-muted-foreground', className)}
@@ -48,7 +57,10 @@ function CardDescription({ className, ...props }: React.ComponentProps<'div'>) {
 	);
 }
 
-function CardAction({ className, ...props }: React.ComponentProps<'div'>) {
+function CardAction({
+	className,
+	...props
+}: Readonly<React.ComponentProps<'div'>>) {
 	return (
 		<div
 			className={cn(
@@ -61,7 +73,10 @@ function CardAction({ className, ...props }: React.ComponentProps<'div'>) {
 	);
 }
 
-function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
+function CardContent({
+	className,
+	...props
+}: Readonly<React.ComponentProps<'div'>>) {
 	return (
 		<div
 			className={cn('px-6', className)}
@@ -71,7 +86,10 @@ function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
 	);
 }
 
-function CardFooter({ className, ...props }: React.ComponentProps<'div'>) {
+function CardFooter({
+	className,
+	...props
+}: Readonly<React.ComponentProps<'div'>>) {
 	return (
 		<div
 			className={cn('flex items-center px-6 [.border-t]:pt-6', className)}
