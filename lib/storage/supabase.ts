@@ -1,9 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-import {
-	ENV_SUPABASE_SERVICE_ROLE_KEY,
-	ENV_SUPABASE_URL
-} from '@/constants/env';
+import { ENV_SUPABASE_API_KEY, ENV_SUPABASE_URL } from '@/constants/env';
 import { logger } from '@/lib/logger';
 
 import { IStorage } from '.';
@@ -13,10 +10,7 @@ export default class SupabaseStorage implements IStorage {
 	private readonly BUCKET_NAME = 'notra';
 
 	constructor() {
-		this.supabase = createClient(
-			ENV_SUPABASE_URL!,
-			ENV_SUPABASE_SERVICE_ROLE_KEY!
-		);
+		this.supabase = createClient(ENV_SUPABASE_URL!, ENV_SUPABASE_API_KEY!);
 		this.createBucket();
 	}
 

@@ -1,7 +1,4 @@
-import {
-	ENV_SUPABASE_SERVICE_ROLE_KEY,
-	ENV_SUPABASE_URL
-} from '@/constants/env';
+import { ENV_SUPABASE_API_KEY, ENV_SUPABASE_URL } from '@/constants/env';
 
 import SupabaseStorage from './supabase';
 
@@ -19,7 +16,7 @@ let storage: IStorage = {
 	}
 };
 
-if (ENV_SUPABASE_URL && ENV_SUPABASE_SERVICE_ROLE_KEY) {
+if (ENV_SUPABASE_URL && ENV_SUPABASE_API_KEY) {
 	storage = new SupabaseStorage();
 }
 
