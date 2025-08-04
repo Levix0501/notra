@@ -10,7 +10,11 @@ export default class SupabaseStorage implements IStorage {
 	private readonly BUCKET_NAME = 'notra';
 
 	constructor() {
-		this.supabase = createClient(ENV_SUPABASE_URL!, ENV_SUPABASE_API_KEY!);
+		if (!ENV_SUPABASE_URL || !ENV_SUPABASE_API_KEY) {
+			throw new Error('Supabase credentials are not set');
+		}
+
+		this.supabase = createClient(ENV_SUPABASE_URL, ENV_SUPABASE_API_KEY);
 	}
 
 	private async createBucket() {
