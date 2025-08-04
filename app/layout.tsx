@@ -38,11 +38,14 @@ export const generateMetadata = async (): Promise<Metadata> => {
 			icon: [
 				{
 					media: '(prefers-color-scheme: light)',
-					url: DEFAULT_SITE_LOGO
+					url: siteSettings?.logo ?? siteSettings?.darkLogo ?? DEFAULT_SITE_LOGO
 				},
 				{
 					media: '(prefers-color-scheme: dark)',
-					url: DEFAULT_SITE_LOGO_DARK
+					url:
+						siteSettings?.darkLogo ??
+						siteSettings?.logo ??
+						DEFAULT_SITE_LOGO_DARK
 				}
 			]
 		}

@@ -12,7 +12,9 @@ export type UpdateSiteSettingsDto = {
 
 export const SiteSettingsFormSchema = z.object({
 	title: z.string(),
-	description: z.string()
+	description: z.string(),
+	logo: z.instanceof(File).nullable().optional(),
+	darkLogo: z.instanceof(File).nullable().optional()
 });
 
 export type SiteSettingsFormValues = z.infer<typeof SiteSettingsFormSchema>;

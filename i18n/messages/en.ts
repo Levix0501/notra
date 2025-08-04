@@ -40,9 +40,14 @@ export const en = {
 		title: 'Site Title',
 		description: 'Site Description',
 		description_placeholder: 'A brief description of your website',
+		logo: 'Logo',
+		edit_logo: 'Edit Logo',
+		dark_logo: 'Dark Logo (Optional)',
+		edit_dark_logo: 'Edit Dark Logo',
 		update: 'Update',
 		update_success: 'Updated successfully!',
-		update_error: 'Failed to update!'
+		update_error: 'Failed to update!',
+		upload_error: 'Failed to upload image!'
 	},
 	components_theme_changer: {
 		toggle_theme: 'Toggle theme',

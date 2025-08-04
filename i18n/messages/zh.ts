@@ -40,9 +40,14 @@ export const zh = {
 		title: '站点标题',
 		description: '站点描述',
 		description_placeholder: '网站的简短描述',
+		logo: 'Logo',
+		edit_logo: '编辑 Logo',
+		dark_logo: '暗色 Logo (可选)',
+		edit_dark_logo: '编辑暗色 Logo',
 		update: '更新',
 		update_success: '更新成功！',
-		update_error: '更新失败！'
+		update_error: '更新失败！',
+		upload_error: '上传图片失败！'
 	},
 	components_theme_changer: {
 		toggle_theme: '切换主题',

@@ -1,6 +1,7 @@
 'use client';
 
 import { Trash2, Upload } from 'lucide-react';
+import Image from 'next/image';
 import { useRef, useState, ReactNode } from 'react';
 import { Cropper, ReactCropperElement } from 'react-cropper';
 import { toast } from 'sonner';
@@ -111,16 +112,17 @@ export function ImageCropper({
 							'group/cropper relative size-full rounded-md border border-input p-2',
 							!disabled && 'cursor-pointer'
 						)}
+						type="button"
 						onClick={!disabled ? openFilePicker : void 0}
 					>
-						<div className="size-full overflow-hidden">
-							<picture>
-								<img
-									alt="preview"
-									className="size-full object-cover"
-									src={croppedImage}
-								/>
-							</picture>
+						<div className="relative size-full overflow-hidden">
+							<Image
+								fill
+								alt="preview"
+								className="object-cover"
+								sizes="100%"
+								src={croppedImage}
+							/>
 						</div>
 						<div className="absolute inset-0 p-2">
 							{!disabled && (
@@ -139,6 +141,7 @@ export function ImageCropper({
 							'flex size-full items-center justify-center rounded-md border border-dashed border-input transition-colors duration-300 select-none',
 							!disabled && 'cursor-pointer hover:border-primary'
 						)}
+						type="button"
 						onClick={!disabled ? openFilePicker : void 0}
 					>
 						{placeholder}

@@ -29,6 +29,8 @@ model SiteSettingsEntity {
   id          String  @id @default("default")
   title       String?
   description String?
+  logo        String?
+  darkLogo    String?
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

@@ -5,27 +5,37 @@ import {
 	DEFAULT_SITE_LOGO_DARK,
 	DEFAULT_SITE_TITLE
 } from '@/constants/default';
+import SiteSettingsService from '@/services/site-settings';
 
 export interface NotraLogoProps {
 	size: number;
 }
 
-export default function NotraLogo({ size }: Readonly<NotraLogoProps>) {
+export default async function NotraLogo({ size }: Readonly<NotraLogoProps>) {
+	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
+	const darkLogo =
+		siteSettings?.darkLogo ?? siteSettings?.logo ?? DEFAULT_SITE_LOGO_DARK;
+	const logo =
+		siteSettings?.logo ?? siteSettings?.darkLogo ?? DEFAULT_SITE_LOGO;
+	const title = siteSettings?.title ?? DEFAULT_SITE_TITLE;
+
 	return (
 		<div className="relative" style={{ width: size, height: size }}>
 			<Image
 				fill
 				priority
-				alt={`${DEFAULT_SITE_TITLE} Logo`}
+				alt={`${title} Logo`}
 				className="dark:invisible"
-				src={DEFAULT_SITE_LOGO}
+				sizes={`${size}px`}
+				src={logo}
 			/>
 			<Image
 				fill
 				priority
-				alt={`${DEFAULT_SITE_TITLE} Dark Logo`}
+				alt={`${title} Dark Logo`}
 				className="invisible dark:visible"
-				src={DEFAULT_SITE_LOGO_DARK}
+				sizes={`${size}px`}
+				src={darkLogo}
 			/>
 		</div>
 	);
