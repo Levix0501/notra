@@ -5,6 +5,8 @@ import {
 	NotraSidebar
 } from '@/components/notra-sidebar';
 
+import { TestUploadFile } from './test-upload-file';
+
 export default function Page() {
 	return (
 		<>
@@ -18,6 +20,8 @@ export default function Page() {
 						<h1>Dashboard</h1>
 					</div>
 				</NotraInsetHeader>
+
+				<TestUploadFile />
 			</NotraInset>
 		</>
 	);

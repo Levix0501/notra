@@ -1,9 +1,9 @@
 import { auth } from '@/app/(auth)/auth';
 import { getTranslations } from '@/i18n';
 import { ServiceResult } from '@/lib/service-result';
-import SiteSettingsService from '@/services/site-settings';
+import FileService from '@/services/file';
 
-export async function GET() {
+export async function POST(request: Request) {
 	const session = await auth();
 
 	if (!session) {
@@ -14,7 +14,9 @@ export async function GET() {
 		});
 	}
 
-	const result = await SiteSettingsService.getSiteSettings();
+	const formData = await request.formData();
+	const file = formData.get('file') as File;
+	const serviceResult = await FileService.uploadFile(file);
 
-	return result.nextResponse();
+	return serviceResult.nextResponse();
 }

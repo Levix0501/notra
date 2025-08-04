@@ -17,6 +17,13 @@ export const zh = {
 	components_global_settings_dialog: {
 		site_settings: '站点设置'
 	},
+	components_image_cropper: {
+		re_select: '重新选择',
+		cancel: '取消',
+		crop: '裁剪',
+		max_size: '图片尺寸不能超过 {size}MB',
+		file_type_error: '图片类型应为 jpg/png'
+	},
 	components_login_form: {
 		username_label: '用户名',
 		password_label: '密码',
@@ -47,6 +54,9 @@ export const zh = {
 		get_account_error: '获取账户失败！',
 		create_account_error: '创建账户失败！',
 		login_error: '登录失败'
+	},
+	services_file: {
+		upload_error: '上传文件失败'
 	},
 	services_site_settings: {
 		get_site_settings_error: '获取站点设置失败',

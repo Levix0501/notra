@@ -35,3 +35,18 @@ model SiteSettingsEntity {
 
   @@map("site_settings")
 }
+
+// Represents a file in the system
+model FileEntity {
+  id        Int      @id @default(autoincrement())
+  url       String
+  hash      String   @unique
+  width     Int
+  height    Int
+  mimeType  String   @map("mime_type")
+  size      Int
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("files")
+}

@@ -41,6 +41,7 @@ export default function AccountDropdown() {
 							priority
 							alt="Account Avatar"
 							className="dark:invisible"
+							sizes="72px"
 							src={DEFAULT_ACCOUNT_AVATAR}
 						/>
 						<Image
@@ -48,6 +49,7 @@ export default function AccountDropdown() {
 							priority
 							alt="Account Dark Avatar"
 							className="invisible dark:visible"
+							sizes="72px"
 							src={DEFAULT_ACCOUNT_AVATAR_DARK}
 						/>
 					</div>

@@ -17,6 +17,13 @@ export const en = {
 	components_global_settings_dialog: {
 		site_settings: 'Site Settings'
 	},
+	components_image_cropper: {
+		re_select: 'Re-select',
+		cancel: 'Cancel',
+		crop: 'Crop',
+		max_size: 'Image size should be less than {size}MB',
+		file_type_error: 'Image type should be jpg/png'
+	},
 	components_login_form: {
 		username_label: 'Username',
 		password_label: 'Password',
@@ -47,6 +54,9 @@ export const en = {
 		get_account_error: 'Failed to get account!',
 		create_account_error: 'Failed to create account!',
 		login_error: 'Failed to login!'
+	},
+	services_file: {
+		upload_error: 'Failed to upload file!'
 	},
 	services_site_settings: {
 		get_site_settings_error: 'Failed to get site settings',
