@@ -21,7 +21,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { getTranslations } from '@/i18n';
-import { processError, uploadFile } from '@/lib/utils';
+import { cn, processError, uploadFile } from '@/lib/utils';
 import {
 	SiteSettingsFormSchema,
 	SiteSettingsFormValues
@@ -169,6 +169,7 @@ export default function SiteSettingsForm({
 							<div className="w-28">
 								<ImageCropper
 									aspectRatio={1}
+									className={cn(field.value && 'dark:bg-white')}
 									defaultImage={defaultLogo}
 									disabled={isPending}
 									placeholder={logoPlaceholder}
@@ -192,6 +193,7 @@ export default function SiteSettingsForm({
 							<div className="w-28">
 								<ImageCropper
 									aspectRatio={1}
+									className={cn(field.value && 'bg-black dark:bg-transparent')}
 									defaultImage={defaultDarkLogo}
 									disabled={isPending}
 									placeholder={logoPlaceholder}

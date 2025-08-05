@@ -31,6 +31,7 @@ import 'cropperjs/dist/cropper.css';
 const t = getTranslations('components_image_cropper');
 
 interface ImageCropperProps {
+	className?: string;
 	title: string;
 	placeholder: ReactNode;
 	defaultImage: Nullable<string>;
@@ -41,6 +42,7 @@ interface ImageCropperProps {
 }
 
 export function ImageCropper({
+	className,
 	title,
 	aspectRatio = 1,
 	defaultImage,
@@ -110,7 +112,8 @@ export function ImageCropper({
 					<button
 						className={cn(
 							'group/cropper relative size-full rounded-md border border-input p-2',
-							!disabled && 'cursor-pointer'
+							!disabled && 'cursor-pointer',
+							className
 						)}
 						type="button"
 						onClick={!disabled ? openFilePicker : void 0}
