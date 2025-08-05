@@ -15,7 +15,6 @@ import {
 	SettingsTabsTrigger
 } from './notra-settings';
 import SiteSettingsForm from './site-settings-form';
-import { ScrollArea } from './ui/scroll-area';
 
 type GlobalSettingsDialogStore = {
 	open: boolean;
@@ -49,21 +48,17 @@ export default function GlobalSettingsDialog() {
 					</SettingsTabsTrigger>
 				</SettingsTabsList>
 
-				<div className="flex w-full flex-col">
-					<ScrollArea className="min-h-0 w-full">
-						<SettingsTabsContent value="site-settings">
-							<SiteSettingsForm
-								key={JSON.stringify(siteSettings)}
-								defaultCopyright={siteSettings?.copyright ?? ''}
-								defaultDarkLogo={siteSettings?.darkLogo ?? ''}
-								defaultDescription={siteSettings?.description ?? ''}
-								defaultLogo={siteSettings?.logo ?? ''}
-								defaultTitle={siteSettings?.title ?? ''}
-								mutateSiteSettings={mutate}
-							/>
-						</SettingsTabsContent>
-					</ScrollArea>
-				</div>
+				<SettingsTabsContent value="site-settings">
+					<SiteSettingsForm
+						key={JSON.stringify(siteSettings)}
+						defaultCopyright={siteSettings?.copyright ?? ''}
+						defaultDarkLogo={siteSettings?.darkLogo ?? ''}
+						defaultDescription={siteSettings?.description ?? ''}
+						defaultLogo={siteSettings?.logo ?? ''}
+						defaultTitle={siteSettings?.title ?? ''}
+						mutateSiteSettings={mutate}
+					/>
+				</SettingsTabsContent>
 			</SettingsTabs>
 		</SettingsDialog>
 	);

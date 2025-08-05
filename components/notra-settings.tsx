@@ -66,7 +66,7 @@ export function SettingsTabs({
 
 export function SettingsTabsList({ children }: Readonly<ChildrenProps>) {
 	return (
-		<TabsList className="flex h-full shrink-0 flex-row flex-wrap items-stretch justify-start rounded-none border-sidebar-accent bg-sidebar p-0 select-none max-md:overflow-x-auto max-md:border-b max-md:p-1.5 md:max-w-[200px] md:flex-col md:border-r">
+		<TabsList className="flex h-full w-full shrink-0 flex-row flex-wrap items-stretch justify-start rounded-none border-sidebar-accent bg-sidebar p-0 select-none max-md:overflow-x-auto max-md:border-b max-md:p-1.5 md:max-w-[200px] md:flex-col md:border-r">
 			{children}
 		</TabsList>
 	);
@@ -116,7 +116,10 @@ export function SettingsTabsContent({
 	value
 }: Readonly<SettingsTabsContentProps>) {
 	return (
-		<TabsContent className="px-4 py-5 text-sm md:min-h-[380px]" value={value}>
+		<TabsContent
+			className="max-h-[calc(100vh-150px)] overflow-y-auto px-4 py-5 text-sm md:min-h-[380px]"
+			value={value}
+		>
 			{children}
 		</TabsContent>
 	);
