@@ -20,6 +20,9 @@ export const en = {
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
+	components_dashboard_sidebar_nav: {
+		home: 'Home'
+	},
 	components_global_settings_dialog: {
 		site_settings: 'Site Settings',
 		analytics_settings: 'Analytics Settings'
@@ -30,6 +33,31 @@ export const en = {
 		crop: 'Crop',
 		max_size: 'Image size should be less than {size}MB',
 		file_type_error: 'Image type should be jpg/png'
+	},
+	components_index_page_doc_form: {
+		index_title: 'Title',
+		index_description: 'Description',
+		main_action_text: 'Main Action Text',
+		main_action_url: 'Main Action URL',
+		is_main_new_tab: 'Open Main Action URL in new tab',
+		sub_action_text: 'Sub Action Text',
+		sub_action_url: 'Sub Action URL',
+		is_sub_new_tab: 'Open Sub Action URL in new tab'
+	},
+	components_index_page_doc_view: {
+		no_index_title: 'Please enter a title',
+		no_index_description: 'Please enter a description',
+		no_main_action_text: 'Main Action Text',
+		no_sub_action_text: 'Sub Action Text'
+	},
+	components_index_page_view_tabs: {
+		doc_view: 'Doc',
+		card_view: 'Card',
+		edit_index_page: 'Edit Index Page',
+		update: 'Update',
+		no_docs_found: 'No docs found',
+		update_success: 'Updated successfully!',
+		update_error: 'Failed to update!'
 	},
 	components_login_form: {
 		username_label: 'Username',

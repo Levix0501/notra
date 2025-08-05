@@ -1,9 +1,11 @@
 'use client';
 
 import { LucideIcon, PanelLeftIcon } from 'lucide-react';
+import Link from 'next/link';
 import { MouseEventHandler, useRef } from 'react';
 import { create } from 'zustand';
 
+import { useIsMobile } from '@/hooks/use-is-mobile';
 import { cn } from '@/lib/utils';
 import { ChildrenProps } from '@/types/common';
 
@@ -30,16 +32,7 @@ export interface SidebarNavItem {
 	subItems?: SidebarNavItem[];
 }
 
-export interface NotraSidebarProps extends ChildrenProps {
-	resizable?: boolean;
-	className?: string;
-}
-
-export function NotraSidebar({
-	children,
-	resizable = false,
-	className
-}: Readonly<NotraSidebarProps>) {
+export function NotraSidebar({ children }: Readonly<ChildrenProps>) {
 	const sidebarRef = useRef<HTMLElement>(null);
 	const bodyCursor = useRef('');
 	const mobileOpen = useNotraSidebar((state) => state.mobileOpen);
@@ -88,26 +81,23 @@ export function NotraSidebar({
 			className={cn(
 				'group/sidebar fixed top-0 bottom-0 left-0 z-50 w-80 translate-x-[-100%] overscroll-contain bg-sidebar opacity-0 transition-[translate,opacity] duration-250 ease-[ease] md:w-(--sidebar-width,256px) md:translate-x-0 md:opacity-100',
 				mobileOpen &&
-					'translate-x-0 opacity-100 md:translate-x-[-100%] md:opacity-0',
-				className
+					'translate-x-0 opacity-100 md:translate-x-[-100%] md:opacity-0'
 			)}
 		>
 			<button
 				aria-label="Resize Sidebar"
 				className={cn(
 					'invisible absolute top-0 -right-1.5 h-full w-1.5 after:absolute after:top-0 after:right-1.5 after:bottom-0 after:w-px after:bg-sidebar-accent after:transition-colors group-data-[resizing=true]/sidebar:after:bg-sidebar-border md:visible',
-					resizable && 'md:cursor-col-resize md:hover:after:bg-sidebar-border'
+					'md:cursor-col-resize md:hover:after:bg-sidebar-border'
 				)}
-				onMouseDown={resizable ? handleMouseDown : void 0}
+				onMouseDown={handleMouseDown}
 			/>
 			<nav className="flex size-full flex-col">{children}</nav>
 		</aside>
 	);
 }
 
-export type NotraInsetProps = ChildrenProps;
-
-export function NotraInset({ children }: Readonly<NotraInsetProps>) {
+export function NotraInset({ children }: Readonly<ChildrenProps>) {
 	const mobileOpen = useNotraSidebar((state) => state.mobileOpen);
 	const isResizing = useNotraSidebar((state) => state.isResizing);
 
@@ -124,11 +114,7 @@ export function NotraInset({ children }: Readonly<NotraInsetProps>) {
 	);
 }
 
-export type NotraInsetHeaderProps = ChildrenProps;
-
-export function NotraInsetHeader({
-	children
-}: Readonly<NotraInsetHeaderProps>) {
+export function NotraInsetHeader({ children }: Readonly<ChildrenProps>) {
 	const mobileOpen = useNotraSidebar((state) => state.mobileOpen);
 	const isResizing = useNotraSidebar((state) => state.isResizing);
 
@@ -165,5 +151,62 @@ export function NotraSidebarTrigger() {
 			<PanelLeftIcon />
 			<span className="sr-only">Toggle Sidebar</span>
 		</Button>
+	);
+}
+
+export function NotraSidebarContent({ children }: Readonly<ChildrenProps>) {
+	return <div className="flex flex-1 flex-col overflow-hidden">{children}</div>;
+}
+
+export function NotraSidebarMenu({ children }: Readonly<ChildrenProps>) {
+	return <ul className="space-y-0.5 px-4 md:px-2.5">{children}</ul>;
+}
+
+export function NotraSidebarMenuItem({ children }: Readonly<ChildrenProps>) {
+	return <li className="group/menu-item relative my-0.5">{children}</li>;
+}
+
+export interface NotraSidebarButtonProps extends ChildrenProps {
+	href?: string;
+	className?: string;
+	isActive?: boolean;
+	onClick?: () => void;
+}
+
+export default function NotraSidebarButton({
+	children,
+	href = '#',
+	className,
+	isActive,
+	onClick
+}: Readonly<NotraSidebarButtonProps>) {
+	const isMobile = useIsMobile();
+	const toggleSidebar = useNotraSidebar((state) => state.toggleMobileOpen);
+
+	const handleClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
+		if (isMobile) {
+			toggleSidebar();
+		}
+
+		if (onClick) {
+			e.preventDefault();
+			onClick();
+		}
+	};
+
+	return (
+		<Link
+			className={cn(
+				'flex h-8 w-full items-center gap-2 rounded-sm px-2.5 text-sm transition-colors',
+				className,
+				isActive
+					? 'bg-sidebar-accent'
+					: 'hover:bg-sidebar-accent md:has-[[data-state=open]]:bg-sidebar-accent'
+			)}
+			href={href}
+			onClick={handleClick}
+		>
+			{children}
+		</Link>
 	);
 }
