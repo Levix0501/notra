@@ -14,8 +14,15 @@ export const en = {
 		settings: 'Settings',
 		logout: 'Logout'
 	},
+	components_analytics_form: {
+		google_analytics_id: 'Google Analytics ID',
+		update_analytics: 'Update Analytics',
+		update_success: 'Updated successfully!',
+		update_error: 'Failed to update!'
+	},
 	components_global_settings_dialog: {
-		site_settings: 'Site Settings'
+		site_settings: 'Site Settings',
+		analytics_settings: 'Analytics Settings'
 	},
 	components_image_cropper: {
 		re_select: 'Re-select',

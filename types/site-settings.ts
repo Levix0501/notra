@@ -19,3 +19,9 @@ export const SiteSettingsFormSchema = z.object({
 });
 
 export type SiteSettingsFormValues = z.infer<typeof SiteSettingsFormSchema>;
+
+export const AnalyticsFormSchema = z.object({
+	gaId: z.string().optional()
+});
+
+export type AnalyticsFormValues = z.infer<typeof AnalyticsFormSchema>;

@@ -18,18 +18,16 @@ export default class SiteSettingsService {
 				}
 			});
 
-			if (!siteSettings) {
-				siteSettings = await prisma.siteSettingsEntity.create({
-					data: {
-						id: 'default'
-					},
-					omit: {
-						id: true,
-						createdAt: true,
-						updatedAt: true
-					}
-				});
-			}
+			siteSettings ??= await prisma.siteSettingsEntity.create({
+				data: {
+					id: 'default'
+				},
+				omit: {
+					id: true,
+					createdAt: true,
+					updatedAt: true
+				}
+			});
 
 			return ServiceResult.success(siteSettings);
 		} catch (error) {

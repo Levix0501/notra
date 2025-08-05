@@ -1,11 +1,12 @@
 'use client';
 
-import { Settings } from 'lucide-react';
+import { ChartPie, Settings } from 'lucide-react';
 import { create } from 'zustand';
 
 import { getTranslations } from '@/i18n';
 import { useGetSiteSettings } from '@/queries/site-settings';
 
+import AnalyticsForm from './analytics-form';
 import {
 	CloseButton,
 	SettingsDialog,
@@ -46,6 +47,13 @@ export default function GlobalSettingsDialog() {
 							<span className="truncate">{t.site_settings}</span>
 						</div>
 					</SettingsTabsTrigger>
+
+					<SettingsTabsTrigger value="analytics-settings">
+						<ChartPie />
+						<div className="flex-1">
+							<span className="truncate">{t.analytics_settings}</span>
+						</div>
+					</SettingsTabsTrigger>
 				</SettingsTabsList>
 
 				<SettingsTabsContent value="site-settings">
@@ -56,6 +64,14 @@ export default function GlobalSettingsDialog() {
 						defaultDescription={siteSettings?.description ?? ''}
 						defaultLogo={siteSettings?.logo ?? ''}
 						defaultTitle={siteSettings?.title ?? ''}
+						mutateSiteSettings={mutate}
+					/>
+				</SettingsTabsContent>
+
+				<SettingsTabsContent value="analytics-settings">
+					<AnalyticsForm
+						key={JSON.stringify(siteSettings)}
+						defaultGaId={siteSettings?.gaId ?? ''}
 						mutateSiteSettings={mutate}
 					/>
 				</SettingsTabsContent>

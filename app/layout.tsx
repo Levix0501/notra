@@ -3,6 +3,7 @@ import './globals.css';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Toaster } from 'sonner';
 
+import GoogleAnalytics from '@/components/google-analytics';
 import {
 	DEFAULT_SITE_LOGO,
 	DEFAULT_SITE_LOGO_DARK,
@@ -67,6 +68,7 @@ export default function RootLayout({
 					{children}
 				</Providers>
 			</body>
+			<GoogleAnalytics />
 		</html>
 	);
 }

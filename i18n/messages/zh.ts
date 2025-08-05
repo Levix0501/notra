@@ -14,8 +14,15 @@ export const zh = {
 		settings: '设置',
 		logout: '退出登录'
 	},
+	components_analytics_form: {
+		google_analytics_id: '谷歌分析 ID',
+		update_analytics: '更新数据分析配置',
+		update_success: '更新成功！',
+		update_error: '更新失败！'
+	},
 	components_global_settings_dialog: {
-		site_settings: '站点设置'
+		site_settings: '站点设置',
+		analytics_settings: '统计设置'
 	},
 	components_image_cropper: {
 		re_select: '重新选择',

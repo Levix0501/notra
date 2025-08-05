@@ -30,8 +30,9 @@ model SiteSettingsEntity {
   title       String?
   description String?
   logo        String?
-  darkLogo    String?
+  darkLogo    String? @map("dark_logo")
   copyright   String?
+  gaId        String? @map("ga_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
