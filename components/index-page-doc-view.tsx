@@ -48,7 +48,7 @@ export default function IndexPageDocView({
 			<div className="flex justify-center pt-6 sm:pt-8">
 				<div className="p-1.5">
 					<Link href={mainActionUrl} target={isMainNewTab ? '_blank' : '_self'}>
-						<Button className="h-10 rounded-full px-5">
+						<Button className="h-10 cursor-pointer rounded-full px-5">
 							{mainActionText || t.no_main_action_text}
 						</Button>
 					</Link>
@@ -57,7 +57,7 @@ export default function IndexPageDocView({
 				<div className="p-1.5">
 					<Link href={subActionUrl} target={isSubNewTab ? '_blank' : '_self'}>
 						<Button
-							className="h-10 rounded-full bg-[#ebebef] px-5 hover:bg-[#e4e4e9] dark:bg-[#32363f] dark:hover:bg-[#414853]"
+							className="h-10 cursor-pointer rounded-full bg-[#ebebef] px-5 hover:bg-[#e4e4e9] dark:bg-[#32363f] dark:hover:bg-[#414853]"
 							variant="secondary"
 						>
 							{subActionText || t.no_sub_action_text}
