@@ -31,7 +31,8 @@ export const en = {
 		confirm: 'Delete',
 		cancel: 'Cancel',
 		delete_success: 'Deleted successfully!',
-		delete_error: 'Failed to delete!'
+		delete_error: 'Failed to delete!',
+		delete_loading: 'Deleting...'
 	},
 	components_create_book_dialog: {
 		new_book: 'New Book',
@@ -121,7 +122,8 @@ export const en = {
 	},
 	services_book: {
 		create_book_error: 'Failed to create book!',
-		get_books_error: 'Failed to get books!'
+		get_books_error: 'Failed to get books!',
+		delete_book_error: 'Failed to delete book!'
 	},
 	services_file: {
 		upload_error: 'Failed to upload file!'

@@ -31,7 +31,8 @@ export const zh = {
 		confirm: '删除',
 		cancel: '取消',
 		delete_success: '删除成功！',
-		delete_error: '删除失败！'
+		delete_error: '删除失败！',
+		delete_loading: '删除中...'
 	},
 	components_create_book_dialog: {
 		new_book: '创建知识库',
@@ -121,7 +122,8 @@ export const zh = {
 	},
 	services_book: {
 		create_book_error: '创建知识库失败',
-		get_books_error: '获取知识库失败'
+		get_books_error: '获取知识库失败',
+		delete_book_error: '删除知识库失败'
 	},
 	services_file: {
 		upload_error: '上传文件失败'

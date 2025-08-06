@@ -8,3 +8,9 @@ export const createBook = async (values: CreateBookFormValues) => {
 
 	return serviceResult.toPlainObject();
 };
+
+export const deleteBook = async (id: number) => {
+	const serviceResult = await BookService.deleteBook(id);
+
+	return serviceResult.toPlainObject();
+};

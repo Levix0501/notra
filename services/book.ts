@@ -1,3 +1,4 @@
+import { BookEntity } from '@prisma/client';
 import { cache } from 'react';
 
 import { getTranslations } from '@/i18n';
@@ -30,6 +31,21 @@ export default class BookService {
 			const t = getTranslations('services_book');
 
 			return ServiceResult.fail(t.create_book_error);
+		}
+	}
+
+	static async deleteBook(id: BookEntity['id']) {
+		try {
+			await prisma.bookEntity.delete({
+				where: { id }
+			});
+
+			return ServiceResult.success(true);
+		} catch (error) {
+			logger('BookService.deleteBook', error);
+			const t = getTranslations('services_book');
+
+			return ServiceResult.fail(t.delete_book_error);
 		}
 	}
 
