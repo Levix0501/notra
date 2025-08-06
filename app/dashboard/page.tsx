@@ -9,6 +9,8 @@ import {
 import SiteIndexPageViewTabs from '@/components/site-index-page-view-tabs';
 import { ThemeChanger } from '@/components/theme-changer';
 
+import CreateBookTest from './create-book-test';
+
 export default function Page() {
 	return (
 		<>
@@ -17,6 +19,8 @@ export default function Page() {
 
 				<NotraSidebarContent>
 					<DashboardSidebarNav />
+
+					<CreateBookTest />
 				</NotraSidebarContent>
 			</NotraSidebar>
 

@@ -20,6 +20,14 @@ export const zh = {
 		update_success: '更新成功！',
 		update_error: '更新失败！'
 	},
+	components_create_book_dialog: {
+		new_book: '创建知识库',
+		create: '创建',
+		name_placeholder: '知识库名称',
+		create_loading: '创建中...',
+		create_success: '创建成功！',
+		create_error: '创建失败！'
+	},
 	components_dashboard_sidebar_nav: {
 		home: '主页'
 	},
@@ -97,6 +105,9 @@ export const zh = {
 		get_account_error: '获取账户失败！',
 		create_account_error: '创建账户失败！',
 		login_error: '登录失败'
+	},
+	services_book: {
+		create_book_error: '创建知识库失败'
 	},
 	services_file: {
 		upload_error: '上传文件失败'

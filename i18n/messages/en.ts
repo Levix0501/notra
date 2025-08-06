@@ -20,6 +20,14 @@ export const en = {
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
+	components_create_book_dialog: {
+		new_book: 'New Book',
+		create: 'Create',
+		name_placeholder: 'Name',
+		create_loading: 'Creating a new book...',
+		create_success: 'Created successfully!',
+		create_error: 'Failed to create!'
+	},
 	components_dashboard_sidebar_nav: {
 		home: 'Home'
 	},
@@ -97,6 +105,9 @@ export const en = {
 		get_account_error: 'Failed to get account!',
 		create_account_error: 'Failed to create account!',
 		login_error: 'Failed to login!'
+	},
+	services_book: {
+		create_book_error: 'Failed to create book!'
 	},
 	services_file: {
 		upload_error: 'Failed to upload file!'

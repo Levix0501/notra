@@ -69,3 +69,15 @@ model FileEntity {
 
   @@map("files")
 }
+
+// Represents a book in the system
+model BookEntity {
+  id   Int    @id @default(autoincrement())
+  name String
+  slug String @unique @default(cuid())
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("books")
+}
