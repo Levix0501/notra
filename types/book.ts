@@ -1,3 +1,4 @@
+import { BookEntity } from '@prisma/client';
 import { z } from 'zod';
 
 export const CreateBookFormSchema = z.object({
@@ -5,3 +6,5 @@ export const CreateBookFormSchema = z.object({
 });
 
 export type CreateBookFormValues = z.infer<typeof CreateBookFormSchema>;
+
+export type BookVo = Omit<BookEntity, 'createdAt' | 'updatedAt'>;

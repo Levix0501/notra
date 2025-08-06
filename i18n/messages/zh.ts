@@ -20,6 +20,19 @@ export const zh = {
 		update_success: '更新成功！',
 		update_error: '更新失败！'
 	},
+	components_books_nav: {
+		books: '知识库',
+		settings: '设置',
+		new_book: '新建知识库',
+		delete: '删除',
+		delete_book: '删除知识库',
+		delete_book_description:
+			'正在删除知识库 {name}，该操作不可逆，一旦操作成功，知识库下的所有内容将会删除。',
+		confirm: '删除',
+		cancel: '取消',
+		delete_success: '删除成功！',
+		delete_error: '删除失败！'
+	},
 	components_create_book_dialog: {
 		new_book: '创建知识库',
 		create: '创建',
@@ -107,7 +120,8 @@ export const zh = {
 		login_error: '登录失败'
 	},
 	services_book: {
-		create_book_error: '创建知识库失败'
+		create_book_error: '创建知识库失败',
+		get_books_error: '获取知识库失败'
 	},
 	services_file: {
 		upload_error: '上传文件失败'

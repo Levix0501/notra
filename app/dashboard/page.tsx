@@ -1,3 +1,5 @@
+import BooksNav from '@/components/books-nav';
+import { CreateBookDialog } from '@/components/create-book-dialog';
 import DashboardSidebarHeader from '@/components/dashboard-sidebar-header';
 import DashboardSidebarNav from '@/components/dashboard-sidebar-nav';
 import {
@@ -9,8 +11,6 @@ import {
 import SiteIndexPageViewTabs from '@/components/site-index-page-view-tabs';
 import { ThemeChanger } from '@/components/theme-changer';
 
-import CreateBookTest from './create-book-test';
-
 export default function Page() {
 	return (
 		<>
@@ -19,8 +19,7 @@ export default function Page() {
 
 				<NotraSidebarContent>
 					<DashboardSidebarNav />
-
-					<CreateBookTest />
+					<BooksNav />
 				</NotraSidebarContent>
 			</NotraSidebar>
 
@@ -37,6 +36,8 @@ export default function Page() {
 					<SiteIndexPageViewTabs />
 				</main>
 			</NotraInset>
+
+			<CreateBookDialog />
 		</>
 	);
 }

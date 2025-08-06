@@ -20,6 +20,19 @@ export const en = {
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
+	components_books_nav: {
+		books: 'Books',
+		settings: 'Settings',
+		new_book: 'New Book',
+		delete: 'Delete',
+		delete_book: 'Delete Book',
+		delete_book_description:
+			'Deleting book {name}. This action cannot be undone. All content under the book will be deleted.',
+		confirm: 'Delete',
+		cancel: 'Cancel',
+		delete_success: 'Deleted successfully!',
+		delete_error: 'Failed to delete!'
+	},
 	components_create_book_dialog: {
 		new_book: 'New Book',
 		create: 'Create',
@@ -107,7 +120,8 @@ export const en = {
 		login_error: 'Failed to login!'
 	},
 	services_book: {
-		create_book_error: 'Failed to create book!'
+		create_book_error: 'Failed to create book!',
+		get_books_error: 'Failed to get books!'
 	},
 	services_file: {
 		upload_error: 'Failed to upload file!'

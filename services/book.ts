@@ -1,3 +1,5 @@
+import { cache } from 'react';
+
 import { getTranslations } from '@/i18n';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
@@ -30,4 +32,22 @@ export default class BookService {
 			return ServiceResult.fail(t.create_book_error);
 		}
 	}
+
+	static readonly getBooks = cache(async () => {
+		try {
+			const books = await prisma.bookEntity.findMany({
+				select: { id: true, slug: true, name: true },
+				orderBy: {
+					createdAt: 'desc'
+				}
+			});
+
+			return ServiceResult.success(books);
+		} catch (error) {
+			logger('BookService.getBooks', error);
+			const t = getTranslations('services_book');
+
+			return ServiceResult.fail(t.get_books_error);
+		}
+	});
 }

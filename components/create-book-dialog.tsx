@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { mutate } from 'swr';
 import { create } from 'zustand';
 
 import { createBook } from '@/actions/book';
@@ -21,6 +20,7 @@ import {
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { getTranslations } from '@/i18n';
+import { useGetBooks } from '@/queries/book';
 import { CreateBookFormValues, CreateBookFormSchema } from '@/types/book';
 
 type CreateBookDialogStore = {
@@ -41,6 +41,7 @@ export function CreateBookDialog() {
 	const open = useCreateBookDialog((state) => state.open);
 	const setOpen = useCreateBookDialog((state) => state.setOpen);
 	const router = useRouter();
+	const { mutate } = useGetBooks();
 
 	const form = useForm<CreateBookFormValues>({
 		resolver: zodResolver(CreateBookFormSchema),
@@ -69,11 +70,10 @@ export function CreateBookDialog() {
 				error: t.create_error
 			})
 			.unwrap()
-			.then((data) => {
-				mutate('/api/books');
+			.then(() => {
+				mutate();
 				setOpen(false);
 				form.reset();
-				router.push(`/dashboard/${data?.slug}`);
 			})
 			.catch((error) => {
 				console.log(error);
