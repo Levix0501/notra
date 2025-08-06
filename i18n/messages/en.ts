@@ -20,6 +20,21 @@ export const en = {
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
+	components_book_info_form: {
+		name: 'Name',
+		slug: 'Slug',
+		update: 'Update',
+		slug_exists: 'Slug already exists',
+		update_loading: 'Updating book...',
+		update_success: 'Updated successfully!',
+		update_error: 'Failed to update!'
+	},
+	components_book_nav_home: {
+		home: 'Home'
+	},
+	components_book_settings_dialog: {
+		book_info: 'Book Info'
+	},
 	components_books_nav: {
 		books: 'Books',
 		settings: 'Settings',
@@ -123,7 +138,10 @@ export const en = {
 	services_book: {
 		create_book_error: 'Failed to create book!',
 		get_books_error: 'Failed to get books!',
-		delete_book_error: 'Failed to delete book!'
+		delete_book_error: 'Failed to delete book!',
+		get_book_error: 'Failed to get book!',
+		check_book_slug_error: 'Failed to check book slug!',
+		update_book_error: 'Failed to update book!'
 	},
 	services_file: {
 		upload_error: 'Failed to upload file!'
@@ -131,5 +149,10 @@ export const en = {
 	services_site_settings: {
 		get_site_settings_error: 'Failed to get site settings',
 		update_site_settings_error: 'Failed to update site settings'
+	},
+	types_book: {
+		name_required: 'Name is required',
+		slug_required: 'Slug is required',
+		slug_invalid: 'Slug is invalid'
 	}
 };

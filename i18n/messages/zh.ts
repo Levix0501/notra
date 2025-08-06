@@ -20,6 +20,21 @@ export const zh = {
 		update_success: '更新成功！',
 		update_error: '更新失败！'
 	},
+	components_book_info_form: {
+		name: '名称',
+		slug: '路径',
+		update: '更新',
+		slug_exists: '路径已存在',
+		update_loading: '更新中...',
+		update_success: '更新成功！',
+		update_error: '更新失败！'
+	},
+	components_book_nav_home: {
+		home: '主页'
+	},
+	components_book_settings_dialog: {
+		book_info: '知识库信息'
+	},
 	components_books_nav: {
 		books: '知识库',
 		settings: '设置',
@@ -123,7 +138,10 @@ export const zh = {
 	services_book: {
 		create_book_error: '创建知识库失败',
 		get_books_error: '获取知识库失败',
-		delete_book_error: '删除知识库失败'
+		delete_book_error: '删除知识库失败',
+		get_book_error: '获取知识库失败',
+		check_book_slug_error: '检查知识库路径是否可用失败',
+		update_book_error: '更新知识库失败'
 	},
 	services_file: {
 		upload_error: '上传文件失败'
@@ -131,5 +149,10 @@ export const zh = {
 	services_site_settings: {
 		get_site_settings_error: '获取站点设置失败',
 		update_site_settings_error: '更新站点设置失败'
+	},
+	types_book: {
+		name_required: '名称是必填项',
+		slug_required: '路径是必填项',
+		slug_invalid: '非法路径'
 	}
 };

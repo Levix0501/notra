@@ -70,7 +70,8 @@ export function CreateBookDialog() {
 				error: t.create_error
 			})
 			.unwrap()
-			.then(() => {
+			.then((data) => {
+				router.push(`/dashboard/${data?.slug}`);
 				mutate();
 				setOpen(false);
 				form.reset();

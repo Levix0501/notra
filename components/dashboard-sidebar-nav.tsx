@@ -5,7 +5,8 @@ import { usePathname } from 'next/navigation';
 
 import { getTranslations } from '@/i18n';
 
-import NotraSidebarButton, {
+import {
+	NotraSidebarButton,
 	NotraSidebarMenu,
 	NotraSidebarMenuItem,
 	SidebarNavItem

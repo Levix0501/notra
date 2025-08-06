@@ -173,7 +173,7 @@ export interface NotraSidebarButtonProps extends ChildrenProps {
 	onClick?: () => void;
 }
 
-export default function NotraSidebarButton({
+export function NotraSidebarButton({
 	children,
 	href = '#',
 	className,

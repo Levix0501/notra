@@ -13,17 +13,19 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { Skeleton } from '@/components/ui/skeleton';
 import { getTranslations } from '@/i18n';
 import { useGetBooks } from '@/queries/book';
 import { BookVo } from '@/types/book';
 
+import { useBookSettingsDialog } from './book-settings-dialog';
 import { useCreateBookDialog } from './create-book-dialog';
 import { NotraAlertDialog } from './notra-alert-dialog';
-import NotraSidebarButton, {
+import {
+	NotraSidebarButton,
 	NotraSidebarMenu,
 	NotraSidebarMenuItem
 } from './notra-sidebar';
+import NotraSkeleton from './notra-skeleton';
 import { ScrollArea } from './ui/scroll-area';
 
 const t = getTranslations('components_books_nav');
@@ -34,8 +36,12 @@ export default function BooksNav() {
 
 	const { data: books, isLoading, mutate } = useGetBooks();
 	const setOpenCreateBookDialog = useCreateBookDialog((state) => state.setOpen);
+	const setSlug = useBookSettingsDialog((state) => state.setSlug);
+	const setOpenBookSettingsDialog = useBookSettingsDialog(
+		(state) => state.setOpen
+	);
 
-	const handleCreateBook = () => {
+	const handleOpenCreateBookDialog = () => {
 		setOpenCreateBookDialog(true);
 	};
 
@@ -64,25 +70,13 @@ export default function BooksNav() {
 			<div className="flex-1 overflow-hidden">
 				<ScrollArea className="h-full">
 					<NotraSidebarMenu>
-						{isLoading && (
-							<div className="px-2">
-								<div className="py-2">
-									<Skeleton className="h-4" />
-								</div>
-								<div className="py-2">
-									<Skeleton className="h-4" />
-								</div>
-								<div className="py-2">
-									<Skeleton className="h-4" />
-								</div>
-							</div>
-						)}
+						{isLoading && <NotraSkeleton />}
 
 						{!isLoading && (
 							<NotraSidebarMenuItem>
 								<NotraSidebarButton
 									className="text-secondary-foreground"
-									onClick={handleCreateBook}
+									onClick={handleOpenCreateBookDialog}
 								>
 									<Plus size={16} /> <span>{t.new_book}</span>
 								</NotraSidebarButton>
@@ -116,7 +110,13 @@ export default function BooksNav() {
 													e.stopPropagation();
 												}}
 											>
-												<DropdownMenuItem asChild>
+												<DropdownMenuItem
+													asChild
+													onClick={() => {
+														setSlug(item.slug);
+														setOpenBookSettingsDialog(true);
+													}}
+												>
 													<div className="flex items-center gap-2">
 														<SlidersHorizontal className="text-muted-foreground" />
 														<span>{t.settings}</span>

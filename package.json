@@ -39,6 +39,7 @@
 		"@radix-ui/react-dropdown-menu": "^2.1.15",
 		"@radix-ui/react-label": "^2.1.7",
 		"@radix-ui/react-scroll-area": "^1.2.9",
+		"@radix-ui/react-separator": "^1.1.7",
 		"@radix-ui/react-slot": "^1.2.3",
 		"@radix-ui/react-tabs": "^1.1.12",
 		"@radix-ui/react-visually-hidden": "^1.2.3",
@@ -60,6 +61,7 @@
 		"swr": "^2.3.4",
 		"tailwind-merge": "^3.3.1",
 		"use-file-picker": "^2.1.4",
+		"usehooks-ts": "^3.1.1",
 		"zod": "^4.0.14",
 		"zustand": "^5.0.7"
 	},
