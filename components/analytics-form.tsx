@@ -16,7 +16,6 @@ import {
 	FormMessage
 } from '@/components/ui/form';
 import { getTranslations } from '@/i18n';
-import { processError } from '@/lib/utils';
 import {
 	AnalyticsFormSchema,
 	AnalyticsFormValues
@@ -35,7 +34,7 @@ export default function AnalyticsForm({
 	defaultGaId,
 	mutateSiteSettings
 }: Readonly<AnalyticsFormProps>) {
-	const [isLoading, setIsLoading] = useState(false);
+	const [isPending, setIsPending] = useState(false);
 
 	const form = useForm<AnalyticsFormValues>({
 		resolver: zodResolver(AnalyticsFormSchema),
@@ -45,26 +44,33 @@ export default function AnalyticsForm({
 	});
 
 	const onSubmit = async (values: AnalyticsFormValues) => {
-		setIsLoading(true);
+		setIsPending(true);
 
-		try {
+		const promise = (async () => {
 			const result = await updateSiteSettings({
 				gaId: values.gaId
 			});
 
-			if (result.success) {
-				mutateSiteSettings();
-				toast.success(t.update_success);
-			} else {
-				toast.error(result.message);
+			if (!result.success) {
+				throw new Error(result.message);
 			}
-		} catch (error) {
-			processError(error, () => {
-				toast.error(t.update_error);
-			});
-		}
 
-		setIsLoading(false);
+			mutateSiteSettings();
+		})();
+
+		toast
+			.promise(promise, {
+				loading: t.update_loading,
+				success: t.update_success,
+				error: t.update_error
+			})
+			.unwrap()
+			.catch((error) => {
+				console.log(error);
+			})
+			.finally(() => {
+				setIsPending(false);
+			});
 	};
 
 	return (
@@ -79,7 +85,7 @@ export default function AnalyticsForm({
 							<FormControl>
 								<Input
 									{...field}
-									disabled={isLoading}
+									disabled={isPending}
 									placeholder="G-1234567890"
 								/>
 							</FormControl>
@@ -87,7 +93,7 @@ export default function AnalyticsForm({
 						</FormItem>
 					)}
 				/>
-				<SubmitButton className="w-auto" isPending={isLoading}>
+				<SubmitButton className="w-auto" isPending={isPending}>
 					{t.update_analytics}
 				</SubmitButton>
 			</form>

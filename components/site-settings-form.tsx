@@ -21,7 +21,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { getTranslations } from '@/i18n';
-import { cn, processError, uploadFile } from '@/lib/utils';
+import { cn, uploadFile } from '@/lib/utils';
 import {
 	SiteSettingsFormSchema,
 	SiteSettingsFormValues
@@ -64,37 +64,19 @@ export default function SiteSettingsForm({
 	const onSubmit = async (values: SiteSettingsFormValues) => {
 		setIsPending(true);
 
-		let image: FileEntity | undefined;
+		const promise = (async () => {
+			let image: FileEntity | undefined;
 
-		if (values.logo) {
-			try {
+			if (values.logo) {
 				image = await uploadFile(values.logo);
-			} catch (error) {
-				processError(error, () => {
-					toast.error(t.upload_error);
-				});
-				setIsPending(false);
-
-				return;
 			}
-		}
 
-		let darkImage: FileEntity | undefined;
+			let darkImage: FileEntity | undefined;
 
-		if (values.darkLogo) {
-			try {
+			if (values.darkLogo) {
 				darkImage = await uploadFile(values.darkLogo);
-			} catch (error) {
-				processError(error, () => {
-					toast.error(t.upload_error);
-				});
-				setIsPending(false);
-
-				return;
 			}
-		}
 
-		try {
 			const result = await updateSiteSettings({
 				title: values.title,
 				description: values.description,
@@ -103,19 +85,26 @@ export default function SiteSettingsForm({
 				copyright: values.copyright
 			});
 
-			if (result.success) {
-				mutateSiteSettings();
-				toast.success(t.update_success);
-			} else {
-				toast.error(result.message);
+			if (!result.success) {
+				throw new Error(result.message);
 			}
-		} catch (error) {
-			processError(error, () => {
-				toast.error(t.update_error);
+
+			mutateSiteSettings();
+		})();
+
+		toast
+			.promise(promise, {
+				loading: t.update_loading,
+				success: t.update_success,
+				error: t.update_error
+			})
+			.unwrap()
+			.catch((error) => {
+				console.log(error);
+			})
+			.finally(() => {
+				setIsPending(false);
 			});
-		} finally {
-			setIsPending(false);
-		}
 	};
 
 	const logoPlaceholder = (

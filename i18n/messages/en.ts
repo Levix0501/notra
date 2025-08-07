@@ -17,6 +17,7 @@ export const en = {
 	components_analytics_form: {
 		google_analytics_id: 'Google Analytics ID',
 		update_analytics: 'Update Analytics',
+		update_loading: 'Updating...',
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
@@ -120,9 +121,9 @@ export const en = {
 		copyright_placeholder: 'eg. {year} Notra',
 		copyright_description: 'Copyright will be displayed: {value}',
 		update: 'Update',
+		update_loading: 'Updating...',
 		update_success: 'Updated successfully!',
-		update_error: 'Failed to update!',
-		upload_error: 'Failed to upload image!'
+		update_error: 'Failed to update!'
 	},
 	components_theme_changer: {
 		toggle_theme: 'Toggle theme',

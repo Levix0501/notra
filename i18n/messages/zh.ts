@@ -17,6 +17,7 @@ export const zh = {
 	components_analytics_form: {
 		google_analytics_id: '谷歌分析 ID',
 		update_analytics: '更新数据分析配置',
+		update_loading: '更新中...',
 		update_success: '更新成功！',
 		update_error: '更新失败！'
 	},
@@ -120,9 +121,9 @@ export const zh = {
 		copyright_placeholder: '示例：{year} Notra',
 		copyright_description: '版权说明将显示：{value}',
 		update: '更新',
+		update_loading: '更新中...',
 		update_success: '更新成功！',
-		update_error: '更新失败！',
-		upload_error: '上传图片失败！'
+		update_error: '更新失败！'
 	},
 	components_theme_changer: {
 		toggle_theme: '切换主题',
