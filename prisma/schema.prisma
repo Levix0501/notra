@@ -76,6 +76,16 @@ model BookEntity {
   name String
   slug String @unique @default(cuid())
 
+  indexPageType    IndexPageType @default(CARD) @map("index_page_type")
+  indexTitle       String?       @map("index_title")
+  indexDescription String?       @map("index_description")
+  mainActionText   String?       @map("main_action_text")
+  mainActionUrl    String?       @map("main_action_url")
+  isMainNewTab     Boolean       @default(false) @map("is_main_new_tab")
+  subActionText    String?       @map("sub_action_text")
+  subActionUrl     String?       @map("sub_action_url")
+  isSubNewTab      Boolean       @default(false) @map("is_sub_new_tab")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

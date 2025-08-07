@@ -21,6 +21,15 @@ export const zh = {
 		update_success: '更新成功！',
 		update_error: '更新失败！'
 	},
+	components_book_index_page_view_tabs: {
+		doc_view: '文档',
+		card_view: '卡片',
+		edit_index_page: '编辑首页',
+		update: '更新',
+		no_docs_found: '还没有文档',
+		update_success: '更新成功！',
+		update_error: '更新失败！'
+	},
 	components_book_info_form: {
 		name: '名称',
 		slug: '路径',
@@ -88,15 +97,6 @@ export const zh = {
 		no_main_action_text: '主按钮文本',
 		no_sub_action_text: '次按钮文本'
 	},
-	components_index_page_view_tabs: {
-		doc_view: '文档',
-		card_view: '卡片',
-		edit_index_page: '编辑首页',
-		update: '更新',
-		no_docs_found: '还没有文档',
-		update_success: '更新成功！',
-		update_error: '更新失败！'
-	},
 	components_login_form: {
 		username_label: '用户名',
 		password_label: '密码',
@@ -108,6 +108,15 @@ export const zh = {
 	components_notra_footer: {
 		powered_by:
 			'本网站由 <a href="https://notra.tech" target="_blank" class="font-bold hover:text-primary">Notra</a> 提供技术支持'
+	},
+	components_site_index_page_view_tabs: {
+		doc_view: '文档',
+		card_view: '卡片',
+		edit_index_page: '编辑首页',
+		update: '更新',
+		no_docs_found: '还没有文档',
+		update_success: '更新成功！',
+		update_error: '更新失败！'
 	},
 	components_site_settings_form: {
 		title: '站点标题',

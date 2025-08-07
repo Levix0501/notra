@@ -21,6 +21,15 @@ export const en = {
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
+	components_book_index_page_view_tabs: {
+		doc_view: 'Doc',
+		card_view: 'Card',
+		edit_index_page: 'Edit Index Page',
+		update: 'Update',
+		no_docs_found: 'No docs found',
+		update_success: 'Updated successfully!',
+		update_error: 'Failed to update!'
+	},
 	components_book_info_form: {
 		name: 'Name',
 		slug: 'Slug',
@@ -88,15 +97,6 @@ export const en = {
 		no_main_action_text: 'Main Action Text',
 		no_sub_action_text: 'Sub Action Text'
 	},
-	components_index_page_view_tabs: {
-		doc_view: 'Doc',
-		card_view: 'Card',
-		edit_index_page: 'Edit Index Page',
-		update: 'Update',
-		no_docs_found: 'No docs found',
-		update_success: 'Updated successfully!',
-		update_error: 'Failed to update!'
-	},
 	components_login_form: {
 		username_label: 'Username',
 		password_label: 'Password',
@@ -108,6 +108,15 @@ export const en = {
 	components_notra_footer: {
 		powered_by:
 			'Powered by <a href="https://notra.tech" target="_blank" class="font-bold hover:text-primary">Notra</a>'
+	},
+	components_site_index_page_view_tabs: {
+		doc_view: 'Doc',
+		card_view: 'Card',
+		edit_index_page: 'Edit Index Page',
+		update: 'Update',
+		no_docs_found: 'No docs found',
+		update_success: 'Updated successfully!',
+		update_error: 'Failed to update!'
 	},
 	components_site_settings_form: {
 		title: 'Site Title',

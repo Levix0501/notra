@@ -2,15 +2,16 @@
 
 import { IndexPageType } from '@prisma/client';
 import { LayoutGrid, Text } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-import { updateSiteSettings } from '@/actions/site-settings';
+import { updateBook } from '@/actions/book';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getTranslations } from '@/i18n';
 import { cn } from '@/lib/utils';
-import { useGetSiteSettings } from '@/queries/site-settings';
+import { useGetBook } from '@/queries/book';
+import { BookVo } from '@/types/book';
 
 import EmptyState from './empty-state';
 import IndexPageDocForm, {
@@ -18,40 +19,39 @@ import IndexPageDocForm, {
 } from './index-page-doc-form';
 import IndexPageDocView from './index-page-doc-view';
 
-const t = getTranslations('components_site_index_page_view_tabs');
+export interface BookIndexPageViewTabsProps {
+	defaultBook: BookVo;
+}
 
-export default function SiteIndexPageViewTabs() {
+const t = getTranslations('components_book_index_page_view_tabs');
+
+export default function BookIndexPageViewTabs({
+	defaultBook
+}: Readonly<BookIndexPageViewTabsProps>) {
 	const formRef = useRef<IndexPageDocFormHandle>(null);
 
 	const [isEditing, setIsEditing] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [indexPageType, setIndexPageType] = useState<IndexPageType>(
-		IndexPageType.DOC
+		defaultBook.indexPageType
 	);
 
-	const { data: siteSettings, mutate } = useGetSiteSettings();
+	const { data: book, mutate } = useGetBook(defaultBook.slug, defaultBook);
 
-	const defaultValues = useMemo(
-		() => ({
-			indexTitle: siteSettings?.indexTitle ?? '',
-			indexDescription: siteSettings?.indexDescription ?? '',
-			mainActionText: siteSettings?.mainActionText ?? '',
-			mainActionUrl: siteSettings?.mainActionUrl ?? '',
-			subActionText: siteSettings?.subActionText ?? '',
-			subActionUrl: siteSettings?.subActionUrl ?? '',
-			isMainNewTab: siteSettings?.isMainNewTab ?? false,
-			isSubNewTab: siteSettings?.isSubNewTab ?? false
-		}),
-		[siteSettings]
-	);
+	const defaultValues = useMemo(() => {
+		return {
+			indexTitle: book?.indexTitle ?? '',
+			indexDescription: book?.indexDescription ?? '',
+			mainActionText: book?.mainActionText ?? '',
+			mainActionUrl: book?.mainActionUrl ?? '',
+			subActionText: book?.subActionText ?? '',
+			subActionUrl: book?.subActionUrl ?? '',
+			isMainNewTab: book?.isMainNewTab ?? false,
+			isSubNewTab: book?.isSubNewTab ?? false
+		};
+	}, [book]);
 
-	useEffect(() => {
-		if (siteSettings?.indexPageType) {
-			setIndexPageType(siteSettings.indexPageType);
-		}
-	}, [siteSettings?.indexPageType]);
-
-	if (!siteSettings) {
+	if (!book) {
 		return null;
 	}
 
@@ -64,8 +64,9 @@ export default function SiteIndexPageViewTabs() {
 
 		mutate(
 			async () => {
-				const result = await updateSiteSettings({
-					indexPageType: indexPageType,
+				const result = await updateBook({
+					id: book.id,
+					indexPageType,
 					...formRef.current?.form.getValues()
 				});
 
@@ -84,7 +85,7 @@ export default function SiteIndexPageViewTabs() {
 			},
 			{
 				optimisticData: {
-					...siteSettings,
+					...book,
 					indexPageType,
 					...formRef.current?.form.getValues()
 				},
@@ -117,7 +118,6 @@ export default function SiteIndexPageViewTabs() {
 				</TabsList>
 
 				<Button
-					className="cursor-pointer"
 					disabled={isSubmitting}
 					size="sm"
 					variant="outline"
