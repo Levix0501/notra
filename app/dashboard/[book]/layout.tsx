@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 
-import BookNavHome from '@/components/book-nav-home';
 import BookSettingsButton from '@/components/book-settings-button';
-import DashboardSidebarHeader from '@/components/dashboard-sidebar-header';
+import BookSidebarHeader from '@/components/book-sidebar-header';
+import BookSidebarNav from '@/components/book-sidebar-nav';
 import {
 	NotraInset,
 	NotraSidebar,
@@ -27,17 +27,15 @@ export default async function Layout({
 	return (
 		<>
 			<NotraSidebar>
-				<DashboardSidebarHeader />
+				<BookSidebarHeader />
 
 				<NotraSidebarContent>
-					<div className="flex flex-col gap-4 px-4 md:px-2.5">
-						<div className="flex items-center justify-between gap-2 px-1">
-							<span className="flex-1 truncate font-bold">{book.name}</span>
-
-							<BookSettingsButton bookSlug={book.slug} />
-						</div>
-						<BookNavHome bookSlug={book.slug} />
+					<div className="mb-4 flex items-center justify-between gap-2 px-5 md:px-3.5">
+						<span className="flex-1 truncate font-bold">{book.name}</span>
+						<BookSettingsButton bookSlug={book.slug} />
 					</div>
+
+					<BookSidebarNav bookSlug={book.slug} />
 				</NotraSidebarContent>
 			</NotraSidebar>
 

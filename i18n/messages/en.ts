@@ -30,11 +30,11 @@ export const en = {
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
-	components_book_nav_home: {
-		home: 'Home'
-	},
 	components_book_settings_dialog: {
 		book_info: 'Book Info'
+	},
+	components_book_sidebar_nav: {
+		book_home: 'Book Home'
 	},
 	components_books_nav: {
 		books: 'Books',

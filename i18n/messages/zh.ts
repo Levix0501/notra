@@ -30,11 +30,11 @@ export const zh = {
 		update_success: '更新成功！',
 		update_error: '更新失败！'
 	},
-	components_book_nav_home: {
-		home: '主页'
-	},
 	components_book_settings_dialog: {
 		book_info: '知识库信息'
+	},
+	components_book_sidebar_nav: {
+		book_home: '知识库主页'
 	},
 	components_books_nav: {
 		books: '知识库',
