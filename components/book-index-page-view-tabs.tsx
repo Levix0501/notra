@@ -64,24 +64,37 @@ export default function BookIndexPageViewTabs({
 
 		mutate(
 			async () => {
-				const result = await updateBook({
-					id: book.id,
-					indexPageType,
-					...formRef.current?.form.getValues()
-				});
+				const promise = (async () => {
+					const result = await updateBook({
+						id: book.id,
+						indexPageType,
+						...formRef.current?.form.getValues()
+					});
 
-				if (!result.success || !result.data) {
-					toast.error(t.update_error);
+					if (!result.success || !result.data) {
+						throw new Error(result.message);
+					}
+
+					return result.data;
+				})();
+
+				try {
+					const data = await toast
+						.promise(promise, {
+							loading: t.update_loading,
+							success: t.update_success,
+							error: t.update_error
+						})
+						.unwrap();
+
+					setIsEditing(false);
+
+					return data;
+				} catch (error) {
+					console.log(error);
+				} finally {
 					setIsSubmitting(false);
-
-					throw new Error(result.message);
 				}
-
-				toast.success(t.update_success);
-				setIsEditing(false);
-				setIsSubmitting(false);
-
-				return result.data;
 			},
 			{
 				optimisticData: {

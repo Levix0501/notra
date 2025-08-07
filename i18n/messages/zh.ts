@@ -27,6 +27,7 @@ export const zh = {
 		edit_index_page: '编辑首页',
 		update: '更新',
 		no_docs_found: '还没有文档',
+		update_loading: '更新中...',
 		update_success: '更新成功！',
 		update_error: '更新失败！'
 	},
@@ -115,6 +116,7 @@ export const zh = {
 		edit_index_page: '编辑首页',
 		update: '更新',
 		no_docs_found: '还没有文档',
+		update_loading: '更新中...',
 		update_success: '更新成功！',
 		update_error: '更新失败！'
 	},

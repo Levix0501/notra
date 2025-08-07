@@ -27,6 +27,7 @@ export const en = {
 		edit_index_page: 'Edit Index Page',
 		update: 'Update',
 		no_docs_found: 'No docs found',
+		update_loading: 'Updating...',
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
@@ -115,6 +116,7 @@ export const en = {
 		edit_index_page: 'Edit Index Page',
 		update: 'Update',
 		no_docs_found: 'No docs found',
+		update_loading: 'Updating...',
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
