@@ -1,0 +1,104 @@
+import { CatalogNodeEntity, CatalogNodeType } from '@prisma/client';
+
+import { getTranslations } from '@/i18n';
+import { flattenCatalogNodes } from '@/lib/catalog/shared';
+import { logger } from '@/lib/logger';
+import prisma from '@/lib/prisma';
+import { ServiceResult } from '@/lib/service-result';
+
+const t = getTranslations('services_catalog_node');
+
+export default class CatalogNodeService {
+	static async createNode(
+		bookId: CatalogNodeEntity['bookId'],
+		parentId: CatalogNodeEntity['parentId'],
+		type: CatalogNodeType
+	) {
+		try {
+			const node = await prisma.$transaction(async (tx) => {
+				const parentNode = parentId
+					? await tx.catalogNodeEntity.findUnique({
+							where: {
+								id: parentId
+							}
+						})
+					: null;
+
+				const firstNode = await tx.catalogNodeEntity.findFirst({
+					where: {
+						bookId,
+						parentId,
+						prevId: parentId
+					}
+				});
+
+				const node = await tx.catalogNodeEntity.create({
+					data: {
+						title:
+							type === CatalogNodeType.STACK
+								? t.new_stack_default_name
+								: t.new_doc_default_name,
+						type,
+						bookId,
+						parentId: parentNode ? parentNode.id : null,
+						prevId: parentNode ? parentNode.id : null,
+						siblingId: firstNode ? firstNode.id : null
+					}
+				});
+
+				await Promise.all([
+					firstNode
+						? tx.catalogNodeEntity.update({
+								where: { id: firstNode.id },
+								data: { prevId: node.id }
+							})
+						: null,
+					parentNode
+						? tx.catalogNodeEntity.update({
+								where: { id: parentNode.id },
+								data: { childId: node.id }
+							})
+						: null
+				]);
+			});
+
+			return ServiceResult.success(node);
+		} catch (error) {
+			logger('CatalogNodeService.createStack', error);
+
+			return ServiceResult.fail(t.create_stack_error);
+		}
+	}
+
+	static async createStack(
+		bookId: CatalogNodeEntity['bookId'],
+		parentId: CatalogNodeEntity['parentId']
+	) {
+		return CatalogNodeService.createNode(
+			bookId,
+			parentId,
+			CatalogNodeType.STACK
+		);
+	}
+
+	static async getCatalogNodes(bookId: CatalogNodeEntity['bookId']) {
+		try {
+			const nodes = await prisma.catalogNodeEntity.findMany({
+				where: {
+					bookId
+				},
+				omit: {
+					createdAt: true,
+					updatedAt: true,
+					bookId: true
+				}
+			});
+
+			return ServiceResult.success(flattenCatalogNodes(nodes));
+		} catch (error) {
+			logger('CatalogNodeService.getCatalogNodes', error);
+
+			return ServiceResult.fail(t.get_catalog_nodes_error);
+		}
+	}
+}

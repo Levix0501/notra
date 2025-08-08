@@ -68,6 +68,11 @@ export const zh = {
 		create_success: '创建成功！',
 		create_error: '创建失败！'
 	},
+	components_create_dropdown: {
+		new_document: '文档',
+		new_stack: '分组',
+		create_stack_error: '创建分组失败！'
+	},
 	components_dashboard_sidebar_nav: {
 		home: '主页'
 	},
@@ -154,6 +159,17 @@ export const zh = {
 		get_book_error: '获取知识库失败',
 		check_book_slug_error: '检查知识库路径是否可用失败',
 		update_book_error: '更新知识库失败'
+	},
+	services_catalog_node: {
+		get_catalog_nodes_error: '获取节点失败！',
+		new_stack_default_name: '新分组',
+		new_doc_default_name: '无标题文档',
+		create_stack_error: '创建分组失败！',
+		create_doc_error: '创建文档失败！',
+		delete_with_children_error: '删除失败！',
+		prepend_child_error: '添加子节点失败！',
+		move_after_error: '移动失败！',
+		update_title_error: '更新标题失败！'
 	},
 	services_file: {
 		upload_error: '上传文件失败'

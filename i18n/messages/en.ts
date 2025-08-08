@@ -68,6 +68,11 @@ export const en = {
 		create_success: 'Created successfully!',
 		create_error: 'Failed to create!'
 	},
+	components_create_dropdown: {
+		new_document: 'Document',
+		new_stack: 'Stack',
+		create_stack_error: 'Failed to create stack!'
+	},
 	components_dashboard_sidebar_nav: {
 		home: 'Home'
 	},
@@ -154,6 +159,17 @@ export const en = {
 		get_book_error: 'Failed to get book!',
 		check_book_slug_error: 'Failed to check book slug!',
 		update_book_error: 'Failed to update book!'
+	},
+	services_catalog_node: {
+		get_catalog_nodes_error: 'Failed to get nodes!',
+		new_stack_default_name: 'Stack',
+		new_doc_default_name: 'Untitled Document',
+		create_stack_error: 'Failed to create stack!',
+		create_doc_error: 'Failed to create document!',
+		delete_with_children_error: 'Failed to delete!',
+		prepend_child_error: 'Failed to prepend child!',
+		move_after_error: 'Failed to move after!',
+		update_title_error: 'Failed to update title!'
 	},
 	services_file: {
 		upload_error: 'Failed to upload file!'

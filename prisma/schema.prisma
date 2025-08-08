@@ -89,5 +89,31 @@ model BookEntity {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  CatalogNodeEntity CatalogNodeEntity[]
+
   @@map("books")
+}
+
+// Represents the type of a catalog node
+enum CatalogNodeType {
+  STACK
+}
+
+// Represents a catalog node of a book
+model CatalogNodeEntity {
+  id        Int             @id @default(autoincrement())
+  parentId  Int?            @map("parent_id")
+  prevId    Int?            @map("prev_id")
+  siblingId Int?            @map("sibling_id")
+  childId   Int?            @map("child_id")
+  title     String
+  type      CatalogNodeType
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  bookId Int        @map("book_id")
+  book   BookEntity @relation(fields: [bookId], references: [id])
+
+  @@map("catalog_nodes")
 }

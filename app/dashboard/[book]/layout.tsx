@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 
+import BookCatalog from '@/components/book-catalog';
 import BookSettingsButton from '@/components/book-settings-button';
 import BookSidebarHeader from '@/components/book-sidebar-header';
 import BookSidebarNav from '@/components/book-sidebar-nav';
@@ -36,6 +37,10 @@ export default async function Layout({
 					</div>
 
 					<BookSidebarNav bookSlug={book.slug} />
+
+					<div className="flex-1 overflow-hidden">
+						<BookCatalog book={book} />
+					</div>
 				</NotraSidebarContent>
 			</NotraSidebar>
 
