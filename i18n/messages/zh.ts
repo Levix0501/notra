@@ -21,6 +21,9 @@ export const zh = {
 		update_success: '更新成功！',
 		update_error: '更新失败！'
 	},
+	components_book_catalog: {
+		new: '新增'
+	},
 	components_book_index_page_view_tabs: {
 		doc_view: '文档',
 		card_view: '卡片',
@@ -59,6 +62,12 @@ export const zh = {
 		delete_success: '删除成功！',
 		delete_error: '删除失败！',
 		delete_loading: '删除中...'
+	},
+	components_catalog_item: {
+		default_catalog_node_name: '无标题',
+		delete_success: '删除成功！',
+		rename: '重命名',
+		delete: '删除'
 	},
 	components_create_book_dialog: {
 		new_book: '创建知识库',

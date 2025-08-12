@@ -21,6 +21,9 @@ export const en = {
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
+	components_book_catalog: {
+		new: 'Add New'
+	},
 	components_book_index_page_view_tabs: {
 		doc_view: 'Doc',
 		card_view: 'Card',
@@ -59,6 +62,12 @@ export const en = {
 		delete_success: 'Deleted successfully!',
 		delete_error: 'Failed to delete!',
 		delete_loading: 'Deleting...'
+	},
+	components_catalog_item: {
+		default_catalog_node_name: 'Untitled',
+		delete_success: 'Deleted successfully!',
+		rename: 'Rename',
+		delete: 'Delete'
 	},
 	components_create_book_dialog: {
 		new_book: 'New Book',

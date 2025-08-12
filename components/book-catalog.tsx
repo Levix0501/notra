@@ -1,12 +1,16 @@
 'use client';
 
 import { Plus } from 'lucide-react';
+import { RefObject, useRef } from 'react';
+import { useResizeObserver } from 'usehooks-ts';
 
+import { getTranslations } from '@/i18n';
 import { useGetCatalogNodes } from '@/queries/catalog-node';
 import { useSetBook } from '@/stores/book';
 import { BookVo } from '@/types/book';
 
 import CreateDropdown from './create-dropdown';
+import DragDropZone from './drag-drop-zone';
 import { NotraSidebarButton } from './notra-sidebar';
 import NotraSkeleton from './notra-skeleton';
 
@@ -14,12 +18,22 @@ export interface BookCatalogProps {
 	book: BookVo;
 }
 
+const t = getTranslations('components_book_catalog');
+
 export default function BookCatalog({ book }: Readonly<BookCatalogProps>) {
+	const ref = useRef<HTMLDivElement>(null);
+
 	useSetBook(book);
-	const { data: nodes, isLoading } = useGetCatalogNodes(book.id);
+	const { height = 9999 } = useResizeObserver({
+		ref: ref as RefObject<HTMLElement>
+	});
+	const { data, isLoading } = useGetCatalogNodes(book.id);
+	const draggableList = data ?? [];
 
 	return (
 		<div className="relative size-full">
+			<div ref={ref} className="absolute h-full w-px"></div>
+
 			{isLoading && (
 				<div className="px-4 md:px-2.5">
 					<NotraSkeleton />
@@ -30,10 +44,14 @@ export default function BookCatalog({ book }: Readonly<BookCatalogProps>) {
 				<CreateDropdown parentCatalogNodeId={null}>
 					<div className="h-9 px-4 py-px md:px-2.5">
 						<NotraSidebarButton className="h-[34px] text-secondary-foreground">
-							<Plus size={16} /> <span>新增</span>
+							<Plus size={16} /> <span>{t.new}</span>
 						</NotraSidebarButton>
 					</div>
 				</CreateDropdown>
+			)}
+
+			{!isLoading && data && data.length > 0 && (
+				<DragDropZone draggableList={draggableList} height={height} />
 			)}
 		</div>
 	);
