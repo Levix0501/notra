@@ -26,6 +26,7 @@ import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
 
 import CatalogItemWrapper from './catalog-item-wrapper';
 import CreateDropdown from './create-dropdown';
+import LevelIndicator from './level-indicator';
 
 export interface CatalogItemProps {
 	dragProvided: DraggableProvided;
@@ -183,6 +184,8 @@ const CatalogItem = ({
 					</div>
 				</div>
 			</CatalogItemWrapper>
+
+			<LevelIndicator nodeId={item.id} />
 		</div>
 	);
 };

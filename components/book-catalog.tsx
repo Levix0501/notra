@@ -71,7 +71,11 @@ export default function BookCatalog({ book }: Readonly<BookCatalogProps>) {
 			)}
 
 			{!isLoading && data && data.length > 0 && (
-				<DragDropZone draggableList={draggableList} height={height} />
+				<DragDropZone
+					bookId={book.id}
+					draggableList={draggableList}
+					height={height}
+				/>
 			)}
 		</div>
 	);

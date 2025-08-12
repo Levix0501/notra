@@ -1,7 +1,9 @@
 import { DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
 import { ChevronRight } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
 import { cn } from '@/lib/utils';
+import useCatalog from '@/stores/catalog';
 import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
 
 export interface CatalogItemProps {
@@ -15,6 +17,45 @@ const CloneCatalogItem = ({
 	dragSnapshot,
 	item
 }: CatalogItemProps) => {
+	const targetLevel = useRef(item.level);
+
+	const setIsDragging = useCatalog((state) => state.setIsDragging);
+	const setCurrentDropNodeReachLevel = useCatalog(
+		(state) => state.setCurrentDropNodeReachLevel
+	);
+
+	useEffect(() => {
+		if (
+			dragProvided.draggableProps.style?.transform &&
+			!dragSnapshot.isDropAnimating
+		) {
+			const pattern = /translate\(([^)]+)px,/;
+			const match = RegExp(pattern).exec(
+				dragProvided.draggableProps.style?.transform
+			);
+
+			if (match?.[1]) {
+				const x = Number(match[1]);
+
+				if (!Number.isNaN(x)) {
+					targetLevel.current = setCurrentDropNodeReachLevel({
+						x,
+						initialLevel: item.level
+					});
+				}
+			}
+		}
+	}, [
+		dragProvided.draggableProps.style?.transform,
+		dragSnapshot.isDropAnimating,
+		item.level,
+		setCurrentDropNodeReachLevel
+	]);
+
+	useEffect(() => {
+		setIsDragging(!dragSnapshot.isDropAnimating);
+	}, [dragSnapshot.isDropAnimating, setIsDragging]);
+
 	return (
 		<div
 			{...dragProvided.draggableProps}
@@ -22,7 +63,12 @@ const CloneCatalogItem = ({
 			className="px-2"
 			style={{
 				...dragProvided.draggableProps.style,
-				cursor: 'pointer'
+				cursor: 'pointer',
+				...(dragSnapshot.isDropAnimating
+					? {
+							transform: `translate(${(targetLevel.current - item.level) * 24}px,${dragSnapshot.dropAnimation?.moveTo.y}px)`
+						}
+					: void 0)
 			}}
 		>
 			<div

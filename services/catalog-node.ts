@@ -1,11 +1,12 @@
 import { CatalogNodeEntity, CatalogNodeType } from '@prisma/client';
 
 import { getTranslations } from '@/i18n';
-import { deleteNodeWithChildren } from '@/lib/catalog/server';
+import { deleteNodeWithChildren, moveNode } from '@/lib/catalog/server';
 import { flattenCatalogNodes } from '@/lib/catalog/shared';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
 import { ServiceResult } from '@/lib/service-result';
+import { Nullable } from '@/types/common';
 
 const t = getTranslations('services_catalog_node');
 
@@ -121,6 +122,68 @@ export default class CatalogNodeService {
 			logger('CatalogNodeService.getCatalogNodes', error);
 
 			return ServiceResult.fail(t.get_catalog_nodes_error);
+		}
+	}
+
+	static async prependChild({
+		bookId,
+		nodeId,
+		targetId
+	}: {
+		bookId: CatalogNodeEntity['bookId'];
+		nodeId: CatalogNodeEntity['id'];
+		targetId: Nullable<CatalogNodeEntity['id']>;
+	}) {
+		try {
+			await prisma.$transaction(async (tx) => {
+				await moveNode(tx, {
+					bookId,
+					nodeId,
+					newParentId: targetId ?? null,
+					newPrevId: targetId ?? null
+				});
+			});
+
+			return CatalogNodeService.getCatalogNodes(bookId);
+		} catch (error) {
+			logger('CatalogNodeService.prependChild', error);
+			const t = getTranslations('services_catalog_node');
+
+			return ServiceResult.fail(t.prepend_child_error);
+		}
+	}
+
+	static async moveAfter({
+		bookId,
+		nodeId,
+		targetId
+	}: {
+		bookId: CatalogNodeEntity['bookId'];
+		nodeId: CatalogNodeEntity['id'];
+		targetId: CatalogNodeEntity['id'];
+	}) {
+		try {
+			await prisma.$transaction(async (tx) => {
+				const newPrevNode = await tx.catalogNodeEntity.findUnique({
+					where: {
+						id: targetId
+					}
+				});
+
+				await moveNode(tx, {
+					bookId,
+					nodeId,
+					newParentId: newPrevNode?.parentId ?? null,
+					newPrevId: targetId || null
+				});
+			});
+
+			return CatalogNodeService.getCatalogNodes(bookId);
+		} catch (error) {
+			logger('CatalogNodeService.moveAfter', error);
+			const t = getTranslations('services_catalog_node');
+
+			return ServiceResult.fail(t.move_after_error);
 		}
 	}
 }
