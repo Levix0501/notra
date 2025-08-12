@@ -64,7 +64,8 @@ export default class CatalogNodeService {
 						parentId: parentNode ? parentNode.id : null,
 						prevId: parentNode ? parentNode.id : null,
 						siblingId: firstNode ? firstNode.id : null,
-						docId: doc?.id ?? null
+						docId: doc?.id ?? null,
+						url: doc?.slug ?? null
 					}
 				});
 
@@ -82,6 +83,8 @@ export default class CatalogNodeService {
 							})
 						: null
 				]);
+
+				return node;
 			});
 
 			return ServiceResult.success(node);

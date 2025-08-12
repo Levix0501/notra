@@ -6,6 +6,7 @@ import {
 	TextCursorInput,
 	Trash
 } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { CSSProperties, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -49,10 +50,13 @@ const CatalogItem = ({
 	const book = useBook();
 	const expandedKeys = useCatalog((state) => state.expandedKeys);
 	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
+	const pathname = usePathname();
 
 	if (!book) {
 		return null;
 	}
+
+	const isActive = pathname.includes(`/${book.slug}/${item.url}`);
 
 	const toggleExpandedKey = (key: number) => {
 		if (expandedKeys.has(key)) {
@@ -67,6 +71,9 @@ const CatalogItem = ({
 	const handleClick = () => {
 		if (item.type === 'STACK') {
 			toggleExpandedKey(item.id);
+		} else if (item.type === 'DOC') {
+			expandedKeys.add(item.id);
+			setExpandedKeys(expandedKeys);
 		}
 	};
 
@@ -151,7 +158,8 @@ const CatalogItem = ({
 				className={cn(
 					'my-px flex h-[34px] items-center rounded-md border-[1.5px] border-transparent pr-1.5 text-sm hover:bg-sidebar-accent',
 					Boolean(dragSnapshot.combineTargetFor) &&
-						'border-[#117cee] dark:border-[#3b82ce]'
+						'border-[#117cee] dark:border-[#3b82ce]',
+					isActive && 'bg-sidebar-accent font-bold'
 				)}
 				isEditingTitle={isEditingTitle}
 				item={item}
@@ -199,7 +207,13 @@ const CatalogItem = ({
 				>
 					<div className="flex items-center gap-x-2">
 						<DropdownMenu modal={false}>
-							<DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+							<DropdownMenuTrigger
+								asChild
+								onClick={(e) => {
+									e.stopPropagation();
+									e.preventDefault();
+								}}
+							>
 								<Button
 									className="size-6 hover:bg-border"
 									size="icon"

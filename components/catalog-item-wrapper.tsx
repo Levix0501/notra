@@ -1,5 +1,7 @@
+import Link from 'next/link';
 import { CSSProperties } from 'react';
 
+import { useBook } from '@/stores/book';
 import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
 import { ChildrenProps } from '@/types/common';
 
@@ -16,8 +18,24 @@ export default function CatalogItemWrapper({
 	className,
 	style,
 	isEditingTitle,
+	item,
 	onClick
 }: Readonly<CatalogItemWrapperProps>) {
+	const book = useBook();
+
+	if (item.type === 'DOC' && !isEditingTitle) {
+		return (
+			<Link
+				className={className}
+				href={`/dashboard/${book?.slug}/${item.url}`}
+				style={style}
+				onClick={onClick}
+			>
+				{children}
+			</Link>
+		);
+	}
+
 	return (
 		<div
 			className={className}

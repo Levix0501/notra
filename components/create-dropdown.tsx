@@ -2,6 +2,7 @@
 
 import { CatalogNodeEntity, CatalogNodeType } from '@prisma/client';
 import { Plus, Folder, File } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { PropsWithChildren } from 'react';
 import { toast } from 'sonner';
 
@@ -30,6 +31,7 @@ export default function CreateDropdown({
 	const book = useBook();
 	const expandedKeys = useCatalog((state) => state.expandedKeys);
 	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
+	const router = useRouter();
 
 	if (!book) {
 		return null;
@@ -56,6 +58,10 @@ export default function CreateDropdown({
 				return;
 			}
 
+			if (type === 'DOC' && result.data?.url) {
+				router.push(`/dashboard/${book.slug}/${result.data.url}`);
+			}
+
 			mutateCatalog(book.id);
 		} catch {
 			toast.error(t.create_error);
@@ -72,7 +78,13 @@ export default function CreateDropdown({
 
 	return (
 		<DropdownMenu modal={false}>
-			<DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+			<DropdownMenuTrigger
+				asChild
+				onClick={(e) => {
+					e.stopPropagation();
+					e.preventDefault();
+				}}
+			>
 				{children || (
 					<Button className="size-8" size="icon" variant="outline">
 						<Plus size={16} />
