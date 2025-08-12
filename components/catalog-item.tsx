@@ -7,7 +7,9 @@ import {
 	Trash
 } from 'lucide-react';
 import { CSSProperties } from 'react';
+import { toast } from 'sonner';
 
+import { deleteWithChildren } from '@/actions/catalog-node';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -16,7 +18,10 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { getTranslations } from '@/i18n';
+import { deleteNodeWithChildren } from '@/lib/catalog/client';
 import { cn } from '@/lib/utils';
+import { useBook } from '@/stores/book';
+import { mutateCatalog, nodeMap } from '@/stores/catalog';
 import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
 
 import CatalogItemWrapper from './catalog-item-wrapper';
@@ -37,6 +42,38 @@ const CatalogItem = ({
 	item,
 	style
 }: CatalogItemProps) => {
+	const book = useBook();
+
+	if (!book) {
+		return null;
+	}
+
+	const handleDelete = () => {
+		deleteNodeWithChildren(nodeMap, item.id);
+		mutateCatalog(book.id, async () => {
+			const promise = (async () => {
+				const result = await deleteWithChildren({
+					nodeId: item.id,
+					bookId: book.id
+				});
+
+				if (!result.success || !result.data) {
+					throw new Error(result.message);
+				}
+
+				return result.data;
+			})();
+
+			return await toast
+				.promise(promise, {
+					loading: t.delete_loading,
+					success: t.delete_success,
+					error: t.delete_error
+				})
+				.unwrap();
+		});
+	};
+
 	return (
 		<div
 			{...dragProvided.draggableProps}
@@ -100,7 +137,7 @@ const CatalogItem = ({
 									<TextCursorInput className="mr-2 h-4 w-4" />
 									{t.rename}
 								</DropdownMenuItem>
-								<DropdownMenuItem>
+								<DropdownMenuItem onClick={handleDelete}>
 									<Trash className="mr-2 h-4 w-4" />
 									{t.delete}
 								</DropdownMenuItem>

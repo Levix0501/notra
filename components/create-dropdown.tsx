@@ -14,8 +14,8 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { getTranslations } from '@/i18n';
-import { useGetCatalogNodes } from '@/queries/catalog-node';
 import { useBook } from '@/stores/book';
+import { mutateCatalog } from '@/stores/catalog';
 
 export interface CreateDropdownProps extends PropsWithChildren {
 	parentCatalogNodeId: CatalogNodeEntity['parentId'];
@@ -28,7 +28,6 @@ export default function CreateDropdown({
 	children
 }: Readonly<CreateDropdownProps>) {
 	const book = useBook();
-	const { mutate } = useGetCatalogNodes(book?.id);
 
 	if (!book) {
 		return null;
@@ -44,7 +43,7 @@ export default function CreateDropdown({
 				return;
 			}
 
-			mutate();
+			mutateCatalog(book.id);
 		} catch {
 			toast.error(t.create_stack_error);
 		}

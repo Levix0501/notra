@@ -65,9 +65,11 @@ export const zh = {
 	},
 	components_catalog_item: {
 		default_catalog_node_name: '无标题',
-		delete_success: '删除成功！',
 		rename: '重命名',
-		delete: '删除'
+		delete: '删除',
+		delete_loading: '删除中...',
+		delete_error: '删除失败！',
+		delete_success: '删除成功！'
 	},
 	components_create_book_dialog: {
 		new_book: '创建知识库',

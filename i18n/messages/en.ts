@@ -65,9 +65,11 @@ export const en = {
 	},
 	components_catalog_item: {
 		default_catalog_node_name: 'Untitled',
-		delete_success: 'Deleted successfully!',
 		rename: 'Rename',
-		delete: 'Delete'
+		delete: 'Delete',
+		delete_loading: 'Deleting...',
+		delete_error: 'Failed to delete!',
+		delete_success: 'Deleted successfully!'
 	},
 	components_create_book_dialog: {
 		new_book: 'New Book',

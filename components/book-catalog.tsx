@@ -7,6 +7,7 @@ import { useResizeObserver } from 'usehooks-ts';
 import { getTranslations } from '@/i18n';
 import { useGetCatalogNodes } from '@/queries/catalog-node';
 import { useSetBook } from '@/stores/book';
+import { setNodeMap } from '@/stores/catalog';
 import { BookVo } from '@/types/book';
 
 import CreateDropdown from './create-dropdown';
@@ -27,7 +28,11 @@ export default function BookCatalog({ book }: Readonly<BookCatalogProps>) {
 	const { height = 9999 } = useResizeObserver({
 		ref: ref as RefObject<HTMLElement>
 	});
-	const { data, isLoading } = useGetCatalogNodes(book.id);
+	const { data, isLoading } = useGetCatalogNodes(book.id, {
+		onSuccess(data) {
+			setNodeMap(data);
+		}
+	});
 	const draggableList = data ?? [];
 
 	return (

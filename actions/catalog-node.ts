@@ -12,3 +12,18 @@ export const createStack = async (
 
 	return serviceResult.toPlainObject();
 };
+
+export const deleteWithChildren = async ({
+	nodeId,
+	bookId
+}: {
+	nodeId: CatalogNodeEntity['id'];
+	bookId: CatalogNodeEntity['bookId'];
+}) => {
+	const serviceResult = await CatalogNodeService.deleteWithChildren({
+		nodeId,
+		bookId
+	});
+
+	return serviceResult.toPlainObject();
+};

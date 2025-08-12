@@ -1,6 +1,7 @@
 import { CatalogNodeEntity, CatalogNodeType } from '@prisma/client';
 
 import { getTranslations } from '@/i18n';
+import { deleteNodeWithChildren } from '@/lib/catalog/server';
 import { flattenCatalogNodes } from '@/lib/catalog/shared';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
@@ -79,6 +80,27 @@ export default class CatalogNodeService {
 			parentId,
 			CatalogNodeType.STACK
 		);
+	}
+
+	static async deleteWithChildren({
+		nodeId,
+		bookId
+	}: {
+		nodeId: CatalogNodeEntity['id'];
+		bookId: CatalogNodeEntity['bookId'];
+	}) {
+		try {
+			await prisma.$transaction(async (tx) => {
+				await deleteNodeWithChildren(tx, nodeId);
+			});
+
+			return CatalogNodeService.getCatalogNodes(bookId);
+		} catch (error) {
+			logger('CatalogNodeService.deleteWithChildren', error);
+			const t = getTranslations('services_catalog_node');
+
+			return ServiceResult.fail(t.delete_with_children_error);
+		}
 	}
 
 	static async getCatalogNodes(bookId: CatalogNodeEntity['bookId']) {
