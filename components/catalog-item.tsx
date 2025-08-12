@@ -6,10 +6,10 @@ import {
 	TextCursorInput,
 	Trash
 } from 'lucide-react';
-import { CSSProperties } from 'react';
+import { CSSProperties, useState } from 'react';
 import { toast } from 'sonner';
 
-import { deleteWithChildren } from '@/actions/catalog-node';
+import { deleteWithChildren, updateTitle } from '@/actions/catalog-node';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -26,6 +26,7 @@ import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
 
 import CatalogItemWrapper from './catalog-item-wrapper';
 import CreateDropdown from './create-dropdown';
+import EditTitleForm from './edit-title-form';
 import LevelIndicator from './level-indicator';
 
 export interface CatalogItemProps {
@@ -43,6 +44,8 @@ const CatalogItem = ({
 	item,
 	style
 }: CatalogItemProps) => {
+	const [isEditingTitle, setIsEditingTitle] = useState(false);
+
 	const book = useBook();
 	const expandedKeys = useCatalog((state) => state.expandedKeys);
 	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
@@ -65,6 +68,10 @@ const CatalogItem = ({
 		if (item.type === 'STACK') {
 			toggleExpandedKey(item.id);
 		}
+	};
+
+	const handleRename = () => {
+		setIsEditingTitle(true);
 	};
 
 	const handleDelete = () => {
@@ -93,10 +100,45 @@ const CatalogItem = ({
 		});
 	};
 
+	const handleSubmit = (title: string) => {
+		if (title === item.title) {
+			setIsEditingTitle(false);
+
+			return;
+		}
+
+		if (title === '') {
+			title = t.default_catalog_node_name;
+		}
+
+		const node = nodeMap.get(item.id);
+
+		if (!node) {
+			return;
+		}
+
+		node.title = title;
+
+		mutateCatalog(book.id, async () => {
+			const result = await updateTitle({
+				id: item.id,
+				title
+			});
+
+			if (!result.success || !result.data) {
+				throw new Error(result.message);
+			}
+
+			return result.data;
+		});
+
+		setIsEditingTitle(false);
+	};
+
 	return (
 		<div
 			{...dragProvided.draggableProps}
-			{...dragProvided.dragHandleProps}
+			{...(isEditingTitle ? void 0 : dragProvided.dragHandleProps)}
 			ref={dragProvided.innerRef}
 			className="group/item px-4 md:px-2.5"
 			style={{
@@ -111,7 +153,7 @@ const CatalogItem = ({
 					Boolean(dragSnapshot.combineTargetFor) &&
 						'border-[#117cee] dark:border-[#3b82ce]'
 				)}
-				isEditingTitle={false}
+				isEditingTitle={isEditingTitle}
 				item={item}
 				style={{ paddingLeft: 24 * item.level + 'px' }}
 				onClick={handleClick}
@@ -139,16 +181,25 @@ const CatalogItem = ({
 					)}
 				</div>
 
-				<div className="flex-1 truncate select-none">{item.title}</div>
+				{isEditingTitle ? (
+					<EditTitleForm
+						key={item.id}
+						defaultTitle={item.title}
+						onSubmit={handleSubmit}
+					/>
+				) : (
+					<div className="flex-1 truncate select-none">{item.title}</div>
+				)}
 
 				<div
 					className={cn(
-						'opacity-100 md:opacity-0 md:group-hover/item:opacity-100'
+						'opacity-100 md:opacity-0 md:group-hover/item:opacity-100',
+						isEditingTitle && 'invisible'
 					)}
 				>
 					<div className="flex items-center gap-x-2">
-						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
+						<DropdownMenu modal={false}>
+							<DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
 								<Button
 									className="size-6 hover:bg-border"
 									size="icon"
@@ -161,7 +212,7 @@ const CatalogItem = ({
 								align="start"
 								onClick={(e) => e.stopPropagation()}
 							>
-								<DropdownMenuItem>
+								<DropdownMenuItem onClick={handleRename}>
 									<TextCursorInput className="mr-2 h-4 w-4" />
 									{t.rename}
 								</DropdownMenuItem>

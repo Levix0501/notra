@@ -15,10 +15,16 @@ export default function CatalogItemWrapper({
 	children,
 	className,
 	style,
+	isEditingTitle,
 	onClick
 }: Readonly<CatalogItemWrapperProps>) {
 	return (
-		<div className={className} role="button" style={style} onClick={onClick}>
+		<div
+			className={className}
+			role="button"
+			style={style}
+			onClick={isEditingTitle ? void 0 : onClick}
+		>
 			{children}
 		</div>
 	);

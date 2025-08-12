@@ -64,3 +64,15 @@ export const moveAfter = async ({
 
 	return serviceResult.toPlainObject();
 };
+
+export const updateTitle = async ({
+	id,
+	title
+}: {
+	id: CatalogNodeEntity['id'];
+	title: CatalogNodeEntity['title'];
+}) => {
+	const serviceResult = await CatalogNodeService.updateTitle({ id, title });
+
+	return serviceResult.toPlainObject();
+};

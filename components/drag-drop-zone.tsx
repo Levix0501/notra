@@ -11,7 +11,7 @@ import {
 	DropResult
 } from '@hello-pangea/dnd';
 import { CatalogNodeEntity } from '@prisma/client';
-import { useRef } from 'react';
+import { CSSProperties, useCallback, useRef } from 'react';
 import { FixedSizeList } from 'react-window';
 
 import {
@@ -44,6 +44,49 @@ export default function DragDropZone({
 	const setIsDragging = useCatalog((state) => state.setIsDragging);
 	const setCurrentDropNode = useCatalog((state) => state.setCurrentDropNode);
 	const setReachLevelRange = useCatalog((state) => state.setReachLevelRange);
+
+	const renderItem = useCallback(
+		(props: {
+			data: CatalogNodeVoWithLevel[];
+			index: number;
+			style: CSSProperties;
+		}) => {
+			const { data, index, style } = props;
+			const item = data[index];
+
+			return (
+				<Draggable key={item.id} draggableId={item.id.toString()} index={index}>
+					{(
+						dragProvided: DraggableProvided,
+						dragSnapshot: DraggableStateSnapshot
+					) => (
+						<CatalogItem
+							dragProvided={dragProvided}
+							dragSnapshot={dragSnapshot}
+							item={item}
+							style={style}
+						/>
+					)}
+				</Draggable>
+			);
+		},
+		[]
+	);
+
+	const renderCloneItem = useCallback(
+		(
+			dragProvided: DraggableProvided,
+			dragSnapshot: DraggableStateSnapshot,
+			rubric: DraggableRubric
+		) => (
+			<CloneCatalogItem
+				dragProvided={dragProvided}
+				dragSnapshot={dragSnapshot}
+				item={draggableList[rubric.source.index]}
+			/>
+		),
+		[draggableList]
+	);
 
 	const updateDropNode = ({
 		dropNode,
@@ -324,17 +367,7 @@ export default function DragDropZone({
 				isCombineEnabled
 				droppableId="Catalog"
 				mode="virtual"
-				renderClone={(
-					dragProvided: DraggableProvided,
-					dragSnapshot: DraggableStateSnapshot,
-					rubric: DraggableRubric
-				) => (
-					<CloneCatalogItem
-						dragProvided={dragProvided}
-						dragSnapshot={dragSnapshot}
-						item={draggableList[rubric.source.index]}
-					/>
-				)}
+				renderClone={renderCloneItem}
 			>
 				{(dropProvided: DroppableProvided) => (
 					<FixedSizeList
@@ -346,29 +379,7 @@ export default function DragDropZone({
 						outerRef={dropProvided.innerRef}
 						width="100%"
 					>
-						{({ data, index, style }) => {
-							const item = data[index];
-
-							return (
-								<Draggable
-									key={item.id}
-									draggableId={item.id.toString()}
-									index={index}
-								>
-									{(
-										dragProvided: DraggableProvided,
-										dragSnapshot: DraggableStateSnapshot
-									) => (
-										<CatalogItem
-											dragProvided={dragProvided}
-											dragSnapshot={dragSnapshot}
-											item={item}
-											style={style}
-										/>
-									)}
-								</Draggable>
-							);
-						}}
+						{renderItem}
 					</FixedSizeList>
 				)}
 			</Droppable>

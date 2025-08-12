@@ -104,6 +104,32 @@ export default class CatalogNodeService {
 		}
 	}
 
+	static async updateTitle({
+		id,
+		title
+	}: {
+		id: CatalogNodeEntity['id'];
+		title: CatalogNodeEntity['title'];
+	}) {
+		try {
+			const node = await prisma.$transaction(async (tx) => {
+				const node = await tx.catalogNodeEntity.update({
+					where: { id },
+					data: { title }
+				});
+
+				return node;
+			});
+
+			return CatalogNodeService.getCatalogNodes(node.bookId);
+		} catch (error) {
+			logger('CatalogNodeService.updateTitle', error);
+			const t = getTranslations('services_catalog_node');
+
+			return ServiceResult.fail(t.update_title_error);
+		}
+	}
+
 	static async getCatalogNodes(bookId: CatalogNodeEntity['bookId']) {
 		try {
 			const nodes = await prisma.catalogNodeEntity.findMany({

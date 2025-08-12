@@ -54,8 +54,8 @@ export default function CreateDropdown({
 	};
 
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
+		<DropdownMenu modal={false}>
+			<DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
 				{children || (
 					<Button className="size-8" size="icon" variant="outline">
 						<Plus size={16} />
