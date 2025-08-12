@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 
 import BookIndexPageViewTabs from '@/components/book-index-page-view-tabs';
 import { NotraInsetHeader } from '@/components/notra-sidebar';
-import { ThemeChanger } from '@/components/theme-changer';
 import BookService from '@/services/book';
 
 export const generateMetadata = async ({
@@ -36,8 +35,6 @@ export default async function Page({
 			<NotraInsetHeader>
 				<div className="flex size-full items-center justify-between">
 					<span></span>
-
-					<ThemeChanger />
 				</div>
 			</NotraInsetHeader>
 

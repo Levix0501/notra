@@ -4,6 +4,7 @@ import BookCatalog from '@/components/book-catalog';
 import BookSettingsButton from '@/components/book-settings-button';
 import BookSidebarHeader from '@/components/book-sidebar-header';
 import BookSidebarNav from '@/components/book-sidebar-nav';
+import DashboardSidebarFooter from '@/components/dashboard-sidebar-footer';
 import {
 	NotraInset,
 	NotraSidebar,
@@ -42,6 +43,8 @@ export default async function Layout({
 						<BookCatalog book={book} />
 					</div>
 				</NotraSidebarContent>
+
+				<DashboardSidebarFooter />
 			</NotraSidebar>
 
 			<NotraInset>{children}</NotraInset>

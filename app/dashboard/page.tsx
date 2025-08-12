@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 
 import BooksNav from '@/components/books-nav';
 import { CreateBookDialog } from '@/components/create-book-dialog';
+import DashboardSidebarFooter from '@/components/dashboard-sidebar-footer';
 import DashboardSidebarHeader from '@/components/dashboard-sidebar-header';
 import DashboardSidebarNav from '@/components/dashboard-sidebar-nav';
 import {
@@ -11,7 +12,6 @@ import {
 	NotraSidebarContent
 } from '@/components/notra-sidebar';
 import SiteIndexPageViewTabs from '@/components/site-index-page-view-tabs';
-import { ThemeChanger } from '@/components/theme-changer';
 import { getTranslations } from '@/i18n';
 
 const t = getTranslations('app_dashboard_layout');
@@ -30,14 +30,14 @@ export default function Page() {
 					<DashboardSidebarNav />
 					<BooksNav />
 				</NotraSidebarContent>
+
+				<DashboardSidebarFooter />
 			</NotraSidebar>
 
 			<NotraInset>
 				<NotraInsetHeader>
 					<div className="flex size-full items-center justify-between">
 						<span></span>
-
-						<ThemeChanger />
 					</div>
 				</NotraInsetHeader>
 

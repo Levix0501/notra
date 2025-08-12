@@ -182,6 +182,9 @@ export const en = {
 		move_after_error: 'Failed to move after!',
 		update_title_error: 'Failed to update title!'
 	},
+	services_doc: {
+		get_doc_meta_error: 'Failed to get document meta!'
+	},
 	services_file: {
 		upload_error: 'Failed to upload file!'
 	},

@@ -182,6 +182,9 @@ export const zh = {
 		move_after_error: '移动失败！',
 		update_title_error: '更新标题失败！'
 	},
+	services_doc: {
+		get_doc_meta_error: '获取文档元数据失败！'
+	},
 	services_file: {
 		upload_error: '上传文件失败'
 	},
