@@ -14,6 +14,15 @@ export const createStack = async (
 	return serviceResult.toPlainObject();
 };
 
+export const createDoc = async (
+	bookId: CatalogNodeEntity['bookId'],
+	parentId: CatalogNodeEntity['parentId']
+) => {
+	const serviceResult = await CatalogNodeService.createDoc(bookId, parentId);
+
+	return serviceResult.toPlainObject();
+};
+
 export const deleteWithChildren = async ({
 	nodeId,
 	bookId

@@ -1,11 +1,11 @@
 'use client';
 
 import { CatalogNodeEntity, CatalogNodeType } from '@prisma/client';
-import { Plus, Folder } from 'lucide-react';
+import { Plus, Folder, File } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { toast } from 'sonner';
 
-import { createStack } from '@/actions/catalog-node';
+import { createDoc, createStack } from '@/actions/catalog-node';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { getTranslations } from '@/i18n';
 import { useBook } from '@/stores/book';
-import { mutateCatalog } from '@/stores/catalog';
+import useCatalog, { mutateCatalog } from '@/stores/catalog';
 
 export interface CreateDropdownProps extends PropsWithChildren {
 	parentCatalogNodeId: CatalogNodeEntity['parentId'];
@@ -28,14 +28,27 @@ export default function CreateDropdown({
 	children
 }: Readonly<CreateDropdownProps>) {
 	const book = useBook();
+	const expandedKeys = useCatalog((state) => state.expandedKeys);
+	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
 
 	if (!book) {
 		return null;
 	}
 
 	const create = async (type: CatalogNodeType) => {
+		if (
+			parentCatalogNodeId !== null &&
+			!expandedKeys.has(parentCatalogNodeId)
+		) {
+			expandedKeys.add(parentCatalogNodeId);
+			setExpandedKeys(expandedKeys);
+		}
+
 		try {
-			const result = await createStack(book.id, parentCatalogNodeId);
+			const result =
+				type === 'DOC'
+					? await createDoc(book.id, parentCatalogNodeId)
+					: await createStack(book.id, parentCatalogNodeId);
 
 			if (!result.success) {
 				toast.error(result.message);
@@ -45,8 +58,12 @@ export default function CreateDropdown({
 
 			mutateCatalog(book.id);
 		} catch {
-			toast.error(t.create_stack_error);
+			toast.error(t.create_error);
 		}
+	};
+
+	const handleCreateDocument = async () => {
+		create('DOC');
 	};
 
 	const handleCreateStack = async () => {
@@ -63,6 +80,10 @@ export default function CreateDropdown({
 				)}
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+				<DropdownMenuItem onClick={handleCreateDocument}>
+					<File />
+					{t.new_document}
+				</DropdownMenuItem>
 				<DropdownMenuItem onClick={handleCreateStack}>
 					<Folder />
 					{t.new_stack}

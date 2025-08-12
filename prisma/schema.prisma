@@ -90,6 +90,7 @@ model BookEntity {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   CatalogNodeEntity CatalogNodeEntity[]
+  DocEntity         DocEntity[]
 
   @@map("books")
 }
@@ -97,6 +98,7 @@ model BookEntity {
 // Represents the type of a catalog node
 enum CatalogNodeType {
   STACK
+  DOC
 }
 
 // Represents a catalog node of a book
@@ -112,8 +114,26 @@ model CatalogNodeEntity {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  bookId Int        @map("book_id")
-  book   BookEntity @relation(fields: [bookId], references: [id])
+  bookId    Int        @map("book_id")
+  book      BookEntity @relation(fields: [bookId], references: [id])
+  docId     Int?       @unique @map("doc_id")
+  DocEntity DocEntity? @relation(fields: [docId], references: [id])
 
   @@map("catalog_nodes")
+}
+
+// Represents a document in the system
+model DocEntity {
+  id    Int    @id @default(autoincrement())
+  title String
+  slug  String @unique @default(cuid())
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  bookId      Int                @map("book_id")
+  book        BookEntity         @relation(fields: [bookId], references: [id])
+  catalogNode CatalogNodeEntity?
+
+  @@map("docs")
 }

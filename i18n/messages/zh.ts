@@ -82,7 +82,7 @@ export const zh = {
 	components_create_dropdown: {
 		new_document: '文档',
 		new_stack: '分组',
-		create_stack_error: '创建分组失败！'
+		create_error: '创建失败！'
 	},
 	components_dashboard_sidebar_nav: {
 		home: '主页'

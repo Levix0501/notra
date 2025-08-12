@@ -34,6 +34,25 @@ export default class CatalogNodeService {
 					}
 				});
 
+				let doc =
+					type === CatalogNodeType.DOC
+						? await tx.docEntity.create({
+								data: {
+									title: t.new_doc_default_name,
+									bookId
+								}
+							})
+						: null;
+
+				if (doc) {
+					doc = await tx.docEntity.update({
+						where: { id: doc.id },
+						data: {
+							slug: (doc.id * 10000).toString(36)
+						}
+					});
+				}
+
 				const node = await tx.catalogNodeEntity.create({
 					data: {
 						title:
@@ -44,7 +63,8 @@ export default class CatalogNodeService {
 						bookId,
 						parentId: parentNode ? parentNode.id : null,
 						prevId: parentNode ? parentNode.id : null,
-						siblingId: firstNode ? firstNode.id : null
+						siblingId: firstNode ? firstNode.id : null,
+						docId: doc?.id ?? null
 					}
 				});
 
@@ -68,7 +88,15 @@ export default class CatalogNodeService {
 		} catch (error) {
 			logger('CatalogNodeService.createStack', error);
 
-			return ServiceResult.fail(t.create_stack_error);
+			if (type === CatalogNodeType.DOC) {
+				logger('CatalogNodeService.createDoc', error);
+
+				return ServiceResult.fail(t.create_doc_error);
+			} else {
+				logger('CatalogNodeService.createStack', error);
+
+				return ServiceResult.fail(t.create_stack_error);
+			}
 		}
 	}
 
@@ -81,6 +109,13 @@ export default class CatalogNodeService {
 			parentId,
 			CatalogNodeType.STACK
 		);
+	}
+
+	static async createDoc(
+		bookId: CatalogNodeEntity['bookId'],
+		parentId: CatalogNodeEntity['parentId']
+	) {
+		return CatalogNodeService.createNode(bookId, parentId, CatalogNodeType.DOC);
 	}
 
 	static async deleteWithChildren({

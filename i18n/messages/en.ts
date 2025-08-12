@@ -82,7 +82,7 @@ export const en = {
 	components_create_dropdown: {
 		new_document: 'Document',
 		new_stack: 'Stack',
-		create_stack_error: 'Failed to create stack!'
+		create_error: 'Failed to create!'
 	},
 	components_dashboard_sidebar_nav: {
 		home: 'Home'
