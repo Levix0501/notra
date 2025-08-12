@@ -20,7 +20,7 @@ export function ThemeChanger() {
 	const { theme, setTheme } = useTheme();
 
 	return (
-		<DropdownMenu>
+		<DropdownMenu modal={false}>
 			<DropdownMenuTrigger asChild>
 				<Button className="size-8 cursor-pointer" size="icon" variant="outline">
 					<Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
