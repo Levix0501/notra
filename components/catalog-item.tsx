@@ -21,7 +21,7 @@ import { getTranslations } from '@/i18n';
 import { deleteNodeWithChildren } from '@/lib/catalog/client';
 import { cn } from '@/lib/utils';
 import { useBook } from '@/stores/book';
-import { mutateCatalog, nodeMap } from '@/stores/catalog';
+import useCatalog, { mutateCatalog, nodeMap } from '@/stores/catalog';
 import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
 
 import CatalogItemWrapper from './catalog-item-wrapper';
@@ -43,10 +43,28 @@ const CatalogItem = ({
 	style
 }: CatalogItemProps) => {
 	const book = useBook();
+	const expandedKeys = useCatalog((state) => state.expandedKeys);
+	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
 
 	if (!book) {
 		return null;
 	}
+
+	const toggleExpandedKey = (key: number) => {
+		if (expandedKeys.has(key)) {
+			expandedKeys.delete(key);
+		} else {
+			expandedKeys.add(key);
+		}
+
+		setExpandedKeys(expandedKeys);
+	};
+
+	const handleClick = () => {
+		if (item.type === 'STACK') {
+			toggleExpandedKey(item.id);
+		}
+	};
 
 	const handleDelete = () => {
 		deleteNodeWithChildren(nodeMap, item.id);
@@ -95,6 +113,7 @@ const CatalogItem = ({
 				isEditingTitle={false}
 				item={item}
 				style={{ paddingLeft: 24 * item.level + 'px' }}
+				onClick={handleClick}
 			>
 				<div className="mr-1 size-6">
 					{item.childId !== null && (
@@ -102,9 +121,17 @@ const CatalogItem = ({
 							className="size-6 hover:bg-border"
 							size="icon"
 							variant="ghost"
+							onClick={(e) => {
+								e.preventDefault();
+								e.stopPropagation();
+								toggleExpandedKey(item.id);
+							}}
 						>
 							<ChevronRight
-								className={cn('transition-transform duration-200')}
+								className={cn(
+									'transition-transform duration-200',
+									expandedKeys.has(item.id) && 'rotate-90'
+								)}
 								size={16}
 							/>
 						</Button>

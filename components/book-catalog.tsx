@@ -7,7 +7,7 @@ import { useResizeObserver } from 'usehooks-ts';
 import { getTranslations } from '@/i18n';
 import { useGetCatalogNodes } from '@/queries/catalog-node';
 import { useSetBook } from '@/stores/book';
-import { setNodeMap } from '@/stores/catalog';
+import useCatalog, { setNodeMap } from '@/stores/catalog';
 import { BookVo } from '@/types/book';
 
 import CreateDropdown from './create-dropdown';
@@ -23,17 +23,32 @@ const t = getTranslations('components_book_catalog');
 
 export default function BookCatalog({ book }: Readonly<BookCatalogProps>) {
 	const ref = useRef<HTMLDivElement>(null);
+	const hasDefaultExpandedKeysGenerated = useRef(false);
 
 	useSetBook(book);
 	const { height = 9999 } = useResizeObserver({
 		ref: ref as RefObject<HTMLElement>
 	});
+	const expandedKeys = useCatalog((state) => state.expandedKeys);
+	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
 	const { data, isLoading } = useGetCatalogNodes(book.id, {
 		onSuccess(data) {
 			setNodeMap(data);
+
+			if (data && !hasDefaultExpandedKeysGenerated.current) {
+				hasDefaultExpandedKeysGenerated.current = true;
+				const defaultExpandedKeys = data
+					.filter((node) => node.level === 0)
+					.map((node) => node.id);
+
+				setExpandedKeys(defaultExpandedKeys);
+			}
 		}
 	});
-	const draggableList = data ?? [];
+	const draggableList = (data ?? []).filter(
+		(node) =>
+			node.level === 0 || (node.parentId && expandedKeys.has(node.parentId))
+	);
 
 	return (
 		<div className="relative size-full">

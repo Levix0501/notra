@@ -14,10 +14,11 @@ export interface CatalogItemWrapperProps extends ChildrenProps {
 export default function CatalogItemWrapper({
 	children,
 	className,
-	style
+	style,
+	onClick
 }: Readonly<CatalogItemWrapperProps>) {
 	return (
-		<div className={className} style={style}>
+		<div className={className} role="button" style={style} onClick={onClick}>
 			{children}
 		</div>
 	);
