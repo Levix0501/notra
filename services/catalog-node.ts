@@ -153,6 +153,13 @@ export default class CatalogNodeService {
 					data: { title }
 				});
 
+				if (node.docId !== null) {
+					await tx.docEntity.update({
+						where: { id: node.docId },
+						data: { title }
+					});
+				}
+
 				return node;
 			});
 
