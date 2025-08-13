@@ -39,7 +39,11 @@ export const en = {
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
-	components_book_info_form: {
+	components_book_settings_dialog: {
+		book_settings: 'Book Settings',
+		doc_settings: 'Doc Settings'
+	},
+	components_book_settings_form: {
 		name: 'Name',
 		slug: 'Slug',
 		update: 'Update',
@@ -47,10 +51,6 @@ export const en = {
 		update_loading: 'Updating book...',
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
-	},
-	components_book_settings_dialog: {
-		book_settings: 'Book Settings',
-		doc_settings: 'Doc Settings'
 	},
 	components_book_sidebar_nav: {
 		book_home: 'Book Home'

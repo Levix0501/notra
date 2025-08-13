@@ -22,6 +22,8 @@ import { getTranslations } from '@/i18n';
 import { mutateCatalog } from '@/stores/catalog';
 import { DocSettingsFormSchema, DocSettingsFormValues } from '@/types/doc';
 
+import { useBookSettingsDialog } from './book-settings-dialog';
+
 export interface DocSettingsFormProps {
 	docId: DocEntity['id'];
 	bookId: DocEntity['id'];
@@ -48,6 +50,7 @@ export default function DocSettingsForm({
 	});
 	const router = useRouter();
 	const pathname = usePathname();
+	const setDocSlug = useBookSettingsDialog((state) => state.setDocSlug);
 
 	const onSubmit = async (values: DocSettingsFormValues) => {
 		setIsPending(true);
@@ -70,6 +73,7 @@ export default function DocSettingsForm({
 				throw new Error(result.message);
 			}
 
+			setDocSlug(values.slug);
 			mutateDocMeta();
 			mutateCatalog(bookId);
 

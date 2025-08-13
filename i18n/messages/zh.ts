@@ -39,7 +39,11 @@ export const zh = {
 		update_success: '更新成功！',
 		update_error: '更新失败！'
 	},
-	components_book_info_form: {
+	components_book_settings_dialog: {
+		book_settings: '知识库设置',
+		doc_settings: '文档设置'
+	},
+	components_book_settings_form: {
 		name: '名称',
 		slug: '路径',
 		update: '更新',
@@ -47,10 +51,6 @@ export const zh = {
 		update_loading: '更新中...',
 		update_success: '更新成功！',
 		update_error: '更新失败！'
-	},
-	components_book_settings_dialog: {
-		book_settings: '知识库设置',
-		doc_settings: '文档设置'
 	},
 	components_book_sidebar_nav: {
 		book_home: '知识库主页'

@@ -7,7 +7,7 @@ import { getTranslations } from '@/i18n';
 import { useGetBook } from '@/queries/book';
 import { useGetDocMeta } from '@/queries/doc';
 
-import BookInfoForm from './book-info-form';
+import BookSettingsForm from './book-settings-form';
 import DocSettingsForm from './doc-settings-form';
 import {
 	CloseButton,
@@ -86,7 +86,7 @@ export default function BookSettingsDialog() {
 					{isBookLoading ? (
 						<NotraSkeleton />
 					) : (
-						<BookInfoForm
+						<BookSettingsForm
 							key={JSON.stringify(book)}
 							bookId={book?.id ?? 0}
 							defaultName={book?.name ?? ''}

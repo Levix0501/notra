@@ -24,21 +24,21 @@ import { UpdateBookInfoSchema, UpdateBookInfoValues } from '@/types/book';
 
 import { useBookSettingsDialog } from './book-settings-dialog';
 
-export interface BookInfoFormProps {
+export interface BookSettingsFormProps {
 	bookId: BookEntity['id'];
 	defaultName: string;
 	defaultSlug: string;
 	mutateBook: () => void;
 }
 
-const t = getTranslations('components_book_info_form');
+const t = getTranslations('components_book_settings_form');
 
-export default function BookInfoForm({
+export default function BookSettingsForm({
 	bookId,
 	defaultName,
 	defaultSlug,
 	mutateBook
-}: Readonly<BookInfoFormProps>) {
+}: Readonly<BookSettingsFormProps>) {
 	const [isPending, setIsPending] = useState(false);
 
 	const form = useForm<UpdateBookInfoValues>({
