@@ -1,10 +1,12 @@
 import { DocEntity } from '@prisma/client';
 import { create } from 'zustand';
 
+import { Nullable } from '@/types/common';
+
 type DocStore = {
 	id: DocEntity['id'] | undefined;
 	setId: (id: DocEntity['id']) => void;
-	slug: DocEntity['slug'] | undefined;
+	slug: Nullable<DocEntity['slug']>;
 	setSlug: (slug: DocEntity['slug']) => void;
 	isSaving: boolean;
 	setIsSaving: (isSaving: boolean) => void;
@@ -15,7 +17,7 @@ type DocStore = {
 const useDoc = create<DocStore>((set) => ({
 	id: void 0,
 	setId: (id) => set({ id }),
-	slug: void 0,
+	slug: null,
 	setSlug: (slug) => set({ slug }),
 	isSaving: false,
 	setIsSaving: (isSaving) => set({ isSaving, isFirstLoad: false }),

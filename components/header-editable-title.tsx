@@ -21,7 +21,17 @@ export default function HeaderEditableTitle() {
 	const [isEditing, setIsEditing] = useState(false);
 
 	const slug = useDoc((state) => state.slug);
-	const { data } = useGetDocMeta(slug);
+	const { data } = useGetDocMeta(slug, {
+		onSuccess(data) {
+			const titleArray = document.title.split(' - ');
+
+			if (titleArray.length > 1) {
+				document.title = data.title + ' - ' + titleArray[1];
+			} else {
+				document.title = data.title;
+			}
+		}
+	});
 	const handleEditDocTitle = useEditDocTitle();
 
 	useEffect(() => {

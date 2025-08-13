@@ -49,10 +49,10 @@ export default class BookService {
 		}
 	}
 
-	static async updateBook(values: UpdateBookDto) {
+	static async updateBook({ id, ...values }: UpdateBookDto) {
 		try {
 			const book = await prisma.bookEntity.update({
-				where: { id: values.id },
+				where: { id },
 				data: values
 			});
 

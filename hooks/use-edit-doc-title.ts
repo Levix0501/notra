@@ -48,8 +48,7 @@ export const useEditDocTitle = () => {
 						optimisticData: {
 							...data,
 							title: newTitle
-						},
-						revalidate: false
+						}
 					}
 				);
 			}
