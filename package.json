@@ -49,6 +49,7 @@
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"cropperjs": "^1.6.2",
+		"dayjs": "^1.11.13",
 		"image-size": "^2.0.2",
 		"lucide-react": "^0.534.0",
 		"next": "15.4.5",

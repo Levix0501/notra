@@ -21,6 +21,11 @@ export const zh = {
 		update_success: '更新成功！',
 		update_error: '更新失败！'
 	},
+	components_auto_save_tip: {
+		auto_save_tip_saving: '保存中...',
+		auto_save_tip_last_saved: '上次保存',
+		auto_save_tip_saved: '已保存'
+	},
 	components_book_catalog: {
 		new: '新增'
 	},
@@ -158,6 +163,9 @@ export const zh = {
 		dark: '暗色',
 		system: '系统'
 	},
+	hooks_use_edit_doc_title: {
+		untitled: '无标题'
+	},
 	services_account: {
 		get_account_error: '获取账户失败！',
 		create_account_error: '创建账户失败！',
@@ -183,7 +191,9 @@ export const zh = {
 		update_title_error: '更新标题失败！'
 	},
 	services_doc: {
-		get_doc_meta_error: '获取文档元数据失败！'
+		get_doc_meta_error: '获取文档元数据失败！',
+		get_doc_error: '获取文档失败！',
+		update_doc_meta_error: '更新文档元数据失败！'
 	},
 	services_file: {
 		upload_error: '上传文件失败'

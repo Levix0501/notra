@@ -9,8 +9,10 @@ import {
 import { usePathname } from 'next/navigation';
 import { CSSProperties, useState } from 'react';
 import { toast } from 'sonner';
+import { mutate } from 'swr';
 
 import { deleteWithChildren, updateTitle } from '@/actions/catalog-node';
+import { updateDocMeta } from '@/actions/doc';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -23,6 +25,7 @@ import { deleteNodeWithChildren } from '@/lib/catalog/client';
 import { cn } from '@/lib/utils';
 import { useBook } from '@/stores/book';
 import useCatalog, { mutateCatalog, nodeMap } from '@/stores/catalog';
+import useDoc from '@/stores/doc';
 import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
 
 import CatalogItemWrapper from './catalog-item-wrapper';
@@ -138,6 +141,36 @@ const CatalogItem = ({
 
 			return result.data;
 		});
+
+		if (item.docId !== null && item.docId === useDoc.getState().id) {
+			mutate(
+				`/api/docs/${useDoc.getState().slug}/meta`,
+				async () => {
+					useDoc.getState().setIsSaving(true);
+
+					const result = await updateDocMeta({
+						id: item.docId!,
+						title
+					});
+
+					if (!result.success || !result.data) {
+						useDoc.getState().setIsSaving(false);
+
+						throw new Error(result.message);
+					}
+
+					useDoc.getState().setIsSaving(false);
+
+					return result.data;
+				},
+				{
+					optimisticData: (data) => ({
+						...data,
+						title
+					})
+				}
+			);
+		}
 
 		setIsEditingTitle(false);
 	};

@@ -1,6 +1,10 @@
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+
 import DocStoreProvider from '@/components/doc-store-provider';
 import HeaderEditableTitle from '@/components/header-editable-title';
 import { NotraInsetHeader } from '@/components/notra-sidebar';
+import DocService from '@/services/doc';
 
 interface PageProps {
 	params: Promise<{
@@ -8,8 +12,24 @@ interface PageProps {
 	}>;
 }
 
+export const generateMetadata = async ({
+	params
+}: Readonly<PageProps>): Promise<Metadata> => {
+	const { doc: slug } = await params;
+	const { data: doc } = await DocService.getDoc(slug);
+
+	return {
+		title: doc?.title
+	};
+};
+
 export default async function Page({ params }: Readonly<PageProps>) {
 	const { doc: slug } = await params;
+	const { data: doc } = await DocService.getDoc(slug);
+
+	if (!doc) {
+		notFound();
+	}
 
 	return (
 		<>
@@ -21,7 +41,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 
 			<main className="container mx-auto p-4 md:p-8">doc page</main>
 
-			<DocStoreProvider slug={slug} />
+			<DocStoreProvider id={doc.id} slug={slug} />
 		</>
 	);
 }

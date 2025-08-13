@@ -21,6 +21,11 @@ export const en = {
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
+	components_auto_save_tip: {
+		auto_save_tip_saving: 'Saving...',
+		auto_save_tip_last_saved: 'Last saved',
+		auto_save_tip_saved: 'Saved'
+	},
 	components_book_catalog: {
 		new: 'Add New'
 	},
@@ -158,6 +163,9 @@ export const en = {
 		dark: 'Dark',
 		system: 'System'
 	},
+	hooks_use_edit_doc_title: {
+		untitled: 'Untitled'
+	},
 	services_account: {
 		get_account_error: 'Failed to get account!',
 		create_account_error: 'Failed to create account!',
@@ -183,7 +191,9 @@ export const en = {
 		update_title_error: 'Failed to update title!'
 	},
 	services_doc: {
-		get_doc_meta_error: 'Failed to get document meta!'
+		get_doc_meta_error: 'Failed to get document meta!',
+		get_doc_error: 'Failed to get document!',
+		update_doc_meta_error: 'Failed to update document meta!'
 	},
 	services_file: {
 		upload_error: 'Failed to upload file!'

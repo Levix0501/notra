@@ -9,8 +9,11 @@ import {
 } from 'react';
 
 import { Input } from '@/components/ui/input';
+import { useEditDocTitle } from '@/hooks/use-edit-doc-title';
 import { useGetDocMeta } from '@/queries/doc';
 import useDoc from '@/stores/doc';
+
+import AutoSaveTip from './auto-save-tip';
 
 export default function HeaderEditableTitle() {
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -19,6 +22,7 @@ export default function HeaderEditableTitle() {
 
 	const slug = useDoc((state) => state.slug);
 	const { data } = useGetDocMeta(slug);
+	const handleEditDocTitle = useEditDocTitle();
 
 	useEffect(() => {
 		if (isEditing) {
@@ -33,7 +37,7 @@ export default function HeaderEditableTitle() {
 	const handleBlur: FocusEventHandler<HTMLInputElement> = (e) => {
 		const newTitle = e.target.value;
 
-		console.log(newTitle);
+		handleEditDocTitle(newTitle);
 		setIsEditing(false);
 	};
 
@@ -70,6 +74,7 @@ export default function HeaderEditableTitle() {
 			<div className="max-w-[120px] min-w-[100px] truncate text-start text-sm font-normal text-secondary-foreground hover:bg-transparent hover:text-secondary-foreground md:max-w-[400px]">
 				{data.title}
 			</div>
+			<AutoSaveTip />
 		</div>
 	);
 }
