@@ -63,7 +63,7 @@ export default function BookCatalog({ book }: Readonly<BookCatalogProps>) {
 			{!isLoading && (
 				<CreateDropdown parentCatalogNodeId={null}>
 					<div className="h-9 px-4 py-px md:px-2.5">
-						<NotraSidebarButton className="h-[34px] text-secondary-foreground">
+						<NotraSidebarButton>
 							<Plus size={16} /> <span>{t.new}</span>
 						</NotraSidebarButton>
 					</div>

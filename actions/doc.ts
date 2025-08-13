@@ -8,3 +8,9 @@ export const updateDocMeta = async (values: UpdateDocMetaDto) => {
 
 	return serviceResult.toPlainObject();
 };
+
+export const checkDocSlug = async (slug: string) => {
+	const serviceResult = await DocService.checkDocSlug(slug);
+
+	return serviceResult.toPlainObject();
+};

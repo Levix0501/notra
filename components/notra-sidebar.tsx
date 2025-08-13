@@ -159,11 +159,11 @@ export function NotraSidebarContent({ children }: Readonly<ChildrenProps>) {
 }
 
 export function NotraSidebarMenu({ children }: Readonly<ChildrenProps>) {
-	return <ul className="space-y-0.5 px-4 md:px-2.5">{children}</ul>;
+	return <ul className="px-4 md:px-2.5">{children}</ul>;
 }
 
 export function NotraSidebarMenuItem({ children }: Readonly<ChildrenProps>) {
-	return <li className="group/menu-item relative my-0.5">{children}</li>;
+	return <li className="group/menu-item relative h-9 py-px">{children}</li>;
 }
 
 export interface NotraSidebarButtonProps extends ChildrenProps {
@@ -197,7 +197,7 @@ export function NotraSidebarButton({
 	return (
 		<Link
 			className={cn(
-				'flex h-8 w-full items-center gap-2 rounded-sm px-2.5 text-sm transition-colors',
+				'flex h-[34px] w-full items-center gap-2 rounded-sm px-2.5 text-sm text-secondary-foreground transition-colors',
 				className,
 				isActive
 					? 'bg-sidebar-accent'

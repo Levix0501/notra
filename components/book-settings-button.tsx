@@ -1,6 +1,6 @@
 'use client';
 
-import { Settings2 } from 'lucide-react';
+import { SlidersHorizontal } from 'lucide-react';
 import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -35,7 +35,7 @@ export default function BookSettingsButton({
 			variant="ghost"
 			onClick={handleClick}
 		>
-			<Settings2 size={16} />
+			<SlidersHorizontal size={16} />
 			<span className="sr-only">Settings</span>
 		</Button>
 	);

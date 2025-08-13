@@ -1,7 +1,7 @@
 'use client';
 
 import { CatalogNodeEntity, CatalogNodeType } from '@prisma/client';
-import { Plus, Folder, File } from 'lucide-react';
+import { Plus, FolderOpen, FileText } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { PropsWithChildren } from 'react';
 import { toast } from 'sonner';
@@ -93,11 +93,11 @@ export default function CreateDropdown({
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
 				<DropdownMenuItem onClick={handleCreateDocument}>
-					<File />
+					<FileText className="text-popover-foreground" />
 					{t.new_document}
 				</DropdownMenuItem>
 				<DropdownMenuItem onClick={handleCreateStack}>
-					<Folder />
+					<FolderOpen className="text-popover-foreground" />
 					{t.new_stack}
 				</DropdownMenuItem>
 			</DropdownMenuContent>

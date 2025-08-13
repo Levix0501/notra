@@ -49,7 +49,8 @@ export const zh = {
 		update_error: '更新失败！'
 	},
 	components_book_settings_dialog: {
-		book_info: '知识库信息'
+		book_settings: '知识库设置',
+		doc_settings: '文档设置'
 	},
 	components_book_sidebar_nav: {
 		book_home: '知识库主页'
@@ -71,6 +72,7 @@ export const zh = {
 	components_catalog_item: {
 		default_catalog_node_name: '无标题',
 		rename: '重命名',
+		settings: '设置',
 		delete: '删除',
 		delete_loading: '删除中...',
 		delete_error: '删除失败！',
@@ -91,6 +93,17 @@ export const zh = {
 	},
 	components_dashboard_sidebar_nav: {
 		home: '主页'
+	},
+	components_doc_settings_form: {
+		cover: '封面',
+		summary: '摘要',
+		slug: '链接',
+		update_loading: '更新中...',
+		update_success: '更新成功！',
+		update_error: '更新失败！',
+		upload_error: '上传图片失败！',
+		update: '更新',
+		slug_exists: '链接已存在！'
 	},
 	components_global_settings_dialog: {
 		site_settings: '站点设置',
@@ -193,7 +206,8 @@ export const zh = {
 	services_doc: {
 		get_doc_meta_error: '获取文档元数据失败！',
 		get_doc_error: '获取文档失败！',
-		update_doc_meta_error: '更新文档元数据失败！'
+		update_doc_meta_error: '更新文档元数据失败！',
+		check_doc_slug_error: '检查文档路径是否可用失败！'
 	},
 	services_file: {
 		upload_error: '上传文件失败'
@@ -206,5 +220,8 @@ export const zh = {
 		name_required: '名称是必填项',
 		slug_required: '路径是必填项',
 		slug_invalid: '非法路径'
+	},
+	types_doc: {
+		slug_required: '路径是必填项'
 	}
 };

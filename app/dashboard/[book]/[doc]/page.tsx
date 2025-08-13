@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import DocSettingsButton from '@/components/doc-settings-button';
 import DocStoreProvider from '@/components/doc-store-provider';
 import HeaderEditableTitle from '@/components/header-editable-title';
 import { NotraInsetHeader } from '@/components/notra-sidebar';
@@ -36,6 +37,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 			<NotraInsetHeader>
 				<div className="flex size-full items-center justify-between">
 					<HeaderEditableTitle />
+					<DocSettingsButton />
 				</div>
 			</NotraInsetHeader>
 

@@ -67,4 +67,19 @@ export default class DocService {
 			return ServiceResult.fail(t.update_doc_meta_error);
 		}
 	}
+
+	static readonly checkDocSlug = async (slug: string) => {
+		try {
+			const doc = await prisma.docEntity.findUnique({
+				where: { slug }
+			});
+
+			return ServiceResult.success(!doc);
+		} catch (error) {
+			logger('DocService.checkDocSlug', error);
+			const t = getTranslations('services_doc');
+
+			return ServiceResult.fail(t.check_doc_slug_error);
+		}
+	};
 }

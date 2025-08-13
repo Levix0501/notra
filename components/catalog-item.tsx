@@ -3,8 +3,9 @@ import {
 	ChevronRight,
 	MoreVertical,
 	Plus,
+	SlidersHorizontal,
 	TextCursorInput,
-	Trash
+	Trash2
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { CSSProperties, useState } from 'react';
@@ -18,6 +19,7 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
+	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { getTranslations } from '@/i18n';
@@ -28,6 +30,7 @@ import useCatalog, { mutateCatalog, nodeMap } from '@/stores/catalog';
 import useDoc from '@/stores/doc';
 import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
 
+import { useBookSettingsDialog } from './book-settings-dialog';
 import CatalogItemWrapper from './catalog-item-wrapper';
 import CreateDropdown from './create-dropdown';
 import EditTitleForm from './edit-title-form';
@@ -59,7 +62,7 @@ const CatalogItem = ({
 		return null;
 	}
 
-	const isActive = pathname.includes(`/${book.slug}/${item.url}`);
+	const isActive = pathname === `/dashboard/${book.slug}/${item.url}`;
 
 	const toggleExpandedKey = (key: number) => {
 		if (expandedKeys.has(key)) {
@@ -82,6 +85,16 @@ const CatalogItem = ({
 
 	const handleRename = () => {
 		setIsEditingTitle(true);
+	};
+
+	const handleSettings = () => {
+		if (item.type === 'DOC' && item.url) {
+			useBookSettingsDialog.setState({
+				tab: 'doc',
+				docSlug: item.url,
+				open: true
+			});
+		}
 	};
 
 	const handleDelete = () => {
@@ -253,6 +266,7 @@ const CatalogItem = ({
 									variant="ghost"
 								>
 									<MoreVertical />
+									<span className="sr-only">More</span>
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent
@@ -260,11 +274,21 @@ const CatalogItem = ({
 								onClick={(e) => e.stopPropagation()}
 							>
 								<DropdownMenuItem onClick={handleRename}>
-									<TextCursorInput className="mr-2 h-4 w-4" />
+									<TextCursorInput className="text-popover-foreground" />
 									{t.rename}
 								</DropdownMenuItem>
-								<DropdownMenuItem onClick={handleDelete}>
-									<Trash className="mr-2 h-4 w-4" />
+
+								{item.type === 'DOC' && (
+									<DropdownMenuItem onClick={handleSettings}>
+										<SlidersHorizontal className="text-popover-foreground" />
+										{t.settings}
+									</DropdownMenuItem>
+								)}
+
+								<DropdownMenuSeparator />
+
+								<DropdownMenuItem variant="destructive" onClick={handleDelete}>
+									<Trash2 />
 									{t.delete}
 								</DropdownMenuItem>
 							</DropdownMenuContent>

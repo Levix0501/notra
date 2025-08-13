@@ -49,7 +49,8 @@ export const en = {
 		update_error: 'Failed to update!'
 	},
 	components_book_settings_dialog: {
-		book_info: 'Book Info'
+		book_settings: 'Book Settings',
+		doc_settings: 'Doc Settings'
 	},
 	components_book_sidebar_nav: {
 		book_home: 'Book Home'
@@ -71,6 +72,7 @@ export const en = {
 	components_catalog_item: {
 		default_catalog_node_name: 'Untitled',
 		rename: 'Rename',
+		settings: 'Settings',
 		delete: 'Delete',
 		delete_loading: 'Deleting...',
 		delete_error: 'Failed to delete!',
@@ -91,6 +93,17 @@ export const en = {
 	},
 	components_dashboard_sidebar_nav: {
 		home: 'Home'
+	},
+	components_doc_settings_form: {
+		cover: 'Cover',
+		summary: 'Summary',
+		slug: 'Slug',
+		update_loading: 'Updating...',
+		update_success: 'Updated successfully!',
+		update_error: 'Failed to update!',
+		upload_error: 'Failed to upload image!',
+		update: 'Update',
+		slug_exists: 'Slug already exists!'
 	},
 	components_global_settings_dialog: {
 		site_settings: 'Site Settings',
@@ -193,7 +206,8 @@ export const en = {
 	services_doc: {
 		get_doc_meta_error: 'Failed to get document meta!',
 		get_doc_error: 'Failed to get document!',
-		update_doc_meta_error: 'Failed to update document meta!'
+		update_doc_meta_error: 'Failed to update document meta!',
+		check_doc_slug_error: 'Failed to check document slug!'
 	},
 	services_file: {
 		upload_error: 'Failed to upload file!'
@@ -206,5 +220,8 @@ export const en = {
 		name_required: 'Name is required',
 		slug_required: 'Slug is required',
 		slug_invalid: 'Slug is invalid'
+	},
+	types_doc: {
+		slug_required: 'Slug is required'
 	}
 };

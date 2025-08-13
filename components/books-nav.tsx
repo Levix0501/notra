@@ -1,6 +1,6 @@
 'use client';
 
-import { MoreHorizontal, Plus, SlidersHorizontal, Trash2 } from 'lucide-react';
+import { MoreVertical, Plus, SlidersHorizontal, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -86,60 +86,58 @@ export default function BooksNav() {
 						{books?.map((item) => (
 							<NotraSidebarMenuItem key={item.id}>
 								<NotraSidebarButton href={`/dashboard/${item.slug}`}>
-									<div className="flex w-full items-center justify-between">
-										<span>{item.name}</span>
+									<div className="flex w-full items-center">
+										<div className="flex-1 truncate select-none">
+											{item.name}
+										</div>
 
-										<DropdownMenu modal={false}>
-											<DropdownMenuTrigger asChild>
-												<Button
-													className="size-5 rounded-sm hover:bg-transparent data-[state=open]:opacity-100 md:opacity-0 md:group-hover/menu-item:opacity-100"
-													data-prevent-progress={true}
-													size="icon"
-													variant="ghost"
+										<div className="opacity-100 md:opacity-0 md:group-hover/menu-item:opacity-100">
+											<DropdownMenu modal={false}>
+												<DropdownMenuTrigger
+													asChild
 													onClick={(e) => {
-														e.preventDefault();
 														e.stopPropagation();
+														e.preventDefault();
 													}}
 												>
-													<MoreHorizontal />
-													<span className="sr-only">More</span>
-												</Button>
-											</DropdownMenuTrigger>
-											<DropdownMenuContent
-												onClick={(e) => {
-													e.stopPropagation();
-												}}
-											>
-												<DropdownMenuItem
-													asChild
-													onClick={() => {
-														setSlug(item.slug);
-														setOpenBookSettingsDialog(true);
-													}}
+													<Button
+														className="size-6 hover:bg-border"
+														size="icon"
+														variant="ghost"
+													>
+														<MoreVertical />
+														<span className="sr-only">More</span>
+													</Button>
+												</DropdownMenuTrigger>
+												<DropdownMenuContent
+													align="start"
+													onClick={(e) => e.stopPropagation()}
 												>
-													<div className="flex items-center gap-2">
-														<SlidersHorizontal className="text-muted-foreground" />
-														<span>{t.settings}</span>
-													</div>
-												</DropdownMenuItem>
+													<DropdownMenuItem
+														onClick={() => {
+															setSlug(item.slug);
+															setOpenBookSettingsDialog(true);
+														}}
+													>
+														<SlidersHorizontal className="text-popover-foreground" />
+														{t.settings}
+													</DropdownMenuItem>
 
-												<DropdownMenuSeparator />
+													<DropdownMenuSeparator />
 
-												<DropdownMenuItem
-													asChild
-													variant="destructive"
-													onClick={() => {
-														setBookToDelete(item);
-														setOpenDeleteBookDialog(true);
-													}}
-												>
-													<div className="flex items-center gap-2">
+													<DropdownMenuItem
+														variant="destructive"
+														onClick={() => {
+															setBookToDelete(item);
+															setOpenDeleteBookDialog(true);
+														}}
+													>
 														<Trash2 />
-														<span>{t.delete}</span>
-													</div>
-												</DropdownMenuItem>
-											</DropdownMenuContent>
-										</DropdownMenu>
+														{t.delete}
+													</DropdownMenuItem>
+												</DropdownMenuContent>
+											</DropdownMenu>
+										</div>
 									</div>
 								</NotraSidebarButton>
 							</NotraSidebarMenuItem>
