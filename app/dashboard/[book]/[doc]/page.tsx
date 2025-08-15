@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 
 import DocSettingsButton from '@/components/doc-settings-button';
+import { EditorCore } from '@/components/editor/editor-core';
 import HeaderEditableTitle from '@/components/header-editable-title';
 import { NotraInsetHeader } from '@/components/notra-sidebar';
 import DocService from '@/services/doc';
@@ -44,7 +45,9 @@ export default async function Page() {
 				</div>
 			</NotraInsetHeader>
 
-			<main className="container mx-auto p-4 md:p-8">doc page</main>
+			<main>
+				<EditorCore />
+			</main>
 		</>
 	);
 }
