@@ -3,18 +3,14 @@
 import dayjs from 'dayjs';
 
 import { getTranslations } from '@/i18n';
-import { useGetDocMeta } from '@/queries/doc';
-import { useCurrentBook } from '@/stores/book';
-import useDoc from '@/stores/doc';
+import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
 
 const t = getTranslations('components_auto_save_tip');
 
 export default function AutoSaveTip() {
-	const isSaving = useDoc((state) => state.isSaving);
-	const isFirstLoad = useDoc((state) => state.isFirstLoad);
-	const { data: book } = useCurrentBook();
-	const slug = useDoc((state) => state.slug);
-	const { data } = useGetDocMeta({ book: book?.slug, doc: slug });
+	const isSaving = useDocStore((state) => state.isSaving);
+	const isFirstLoad = useDocStore((state) => state.isFirstLoad);
+	const { data } = useCurrentDocMeta();
 
 	if (!data) {
 		return null;

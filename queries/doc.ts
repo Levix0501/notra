@@ -3,7 +3,7 @@ import { SWRConfiguration } from 'swr';
 
 import { useFetcher } from '@/hooks/use-fetcher';
 import { Nullable } from '@/types/common';
-import { DocMetaVo } from '@/types/doc';
+import { DocMetaVo, DocVo } from '@/types/doc';
 
 export const useGetDocMeta = (
 	{
@@ -18,4 +18,15 @@ export const useGetDocMeta = (
 	useFetcher<DocMetaVo>(
 		book && doc ? `/api/docs/meta?book_slug=${book}&doc_slug=${doc}` : void 0,
 		config
+	);
+
+export const useGetDoc = ({
+	book,
+	doc
+}: {
+	book?: Nullable<BookEntity['slug']>;
+	doc?: Nullable<DocEntity['slug']>;
+}) =>
+	useFetcher<DocVo>(
+		book && doc ? `/api/docs?book_slug=${book}&doc_slug=${doc}` : void 0
 	);

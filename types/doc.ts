@@ -18,3 +18,5 @@ export const DocSettingsFormSchema = z.object({
 });
 
 export type DocSettingsFormValues = z.infer<typeof DocSettingsFormSchema>;
+
+export type DocVo = DocEntity;

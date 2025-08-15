@@ -2,18 +2,14 @@ import { useCallback } from 'react';
 
 import { updateDocMeta } from '@/actions/doc';
 import { getTranslations } from '@/i18n';
-import { useGetDocMeta } from '@/queries/doc';
-import { useCurrentBook } from '@/stores/book';
 import { mutateCatalog } from '@/stores/catalog';
-import useDoc from '@/stores/doc';
+import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
 
 const t = getTranslations('hooks_use_edit_doc_title');
 
 export const useEditDocTitle = () => {
-	const { data: book } = useCurrentBook();
-	const slug = useDoc((state) => state.slug);
-	const { data, mutate } = useGetDocMeta({ book: book?.slug, doc: slug });
-	const setIsSaving = useDoc((state) => state.setIsSaving);
+	const { data, mutate } = useCurrentDocMeta();
+	const setIsSaving = useDocStore((state) => state.setIsSaving);
 
 	const handleEditDocTitle = useCallback(
 		(newTitle: string) => {

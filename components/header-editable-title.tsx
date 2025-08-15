@@ -10,9 +10,7 @@ import {
 
 import { Input } from '@/components/ui/input';
 import { useEditDocTitle } from '@/hooks/use-edit-doc-title';
-import { useGetDocMeta } from '@/queries/doc';
-import { useCurrentBook } from '@/stores/book';
-import useDoc from '@/stores/doc';
+import { useCurrentDocMeta } from '@/stores/doc';
 
 import AutoSaveTip from './auto-save-tip';
 
@@ -21,22 +19,7 @@ export default function HeaderEditableTitle() {
 
 	const [isEditing, setIsEditing] = useState(false);
 
-	const { data: book } = useCurrentBook();
-	const slug = useDoc((state) => state.slug);
-	const { data } = useGetDocMeta(
-		{ book: book?.slug, doc: slug },
-		{
-			onSuccess(data) {
-				const titleArray = document.title.split(' - ');
-
-				if (titleArray.length > 1) {
-					document.title = data.title + ' - ' + titleArray[1];
-				} else {
-					document.title = data.title;
-				}
-			}
-		}
-	);
+	const { data } = useCurrentDocMeta();
 	const handleEditDocTitle = useEditDocTitle();
 
 	useEffect(() => {

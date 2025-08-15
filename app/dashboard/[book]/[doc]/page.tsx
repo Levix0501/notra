@@ -1,8 +1,6 @@
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
 import DocSettingsButton from '@/components/doc-settings-button';
-import DocStoreProvider from '@/components/doc-store-provider';
 import HeaderEditableTitle from '@/components/header-editable-title';
 import { NotraInsetHeader } from '@/components/notra-sidebar';
 import DocService from '@/services/doc';
@@ -17,22 +15,26 @@ interface PageProps {
 export const generateMetadata = async ({
 	params
 }: Readonly<PageProps>): Promise<Metadata> => {
-	const { book: bookSlug, doc: docSlug } = await params;
-	const { data: doc } = await DocService.getDoc(bookSlug, docSlug);
+	const { doc } = await params;
 
 	return {
-		title: doc?.title
+		title: doc
 	};
 };
 
-export default async function Page({ params }: Readonly<PageProps>) {
-	const { book: bookSlug, doc: docSlug } = await params;
-	const { data: doc } = await DocService.getDoc(bookSlug, docSlug);
+export const generateStaticParams = async ({ params }: Readonly<PageProps>) => {
+	const { book } = await params;
 
-	if (!doc) {
-		notFound();
-	}
+	const { data: docs } = await DocService.getDocsByBookSlug(book);
 
+	return (
+		docs?.map((doc) => ({
+			doc: doc.slug
+		})) ?? []
+	);
+};
+
+export default async function Page() {
 	return (
 		<>
 			<NotraInsetHeader>
@@ -43,8 +45,6 @@ export default async function Page({ params }: Readonly<PageProps>) {
 			</NotraInsetHeader>
 
 			<main className="container mx-auto p-4 md:p-8">doc page</main>
-
-			<DocStoreProvider id={doc.id} slug={doc.slug} />
 		</>
 	);
 }

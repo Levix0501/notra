@@ -27,7 +27,7 @@ import { deleteNodeWithChildren } from '@/lib/catalog/client';
 import { cn } from '@/lib/utils';
 import { useCurrentBook } from '@/stores/book';
 import useCatalog, { mutateCatalog, nodeMap } from '@/stores/catalog';
-import useDoc from '@/stores/doc';
+import { useDocStore } from '@/stores/doc';
 import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
 
 import { useBookSettingsDialog } from './book-settings-dialog';
@@ -155,11 +155,11 @@ const CatalogItem = ({
 			return result.data;
 		});
 
-		if (item.docId !== null && item.docId === useDoc.getState().id) {
+		if (item.docId !== null && item.docId === useDocStore.getState().id) {
 			mutate(
-				`/api/docs/${useDoc.getState().slug}/meta`,
+				`/api/docs/meta?book_slug=${book.slug}&doc_slug=${item.url}`,
 				async () => {
-					useDoc.getState().setIsSaving(true);
+					useDocStore.getState().setIsSaving(true);
 
 					const result = await updateDocMeta({
 						id: item.docId!,
@@ -167,12 +167,12 @@ const CatalogItem = ({
 					});
 
 					if (!result.success || !result.data) {
-						useDoc.getState().setIsSaving(false);
+						useDocStore.getState().setIsSaving(false);
 
 						throw new Error(result.message);
 					}
 
-					useDoc.getState().setIsSaving(false);
+					useDocStore.getState().setIsSaving(false);
 
 					return result.data;
 				},
