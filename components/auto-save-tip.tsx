@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 
 import { getTranslations } from '@/i18n';
 import { useGetDocMeta } from '@/queries/doc';
+import { useBook } from '@/stores/book';
 import useDoc from '@/stores/doc';
 
 const t = getTranslations('components_auto_save_tip');
@@ -11,8 +12,9 @@ const t = getTranslations('components_auto_save_tip');
 export default function AutoSaveTip() {
 	const isSaving = useDoc((state) => state.isSaving);
 	const isFirstLoad = useDoc((state) => state.isFirstLoad);
+	const book = useBook();
 	const slug = useDoc((state) => state.slug);
-	const { data } = useGetDocMeta(slug);
+	const { data } = useGetDocMeta({ book: book?.slug, doc: slug });
 
 	if (!data) {
 		return null;

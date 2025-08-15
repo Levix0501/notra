@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DocEntity } from '@prisma/client';
+import { BookEntity, DocEntity } from '@prisma/client';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -27,7 +27,8 @@ import { useBookSettingsDialog } from './book-settings-dialog';
 export interface DocSettingsFormProps {
 	docId: DocEntity['id'];
 	bookId: DocEntity['id'];
-	defaultSlug: string;
+	bookSlug: BookEntity['slug'];
+	defaultDocSlug: DocEntity['slug'];
 	mutateDocMeta: () => void;
 }
 
@@ -36,7 +37,8 @@ const t = getTranslations('components_doc_settings_form');
 export default function DocSettingsForm({
 	docId,
 	bookId,
-	defaultSlug,
+	bookSlug,
+	defaultDocSlug,
 	mutateDocMeta
 }: Readonly<DocSettingsFormProps>) {
 	const [isPending, setIsPending] = useState(false);
@@ -45,7 +47,7 @@ export default function DocSettingsForm({
 		resolver: zodResolver(DocSettingsFormSchema),
 		mode: 'onChange',
 		defaultValues: {
-			slug: defaultSlug
+			slug: defaultDocSlug
 		}
 	});
 	const router = useRouter();
@@ -56,8 +58,8 @@ export default function DocSettingsForm({
 		setIsPending(true);
 
 		const promise = (async () => {
-			if (values.slug !== defaultSlug) {
-				const checkResult = await checkDocSlug(values.slug);
+			if (values.slug !== defaultDocSlug) {
+				const checkResult = await checkDocSlug(bookSlug, values.slug);
 
 				if (checkResult.success && !checkResult.data) {
 					form.setError('slug', { message: t.slug_exists });
@@ -77,8 +79,8 @@ export default function DocSettingsForm({
 			mutateDocMeta();
 			mutateCatalog(bookId);
 
-			if (values.slug !== defaultSlug) {
-				router.replace(pathname.replace(defaultSlug, values.slug));
+			if (values.slug !== defaultDocSlug) {
+				router.replace(pathname.replace(defaultDocSlug, values.slug));
 			}
 		})();
 
@@ -110,7 +112,7 @@ export default function DocSettingsForm({
 								<Input
 									{...field}
 									disabled={isPending}
-									placeholder={defaultSlug}
+									placeholder={defaultDocSlug}
 									onChange={(e) => {
 										form.clearErrors('slug');
 										field.onChange(e);

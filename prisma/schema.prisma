@@ -127,7 +127,7 @@ model CatalogNodeEntity {
 model DocEntity {
   id    Int    @id @default(autoincrement())
   title String
-  slug  String @unique @default(cuid())
+  slug  String @default(cuid())
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

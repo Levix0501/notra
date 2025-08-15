@@ -206,6 +206,7 @@ export const zh = {
 	services_doc: {
 		get_doc_meta_error: '获取文档元数据失败！',
 		get_doc_error: '获取文档失败！',
+		get_docs_by_book_slug_error: '获取文档失败！',
 		update_doc_meta_error: '更新文档元数据失败！',
 		check_doc_slug_error: '检查文档路径是否可用失败！'
 	},

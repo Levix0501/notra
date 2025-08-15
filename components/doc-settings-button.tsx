@@ -4,13 +4,15 @@ import { FileSliders } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { useGetDocMeta } from '@/queries/doc';
+import { useBook } from '@/stores/book';
 import useDoc from '@/stores/doc';
 
 import { useBookSettingsDialog } from './book-settings-dialog';
 
 export default function DocSettingsButton() {
+	const book = useBook();
 	const slug = useDoc((state) => state.slug);
-	const { data } = useGetDocMeta(slug);
+	const { data } = useGetDocMeta({ book: book?.slug, doc: slug });
 
 	if (!slug || !data) {
 		return null;

@@ -206,6 +206,7 @@ export const en = {
 	services_doc: {
 		get_doc_meta_error: 'Failed to get document meta!',
 		get_doc_error: 'Failed to get document!',
+		get_docs_by_book_slug_error: 'Failed to get documents!',
 		update_doc_meta_error: 'Failed to update document meta!',
 		check_doc_slug_error: 'Failed to check document slug!'
 	},

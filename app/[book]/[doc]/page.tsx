@@ -5,6 +5,7 @@ import DocService from '@/services/doc';
 
 interface PageProps {
 	params: Promise<{
+		book: string;
 		doc: string;
 	}>;
 }
@@ -12,17 +13,24 @@ interface PageProps {
 export const generateMetadata = async ({
 	params
 }: Readonly<PageProps>): Promise<Metadata> => {
-	const { doc: slug } = await params;
-	const { data: doc } = await DocService.getDoc(slug);
+	const { book: bookSlug, doc: docSlug } = await params;
+	const { data: doc } = await DocService.getDoc(bookSlug, docSlug);
 
 	return {
 		title: doc?.title
 	};
 };
 
+export const generateStaticParams = async ({ params }: Readonly<PageProps>) => {
+	const { book: bookSlug } = await params;
+	const { data: docs } = await DocService.getDocsByBookSlug(bookSlug);
+
+	return docs?.map((doc) => ({ book: bookSlug, doc: doc.slug })) ?? [];
+};
+
 export default async function Page({ params }: Readonly<PageProps>) {
-	const { doc: slug } = await params;
-	const { data: doc } = await DocService.getDoc(slug);
+	const { book: bookSlug, doc: docSlug } = await params;
+	const { data: doc } = await DocService.getDoc(bookSlug, docSlug);
 
 	if (!doc) {
 		notFound();

@@ -9,6 +9,7 @@ import DocService from '@/services/doc';
 
 interface PageProps {
 	params: Promise<{
+		book: string;
 		doc: string;
 	}>;
 }
@@ -16,8 +17,8 @@ interface PageProps {
 export const generateMetadata = async ({
 	params
 }: Readonly<PageProps>): Promise<Metadata> => {
-	const { doc: slug } = await params;
-	const { data: doc } = await DocService.getDoc(slug);
+	const { book: bookSlug, doc: docSlug } = await params;
+	const { data: doc } = await DocService.getDoc(bookSlug, docSlug);
 
 	return {
 		title: doc?.title
@@ -25,8 +26,8 @@ export const generateMetadata = async ({
 };
 
 export default async function Page({ params }: Readonly<PageProps>) {
-	const { doc: slug } = await params;
-	const { data: doc } = await DocService.getDoc(slug);
+	const { book: bookSlug, doc: docSlug } = await params;
+	const { data: doc } = await DocService.getDoc(bookSlug, docSlug);
 
 	if (!doc) {
 		notFound();
@@ -43,7 +44,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 
 			<main className="container mx-auto p-4 md:p-8">doc page</main>
 
-			<DocStoreProvider id={doc.id} slug={slug} />
+			<DocStoreProvider id={doc.id} slug={doc.slug} />
 		</>
 	);
 }

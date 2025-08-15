@@ -59,7 +59,7 @@ export default function BookSettingsDialog() {
 		data: docMeta,
 		mutate: mutateDocMeta,
 		isLoading: isDocMetaLoading
-	} = useGetDocMeta(docSlug);
+	} = useGetDocMeta({ book: slug, doc: docSlug });
 
 	return (
 		<SettingsDialog open={open} onOpenChange={setOpen}>
@@ -102,7 +102,8 @@ export default function BookSettingsDialog() {
 						<DocSettingsForm
 							key={JSON.stringify(docMeta)}
 							bookId={docMeta?.bookId ?? 0}
-							defaultSlug={docMeta?.slug ?? ''}
+							bookSlug={slug}
+							defaultDocSlug={docMeta?.slug ?? ''}
 							docId={docMeta?.id ?? 0}
 							mutateDocMeta={mutateDocMeta}
 						/>
