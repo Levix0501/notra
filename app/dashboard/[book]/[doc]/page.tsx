@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 import DocSettingsButton from '@/components/doc-settings-button';
-import { EditorCore } from '@/components/editor/editor-core';
 import HeaderEditableTitle from '@/components/header-editable-title';
+import NotraEditor from '@/components/notra-editor';
 import { NotraInsetHeader } from '@/components/notra-sidebar';
 import DocService from '@/services/doc';
 
@@ -35,7 +35,9 @@ export const generateStaticParams = async ({ params }: Readonly<PageProps>) => {
 	);
 };
 
-export default async function Page() {
+export default async function Page({ params }: Readonly<PageProps>) {
+	const { book, doc } = await params;
+
 	return (
 		<>
 			<NotraInsetHeader>
@@ -46,7 +48,7 @@ export default async function Page() {
 			</NotraInsetHeader>
 
 			<main>
-				<EditorCore />
+				<NotraEditor bookSlug={book} docSlug={doc} />
 			</main>
 		</>
 	);

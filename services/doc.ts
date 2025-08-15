@@ -5,7 +5,7 @@ import { getTranslations } from '@/i18n';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
 import { ServiceResult } from '@/lib/service-result';
-import { UpdateDocMetaDto } from '@/types/doc';
+import { UpdateDocDraftContentDto, UpdateDocMetaDto } from '@/types/doc';
 
 export default class DocService {
 	static readonly getDocMeta = cache(
@@ -100,6 +100,24 @@ export default class DocService {
 			const t = getTranslations('services_doc');
 
 			return ServiceResult.fail(t.update_doc_meta_error);
+		}
+	}
+
+	static async updateDocDraftContent(values: UpdateDocDraftContentDto) {
+		try {
+			const doc = await prisma.docEntity.update({
+				where: { id: values.id },
+				data: {
+					draftContent: values.draftContent
+				}
+			});
+
+			return ServiceResult.success(doc);
+		} catch (error) {
+			logger('DocService.updateDocDraftContent', error);
+			const t = getTranslations('services_doc');
+
+			return ServiceResult.fail(t.update_doc_draft_content_error);
 		}
 	}
 

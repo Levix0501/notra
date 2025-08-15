@@ -208,7 +208,8 @@ export const en = {
 		get_doc_error: 'Failed to get document!',
 		get_docs_by_book_slug_error: 'Failed to get documents!',
 		update_doc_meta_error: 'Failed to update document meta!',
-		check_doc_slug_error: 'Failed to check document slug!'
+		check_doc_slug_error: 'Failed to check document slug!',
+		update_doc_draft_content_error: 'Failed to update document draft content!'
 	},
 	services_file: {
 		upload_error: 'Failed to upload file!'
