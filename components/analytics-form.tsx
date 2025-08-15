@@ -93,7 +93,11 @@ export default function AnalyticsForm({
 						</FormItem>
 					)}
 				/>
-				<SubmitButton className="w-auto" isPending={isPending}>
+				<SubmitButton
+					className="w-auto"
+					disabled={!form.formState.isDirty}
+					isPending={isPending}
+				>
 					{t.update_analytics}
 				</SubmitButton>
 			</form>
