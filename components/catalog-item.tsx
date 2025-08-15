@@ -25,7 +25,7 @@ import {
 import { getTranslations } from '@/i18n';
 import { deleteNodeWithChildren } from '@/lib/catalog/client';
 import { cn } from '@/lib/utils';
-import { useBook } from '@/stores/book';
+import { useCurrentBook } from '@/stores/book';
 import useCatalog, { mutateCatalog, nodeMap } from '@/stores/catalog';
 import useDoc from '@/stores/doc';
 import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
@@ -53,7 +53,7 @@ const CatalogItem = ({
 }: CatalogItemProps) => {
 	const [isEditingTitle, setIsEditingTitle] = useState(false);
 
-	const book = useBook();
+	const { data: book } = useCurrentBook();
 	const expandedKeys = useCatalog((state) => state.expandedKeys);
 	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
 	const pathname = usePathname();

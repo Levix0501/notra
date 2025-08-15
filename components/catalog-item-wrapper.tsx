@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { CSSProperties } from 'react';
 
-import { useBook } from '@/stores/book';
+import { useCurrentBook } from '@/stores/book';
 import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
 import { ChildrenProps } from '@/types/common';
 
@@ -21,7 +21,7 @@ export default function CatalogItemWrapper({
 	item,
 	onClick
 }: Readonly<CatalogItemWrapperProps>) {
-	const book = useBook();
+	const { data: book } = useCurrentBook();
 
 	if (item.type === 'DOC' && !isEditingTitle) {
 		return (

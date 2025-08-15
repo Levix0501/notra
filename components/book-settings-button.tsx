@@ -1,15 +1,15 @@
 'use client';
 
+import { BookEntity } from '@prisma/client';
 import { SlidersHorizontal } from 'lucide-react';
 import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { useGetBook } from '@/queries/book';
 
 import { useBookSettingsDialog } from './book-settings-dialog';
 
 interface BookSettingsButtonProps {
-	bookSlug: string;
+	bookSlug: BookEntity['slug'];
 }
 
 export default function BookSettingsButton({
@@ -17,7 +17,6 @@ export default function BookSettingsButton({
 }: Readonly<BookSettingsButtonProps>) {
 	const setOpen = useBookSettingsDialog((state) => state.setOpen);
 
-	useGetBook(bookSlug);
 	useEffect(() => {
 		useBookSettingsDialog.setState({
 			slug: bookSlug

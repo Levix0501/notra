@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import BookCatalog from '@/components/book-catalog';
+import BookName from '@/components/book-name';
 import BookSettingsButton from '@/components/book-settings-button';
 import BookSidebarHeader from '@/components/book-sidebar-header';
 import BookSidebarNav from '@/components/book-sidebar-nav';
@@ -11,6 +12,12 @@ import {
 	NotraSidebarContent
 } from '@/components/notra-sidebar';
 import BookService from '@/services/book';
+
+export const generateStaticParams = async () => {
+	const { data: books } = await BookService.getBooks();
+
+	return books?.map((book) => ({ book: book.slug })) ?? [];
+};
 
 export default async function Layout({
 	children,
@@ -33,14 +40,14 @@ export default async function Layout({
 
 				<NotraSidebarContent>
 					<div className="mb-4 flex items-center justify-between gap-2 px-5 md:px-3.5">
-						<span className="flex-1 truncate font-bold">{book.name}</span>
+						<BookName defaultBook={book} />
 						<BookSettingsButton bookSlug={book.slug} />
 					</div>
 
 					<BookSidebarNav bookSlug={book.slug} />
 
 					<div className="flex-1 overflow-hidden">
-						<BookCatalog book={book} />
+						<BookCatalog bookId={book.id} />
 					</div>
 				</NotraSidebarContent>
 

@@ -5,11 +5,13 @@ import BookIndexPageViewTabs from '@/components/book-index-page-view-tabs';
 import { NotraInsetHeader } from '@/components/notra-sidebar';
 import BookService from '@/services/book';
 
+interface PageProps {
+	params: Promise<{ book: string }>;
+}
+
 export const generateMetadata = async ({
 	params
-}: Readonly<{
-	params: Promise<{ book: string }>;
-}>): Promise<Metadata> => {
+}: Readonly<PageProps>): Promise<Metadata> => {
 	const { book: slug } = await params;
 	const { data: book } = await BookService.getBook(slug);
 
@@ -18,11 +20,7 @@ export const generateMetadata = async ({
 	};
 };
 
-export default async function Page({
-	params
-}: Readonly<{
-	params: Promise<{ book: string }>;
-}>) {
+export default async function Page({ params }: Readonly<PageProps>) {
 	const { book: slug } = await params;
 	const { data: book } = await BookService.getBook(slug);
 

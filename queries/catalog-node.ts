@@ -3,10 +3,9 @@ import { SWRConfiguration } from 'swr';
 
 import { useFetcher } from '@/hooks/use-fetcher';
 import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
-import { Nullable } from '@/types/common';
 
 export const useGetCatalogNodes = (
-	id: Nullable<BookEntity['id']>,
+	id: BookEntity['id'],
 	config?: SWRConfiguration<CatalogNodeVoWithLevel[]>
 ) =>
 	useFetcher<CatalogNodeVoWithLevel[]>(

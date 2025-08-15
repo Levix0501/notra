@@ -15,7 +15,7 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { getTranslations } from '@/i18n';
-import { useBook } from '@/stores/book';
+import { useCurrentBook } from '@/stores/book';
 import useCatalog, { mutateCatalog } from '@/stores/catalog';
 
 export interface CreateDropdownProps extends PropsWithChildren {
@@ -28,7 +28,7 @@ export default function CreateDropdown({
 	parentCatalogNodeId,
 	children
 }: Readonly<CreateDropdownProps>) {
-	const book = useBook();
+	const { data: book } = useCurrentBook();
 	const expandedKeys = useCatalog((state) => state.expandedKeys);
 	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
 	const router = useRouter();

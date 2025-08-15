@@ -1,14 +1,13 @@
 'use client';
 
+import { BookEntity } from '@prisma/client';
 import { Plus } from 'lucide-react';
 import { RefObject, useRef } from 'react';
 import { useResizeObserver } from 'usehooks-ts';
 
 import { getTranslations } from '@/i18n';
 import { useGetCatalogNodes } from '@/queries/catalog-node';
-import { useSetBook } from '@/stores/book';
 import useCatalog, { setNodeMap } from '@/stores/catalog';
-import { BookVo } from '@/types/book';
 
 import CreateDropdown from './create-dropdown';
 import DragDropZone from './drag-drop-zone';
@@ -16,22 +15,21 @@ import { NotraSidebarButton } from './notra-sidebar';
 import NotraSkeleton from './notra-skeleton';
 
 export interface BookCatalogProps {
-	book: BookVo;
+	bookId: BookEntity['id'];
 }
 
 const t = getTranslations('components_book_catalog');
 
-export default function BookCatalog({ book }: Readonly<BookCatalogProps>) {
+export default function BookCatalog({ bookId }: Readonly<BookCatalogProps>) {
 	const ref = useRef<HTMLDivElement>(null);
 	const hasDefaultExpandedKeysGenerated = useRef(false);
 
-	useSetBook(book);
 	const { height = 9999 } = useResizeObserver({
 		ref: ref as RefObject<HTMLElement>
 	});
 	const expandedKeys = useCatalog((state) => state.expandedKeys);
 	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
-	const { data, isLoading } = useGetCatalogNodes(book.id, {
+	const { data, isLoading } = useGetCatalogNodes(bookId, {
 		onSuccess(data) {
 			setNodeMap(data);
 
@@ -72,7 +70,7 @@ export default function BookCatalog({ book }: Readonly<BookCatalogProps>) {
 
 			{!isLoading && data && data.length > 0 && (
 				<DragDropZone
-					bookId={book.id}
+					bookId={bookId}
 					draggableList={draggableList}
 					height={height}
 				/>
