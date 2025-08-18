@@ -72,7 +72,14 @@ const eslintConfig = [
 			'tailwindcss/no-custom-classname': [
 				'warn',
 				{
-					whitelist: ['ignore-click-outside/toolbar', 'slate-blockWrapper']
+					whitelist: [
+						'ignore-click-outside/toolbar',
+						'slate-blockWrapper',
+						'slate-dropLine',
+						'slate-blockToolbarWrapper',
+						'slate-blockToolbar',
+						'slate-gutterLeft'
+					]
 				}
 			]
 		}
