@@ -18,12 +18,6 @@ export const generateMetadata = async ({
 	};
 };
 
-export const generateStaticParams = async () => {
-	const { data: books } = await BookService.getBooks();
-
-	return books?.map((book) => ({ book: book.slug })) ?? [];
-};
-
 export default async function Page({
 	params
 }: Readonly<{

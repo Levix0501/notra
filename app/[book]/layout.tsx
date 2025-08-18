@@ -1,4 +1,11 @@
 import NotraHeader from '@/components/notra-header';
+import BookService from '@/services/book';
+
+export const generateStaticParams = async () => {
+	const { data: books } = await BookService.getBooks();
+
+	return books?.map((book) => ({ book: book.slug })) ?? [];
+};
 
 export default function Layout({
 	children
