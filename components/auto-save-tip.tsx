@@ -8,6 +8,7 @@ import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
 const t = getTranslations('components_auto_save_tip');
 
 export default function AutoSaveTip() {
+	const updateAt = useDocStore((state) => state.updateAt);
 	const isSaving = useDocStore((state) => state.isSaving);
 	const isFirstLoad = useDocStore((state) => state.isFirstLoad);
 	const { data } = useCurrentDocMeta();
@@ -17,14 +18,14 @@ export default function AutoSaveTip() {
 	}
 
 	let tip = '';
-	const updateAt = dayjs(data.updatedAt).format('YYYY-MM-DD HH:mm:ss');
+	const formattedUpdateAt = dayjs(updateAt).format('YYYY-MM-DD HH:mm:ss');
 
 	if (isSaving) {
-		tip = t.auto_save_tip_saving;
+		tip = t.saving;
 	} else if (isFirstLoad) {
-		tip = t.auto_save_tip_last_saved + ' ' + updateAt;
+		tip = t.last_saved + ' ' + formattedUpdateAt;
 	} else {
-		tip = t.auto_save_tip_saved + ' ' + updateAt;
+		tip = t.saved + ' ' + formattedUpdateAt;
 	}
 
 	return <span className="text-xs text-muted-foreground">{tip}</span>;

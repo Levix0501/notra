@@ -22,9 +22,9 @@ export const zh = {
 		update_error: '更新失败！'
 	},
 	components_auto_save_tip: {
-		auto_save_tip_saving: '保存中...',
-		auto_save_tip_last_saved: '上次保存',
-		auto_save_tip_saved: '已保存'
+		saving: '保存中...',
+		last_saved: '上次保存',
+		saved: '已保存'
 	},
 	components_book_catalog: {
 		new: '新增'

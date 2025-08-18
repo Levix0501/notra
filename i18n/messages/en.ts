@@ -22,9 +22,9 @@ export const en = {
 		update_error: 'Failed to update!'
 	},
 	components_auto_save_tip: {
-		auto_save_tip_saving: 'Saving...',
-		auto_save_tip_last_saved: 'Last saved',
-		auto_save_tip_saved: 'Saved'
+		saving: 'Saving...',
+		last_saved: 'Last saved',
+		saved: 'Saved'
 	},
 	components_book_catalog: {
 		new: 'Add New'

@@ -20,6 +20,7 @@ export default function NotraEditor({
 	docSlug
 }: Readonly<NotraEditorProps>) {
 	const setIsSaving = useDocStore((state) => state.setIsSaving);
+	const setUpdateAt = useDocStore((state) => state.setUpdateAt);
 	const { data: doc, mutate } = useGetDoc({ book: bookSlug, doc: docSlug });
 	const debouncedUpdateDocDraftContent = useDebounceCallback(
 		async (value: Value) => {
@@ -38,6 +39,7 @@ export default function NotraEditor({
 					}
 
 					setIsSaving(false);
+					setUpdateAt(result.data.updatedAt);
 
 					return result.data;
 				},
