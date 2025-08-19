@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -23,6 +24,8 @@ import { LoginFormValues, LoginFormSchema } from '@/types/auth';
 const t = getTranslations('components_login_form');
 
 export function LoginForm() {
+	const [isPending, setIsPending] = useState(false);
+
 	const form = useForm<LoginFormValues>({
 		resolver: zodResolver(LoginFormSchema),
 		defaultValues: {
@@ -30,9 +33,8 @@ export function LoginForm() {
 			password: ''
 		}
 	});
-
-	const [isPending, setIsPending] = useState(false);
 	const router = useRouter();
+	const { update } = useSession();
 
 	const onSubmit = (values: LoginFormValues) => {
 		setIsPending(true);
@@ -40,6 +42,7 @@ export function LoginForm() {
 			.then((result) => {
 				if (result.success) {
 					router.refresh();
+					update();
 				} else {
 					toast.error(result.message);
 				}

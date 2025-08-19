@@ -91,6 +91,9 @@ export const zh = {
 		new_stack: '分组',
 		create_error: '创建失败！'
 	},
+	components_dashboard_button: {
+		dashboard: '工作台'
+	},
 	components_dashboard_sidebar_nav: {
 		home: '主页'
 	},

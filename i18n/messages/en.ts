@@ -91,6 +91,9 @@ export const en = {
 		new_stack: 'Stack',
 		create_error: 'Failed to create!'
 	},
+	components_dashboard_button: {
+		dashboard: 'Dashboard'
+	},
 	components_dashboard_sidebar_nav: {
 		home: 'Home'
 	},

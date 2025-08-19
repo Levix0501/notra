@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default function Page() {
 	return (
 		<div className="flex min-h-dvh flex-col">
-			<NotraHeader />
+			<NotraHeader withDashboardButton={false} />
 
 			<main className="flex flex-1 items-center justify-center">
 				<Card className="w-sm">
