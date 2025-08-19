@@ -45,7 +45,7 @@ export default function TitleTextarea() {
 	const handleKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
 		if (e.key === 'Enter') {
 			ref.current?.blur();
-			editor.tf.focus({ at: [0, 0], edge: 'start' });
+			editor.tf.focus({ edge: 'startEditor' });
 		}
 	};
 
