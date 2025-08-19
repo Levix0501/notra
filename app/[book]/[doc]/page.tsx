@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Value } from 'platejs';
 
+import NotraEditorView from '@/components/notra-editor-view';
 import DocService from '@/services/doc';
 
 interface PageProps {
@@ -36,5 +38,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 		notFound();
 	}
 
-	return <div>doc page</div>;
+	return (
+		<NotraEditorView initialValue={doc.draftContent as unknown as Value} />
+	);
 }
