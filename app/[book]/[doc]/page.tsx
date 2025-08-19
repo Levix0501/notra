@@ -39,6 +39,9 @@ export default async function Page({ params }: Readonly<PageProps>) {
 	}
 
 	return (
-		<NotraEditorView initialValue={doc.draftContent as unknown as Value} />
+		<article className="mx-auto max-w-screen-md px-4">
+			<h1 className="mt-6 mb-8 font-heading text-4xl font-bold">{doc.title}</h1>
+			<NotraEditorView content={doc.draftContent as unknown as Value} />
+		</article>
 	);
 }

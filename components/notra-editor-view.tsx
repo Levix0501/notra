@@ -3,15 +3,15 @@ import { createSlateEditor, PlateStatic, Value } from 'platejs';
 import { BaseEditorKit } from './editor/editor-base-kit';
 
 interface NotraEditorViewProps {
-	initialValue?: Value;
+	content: Value;
 }
 
 export default function NotraEditorView({
-	initialValue
+	content
 }: Readonly<NotraEditorViewProps>) {
 	const editor = createSlateEditor({
 		plugins: BaseEditorKit,
-		value: initialValue
+		value: content
 	});
 
 	return <PlateStatic editor={editor} />;

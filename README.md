@@ -1,4 +1,4 @@
-# Notra 
+# Notra
 
 ## Getting Started
 
