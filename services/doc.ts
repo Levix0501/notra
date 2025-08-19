@@ -18,7 +18,9 @@ export default class DocService {
 							slug: bookSlug
 						}
 					},
-					omit: {}
+					omit: {
+						draftContent: true
+					}
 				});
 
 				return ServiceResult.success(doc);
