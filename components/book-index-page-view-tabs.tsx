@@ -11,8 +11,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getTranslations } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { useGetBook } from '@/queries/book';
+import { useGetPublishedDocMetaList } from '@/queries/doc';
 import { BookVo } from '@/types/book';
 
+import DocCard from './doc-card';
 import EmptyState from './empty-state';
 import IndexPageDocForm, {
 	IndexPageDocFormHandle
@@ -37,6 +39,9 @@ export default function BookIndexPageViewTabs({
 	);
 
 	const { data: book, mutate } = useGetBook(defaultBook.slug, defaultBook);
+	const { data: docs } = useGetPublishedDocMetaList({
+		book: defaultBook.slug
+	});
 
 	const defaultValues = useMemo(() => {
 		return {
@@ -51,7 +56,7 @@ export default function BookIndexPageViewTabs({
 		};
 	}, [book]);
 
-	if (!book) {
+	if (!book || !docs) {
 		return null;
 	}
 
@@ -148,7 +153,13 @@ export default function BookIndexPageViewTabs({
 				)}
 			</TabsContent>
 			<TabsContent value={IndexPageType.CARD}>
-				<EmptyState content={t.no_docs_found} />
+				{docs.length === 0 && <EmptyState content={t.no_docs_found} />}
+
+				<div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-6">
+					{docs.map((doc) => (
+						<DocCard key={doc.id} doc={doc} />
+					))}
+				</div>
 			</TabsContent>
 		</Tabs>
 	);

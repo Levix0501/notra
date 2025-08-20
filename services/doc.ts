@@ -5,6 +5,7 @@ import { getTranslations } from '@/i18n';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
 import { ServiceResult } from '@/lib/service-result';
+import { Nullable } from '@/types/common';
 import { UpdateDocDraftContentDto, UpdateDocMetaDto } from '@/types/doc';
 
 export default class DocService {
@@ -29,6 +30,41 @@ export default class DocService {
 				const t = getTranslations('services_doc');
 
 				return ServiceResult.fail(t.get_doc_meta_error);
+			}
+		}
+	);
+
+	static readonly getPublishedDocMetaList = cache(
+		async ({
+			bookSlug,
+			page,
+			pageSize = 12
+		}: {
+			bookSlug?: Nullable<BookEntity['slug']>;
+			page: number;
+			pageSize: number;
+		}) => {
+			try {
+				const docs = await prisma.docEntity.findMany({
+					where: {
+						book: bookSlug ? { slug: bookSlug } : void 0
+					},
+					skip: (page - 1) * pageSize,
+					take: pageSize,
+					orderBy: {
+						updatedAt: 'desc'
+					},
+					omit: {
+						draftContent: true
+					}
+				});
+
+				return ServiceResult.success(docs);
+			} catch (error) {
+				logger('DocService.getPublishedDocMetaList', error);
+				const t = getTranslations('services_doc');
+
+				return ServiceResult.fail(t.get_published_doc_meta_list_error);
 			}
 		}
 	);

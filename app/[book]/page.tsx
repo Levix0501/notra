@@ -30,16 +30,20 @@ export default async function Page({
 		notFound();
 	}
 
-	return book?.indexPageType === IndexPageType.DOC ? (
-		<IndexPageDocView
-			indexDescription={book?.indexDescription ?? ''}
-			indexTitle={book?.indexTitle ?? ''}
-			isMainNewTab={book?.isMainNewTab ?? false}
-			isSubNewTab={book?.isSubNewTab ?? false}
-			mainActionText={book?.mainActionText ?? ''}
-			mainActionUrl={book?.mainActionUrl ?? '#'}
-			subActionText={book?.subActionText ?? ''}
-			subActionUrl={book?.subActionUrl ?? '#'}
-		/>
-	) : null;
+	if (book?.indexPageType === IndexPageType.DOC) {
+		return (
+			<IndexPageDocView
+				indexDescription={book?.indexDescription ?? ''}
+				indexTitle={book?.indexTitle ?? ''}
+				isMainNewTab={book?.isMainNewTab ?? false}
+				isSubNewTab={book?.isSubNewTab ?? false}
+				mainActionText={book?.mainActionText ?? ''}
+				mainActionUrl={book?.mainActionUrl ?? '#'}
+				subActionText={book?.subActionText ?? ''}
+				subActionUrl={book?.subActionUrl ?? '#'}
+			/>
+		);
+	}
+
+	return null;
 }
