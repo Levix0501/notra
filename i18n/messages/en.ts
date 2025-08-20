@@ -109,6 +109,8 @@ export const en = {
 		slug_exists: 'Slug already exists!'
 	},
 	components_global_settings_dialog: {
+		doc_settings: 'Doc Settings',
+		book_settings: 'Book Settings',
 		site_settings: 'Site Settings',
 		analytics_settings: 'Analytics Settings'
 	},

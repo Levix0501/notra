@@ -30,10 +30,10 @@ import useCatalog, { mutateCatalog, nodeMap } from '@/stores/catalog';
 import { useDocStore } from '@/stores/doc';
 import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
 
-import { useBookSettingsDialog } from './book-settings-dialog';
 import CatalogItemWrapper from './catalog-item-wrapper';
 import CreateDropdown from './create-dropdown';
 import EditTitleForm from './edit-title-form';
+import { useGlobalSettingsDialog } from './global-settings-dialog';
 import LevelIndicator from './level-indicator';
 
 export interface CatalogItemProps {
@@ -89,9 +89,10 @@ const CatalogItem = ({
 
 	const handleSettings = () => {
 		if (item.type === 'DOC' && item.url) {
-			useBookSettingsDialog.setState({
+			useGlobalSettingsDialog.setState({
 				tab: 'doc',
 				docSlug: item.url,
+				bookSlug: book.slug,
 				open: true
 			});
 		}

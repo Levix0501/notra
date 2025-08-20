@@ -22,7 +22,7 @@ import { getTranslations } from '@/i18n';
 import { useGetBooks } from '@/queries/book';
 import { UpdateBookInfoSchema, UpdateBookInfoValues } from '@/types/book';
 
-import { useBookSettingsDialog } from './book-settings-dialog';
+import { useGlobalSettingsDialog } from './global-settings-dialog';
 
 export interface BookSettingsFormProps {
 	bookId: BookEntity['id'];
@@ -50,7 +50,7 @@ export default function BookSettingsForm({
 		}
 	});
 	const { mutate: mutateBooks } = useGetBooks();
-	const setSlug = useBookSettingsDialog((state) => state.setSlug);
+	const setBookSlug = useGlobalSettingsDialog((state) => state.setBookSlug);
 	const pathname = usePathname();
 	const router = useRouter();
 
@@ -78,7 +78,7 @@ export default function BookSettingsForm({
 				throw new Error(updateResult.message);
 			}
 
-			setSlug(values.slug);
+			setBookSlug(values.slug);
 			mutateBook();
 			mutateBooks();
 

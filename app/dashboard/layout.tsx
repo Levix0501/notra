@@ -1,4 +1,3 @@
-import BookSettingsDialog from '@/components/book-settings-dialog';
 import GlobalSettingsDialog from '@/components/global-settings-dialog';
 import NotraBackdrop from '@/components/notra-backdrop';
 
@@ -12,7 +11,6 @@ export default function Layout({
 			<NotraBackdrop />
 			{children}
 			<GlobalSettingsDialog />
-			<BookSettingsDialog />
 		</div>
 	);
 }

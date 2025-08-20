@@ -109,6 +109,8 @@ export const zh = {
 		slug_exists: '链接已存在！'
 	},
 	components_global_settings_dialog: {
+		doc_settings: '文档设置',
+		book_settings: '知识库设置',
 		site_settings: '站点设置',
 		analytics_settings: '统计设置'
 	},

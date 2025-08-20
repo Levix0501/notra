@@ -17,8 +17,8 @@ import { getTranslations } from '@/i18n';
 import { useGetBooks } from '@/queries/book';
 import { BookVo } from '@/types/book';
 
-import { useBookSettingsDialog } from './book-settings-dialog';
 import { useCreateBookDialog } from './create-book-dialog';
+import { useGlobalSettingsDialog } from './global-settings-dialog';
 import { NotraAlertDialog } from './notra-alert-dialog';
 import {
 	NotraSidebarButton,
@@ -36,10 +36,6 @@ export default function BooksNav() {
 
 	const { data: books, isLoading, mutate } = useGetBooks();
 	const setOpenCreateBookDialog = useCreateBookDialog((state) => state.setOpen);
-	const setSlug = useBookSettingsDialog((state) => state.setSlug);
-	const setOpenBookSettingsDialog = useBookSettingsDialog(
-		(state) => state.setOpen
-	);
 
 	const handleOpenCreateBookDialog = () => {
 		setOpenCreateBookDialog(true);
@@ -115,8 +111,11 @@ export default function BooksNav() {
 												>
 													<DropdownMenuItem
 														onClick={() => {
-															setSlug(item.slug);
-															setOpenBookSettingsDialog(true);
+															useGlobalSettingsDialog.setState({
+																bookSlug: item.slug,
+																tab: 'book',
+																open: true
+															});
 														}}
 													>
 														<SlidersHorizontal className="text-popover-foreground" />

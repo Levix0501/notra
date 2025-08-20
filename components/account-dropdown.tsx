@@ -24,7 +24,12 @@ const t = getTranslations('components_account_dropdown');
 
 export default function AccountDropdown() {
 	const handleOpenGlobalSettings = () => {
-		useGlobalSettingsDialog.setState({ open: true });
+		useGlobalSettingsDialog.setState({
+			open: true,
+			tab: 'site',
+			bookSlug: '',
+			docSlug: ''
+		});
 	};
 
 	const handleLogout = () => {

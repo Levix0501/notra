@@ -3,22 +3,25 @@
 import { FileSliders } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { useCurrentBook } from '@/stores/book';
 import { useCurrentDocMeta } from '@/stores/doc';
 
-import { useBookSettingsDialog } from './book-settings-dialog';
+import { useGlobalSettingsDialog } from './global-settings-dialog';
 
 export default function DocSettingsButton() {
 	const { data: docMeta } = useCurrentDocMeta();
+	const { data: book } = useCurrentBook();
 
-	if (!docMeta) {
+	if (!docMeta || !book) {
 		return null;
 	}
 
 	const handleClick = () => {
-		useBookSettingsDialog.setState({
+		useGlobalSettingsDialog.setState({
+			open: true,
 			tab: 'doc',
 			docSlug: docMeta.slug,
-			open: true
+			bookSlug: book.slug
 		});
 	};
 

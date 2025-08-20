@@ -2,11 +2,10 @@
 
 import { BookEntity } from '@prisma/client';
 import { SlidersHorizontal } from 'lucide-react';
-import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import { useBookSettingsDialog } from './book-settings-dialog';
+import { useGlobalSettingsDialog } from './global-settings-dialog';
 
 interface BookSettingsButtonProps {
 	bookSlug: BookEntity['slug'];
@@ -15,16 +14,13 @@ interface BookSettingsButtonProps {
 export default function BookSettingsButton({
 	bookSlug
 }: Readonly<BookSettingsButtonProps>) {
-	const setOpen = useBookSettingsDialog((state) => state.setOpen);
-
-	useEffect(() => {
-		useBookSettingsDialog.setState({
-			slug: bookSlug
-		});
-	}, [bookSlug]);
-
 	const handleClick = () => {
-		setOpen(true);
+		useGlobalSettingsDialog.setState({
+			open: true,
+			tab: 'book',
+			bookSlug,
+			docSlug: ''
+		});
 	};
 
 	return (
