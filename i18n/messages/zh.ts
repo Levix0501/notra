@@ -129,7 +129,9 @@ export const zh = {
 		is_main_new_tab: '主按钮链接在新标签页打开',
 		sub_action_text: '次按钮文本',
 		sub_action_url: '次按钮链接',
-		is_sub_new_tab: '次按钮链接在新标签页打开'
+		is_sub_new_tab: '次按钮链接在新标签页打开',
+		form: '表单',
+		preview: '预览'
 	},
 	components_index_page_doc_view: {
 		no_index_title: '请输入标题',

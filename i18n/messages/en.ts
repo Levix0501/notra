@@ -129,7 +129,9 @@ export const en = {
 		is_main_new_tab: 'Open Main Action URL in new tab',
 		sub_action_text: 'Sub Action Text',
 		sub_action_url: 'Sub Action URL',
-		is_sub_new_tab: 'Open Sub Action URL in new tab'
+		is_sub_new_tab: 'Open Sub Action URL in new tab',
+		form: 'Form',
+		preview: 'Preview'
 	},
 	components_index_page_doc_view: {
 		no_index_title: 'Please enter a title',
