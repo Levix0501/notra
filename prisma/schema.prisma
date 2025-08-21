@@ -129,9 +129,14 @@ model DocEntity {
   title        String
   slug         String @default(cuid())
   draftContent Json?  @map("draft_content")
+  content      Json?  @map("content")
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  isUpdated   Boolean @default(false) @map("is_updated")
+  isPublished Boolean @default(false) @map("is_published")
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  publishedAt DateTime @default(now()) @map("published_at")
 
   bookId      Int                @map("book_id")
   book        BookEntity         @relation(fields: [bookId], references: [id])

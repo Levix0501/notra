@@ -11,6 +11,7 @@ export interface SubmitButtonProps extends ChildrenProps {
 	isPending: boolean;
 	className?: string;
 	disabled?: boolean;
+	size?: 'default' | 'sm' | 'lg' | 'icon';
 	onClick?: () => void;
 }
 
@@ -19,6 +20,7 @@ export function SubmitButton({
 	isPending,
 	className,
 	disabled,
+	size,
 	onClick
 }: Readonly<SubmitButtonProps>) {
 	return (
@@ -26,6 +28,7 @@ export function SubmitButton({
 			aria-disabled={isPending}
 			className={cn('h-8 w-full cursor-pointer', className)}
 			disabled={disabled || isPending}
+			size={size}
 			type={isPending || onClick ? 'button' : 'submit'}
 			onClick={onClick}
 		>

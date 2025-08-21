@@ -1,4 +1,5 @@
 import { BookEntity, DocEntity } from '@prisma/client';
+import { InputJsonValue } from '@prisma/client/runtime/library';
 import { cache } from 'react';
 
 import { getTranslations } from '@/i18n';
@@ -146,7 +147,8 @@ export default class DocService {
 			const doc = await prisma.docEntity.update({
 				where: { id: values.id },
 				data: {
-					draftContent: values.draftContent
+					draftContent: values.draftContent,
+					isUpdated: true
 				}
 			});
 
@@ -176,4 +178,36 @@ export default class DocService {
 			return ServiceResult.fail(t.check_doc_slug_error);
 		}
 	};
+
+	static async publishDoc(docId: DocEntity['id']) {
+		try {
+			const doc = await prisma.docEntity.findUnique({
+				where: { id: docId },
+				select: {
+					draftContent: true,
+					isPublished: true,
+					publishedAt: true
+				}
+			});
+
+			if (doc) {
+				await prisma.docEntity.update({
+					where: { id: docId },
+					data: {
+						isPublished: true,
+						isUpdated: false,
+						content: doc.draftContent as unknown as InputJsonValue,
+						publishedAt: doc.isPublished ? doc.publishedAt : new Date()
+					}
+				});
+			}
+
+			return ServiceResult.success(true);
+		} catch (error) {
+			logger('DocService.publishDoc', error);
+			const t = getTranslations('services_doc');
+
+			return ServiceResult.fail(t.publish_doc_error);
+		}
+	}
 }

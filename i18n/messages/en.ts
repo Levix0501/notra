@@ -151,6 +151,14 @@ export const en = {
 		powered_by:
 			'Powered by <a href="https://notra.tech" target="_blank" class="font-bold hover:text-primary">Notra</a>'
 	},
+	components_publish_button: {
+		publish: 'Publish',
+		update: 'Update',
+		publish_success: 'Published successfully!',
+		publish_error: 'Failed to publish!',
+		update_success: 'Updated successfully!',
+		update_error: 'Failed to update!'
+	},
 	components_site_index_page_view_tabs: {
 		doc_view: 'Doc',
 		card_view: 'Card',
@@ -221,7 +229,8 @@ export const en = {
 		check_doc_slug_error: 'Failed to check document slug!',
 		update_doc_draft_content_error: 'Failed to update document draft content!',
 		get_published_doc_meta_list_error:
-			'Failed to get published document meta list!'
+			'Failed to get published document meta list!',
+		publish_doc_error: 'Failed to publish document!'
 	},
 	services_file: {
 		upload_error: 'Failed to upload file!'

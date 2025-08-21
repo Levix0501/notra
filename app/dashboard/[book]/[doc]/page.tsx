@@ -4,6 +4,7 @@ import DocSettingsButton from '@/components/doc-settings-button';
 import HeaderEditableTitle from '@/components/header-editable-title';
 import NotraEditor from '@/components/notra-editor';
 import { NotraInsetHeader } from '@/components/notra-sidebar';
+import PublishButton from '@/components/publish-button';
 import DocService from '@/services/doc';
 
 interface PageProps {
@@ -43,7 +44,10 @@ export default async function Page({ params }: Readonly<PageProps>) {
 			<NotraInsetHeader>
 				<div className="flex size-full items-center justify-between">
 					<HeaderEditableTitle />
-					<DocSettingsButton />
+					<div className="flex items-center gap-2">
+						<DocSettingsButton />
+						<PublishButton />
+					</div>
 				</div>
 			</NotraInsetHeader>
 

@@ -8,7 +8,7 @@ import { useDebounceCallback } from 'usehooks-ts';
 import { updateDocDraftContent } from '@/actions/doc';
 import { EditorCore } from '@/components/editor/editor-core';
 import { useGetDoc } from '@/queries/doc';
-import { useDocStore } from '@/stores/doc';
+import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
 
 export interface NotraEditorProps {
 	bookSlug: BookEntity['slug'];
@@ -22,6 +22,7 @@ export default function NotraEditor({
 	const setIsSaving = useDocStore((state) => state.setIsSaving);
 	const setUpdateAt = useDocStore((state) => state.setUpdateAt);
 	const { data: doc, mutate } = useGetDoc({ book: bookSlug, doc: docSlug });
+	const { mutate: mutateDocMeta } = useCurrentDocMeta();
 	const debouncedUpdateDocDraftContent = useDebounceCallback(
 		async (value: Value) => {
 			if (!doc) return;
@@ -38,6 +39,7 @@ export default function NotraEditor({
 						throw new Error(result.message);
 					}
 
+					mutateDocMeta();
 					setIsSaving(false);
 					setUpdateAt(result.data.updatedAt);
 

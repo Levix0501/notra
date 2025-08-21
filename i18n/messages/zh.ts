@@ -151,6 +151,14 @@ export const zh = {
 		powered_by:
 			'本网站由 <a href="https://notra.tech" target="_blank" class="font-bold hover:text-primary">Notra</a> 提供技术支持'
 	},
+	components_publish_button: {
+		publish: '发布',
+		update: '更新',
+		publish_success: '发布成功！',
+		publish_error: '发布失败！',
+		update_success: '更新成功！',
+		update_error: '更新失败！'
+	},
 	components_site_index_page_view_tabs: {
 		doc_view: '文档',
 		card_view: '卡片',
@@ -220,7 +228,8 @@ export const zh = {
 		update_doc_meta_error: '更新文档元数据失败！',
 		check_doc_slug_error: '检查文档路径是否可用失败！',
 		update_doc_draft_content_error: '更新文档草稿内容失败！',
-		get_published_doc_meta_list_error: '获取已发布文档元数据列表失败！'
+		get_published_doc_meta_list_error: '获取已发布文档元数据列表失败！',
+		publish_doc_error: '发布文档失败！'
 	},
 	services_file: {
 		upload_error: '上传文件失败'
