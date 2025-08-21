@@ -35,6 +35,7 @@ import { TableKit } from '@/components/editor/plugins/table-kit';
 import { TocKit } from '@/components/editor/plugins/toc-kit';
 import { ToggleKit } from '@/components/editor/plugins/toggle-kit';
 
+import { AboveEditableKit } from './plugins/above-editable-kit';
 import { TitleKit } from './plugins/title-kit';
 
 export const EditorKit = [
@@ -86,7 +87,8 @@ export const EditorKit = [
 	// UI
 	...BlockPlaceholderKit,
 	...FixedToolbarKit,
-	...TitleKit
+	...TitleKit,
+	...AboveEditableKit
 	// ...FloatingToolbarKit
 ];
 
