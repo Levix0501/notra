@@ -43,16 +43,19 @@ export function CodeBlockElementWithPreview(
 ) {
 	if (props.element.lang === 'html') {
 		return (
-			<Tabs defaultValue="preview">
+			<Tabs defaultValue="code">
 				<TabsList>
-					<TabsTrigger className="cursor-pointer" value="preview">
-						{getTranslations('notra_editor').code_block_node_static_preview}
-					</TabsTrigger>
 					<TabsTrigger className="cursor-pointer" value="code">
 						{getTranslations('notra_editor').code_block_node_static_code}
 					</TabsTrigger>
+					<TabsTrigger className="cursor-pointer" value="preview">
+						{getTranslations('notra_editor').code_block_node_static_preview}
+					</TabsTrigger>
 				</TabsList>
 
+				<TabsContent value="code">
+					<CodeBlockElementStatic {...props} />
+				</TabsContent>
 				<TabsContent value="preview">
 					<div className="flex h-[450px] w-full justify-center rounded-lg border p-4">
 						<iframe
@@ -61,9 +64,6 @@ export function CodeBlockElementWithPreview(
 							title="code-block-preview"
 						/>
 					</div>
-				</TabsContent>
-				<TabsContent value="code">
-					<CodeBlockElementStatic {...props} />
 				</TabsContent>
 			</Tabs>
 		);
