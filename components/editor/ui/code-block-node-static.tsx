@@ -29,7 +29,9 @@ export function CodeBlockElementStatic(
 					<CopyButton
 						className="size-6 gap-1 text-xs text-muted-foreground"
 						size="icon"
-						value={NodeApi.string(props.element)}
+						value={[
+							...NodeApi.texts(props.element).map((text) => text[0].text)
+						].join('\n')}
 						variant="ghost"
 					/>
 				</div>
@@ -60,7 +62,9 @@ export function CodeBlockElementWithPreview(
 					<div className="flex h-[450px] w-full justify-center rounded-lg border p-4">
 						<iframe
 							className="h-full w-full"
-							srcDoc={NodeApi.string(props.element)}
+							srcDoc={[
+								...NodeApi.texts(props.element).map((text) => text[0].text)
+							].join('\n')}
 							title="code-block-preview"
 						/>
 					</div>
