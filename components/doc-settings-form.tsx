@@ -52,6 +52,7 @@ export default function DocSettingsForm({
 		resolver: zodResolver(DocSettingsFormSchema),
 		mode: 'onChange',
 		defaultValues: {
+			cover: void 0,
 			slug: defaultDocSlug
 		}
 	});
