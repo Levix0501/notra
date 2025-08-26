@@ -53,7 +53,7 @@ export default function NotraEditor({
 				}
 			);
 		},
-		3000
+		1000
 	);
 
 	const handleValueChange = (value: Value) => {
