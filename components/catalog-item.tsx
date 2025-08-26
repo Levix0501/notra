@@ -7,7 +7,7 @@ import {
 	TextCursorInput,
 	Trash2
 } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { CSSProperties, useState } from 'react';
 import { toast } from 'sonner';
 import { mutate } from 'swr';
@@ -57,6 +57,7 @@ const CatalogItem = ({
 	const expandedKeys = useCatalog((state) => state.expandedKeys);
 	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
 	const pathname = usePathname();
+	const router = useRouter();
 
 	if (!book) {
 		return null;
@@ -122,6 +123,10 @@ const CatalogItem = ({
 				})
 				.unwrap();
 		});
+
+		if (item.docId === useDocStore.getState().id) {
+			router.replace(`/dashboard/${book.slug}`);
+		}
 	};
 
 	const handleSubmit = (title: string) => {

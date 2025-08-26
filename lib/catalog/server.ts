@@ -92,6 +92,13 @@ export const deleteNodeWithChildren = async (
 		deleteChildren(tx, nodeId)
 	]);
 
+	if (deletedNode.docId) {
+		await tx.docEntity.update({
+			where: { id: deletedNode.docId },
+			data: { isDeleted: true }
+		});
+	}
+
 	await removeNodeFromOldPosition(tx, deletedNode);
 };
 

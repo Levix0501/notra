@@ -48,7 +48,9 @@ export default class DocService {
 			try {
 				const docs = await prisma.docEntity.findMany({
 					where: {
-						book: bookSlug ? { slug: bookSlug } : void 0
+						book: bookSlug ? { slug: bookSlug } : void 0,
+						isPublished: true,
+						isDeleted: false
 					},
 					skip: (page - 1) * pageSize,
 					take: pageSize,
