@@ -19,7 +19,17 @@ export const generateMetadata = async ({
 	const { data: doc } = await DocService.getDoc(bookSlug, docSlug);
 
 	return {
-		title: doc?.title
+		title: doc?.title,
+		openGraph: {
+			type: 'article',
+			title: doc?.title,
+			...(doc?.cover ? { images: { url: doc.cover } } : void 0)
+		},
+		twitter: {
+			title: doc?.title,
+			card: 'summary_large_image',
+			...(doc?.cover ? { images: { url: doc.cover } } : void 0)
+		}
 	};
 };
 
