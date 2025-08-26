@@ -99,6 +99,7 @@ export const en = {
 	},
 	components_doc_settings_form: {
 		cover: 'Cover',
+		cover_placeholder: 'Recommended dimension: 1200 x 630 px',
 		summary: 'Summary',
 		slug: 'Slug',
 		update_loading: 'Updating...',

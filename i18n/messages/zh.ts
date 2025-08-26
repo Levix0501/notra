@@ -99,6 +99,7 @@ export const zh = {
 	},
 	components_doc_settings_form: {
 		cover: '封面',
+		cover_placeholder: '建议尺寸：1200 x 630 px',
 		summary: '摘要',
 		slug: '链接',
 		update_loading: '更新中...',

@@ -112,6 +112,7 @@ export default function GlobalSettingsDialog() {
 							key={JSON.stringify(docMeta)}
 							bookId={docMeta?.bookId ?? 0}
 							bookSlug={bookSlug}
+							defaultDocCover={docMeta?.cover ?? ''}
 							defaultDocSlug={docMeta?.slug ?? ''}
 							docId={docMeta?.id ?? 0}
 							mutateDocMeta={mutateDocMeta}

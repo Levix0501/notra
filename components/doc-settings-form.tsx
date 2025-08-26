@@ -1,7 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BookEntity, DocEntity } from '@prisma/client';
+import { BookEntity, DocEntity, FileEntity } from '@prisma/client';
+import { Upload } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -19,15 +20,18 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { getTranslations } from '@/i18n';
+import { uploadFile } from '@/lib/utils';
 import { mutateCatalog } from '@/stores/catalog';
 import { DocSettingsFormSchema, DocSettingsFormValues } from '@/types/doc';
 
 import { useGlobalSettingsDialog } from './global-settings-dialog';
+import { ImageCropper } from './image-cropper';
 
 export interface DocSettingsFormProps {
 	docId: DocEntity['id'];
 	bookId: DocEntity['id'];
 	bookSlug: BookEntity['slug'];
+	defaultDocCover: DocEntity['cover'];
 	defaultDocSlug: DocEntity['slug'];
 	mutateDocMeta: () => void;
 }
@@ -38,6 +42,7 @@ export default function DocSettingsForm({
 	docId,
 	bookId,
 	bookSlug,
+	defaultDocCover,
 	defaultDocSlug,
 	mutateDocMeta
 }: Readonly<DocSettingsFormProps>) {
@@ -69,7 +74,17 @@ export default function DocSettingsForm({
 				}
 			}
 
-			const result = await updateDocMeta({ id: docId, slug: values.slug });
+			let cover: FileEntity | undefined;
+
+			if (values.cover) {
+				cover = await uploadFile(values.cover);
+			}
+
+			const result = await updateDocMeta({
+				id: docId,
+				cover: values.cover === null ? null : cover?.url,
+				slug: values.slug
+			});
 
 			if (!result.success) {
 				throw new Error(result.message);
@@ -102,6 +117,32 @@ export default function DocSettingsForm({
 	return (
 		<Form {...form}>
 			<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+				<FormField
+					control={form.control}
+					name="cover"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>{t.cover}</FormLabel>
+							<ImageCropper
+								aspectRatio={16 / 9}
+								defaultImage={defaultDocCover}
+								disabled={isPending}
+								placeholder={
+									<div className="flex flex-col items-center justify-center gap-2 text-muted-foreground">
+										<Upload size={20} />
+										<p>{t.cover_placeholder}</p>
+									</div>
+								}
+								title={t.cover}
+								onCrop={(croppedFile) => {
+									field.onChange(croppedFile);
+								}}
+							/>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
 				<FormField
 					control={form.control}
 					name="slug"

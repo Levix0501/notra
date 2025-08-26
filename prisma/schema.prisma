@@ -126,11 +126,12 @@ model CatalogNodeEntity {
 
 // Represents a document in the system
 model DocEntity {
-  id           Int    @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   title        String
-  slug         String @default(cuid())
-  draftContent Json?  @map("draft_content")
-  content      Json?  @map("content")
+  slug         String  @default(cuid())
+  draftContent Json?   @map("draft_content")
+  content      Json?
+  cover        String?
 
   isUpdated   Boolean @default(false) @map("is_updated")
   isPublished Boolean @default(false) @map("is_published")
