@@ -95,6 +95,29 @@ export default class DocService {
 		}
 	);
 
+	static readonly getPublishedDoc = cache(
+		async (bookSlug: BookEntity['slug'], docSlug: DocEntity['slug']) => {
+			try {
+				const doc = await prisma.docEntity.findFirst({
+					where: {
+						slug: docSlug,
+						book: {
+							slug: bookSlug
+						},
+						isPublished: true
+					}
+				});
+
+				return ServiceResult.success(doc);
+			} catch (error) {
+				logger('DocService.getPublishedDoc', error);
+				const t = getTranslations('services_doc');
+
+				return ServiceResult.fail(t.get_published_doc_error);
+			}
+		}
+	);
+
 	static readonly getDocsByBookSlug = cache(
 		async (bookSlug: BookEntity['slug']) => {
 			try {
@@ -108,6 +131,23 @@ export default class DocService {
 				const t = getTranslations('services_doc');
 
 				return ServiceResult.fail(t.get_docs_by_book_slug_error);
+			}
+		}
+	);
+
+	static readonly getPublishedDocsByBookSlug = cache(
+		async (bookSlug: BookEntity['slug']) => {
+			try {
+				const docs = await prisma.docEntity.findMany({
+					where: { book: { slug: bookSlug }, isPublished: true }
+				});
+
+				return ServiceResult.success(docs);
+			} catch (error) {
+				logger('DocService.getPublishedDocsByBookSlug', error);
+				const t = getTranslations('services_doc');
+
+				return ServiceResult.fail(t.get_published_docs_by_book_slug_error);
 			}
 		}
 	);

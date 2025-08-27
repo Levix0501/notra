@@ -11,7 +11,7 @@ interface PageProps {
 
 export default async function Image({ params }: Readonly<PageProps>) {
 	const { book: bookSlug, doc: docSlug } = await params;
-	const { data: doc } = await DocService.getDoc(bookSlug, docSlug);
+	const { data: doc } = await DocService.getPublishedDoc(bookSlug, docSlug);
 
 	return new ImageResponse(
 		(

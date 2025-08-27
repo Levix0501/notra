@@ -16,7 +16,7 @@ export const generateMetadata = async ({
 	params
 }: Readonly<PageProps>): Promise<Metadata> => {
 	const { book: bookSlug, doc: docSlug } = await params;
-	const { data: doc } = await DocService.getDoc(bookSlug, docSlug);
+	const { data: doc } = await DocService.getPublishedDoc(bookSlug, docSlug);
 
 	return {
 		title: doc?.title,
@@ -35,14 +35,14 @@ export const generateMetadata = async ({
 
 export const generateStaticParams = async ({ params }: Readonly<PageProps>) => {
 	const { book: bookSlug } = await params;
-	const { data: docs } = await DocService.getDocsByBookSlug(bookSlug);
+	const { data: docs } = await DocService.getPublishedDocsByBookSlug(bookSlug);
 
 	return docs?.map((doc) => ({ book: bookSlug, doc: doc.slug })) ?? [];
 };
 
 export default async function Page({ params }: Readonly<PageProps>) {
 	const { book: bookSlug, doc: docSlug } = await params;
-	const { data: doc } = await DocService.getDoc(bookSlug, docSlug);
+	const { data: doc } = await DocService.getPublishedDoc(bookSlug, docSlug);
 
 	if (!doc) {
 		notFound();
