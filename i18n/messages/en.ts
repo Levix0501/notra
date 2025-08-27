@@ -155,10 +155,10 @@ export const en = {
 	components_publish_button: {
 		publish: 'Publish',
 		update: 'Update',
-		publish_success: 'Published successfully!',
-		publish_error: 'Failed to publish!',
-		update_success: 'Updated successfully!',
-		update_error: 'Failed to update!'
+		unpublish: 'Unpublish',
+		view_page: 'View page',
+		share: 'Share',
+		publish_to_web: 'Publish to web'
 	},
 	components_site_index_page_view_tabs: {
 		doc_view: 'Doc',
@@ -231,7 +231,8 @@ export const en = {
 		update_doc_draft_content_error: 'Failed to update document draft content!',
 		get_published_doc_meta_list_error:
 			'Failed to get published document meta list!',
-		publish_doc_error: 'Failed to publish document!'
+		publish_doc_error: 'Failed to publish document!',
+		unpublish_doc_error: 'Failed to unpublish document!'
 	},
 	services_file: {
 		upload_error: 'Failed to upload file!'

@@ -21,7 +21,8 @@ export default class DocService {
 						}
 					},
 					omit: {
-						draftContent: true
+						draftContent: true,
+						content: true
 					}
 				});
 
@@ -183,33 +184,60 @@ export default class DocService {
 
 	static async publishDoc(docId: DocEntity['id']) {
 		try {
-			const doc = await prisma.docEntity.findUnique({
+			const doc = await prisma.docEntity.findUniqueOrThrow({
 				where: { id: docId },
 				select: {
 					draftContent: true,
 					isPublished: true,
-					publishedAt: true
+					publishedAt: true,
+					slug: true,
+					book: {
+						select: {
+							slug: true
+						}
+					}
 				}
 			});
 
-			if (doc) {
-				await prisma.docEntity.update({
-					where: { id: docId },
-					data: {
-						isPublished: true,
-						isUpdated: false,
-						content: doc.draftContent as unknown as InputJsonValue,
-						publishedAt: doc.isPublished ? doc.publishedAt : new Date()
-					}
-				});
-			}
+			await prisma.docEntity.update({
+				where: { id: docId },
+				data: {
+					isPublished: true,
+					isUpdated: false,
+					content: doc.draftContent as unknown as InputJsonValue,
+					publishedAt: doc.isPublished ? doc.publishedAt : new Date()
+				}
+			});
 
-			return ServiceResult.success(true);
+			return DocService.getDocMeta(doc.book.slug, doc.slug);
 		} catch (error) {
 			logger('DocService.publishDoc', error);
 			const t = getTranslations('services_doc');
 
 			return ServiceResult.fail(t.publish_doc_error);
+		}
+	}
+
+	static async unpublishDoc(docId: DocEntity['id']) {
+		try {
+			const doc = await prisma.docEntity.update({
+				where: { id: docId },
+				data: { isPublished: false },
+				include: {
+					book: {
+						select: {
+							slug: true
+						}
+					}
+				}
+			});
+
+			return DocService.getDocMeta(doc.book.slug, doc.slug);
+		} catch (error) {
+			logger('DocService.unpublishDoc', error);
+			const t = getTranslations('services_doc');
+
+			return ServiceResult.fail(t.unpublish_doc_error);
 		}
 	}
 }

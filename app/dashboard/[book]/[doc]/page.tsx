@@ -4,7 +4,7 @@ import DocSettingsButton from '@/components/doc-settings-button';
 import HeaderEditableTitle from '@/components/header-editable-title';
 import NotraEditor from '@/components/notra-editor';
 import { NotraInsetHeader } from '@/components/notra-sidebar';
-import PublishButton from '@/components/publish-button';
+import { PublishButton } from '@/components/publish-button';
 import DocService from '@/services/doc';
 
 interface PageProps {

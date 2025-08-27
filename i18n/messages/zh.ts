@@ -155,10 +155,10 @@ export const zh = {
 	components_publish_button: {
 		publish: '发布',
 		update: '更新',
-		publish_success: '发布成功！',
-		publish_error: '发布失败！',
-		update_success: '更新成功！',
-		update_error: '更新失败！'
+		unpublish: '取消发布',
+		view_page: '查看页面',
+		share: '分享',
+		publish_to_web: '公开至互联网'
 	},
 	components_site_index_page_view_tabs: {
 		doc_view: '文档',
@@ -230,7 +230,8 @@ export const zh = {
 		check_doc_slug_error: '检查文档路径是否可用失败！',
 		update_doc_draft_content_error: '更新文档草稿内容失败！',
 		get_published_doc_meta_list_error: '获取已发布文档元数据列表失败！',
-		publish_doc_error: '发布文档失败！'
+		publish_doc_error: '发布文档失败！',
+		unpublish_doc_error: '取消发布文档失败！'
 	},
 	services_file: {
 		upload_error: '上传文件失败'
