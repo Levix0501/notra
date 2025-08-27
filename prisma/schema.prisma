@@ -132,6 +132,7 @@ model DocEntity {
   draftContent Json?   @map("draft_content")
   content      Json?
   cover        String?
+  summary      String?
 
   isUpdated   Boolean @default(false) @map("is_updated")
   isPublished Boolean @default(false) @map("is_published")

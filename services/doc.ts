@@ -104,7 +104,8 @@ export default class DocService {
 						book: {
 							slug: bookSlug
 						},
-						isPublished: true
+						isPublished: true,
+						isDeleted: false
 					}
 				});
 
@@ -139,7 +140,11 @@ export default class DocService {
 		async (bookSlug: BookEntity['slug']) => {
 			try {
 				const docs = await prisma.docEntity.findMany({
-					where: { book: { slug: bookSlug }, isPublished: true }
+					where: {
+						book: { slug: bookSlug },
+						isPublished: true,
+						isDeleted: false
+					}
 				});
 
 				return ServiceResult.success(docs);

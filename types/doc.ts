@@ -14,6 +14,7 @@ export type UpdateDocMetaDto = {
 
 export const DocSettingsFormSchema = z.object({
 	cover: z.instanceof(File).nullable().optional(),
+	summary: z.string(),
 	slug: z
 		.string()
 		.min(1, { message: getTranslations('types_doc').slug_required })

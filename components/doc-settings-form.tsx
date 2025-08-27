@@ -26,12 +26,14 @@ import { DocSettingsFormSchema, DocSettingsFormValues } from '@/types/doc';
 
 import { useGlobalSettingsDialog } from './global-settings-dialog';
 import { ImageCropper } from './image-cropper';
+import { Textarea } from './ui/textarea';
 
 export interface DocSettingsFormProps {
 	docId: DocEntity['id'];
 	bookId: DocEntity['id'];
 	bookSlug: BookEntity['slug'];
 	defaultDocCover: DocEntity['cover'];
+	defaultDocSummary: DocEntity['summary'];
 	defaultDocSlug: DocEntity['slug'];
 	mutateDocMeta: () => void;
 }
@@ -43,6 +45,7 @@ export default function DocSettingsForm({
 	bookId,
 	bookSlug,
 	defaultDocCover,
+	defaultDocSummary,
 	defaultDocSlug,
 	mutateDocMeta
 }: Readonly<DocSettingsFormProps>) {
@@ -53,6 +56,7 @@ export default function DocSettingsForm({
 		mode: 'onChange',
 		defaultValues: {
 			cover: void 0,
+			summary: defaultDocSummary ?? '',
 			slug: defaultDocSlug
 		}
 	});
@@ -84,6 +88,7 @@ export default function DocSettingsForm({
 			const result = await updateDocMeta({
 				id: docId,
 				cover: values.cover === null ? null : cover?.url,
+				summary: values.summary,
 				slug: values.slug
 			});
 
@@ -139,6 +144,20 @@ export default function DocSettingsForm({
 									field.onChange(croppedFile);
 								}}
 							/>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="summary"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>{t.summary}</FormLabel>
+							<FormControl>
+								<Textarea {...field} disabled={isPending} />
+							</FormControl>
 							<FormMessage />
 						</FormItem>
 					)}

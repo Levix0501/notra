@@ -114,6 +114,7 @@ export default function GlobalSettingsDialog() {
 							bookSlug={bookSlug}
 							defaultDocCover={docMeta?.cover ?? ''}
 							defaultDocSlug={docMeta?.slug ?? ''}
+							defaultDocSummary={docMeta?.summary ?? ''}
 							docId={docMeta?.id ?? 0}
 							mutateDocMeta={mutateDocMeta}
 						/>
