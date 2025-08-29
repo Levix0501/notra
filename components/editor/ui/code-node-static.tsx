@@ -1,5 +1,4 @@
 import { SlateLeaf } from 'platejs';
-import * as React from 'react';
 
 import type { SlateLeafProps } from 'platejs';
 

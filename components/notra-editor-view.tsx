@@ -1,6 +1,7 @@
-import { createSlateEditor, PlateStatic, Value } from 'platejs';
+import { createSlateEditor, Value } from 'platejs';
 
 import { BaseEditorKit } from './editor/editor-base-kit';
+import { EditorStatic } from './editor/ui/editor-static';
 
 interface NotraEditorViewProps {
 	content: Value;
@@ -14,5 +15,5 @@ export default function NotraEditorView({
 		value: content
 	});
 
-	return <PlateStatic editor={editor} />;
+	return <EditorStatic editor={editor} />;
 }

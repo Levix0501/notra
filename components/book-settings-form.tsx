@@ -83,10 +83,10 @@ export default function BookSettingsForm({
 			mutateBooks();
 
 			if (
-				pathname === `/dashboard/${defaultSlug}` &&
+				pathname.startsWith(`/dashboard/${defaultSlug}`) &&
 				values.slug !== defaultSlug
 			) {
-				router.replace(`/dashboard/${values.slug}`);
+				router.replace(pathname.replace(defaultSlug, values.slug));
 			}
 		})();
 
