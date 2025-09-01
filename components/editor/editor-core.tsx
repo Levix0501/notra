@@ -1,49 +1,48 @@
 'use client';
 
-import { Value } from 'platejs';
-import { Plate, usePlateEditor } from 'platejs/react';
-import { useEffect, useRef } from 'react';
-
-import { EditorKit } from '@/components/editor/editor-kit';
-import { Editor, EditorContainer } from '@/components/editor/ui/editor';
+import { Content, EditorContent, useEditor } from '@tiptap/react';
+import { StarterKit } from '@tiptap/starter-kit';
 
 interface EditorCoreProps {
-	initialValue?: Value;
-	onValueChange?: (value: Value) => void;
+	initialContent: Content;
+	onContentChange?: (content: Content) => void;
 }
 
-export function EditorCore({
-	initialValue,
-	onValueChange
-}: Readonly<EditorCoreProps>) {
-	const hasInitialized = useRef(false);
-
-	const editor = usePlateEditor({
-		plugins: EditorKit,
-		value: initialValue
+export const EditorCore = ({
+	initialContent,
+	onContentChange
+}: EditorCoreProps) => {
+	const editor = useEditor({
+		immediatelyRender: false,
+		shouldRerenderOnTransaction: false,
+		editorProps: {
+			attributes: {
+				autocomplete: 'off',
+				autocorrect: 'off',
+				autocapitalize: 'off',
+				'aria-label': 'Main content area, start typing to enter text.',
+				class:
+					'flex-1 px-4 sm:px-[max(64px,calc(50%-375px))] pb-[30vh] pt-4 sm:pt-12 outline-none'
+			}
+		},
+		extensions: [
+			StarterKit.configure({
+				horizontalRule: false,
+				link: {
+					openOnClick: false,
+					enableClickSelection: true
+				}
+			})
+		],
+		onUpdate(props) {
+			onContentChange?.(props.editor.getJSON());
+		},
+		content: initialContent
 	});
 
-	useEffect(() => {
-		if (initialValue && !hasInitialized.current) {
-			editor.tf.setValue(initialValue);
-		}
-	}, [editor.tf, initialValue]);
-
-	const handleValueChange = ({ value }: { value: Value }) => {
-		if (!hasInitialized.current) {
-			hasInitialized.current = true;
-
-			return;
-		}
-
-		onValueChange?.(value);
-	};
-
 	return (
-		<Plate editor={editor} onValueChange={handleValueChange}>
-			<EditorContainer>
-				<Editor />
-			</EditorContainer>
-		</Plate>
+		<div className="size-full">
+			<EditorContent className="flex size-full flex-col" editor={editor} />
+		</div>
 	);
-}
+};

@@ -2,7 +2,7 @@
 
 import { BookEntity, DocEntity } from '@prisma/client';
 import { InputJsonValue, JsonValue } from '@prisma/client/runtime/library';
-import { Value } from 'platejs';
+import { Content } from '@tiptap/react';
 import { useDebounceCallback } from 'usehooks-ts';
 
 import { updateDocDraftContent } from '@/actions/doc';
@@ -24,15 +24,17 @@ export default function NotraEditor({
 	const { data: doc, mutate } = useGetDoc({ book: bookSlug, doc: docSlug });
 	const { mutate: mutateDocMeta } = useCurrentDocMeta();
 	const debouncedUpdateDocDraftContent = useDebounceCallback(
-		async (value: Value) => {
-			if (!doc) return;
+		async (content: Content) => {
+			if (!doc) {
+				return;
+			}
 
 			mutate(
 				async () => {
 					setIsSaving(true);
 					const result = await updateDocDraftContent({
 						id: doc.id,
-						draftContent: value as unknown as InputJsonValue
+						draftContent: content as unknown as InputJsonValue
 					});
 
 					if (!result.success || !result.data) {
@@ -48,7 +50,7 @@ export default function NotraEditor({
 				{
 					optimisticData: {
 						...doc,
-						draftContent: value as unknown as JsonValue
+						draftContent: content as unknown as JsonValue
 					}
 				}
 			);
@@ -56,17 +58,19 @@ export default function NotraEditor({
 		1000
 	);
 
-	const handleValueChange = (value: Value) => {
-		debouncedUpdateDocDraftContent(value);
+	const handleContentChange = (content: Content) => {
+		debouncedUpdateDocDraftContent(content);
 	};
+
+	if (!doc) {
+		return null;
+	}
 
 	return (
 		<div className="h-[calc(100dvh-3.5rem)] w-full">
 			<EditorCore
-				initialValue={
-					doc?.draftContent ? (doc.draftContent as unknown as Value) : void 0
-				}
-				onValueChange={handleValueChange}
+				initialContent={doc?.draftContent as unknown as Content}
+				onContentChange={handleContentChange}
 			/>
 		</div>
 	);
