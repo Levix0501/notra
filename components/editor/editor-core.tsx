@@ -1,7 +1,12 @@
 'use client';
 
+import './styles/editor.scss';
+
+import { Image } from '@tiptap/extension-image';
 import { Content, EditorContent, useEditor } from '@tiptap/react';
 import { StarterKit } from '@tiptap/starter-kit';
+
+import { HorizontalRule } from './nodes/horizontal-rule-node/horizontal-rule-node-extension';
 
 interface EditorCoreProps {
 	initialContent: Content;
@@ -32,7 +37,9 @@ export const EditorCore = ({
 					openOnClick: false,
 					enableClickSelection: true
 				}
-			})
+			}),
+			HorizontalRule,
+			Image
 		],
 		onUpdate(props) {
 			onContentChange?.(props.editor.getJSON());

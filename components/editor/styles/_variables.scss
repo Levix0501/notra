@@ -1,0 +1,289 @@
+:root {
+	/****************** 
+  Basics
+  ******************/
+
+	overflow-wrap: break-word;
+	text-size-adjust: none;
+	text-rendering: optimizelegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	/****************** 
+  Colors variables
+  ******************/
+
+	/* Gray alpha (light mode) */
+	--nt-gray-light-a-50: rgb(56 56 56 / 4%);
+	--nt-gray-light-a-100: rgb(15 22 36 / 5%);
+	--nt-gray-light-a-200: rgb(37 39 45 / 10%);
+	--nt-gray-light-a-300: rgb(47 50 55 / 20%);
+	--nt-gray-light-a-400: rgb(40 44 51 / 42%);
+	--nt-gray-light-a-500: rgb(52 55 60 / 64%);
+	--nt-gray-light-a-600: rgb(36 39 46 / 78%);
+	--nt-gray-light-a-700: rgb(35 37 42 / 87%);
+	--nt-gray-light-a-800: rgb(30 32 36 / 95%);
+	--nt-gray-light-a-900: rgb(29 30 32 / 98%);
+
+	/* Gray (light mode) */
+	--nt-gray-light-50: rgb(250 250 250 / 100%);
+	--nt-gray-light-100: rgb(244 244 245 / 100%);
+	--nt-gray-light-200: rgb(234 234 235 / 100%);
+	--nt-gray-light-300: rgb(213 214 215 / 100%);
+	--nt-gray-light-400: rgb(166 167 171 / 100%);
+	--nt-gray-light-500: rgb(125 127 130 / 100%);
+	--nt-gray-light-600: rgb(83 86 90 / 100%);
+	--nt-gray-light-700: rgb(64 65 69 / 100%);
+	--nt-gray-light-800: rgb(44 45 48 / 100%);
+	--nt-gray-light-900: rgb(34 35 37 / 100%);
+
+	/* Gray alpha (dark mode) */
+	--nt-gray-dark-a-50: rgb(232 232 253 / 5%);
+	--nt-gray-dark-a-100: rgb(231 231 243 / 7%);
+	--nt-gray-dark-a-200: rgb(238 238 246 / 11%);
+	--nt-gray-dark-a-300: rgb(239 239 245 / 22%);
+	--nt-gray-dark-a-400: rgb(244 244 255 / 37%);
+	--nt-gray-dark-a-500: rgb(236 238 253 / 50%);
+	--nt-gray-dark-a-600: rgb(247 247 253 / 64%);
+	--nt-gray-dark-a-700: rgb(251 251 254 / 75%);
+	--nt-gray-dark-a-800: rgb(253 253 253 / 88%);
+	--nt-gray-dark-a-900: rgb(255 255 255 / 96%);
+
+	/* Gray (dark mode) */
+	--nt-gray-dark-50: rgb(25 25 26 / 100%);
+	--nt-gray-dark-100: rgb(32 32 34 / 100%);
+	--nt-gray-dark-200: rgb(45 45 47 / 100%);
+	--nt-gray-dark-300: rgb(70 70 73 / 100%);
+	--nt-gray-dark-400: rgb(99 99 105 / 100%);
+	--nt-gray-dark-500: rgb(124 124 131 / 100%);
+	--nt-gray-dark-600: rgb(163 163 168 / 100%);
+	--nt-gray-dark-700: rgb(192 192 195 / 100%);
+	--nt-gray-dark-800: rgb(224 224 225 / 100%);
+	--nt-gray-dark-900: rgb(245 245 245 / 100%);
+
+	/* Brand colors */
+	--nt-brand-color-50: rgb(239 238 255 / 100%);
+	--nt-brand-color-100: rgb(222 219 255 / 100%);
+	--nt-brand-color-200: rgb(195 189 255 / 100%);
+	--nt-brand-color-300: rgb(157 138 255 / 100%);
+	--nt-brand-color-400: rgb(122 82 255 / 100%);
+	--nt-brand-color-500: rgb(98 41 255 / 100%);
+	--nt-brand-color-600: rgb(84 0 229 / 100%);
+	--nt-brand-color-700: rgb(75 0 204 / 100%);
+	--nt-brand-color-800: rgb(56 0 153 / 100%);
+	--nt-brand-color-900: rgb(43 25 102 / 100%);
+	--nt-brand-color-950: hsl(257deg 100% 9% / 100%);
+
+	/* Green */
+	--nt-color-green-inc-5: hsl(129deg 100% 97% / 100%);
+	--nt-color-green-inc-4: hsl(129deg 100% 92% / 100%);
+	--nt-color-green-inc-3: hsl(131deg 100% 86% / 100%);
+	--nt-color-green-inc-2: hsl(133deg 98% 78% / 100%);
+	--nt-color-green-inc-1: hsl(137deg 99% 70% / 100%);
+	--nt-color-green-base: hsl(147deg 99% 50% / 100%);
+	--nt-color-green-dec-1: hsl(147deg 97% 41% / 100%);
+	--nt-color-green-dec-2: hsl(146deg 98% 32% / 100%);
+	--nt-color-green-dec-3: hsl(146deg 100% 24% / 100%);
+	--nt-color-green-dec-4: hsl(144deg 100% 16% / 100%);
+	--nt-color-green-dec-5: hsl(140deg 100% 9% / 100%);
+
+	/* Yellow */
+	--nt-color-yellow-inc-5: hsl(50deg 100% 97% / 100%);
+	--nt-color-yellow-inc-4: hsl(50deg 100% 91% / 100%);
+	--nt-color-yellow-inc-3: hsl(50deg 100% 84% / 100%);
+	--nt-color-yellow-inc-2: hsl(50deg 100% 77% / 100%);
+	--nt-color-yellow-inc-1: hsl(50deg 100% 68% / 100%);
+	--nt-color-yellow-base: hsl(52deg 100% 50% / 100%);
+	--nt-color-yellow-dec-1: hsl(52deg 100% 41% / 100%);
+	--nt-color-yellow-dec-2: hsl(52deg 100% 32% / 100%);
+	--nt-color-yellow-dec-3: hsl(52deg 100% 24% / 100%);
+	--nt-color-yellow-dec-4: hsl(51deg 100% 16% / 100%);
+	--nt-color-yellow-dec-5: hsl(50deg 100% 9% / 100%);
+
+	/* Red */
+	--nt-color-red-inc-5: hsl(11deg 100% 96% / 100%);
+	--nt-color-red-inc-4: hsl(11deg 100% 88% / 100%);
+	--nt-color-red-inc-3: hsl(10deg 100% 80% / 100%);
+	--nt-color-red-inc-2: hsl(9deg 100% 73% / 100%);
+	--nt-color-red-inc-1: hsl(7deg 100% 64% / 100%);
+	--nt-color-red-base: hsl(7deg 100% 54% / 100%);
+	--nt-color-red-dec-1: hsl(7deg 100% 41% / 100%);
+	--nt-color-red-dec-2: hsl(5deg 100% 32% / 100%);
+	--nt-color-red-dec-3: hsl(4deg 100% 24% / 100%);
+	--nt-color-red-dec-4: hsl(3deg 100% 16% / 100%);
+	--nt-color-red-dec-5: hsl(1deg 100% 9% / 100%);
+
+	/* Basic colors */
+	--white: rgb(255 255 255 / 100%);
+	--black: rgb(14 14 17 / 100%);
+	--transparent: rgb(255 255 255 / 0%);
+
+	/****************** 
+  Shadow variables
+  ******************/
+
+	/* Shadows Light */
+	--nt-shadow-elevated-md:
+		0px 16px 48px 0px rgb(17 24 39 / 4%), 0px 12px 24px 0px rgb(17 24 39 / 4%),
+		0px 6px 8px 0px rgb(17 24 39 / 2%), 0px 2px 3px 0px rgb(17 24 39 / 2%);
+
+	/************************************************** 
+       Radius variables 
+    **************************************************/
+
+	--nt-radius-xxs: 0.125rem; /* 2px */
+	--nt-radius-xs: 0.25rem; /* 4px */
+	--nt-radius-sm: 0.375rem; /* 6px */
+	--nt-radius-md: 0.5rem; /* 8px */
+	--nt-radius-lg: 0.75rem; /* 12px */
+	--nt-radius-xl: 1rem; /* 16px */
+
+	/************************************************** 
+       Transition variables 
+    **************************************************/
+
+	--nt-transition-duration-short: 0.1s;
+	--nt-transition-duration-default: 0.2s;
+	--nt-transition-duration-long: 0.64s;
+	--nt-transition-easing-default: cubic-bezier(0.46, 0.03, 0.52, 0.96);
+	--nt-transition-easing-cubic: cubic-bezier(0.65, 0.05, 0.36, 1);
+	--nt-transition-easing-quart: cubic-bezier(0.77, 0, 0.18, 1);
+	--nt-transition-easing-circ: cubic-bezier(0.79, 0.14, 0.15, 0.86);
+	--nt-transition-easing-back: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+	/****************** 
+  Contrast variables
+  ******************/
+
+	--nt-accent-contrast: 8%;
+	--nt-destructive-contrast: 8%;
+	--nt-foreground-contrast: 8%;
+
+	&,
+	*,
+	::before,
+	::after {
+		box-sizing: border-box;
+		transition: none var(--nt-transition-duration-default)
+			var(--nt-transition-easing-default);
+	}
+}
+
+:root {
+	/************************************************** 
+      Global colors 
+  **************************************************/
+
+	/* Global colors - Light mode */
+	--nt-bg-color: var(--white);
+	--nt-border-color: var(--nt-gray-light-a-200);
+	--nt-border-color-tint: var(--nt-gray-light-a-100);
+	--nt-sidebar-bg-color: var(--nt-gray-light-100);
+	--nt-scrollbar-color: var(--nt-gray-light-a-200);
+	--nt-cursor-color: var(--nt-brand-color-500);
+	--nt-selection-color: rgb(157 138 255 / 20%);
+	--nt-card-bg-color: var(--white);
+	--nt-card-border-color: var(--nt-gray-light-a-100);
+}
+
+/* Global colors - Dark mode */
+.dark {
+	--nt-bg-color: var(--black);
+	--nt-border-color: var(--nt-gray-dark-a-200);
+	--nt-border-color-tint: var(--nt-gray-dark-a-100);
+	--nt-sidebar-bg-color: var(--nt-gray-dark-100);
+	--nt-scrollbar-color: var(--nt-gray-dark-a-200);
+	--nt-cursor-color: var(--nt-brand-color-400);
+	--nt-selection-color: rgb(122 82 255 / 20%);
+	--nt-card-bg-color: var(--nt-gray-dark-50);
+	--nt-card-border-color: var(--nt-gray-dark-a-50);
+	--nt-shadow-elevated-md:
+		0px 16px 48px 0px rgb(0 0 0 / 50%), 0px 12px 24px 0px rgb(0 0 0 / 24%),
+		0px 6px 8px 0px rgb(0 0 0 / 22%), 0px 2px 3px 0px rgb(0 0 0 / 12%);
+}
+
+/* Text colors */
+:root {
+	--nt-color-text-gray: hsl(45deg 2% 46%);
+	--nt-color-text-brown: hsl(19deg 31% 47%);
+	--nt-color-text-orange: hsl(30deg 89% 45%);
+	--nt-color-text-yellow: hsl(38deg 62% 49%);
+	--nt-color-text-green: hsl(148deg 32% 39%);
+	--nt-color-text-blue: hsl(202deg 54% 43%);
+	--nt-color-text-purple: hsl(274deg 32% 54%);
+	--nt-color-text-pink: hsl(328deg 49% 53%);
+	--nt-color-text-red: hsl(2deg 62% 55%);
+	--nt-color-text-gray-contrast: hsl(39deg 26% 26% / 15%);
+	--nt-color-text-brown-contrast: hsl(18deg 43% 69% / 35%);
+	--nt-color-text-orange-contrast: hsl(24deg 73% 55% / 27%);
+	--nt-color-text-yellow-contrast: hsl(44deg 82% 59% / 39%);
+	--nt-color-text-green-contrast: hsl(126deg 29% 60% / 27%);
+	--nt-color-text-blue-contrast: hsl(202deg 54% 59% / 27%);
+	--nt-color-text-purple-contrast: hsl(274deg 37% 64% / 27%);
+	--nt-color-text-pink-contrast: hsl(331deg 60% 71% / 27%);
+	--nt-color-text-red-contrast: hsl(8deg 79% 79% / 40%);
+}
+
+.dark {
+	--nt-color-text-gray: hsl(0deg 0% 61%);
+	--nt-color-text-brown: hsl(18deg 35% 58%);
+	--nt-color-text-orange: hsl(25deg 53% 53%);
+	--nt-color-text-yellow: hsl(36deg 54% 55%);
+	--nt-color-text-green: hsl(145deg 32% 47%);
+	--nt-color-text-blue: hsl(202deg 64% 52%);
+	--nt-color-text-purple: hsl(270deg 55% 62%);
+	--nt-color-text-pink: hsl(329deg 57% 58%);
+	--nt-color-text-red: hsl(1deg 69% 60%);
+	--nt-color-text-gray-contrast: hsl(0deg 0% 100% / 9%);
+	--nt-color-text-brown-contrast: hsl(17deg 45% 50% / 25%);
+	--nt-color-text-orange-contrast: hsl(27deg 82% 53% / 20%);
+	--nt-color-text-yellow-contrast: hsl(35deg 49% 47% / 20%);
+	--nt-color-text-green-contrast: hsl(151deg 55% 39% / 20%);
+	--nt-color-text-blue-contrast: hsl(202deg 54% 43% / 20%);
+	--nt-color-text-purple-contrast: hsl(271deg 56% 60% / 18%);
+	--nt-color-text-pink-contrast: hsl(331deg 67% 58% / 22%);
+	--nt-color-text-red-contrast: hsl(0deg 67% 60% / 25%);
+}
+
+/* Highlight colors */
+:root {
+	--nt-color-highlight-yellow: #fef9c3;
+	--nt-color-highlight-green: #dcfce7;
+	--nt-color-highlight-blue: #e0f2fe;
+	--nt-color-highlight-purple: #f3e8ff;
+	--nt-color-highlight-red: #ffe4e6;
+	--nt-color-highlight-gray: rgb(248 248 247);
+	--nt-color-highlight-brown: rgb(244 238 238);
+	--nt-color-highlight-orange: rgb(251 236 221);
+	--nt-color-highlight-pink: rgb(252 241 246);
+	--nt-color-highlight-yellow-contrast: #fbe604;
+	--nt-color-highlight-green-contrast: #c7fad8;
+	--nt-color-highlight-blue-contrast: #ceeafd;
+	--nt-color-highlight-purple-contrast: #e4ccff;
+	--nt-color-highlight-red-contrast: #ffccd0;
+	--nt-color-highlight-gray-contrast: rgb(84 72 49 / 15%);
+	--nt-color-highlight-brown-contrast: rgb(210 162 141 / 35%);
+	--nt-color-highlight-orange-contrast: rgb(224 124 57 / 27%);
+	--nt-color-highlight-pink-contrast: rgb(225 136 179 / 27%);
+}
+
+.dark {
+	--nt-color-highlight-yellow: #6b6524;
+	--nt-color-highlight-green: #509568;
+	--nt-color-highlight-blue: #6e92aa;
+	--nt-color-highlight-purple: #583e74;
+	--nt-color-highlight-red: #743e42;
+	--nt-color-highlight-gray: rgb(47 47 47);
+	--nt-color-highlight-brown: rgb(74 50 40);
+	--nt-color-highlight-orange: rgb(92 59 35);
+	--nt-color-highlight-pink: rgb(78 44 60);
+	--nt-color-highlight-yellow-contrast: #58531e;
+	--nt-color-highlight-green-contrast: #47855d;
+	--nt-color-highlight-blue-contrast: #5e86a1;
+	--nt-color-highlight-purple-contrast: #4c3564;
+	--nt-color-highlight-red-contrast: #643539;
+	--nt-color-highlight-gray-contrast: rgb(255 255 255 / 9.4%);
+	--nt-color-highlight-brown-contrast: rgb(184 101 69 / 25%);
+	--nt-color-highlight-orange-contrast: rgb(233 126 37 / 20%);
+	--nt-color-highlight-pink-contrast: rgb(220 76 145 / 22%);
+}
