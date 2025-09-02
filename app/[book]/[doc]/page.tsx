@@ -1,8 +1,8 @@
-import { Content } from '@tiptap/react';
+import { JSONContent } from '@tiptap/react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import NotraEditorView from '@/components/notra-editor-view';
+import { EditorView } from '@/components/editor/editor-view';
 import DocService from '@/services/doc';
 
 interface PageProps {
@@ -52,9 +52,9 @@ export default async function Page({ params }: Readonly<PageProps>) {
 	}
 
 	return (
-		<article className="mx-auto max-w-screen-md px-4">
+		<article className="notra-editor mx-auto max-w-screen-md px-4">
 			<h1 className="mt-6 mb-8 font-heading text-4xl font-bold">{doc.title}</h1>
-			<NotraEditorView content={doc.draftContent as unknown as Content} />
+			<EditorView content={doc.draftContent as unknown as JSONContent} />
 		</article>
 	);
 }

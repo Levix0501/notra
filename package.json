@@ -56,6 +56,7 @@
 		"@tiptap/pm": "^3.3.0",
 		"@tiptap/react": "^3.3.0",
 		"@tiptap/starter-kit": "^3.3.0",
+		"@tiptap/static-renderer": "^3.3.0",
 		"axios": "^1.11.0",
 		"bcrypt-ts": "^7.1.0",
 		"class-variance-authority": "^0.7.1",

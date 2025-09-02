@@ -1,4 +1,4 @@
-.tiptap.ProseMirror {
+.notra-editor {
 	--blockquote-bg-color: var(--nt-gray-light-900);
 
 	.dark & {
@@ -9,7 +9,7 @@
 /* =====================
      BLOCKQUOTE
      ===================== */
-.tiptap.ProseMirror {
+.notra-editor {
 	blockquote {
 		position: relative;
 		padding-left: 1em;

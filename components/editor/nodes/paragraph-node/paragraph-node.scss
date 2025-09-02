@@ -1,4 +1,4 @@
-.tiptap.ProseMirror {
+.notra-editor {
 	--nt-collaboration-carets-label: var(--nt-gray-light-900);
 	--link-text-color: var(--nt-brand-color-500);
 	--thread-text: var(--nt-gray-light-900);
@@ -20,14 +20,14 @@
 
 /* Ensure each top-level node has relative positioning 
    so absolutely positioned placeholders work correctly */
-.tiptap.ProseMirror > * {
+.notra-editor > * {
 	position: relative;
 }
 
 /* =====================
      CORE EDITOR STYLES
      ===================== */
-.tiptap.ProseMirror {
+.notra-editor {
 	white-space: pre-wrap;
 	outline: none;
 	caret-color: var(--nt-cursor-color);
@@ -76,7 +76,7 @@
 /* =====================
      TEXT DECORATION
      ===================== */
-.tiptap.ProseMirror {
+.notra-editor {
 	// Text decoration inheritance for spans
 	a span {
 		text-decoration: underline;
@@ -98,7 +98,7 @@
 /* =====================
      COLLABORATION
      ===================== */
-.tiptap.ProseMirror {
+.notra-editor {
 	.collaboration-carets {
 		&__caret {
 			border-right: 1px solid transparent;
@@ -130,7 +130,7 @@
 /* =====================
      EMOJI
      ===================== */
-.tiptap.ProseMirror [data-type='emoji'] img {
+.notra-editor [data-type='emoji'] img {
 	display: inline-block;
 	width: 1.25em;
 	height: 1.25em;
@@ -140,7 +140,7 @@
 /* =====================
      LINKS
      ===================== */
-.tiptap.ProseMirror {
+.notra-editor {
 	a {
 		color: var(--link-text-color);
 		text-decoration: underline;
@@ -150,7 +150,7 @@
 /* =====================
      MENTION
      ===================== */
-.tiptap.ProseMirror {
+.notra-editor {
 	[data-type='mention'] {
 		display: inline-block;
 		color: var(--nt-brand-color-500);
@@ -160,7 +160,7 @@
 /* =====================
      THREADS
      ===================== */
-.tiptap.ProseMirror {
+.notra-editor {
 	// Base styles for inline threads
 	.tiptap-thread.tiptap-thread--unresolved.tiptap-thread--inline {
 		transition:

@@ -89,6 +89,9 @@ importers:
       '@tiptap/starter-kit':
         specifier: ^3.3.0
         version: 3.3.0
+      '@tiptap/static-renderer':
+        specifier: ^3.3.0
+        version: 3.3.0(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))(@tiptap/pm@3.3.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       axios:
         specifier: ^1.11.0
         version: 1.11.0
@@ -1683,6 +1686,14 @@ packages:
 
   '@tiptap/starter-kit@3.3.0':
     resolution: {integrity: sha512-F527JUR0BgLHmOSZomEQ3INdiriIzaq4AMDGuG53MtBd1s+b1lvE4/U8gnQyVBRQC921Gl1xG8eJb2a60Rhk1w==}
+
+  '@tiptap/static-renderer@3.3.0':
+    resolution: {integrity: sha512-QqMTO+M52vkKLgRw7BiTgXKUCmD+TbnWNr1kNrib2evUjCg1NCev71QdMfAHHw8UMiV992SltXoLyefptI7oGg==}
+    peerDependencies:
+      '@tiptap/core': ^3.3.0
+      '@tiptap/pm': ^3.3.0
+      react: ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
 
   '@tybys/wasm-util@0.10.0':
     resolution: {integrity: sha512-VyyPYFlOMNylG45GoAe0xDoLwWuowvf92F9kySqzYh8vmYm7D2u4iUJKa1tOUpS70Ku13ASrOkS4ScXFsTaCNQ==}
@@ -5615,6 +5626,13 @@ snapshots:
       '@tiptap/extension-underline': 3.3.0(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))
       '@tiptap/extensions': 3.3.0(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))(@tiptap/pm@3.3.0)
       '@tiptap/pm': 3.3.0
+
+  '@tiptap/static-renderer@3.3.0(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))(@tiptap/pm@3.3.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@tiptap/core': 3.3.0(@tiptap/pm@3.3.0)
+      '@tiptap/pm': 3.3.0
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   '@tybys/wasm-util@0.10.0':
     dependencies:

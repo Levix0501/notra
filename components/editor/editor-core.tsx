@@ -27,7 +27,7 @@ export const EditorCore = ({
 				autocapitalize: 'off',
 				'aria-label': 'Main content area, start typing to enter text.',
 				class:
-					'flex-1 px-4 sm:px-[max(64px,calc(50%-375px))] pb-[30vh] pt-4 sm:pt-12 outline-none'
+					'notra-editor flex-1 px-4 sm:px-[max(64px,calc(50%-375px))] pb-[30vh] pt-4 sm:pt-12 outline-none'
 			}
 		},
 		extensions: [

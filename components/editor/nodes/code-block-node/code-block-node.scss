@@ -1,4 +1,4 @@
-.tiptap.ProseMirror {
+.notra-editor {
 	--nt-inline-code-bg-color: var(--nt-gray-light-a-100);
 	--nt-inline-code-text-color: var(--nt-gray-light-a-700);
 	--nt-inline-code-border-color: var(--nt-gray-light-a-200);
@@ -19,7 +19,7 @@
 /* =====================
    CODE FORMATTING
    ===================== */
-.tiptap.ProseMirror {
+.notra-editor {
 	// Inline code
 	code {
 		background-color: var(--nt-inline-code-bg-color);
