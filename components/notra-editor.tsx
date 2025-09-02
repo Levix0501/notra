@@ -1,7 +1,6 @@
 'use client';
 
 import { BookEntity, DocEntity } from '@prisma/client';
-import { InputJsonValue, JsonValue } from '@prisma/client/runtime/library';
 import { Content } from '@tiptap/react';
 import { useDebounceCallback } from 'usehooks-ts';
 
@@ -34,7 +33,7 @@ export default function NotraEditor({
 					setIsSaving(true);
 					const result = await updateDocDraftContent({
 						id: doc.id,
-						draftContent: content as unknown as InputJsonValue
+						draftContent: JSON.stringify(content)
 					});
 
 					if (!result.success || !result.data) {
@@ -50,7 +49,7 @@ export default function NotraEditor({
 				{
 					optimisticData: {
 						...doc,
-						draftContent: content as unknown as JsonValue
+						draftContent: content
 					}
 				}
 			);

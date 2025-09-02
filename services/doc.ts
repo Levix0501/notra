@@ -195,7 +195,7 @@ export default class DocService {
 			const doc = await prisma.docEntity.update({
 				where: { id: values.id },
 				data: {
-					draftContent: values.draftContent,
+					draftContent: JSON.parse(values.draftContent),
 					isUpdated: true
 				}
 			});

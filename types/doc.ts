@@ -1,5 +1,4 @@
 import { DocEntity } from '@prisma/client';
-import { InputJsonValue } from '@prisma/client/runtime/library';
 import { z } from 'zod';
 
 import { getTranslations } from '@/i18n';
@@ -26,5 +25,5 @@ export type DocVo = DocEntity;
 
 export type UpdateDocDraftContentDto = {
 	id: DocEntity['id'];
-	draftContent: InputJsonValue;
+	draftContent: string;
 };

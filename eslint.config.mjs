@@ -72,7 +72,7 @@ const eslintConfig = [
 			'tailwindcss/no-custom-classname': [
 				'warn',
 				{
-					whitelist: ['notra-editor']
+					whitelist: ['notra-editor', 'hljs']
 				}
 			]
 		}
