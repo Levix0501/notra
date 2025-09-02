@@ -1,16 +1,16 @@
-import './code-block.scss';
-
 import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight';
 import { all, createLowlight } from 'lowlight';
 
-const lowlight = createLowlight(all);
+export const lowlight = createLowlight(all);
 
-export const CodeBlock = CodeBlockLowlight.extend({
+export const preClassName = 'hljs max-h-[500px] overflow-auto scrollbar-hide';
+
+export const CodeBlockBase = CodeBlockLowlight.extend({
 	addOptions() {
 		return {
 			...this.parent?.(),
 			HTMLAttributes: {
-				class: 'hljs'
+				class: preClassName
 			}
 		};
 	}

@@ -1,12 +1,8 @@
 import { JSONContent } from '@tiptap/react';
 import { renderToReactElement } from '@tiptap/static-renderer/pm/react';
-import { toHtml } from 'hast-util-to-html';
-import { createLowlight, all } from 'lowlight';
 
-import { ExtensionKit } from './extension-kit';
-import { CodeBlockStatic } from './extensions/code-block/code-block-static';
-
-const lowlight = createLowlight(all);
+import { ExtensionKitBase } from './extension-kit-base';
+import { CodeBlock } from './ui/code-block';
 
 interface EditorViewProps {
 	content: JSONContent;
@@ -14,7 +10,7 @@ interface EditorViewProps {
 
 export const EditorView = ({ content }: EditorViewProps) => {
 	return renderToReactElement({
-		extensions: ExtensionKit,
+		extensions: ExtensionKitBase,
 		content,
 		options: {
 			nodeMapping: {
@@ -22,10 +18,7 @@ export const EditorView = ({ content }: EditorViewProps) => {
 					const language = node?.attrs?.language || 'plaintext';
 					const text = node?.textContent || '';
 
-					const tree = lowlight.highlight(language, text);
-					const inner = toHtml(tree);
-
-					return <CodeBlockStatic html={inner} />;
+					return <CodeBlock language={language} text={text} />;
 				}
 			}
 		}

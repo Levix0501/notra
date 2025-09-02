@@ -1,15 +1,15 @@
 'use client';
 
-import { Check, Copy, Link2 } from 'lucide-react';
+import { Link2 } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
 import { publishDoc, unpublishDoc } from '@/actions/doc';
-import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
 import { getTranslations } from '@/i18n';
 import { useCurrentBook } from '@/stores/book';
 import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
 
+import { CopyButton } from './copy-button';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
@@ -22,7 +22,6 @@ export function PublishButton() {
 	const isSaving = useDocStore((state) => state.isSaving);
 	const { data: docMeta, mutate } = useCurrentDocMeta();
 	const { data: book } = useCurrentBook();
-	const { isCopied, copyToClipboard } = useCopyToClipboard();
 
 	if (!docMeta || !book) {
 		return null;
@@ -87,10 +86,6 @@ export function PublishButton() {
 		handlePublish();
 	};
 
-	const handleCopy = () => {
-		copyToClipboard(publishedPageUrl);
-	};
-
 	const renderButtonText = () => {
 		if (docMeta.isPublished) {
 			return docMeta.isUpdated ? t.update : t.share;
@@ -117,14 +112,7 @@ export function PublishButton() {
 							/>
 
 							<div>
-								<Button
-									className="size-7"
-									size="icon"
-									variant="ghost"
-									onClick={handleCopy}
-								>
-									{isCopied ? <Check /> : <Copy />}
-								</Button>
+								<CopyButton value={publishedPageUrl} />
 
 								<Link
 									href={isPending ? '#' : publishedPageUrl}
