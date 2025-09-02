@@ -1,12 +1,8 @@
 'use client';
 
-import './styles/editor.scss';
-
-import { Image } from '@tiptap/extension-image';
 import { Content, EditorContent, useEditor } from '@tiptap/react';
-import { StarterKit } from '@tiptap/starter-kit';
 
-import { HorizontalRule } from './nodes/horizontal-rule-node/horizontal-rule-node-extension';
+import { ExtensionKit } from './extension-kit';
 
 interface EditorCoreProps {
 	initialContent: Content;
@@ -30,17 +26,7 @@ export const EditorCore = ({
 					'notra-editor flex-1 px-4 sm:px-[max(64px,calc(50%-375px))] pb-[30vh] pt-4 sm:pt-12 outline-none'
 			}
 		},
-		extensions: [
-			StarterKit.configure({
-				horizontalRule: false,
-				link: {
-					openOnClick: false,
-					enableClickSelection: true
-				}
-			}),
-			HorizontalRule,
-			Image
-		],
+		extensions: ExtensionKit,
 		onUpdate(props) {
 			onContentChange?.(props.editor.getJSON());
 		},
