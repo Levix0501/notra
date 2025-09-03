@@ -1,5 +1,6 @@
 import { JSONContent } from '@tiptap/react';
 import { Metadata } from 'next';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import { EditorView } from '@/components/editor/editor-view';
@@ -53,6 +54,17 @@ export default async function Page({ params }: Readonly<PageProps>) {
 
 	return (
 		<article className="notra-editor mx-auto max-w-screen-md px-4">
+			{doc.cover && (
+				<div className="relative aspect-video w-full">
+					<Image
+						fill
+						alt={doc.title}
+						className="rounded-[4px]"
+						sizes="768px"
+						src={doc.cover}
+					/>
+				</div>
+			)}
 			<h1 className="!mt-6 mb-8 font-heading text-4xl font-bold">
 				{doc.title}
 			</h1>
