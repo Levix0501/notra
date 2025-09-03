@@ -252,6 +252,11 @@ export const zh = {
 	},
 	notra_editor: {
 		code_block_code: '代码',
-		code_block_preview: '预览'
+		code_block_preview: '预览',
+		language_select_placeholder: '选择语言...',
+		language_select_search_placeholder: '搜索语言...',
+		language_select_no_language_found: '没有找到语言。',
+		language_select_auto: '自动',
+		language_select_plaintext: '纯文本'
 	}
 };

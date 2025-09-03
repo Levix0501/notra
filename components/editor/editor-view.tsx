@@ -15,7 +15,7 @@ export const EditorView = ({ content }: EditorViewProps) => {
 		options: {
 			nodeMapping: {
 				codeBlock: ({ node }) => {
-					const language = node?.attrs?.language || 'plaintext';
+					const language = node?.attrs?.language || 'auto';
 					const text = node?.textContent || '';
 
 					return <CodeBlock language={language} text={text} />;

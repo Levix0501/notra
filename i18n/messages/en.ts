@@ -253,6 +253,11 @@ export const en = {
 	},
 	notra_editor: {
 		code_block_code: 'Code',
-		code_block_preview: 'Preview'
+		code_block_preview: 'Preview',
+		language_select_placeholder: 'Select language...',
+		language_select_search_placeholder: 'Search language...',
+		language_select_no_language_found: 'No language found.',
+		language_select_auto: 'Auto',
+		language_select_plaintext: 'Plain Text'
 	}
 };
