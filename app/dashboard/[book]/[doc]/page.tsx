@@ -51,7 +51,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 				</div>
 			</NotraInsetHeader>
 
-			<main>
+			<main className="flex min-h-[calc(100dvh-3.5rem)] flex-col">
 				<NotraEditor bookSlug={book} docSlug={doc} />
 			</main>
 		</>

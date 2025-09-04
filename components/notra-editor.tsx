@@ -5,9 +5,10 @@ import { Content } from '@tiptap/react';
 import { useDebounceCallback } from 'usehooks-ts';
 
 import { updateDocDraftContent } from '@/actions/doc';
-import { EditorCore } from '@/components/editor/editor-core';
 import { useGetDoc } from '@/queries/doc';
 import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
+
+import { EditorCore } from './editor/editor-core';
 
 export interface NotraEditorProps {
 	bookSlug: BookEntity['slug'];
@@ -66,11 +67,9 @@ export default function NotraEditor({
 	}
 
 	return (
-		<div className="h-[calc(100dvh-3.5rem)] w-full">
-			<EditorCore
-				initialContent={doc?.draftContent as unknown as Content}
-				onContentChange={handleContentChange}
-			/>
-		</div>
+		<EditorCore
+			initialContent={doc?.draftContent as unknown as Content}
+			onContentChange={handleContentChange}
+		/>
 	);
 }

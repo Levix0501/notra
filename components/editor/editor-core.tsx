@@ -2,7 +2,10 @@
 
 import { Content, EditorContent, useEditor } from '@tiptap/react';
 
+import { Spacer } from '@/components/ui/spacer';
+
 import { ExtensionKit } from './extension-kit';
+import { FixedToolbar } from './ui/fixed-toolbar';
 
 interface EditorCoreProps {
 	initialContent: Content;
@@ -34,8 +37,16 @@ export const EditorCore = ({
 	});
 
 	return (
-		<div className="size-full">
-			<EditorContent className="flex size-full flex-col" editor={editor} />
-		</div>
+		<>
+			<FixedToolbar>
+				<Spacer />
+				123
+				<Spacer />
+			</FixedToolbar>
+			<EditorContent
+				className="flex size-full flex-1 flex-col"
+				editor={editor}
+			/>
+		</>
 	);
 };

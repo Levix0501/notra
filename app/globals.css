@@ -41,13 +41,6 @@
 	--radius-md: calc(var(--radius) - 2px);
 	--radius-lg: var(--radius);
 	--radius-xl: calc(var(--radius) + 4px);
-	--color-brand: var(--primary);
-	--font-heading:
-		'var(--font-heading)', 'ui-sans-serif', '-apple-system',
-		'BlinkMacSystemFont', 'Segoe UI Variable Display', 'Segoe UI', 'Helvetica',
-		'Apple Color Emoji', 'Arial', 'sans-serif', 'Segoe UI Emoji',
-		'Segoe UI Symbol', 'Noto Color Emoji';
-	--color-highlight: var(--highlight);
 }
 
 :root {
@@ -83,7 +76,6 @@
 	--sidebar-accent-foreground: oklch(20.5% 0 0deg);
 	--sidebar-border: oklch(92.2% 0 0deg);
 	--sidebar-ring: oklch(70.8% 0 0deg);
-	--highlight: oklch(85.2% 0.199 91.936deg);
 }
 
 .dark {
@@ -118,7 +110,6 @@
 	--sidebar-accent-foreground: oklch(98.5% 0 0deg);
 	--sidebar-border: oklch(100% 0 0deg / 10%);
 	--sidebar-ring: oklch(55.6% 0 0deg);
-	--highlight: oklch(85.2% 0.199 91.936deg);
 }
 
 @layer base {
@@ -127,6 +118,9 @@
 	}
 
 	body {
-		@apply bg-background text-foreground;
+		@apply bg-background text-foreground antialiased break-words;
+
+		text-size-adjust: none;
+		text-rendering: optimizelegibility;
 	}
 }

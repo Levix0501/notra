@@ -60,9 +60,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html suppressHydrationWarning lang={ENV_LOCALE}>
-			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-			>
+			<body className={`${geistSans.variable} ${geistMono.variable}`}>
 				<Providers>
 					<Toaster richColors position="top-right" />
 					{children}

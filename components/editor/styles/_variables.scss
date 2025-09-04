@@ -1,15 +1,5 @@
 :root {
 	/****************** 
-  Basics
-  ******************/
-
-	overflow-wrap: break-word;
-	text-size-adjust: none;
-	text-rendering: optimizelegibility;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-
-	/****************** 
   Colors variables
   ******************/
 
@@ -159,14 +149,14 @@
 	--nt-destructive-contrast: 8%;
 	--nt-foreground-contrast: 8%;
 
-	&,
-	*,
-	::before,
-	::after {
-		box-sizing: border-box;
-		transition: none var(--nt-transition-duration-default)
-			var(--nt-transition-easing-default);
-	}
+	// &,
+	// *,
+	// ::before,
+	// ::after {
+	// 	box-sizing: border-box;
+	// 	transition: none var(--nt-transition-duration-default)
+	// 		var(--nt-transition-easing-default);
+	// }
 }
 
 :root {
