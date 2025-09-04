@@ -1,10 +1,23 @@
 'use client';
 
 import { useNotraSidebar } from '@/components/notra-sidebar';
+import { Spacer } from '@/components/ui/spacer';
 import { cn } from '@/lib/utils';
-import { ChildrenProps } from '@/types/common';
 
-export const FixedToolbar = ({ children }: ChildrenProps) => {
+import { UndoRedoButton } from './undo-redo-button/undo-redo-button';
+
+const FixedToolbarContent = () => {
+	return (
+		<>
+			<Spacer />
+			<UndoRedoButton action="undo" />
+			<UndoRedoButton action="redo" />
+			<Spacer />
+		</>
+	);
+};
+
+export const FixedToolbar = () => {
 	const mobileOpen = useNotraSidebar((state) => state.mobileOpen);
 	const isResizing = useNotraSidebar((state) => state.isResizing);
 
@@ -16,7 +29,9 @@ export const FixedToolbar = ({ children }: ChildrenProps) => {
 				!isResizing && 'transition-[left] duration-250 ease-[ease]'
 			)}
 		>
-			<div className="flex size-full items-center px-2">{children}</div>
+			<div className="flex size-full items-center px-2">
+				<FixedToolbarContent />
+			</div>
 		</div>
 	);
 };

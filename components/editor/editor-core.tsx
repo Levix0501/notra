@@ -1,8 +1,11 @@
 'use client';
 
-import { Content, EditorContent, useEditor } from '@tiptap/react';
-
-import { Spacer } from '@/components/ui/spacer';
+import {
+	Content,
+	EditorContent,
+	EditorContext,
+	useEditor
+} from '@tiptap/react';
 
 import { ExtensionKit } from './extension-kit';
 import { FixedToolbar } from './ui/fixed-toolbar';
@@ -26,7 +29,7 @@ export const EditorCore = ({
 				autocapitalize: 'off',
 				'aria-label': 'Main content area, start typing to enter text.',
 				class:
-					'notra-editor flex-1 px-4 sm:px-[max(64px,calc(50%-375px))] pb-[30vh] pt-4 sm:pt-12 outline-none'
+					'notra-editor flex-1 px-4 sm:px-[max(64px,calc(50%-375px))] pb-[30vh] pt-15 sm:pt-23 outline-none'
 			}
 		},
 		extensions: ExtensionKit,
@@ -37,16 +40,12 @@ export const EditorCore = ({
 	});
 
 	return (
-		<>
-			<FixedToolbar>
-				<Spacer />
-				123
-				<Spacer />
-			</FixedToolbar>
+		<EditorContext.Provider value={{ editor }}>
+			<FixedToolbar />
 			<EditorContent
 				className="flex size-full flex-1 flex-col"
 				editor={editor}
 			/>
-		</>
+		</EditorContext.Provider>
 	);
 };
