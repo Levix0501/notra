@@ -258,6 +258,13 @@ export const en = {
 		language_select_search_placeholder: 'Search language...',
 		language_select_no_language_found: 'No language found.',
 		language_select_auto: 'Auto',
-		language_select_plaintext: 'Plain Text'
+		language_select_plaintext: 'Plain Text',
+		slash_command_basic_block: 'Basic Block',
+		slash_command_heading_1: 'Heading 1',
+		slash_command_heading_2: 'Heading 2',
+		slash_command_heading_3: 'Heading 3',
+		slash_command_heading_4: 'Heading 4',
+		slash_command_heading_5: 'Heading 5',
+		slash_command_heading_6: 'Heading 6'
 	}
 };

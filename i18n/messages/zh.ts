@@ -257,6 +257,13 @@ export const zh = {
 		language_select_search_placeholder: '搜索语言...',
 		language_select_no_language_found: '没有找到语言。',
 		language_select_auto: '自动',
-		language_select_plaintext: '纯文本'
+		language_select_plaintext: '纯文本',
+		slash_command_basic_block: '基本区块',
+		slash_command_heading_1: '标题1',
+		slash_command_heading_2: '标题2',
+		slash_command_heading_3: '标题3',
+		slash_command_heading_4: '标题4',
+		slash_command_heading_5: '标题5',
+		slash_command_heading_6: '标题6'
 	}
 };
