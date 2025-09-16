@@ -27,6 +27,9 @@ const buttonVariants = cva(
 				lg: 'h-10 rounded-md px-6 has-[>svg]:px-4',
 				icon: 'size-7',
 				xs: 'h-7 gap-0 px-1.5'
+			},
+			isActive: {
+				true: 'bg-accent text-accent-foreground dark:bg-accent/50'
 			}
 		},
 		defaultVariants: {
@@ -41,6 +44,7 @@ function Button({
 	variant,
 	size,
 	asChild = false,
+	isActive = false,
 	...props
 }: Readonly<React.ComponentProps<'button'>> &
 	VariantProps<typeof buttonVariants> & {
@@ -50,7 +54,7 @@ function Button({
 
 	return (
 		<Comp
-			className={cn(buttonVariants({ variant, size, className }))}
+			className={cn(buttonVariants({ variant, size, className, isActive }))}
 			data-slot="button"
 			{...props}
 		/>

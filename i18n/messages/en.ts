@@ -268,6 +268,7 @@ export const en = {
 		heading_6: 'Heading 6',
 		bulleted_list: 'Bulleted List',
 		numbered_list: 'Numbered List',
-		todo_list: 'To-do List'
+		todo_list: 'To-do List',
+		blockquote: 'Quote'
 	}
 };

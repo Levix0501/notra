@@ -10,7 +10,8 @@ import {
 	Heading6,
 	List,
 	ListOrdered,
-	ListTodo
+	ListTodo,
+	TextQuote
 } from 'lucide-react';
 import { useImperativeHandle, useState } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
@@ -117,6 +118,15 @@ export const groups: Group[] = [
 				enLabel: 'To-do List',
 				action: (editor) => {
 					editor.chain().focus().toggleTaskList().run();
+				}
+			},
+			{
+				icon: TextQuote,
+				label: t.blockquote,
+				keywords: ['citation', 'blockquote', 'quote', '>'],
+				enLabel: 'Blockquote',
+				action: (editor) => {
+					editor.chain().focus().toggleBlockquote().run();
 				}
 			}
 		]

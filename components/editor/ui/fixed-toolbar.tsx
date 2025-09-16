@@ -6,6 +6,7 @@ import { Spacer } from '@/components/ui/spacer';
 import { cn } from '@/lib/utils';
 import { ChildrenProps } from '@/types/common';
 
+import { BlockquoteButton } from './blockquote-button';
 import { HeadingDropdownMenu } from './heading-dropdown-menu';
 import { ListDropdownMenu } from './list-dropdown-menu';
 import { UndoRedoButton } from './undo-redo-button';
@@ -32,6 +33,7 @@ const FixedToolbarContent = () => {
 			<ToolbarGroup>
 				<HeadingDropdownMenu />
 				<ListDropdownMenu />
+				<BlockquoteButton />
 			</ToolbarGroup>
 			<Spacer />
 		</>

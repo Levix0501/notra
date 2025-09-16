@@ -34,6 +34,7 @@ export const ListDropdownMenu = () => {
 					data-disabled={!canToggle}
 					data-style="ghost"
 					disabled={!canToggle}
+					isActive={isActive}
 					size="xs"
 					tabIndex={-1}
 					variant="ghost"
