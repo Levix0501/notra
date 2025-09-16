@@ -268,6 +268,7 @@ export const zh = {
 		bulleted_list: '无序列表',
 		numbered_list: '有序列表',
 		todo_list: '待办列表',
-		blockquote: '引用'
+		blockquote: '引用',
+		code_block: '代码块'
 	}
 };

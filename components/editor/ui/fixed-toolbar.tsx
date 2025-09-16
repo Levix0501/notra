@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { ChildrenProps } from '@/types/common';
 
 import { BlockquoteButton } from './blockquote-button';
+import { CodeBlockButton } from './code-block-button';
 import { HeadingDropdownMenu } from './heading-dropdown-menu';
 import { ListDropdownMenu } from './list-dropdown-menu';
 import { UndoRedoButton } from './undo-redo-button';
@@ -34,6 +35,7 @@ const FixedToolbarContent = () => {
 				<HeadingDropdownMenu />
 				<ListDropdownMenu />
 				<BlockquoteButton />
+				<CodeBlockButton />
 			</ToolbarGroup>
 			<Spacer />
 		</>

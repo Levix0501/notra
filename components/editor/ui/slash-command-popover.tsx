@@ -11,7 +11,8 @@ import {
 	List,
 	ListOrdered,
 	ListTodo,
-	TextQuote
+	TextQuote,
+	Code
 } from 'lucide-react';
 import { useImperativeHandle, useState } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
@@ -127,6 +128,15 @@ export const groups: Group[] = [
 				enLabel: 'Blockquote',
 				action: (editor) => {
 					editor.chain().focus().toggleBlockquote().run();
+				}
+			},
+			{
+				icon: Code,
+				label: t.code_block,
+				keywords: ['```'],
+				enLabel: 'Code Block',
+				action: (editor) => {
+					editor.chain().focus().toggleCodeBlock().run();
 				}
 			}
 		]

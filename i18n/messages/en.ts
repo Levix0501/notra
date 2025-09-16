@@ -269,6 +269,7 @@ export const en = {
 		bulleted_list: 'Bulleted List',
 		numbered_list: 'Numbered List',
 		todo_list: 'To-do List',
-		blockquote: 'Quote'
+		blockquote: 'Quote',
+		code_block: 'Code'
 	}
 };

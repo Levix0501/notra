@@ -7,7 +7,7 @@ import {
 import { CopyButton } from '@/components/copy-button';
 
 import { CodeBlockBase } from './code-block-extension-base';
-import { LanguageSelect } from '../../ui/language-select';
+import { LanguageSelect } from '../ui/language-select';
 
 export const CodeBlock = CodeBlockBase.extend({
 	addNodeView() {

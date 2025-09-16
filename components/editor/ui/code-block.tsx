@@ -4,7 +4,7 @@ import { CopyButton } from '@/components/copy-button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getTranslations } from '@/i18n';
 
-import { lowlight } from '../extensions/code-block/code-block-extension-base';
+import { lowlight } from '../extensions/code-block-extension-base';
 
 interface CodeBlockProps {
 	language: string;
