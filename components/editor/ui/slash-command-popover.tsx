@@ -7,7 +7,9 @@ import {
 	Heading4,
 	Heading5,
 	LucideIcon,
-	Heading6
+	Heading6,
+	List,
+	ListOrdered
 } from 'lucide-react';
 import { useImperativeHandle, useState } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
@@ -37,7 +39,7 @@ export const groups: Group[] = [
 		items: [
 			{
 				icon: Heading1,
-				label: t.slash_command_heading_1,
+				label: t.heading_1,
 				enLabel: 'Heading 1',
 				keywords: ['title', 'h1'],
 				action: (editor) => {
@@ -46,42 +48,65 @@ export const groups: Group[] = [
 			},
 			{
 				icon: Heading2,
-				label: t.slash_command_heading_2,
+				label: t.heading_2,
 				enLabel: 'Heading 2',
+				keywords: ['subtitle', 'h2'],
 				action: (editor) => {
 					editor.chain().focus().setHeading({ level: 2 }).run();
 				}
 			},
 			{
 				icon: Heading3,
-				label: t.slash_command_heading_3,
+				label: t.heading_3,
 				enLabel: 'Heading 3',
+				keywords: ['subtitle', 'h3'],
 				action: (editor) => {
 					editor.chain().focus().setHeading({ level: 3 }).run();
 				}
 			},
 			{
 				icon: Heading4,
-				label: t.slash_command_heading_4,
+				label: t.heading_4,
 				enLabel: 'Heading 4',
+				keywords: ['subtitle', 'h4'],
 				action: (editor) => {
 					editor.chain().focus().setHeading({ level: 4 }).run();
 				}
 			},
 			{
 				icon: Heading5,
-				label: t.slash_command_heading_5,
+				label: t.heading_5,
 				enLabel: 'Heading 5',
+				keywords: ['subtitle', 'h5'],
 				action: (editor) => {
 					editor.chain().focus().setHeading({ level: 5 }).run();
 				}
 			},
 			{
 				icon: Heading6,
-				label: t.slash_command_heading_6,
+				label: t.heading_6,
 				enLabel: 'Heading 6',
+				keywords: ['subtitle', 'h6'],
 				action: (editor) => {
 					editor.chain().focus().setHeading({ level: 6 }).run();
+				}
+			},
+			{
+				icon: List,
+				label: t.bulleted_list,
+				keywords: ['unordered', 'ul', '-'],
+				enLabel: 'Bulleted List',
+				action: (editor) => {
+					editor.chain().focus().toggleBulletList().run();
+				}
+			},
+			{
+				icon: ListOrdered,
+				label: t.numbered_list,
+				keywords: ['ordered', 'ol', '1'],
+				enLabel: 'Numbered List',
+				action: (editor) => {
+					editor.chain().focus().toggleOrderedList().run();
 				}
 			}
 		]

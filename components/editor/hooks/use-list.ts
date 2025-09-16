@@ -2,17 +2,8 @@
 
 import { NodeSelection, TextSelection } from '@tiptap/pm/state';
 import { type Editor } from '@tiptap/react';
-import {
-	Heading1,
-	Heading2,
-	Heading3,
-	Heading4,
-	Heading5,
-	Heading6
-} from 'lucide-react';
+import { List, ListOrdered, ListTodo } from 'lucide-react';
 import * as React from 'react';
-
-import { getTranslations } from '@/i18n';
 
 import {
 	findNodePosition,
@@ -22,80 +13,73 @@ import {
 } from '../tiptap-utils';
 import { useTiptapEditor } from './use-tiptap-editor';
 
-const t = getTranslations('notra_editor');
-
-export type Level = 1 | 2 | 3 | 4 | 5 | 6;
+export type ListType = 'bulletList' | 'orderedList' | 'taskList';
 
 /**
- * Configuration for the heading functionality
+ * Configuration for the list functionality
  */
-export interface UseHeadingConfig {
+export interface UseListConfig {
 	/**
 	 * The Tiptap editor instance.
 	 */
 	editor?: Editor | null;
 	/**
-	 * The heading level.
+	 * The type of list to toggle.
 	 */
-	level: Level;
+	type: ListType;
 	/**
-	 * Whether the button should hide when heading is not available.
+	 * Whether the button should hide when list is not available.
 	 * @default false
 	 */
 	hideWhenUnavailable?: boolean;
 	/**
-	 * Callback function called after a successful heading toggle.
+	 * Callback function called after a successful toggle.
 	 */
 	onToggled?: () => void;
 }
 
-export const headingLabels = {
-	1: t.heading_1,
-	2: t.heading_2,
-	3: t.heading_3,
-	4: t.heading_4,
-	5: t.heading_5,
-	6: t.heading_6
+export const listIcons = {
+	bulletList: List,
+	orderedList: ListOrdered,
+	taskList: ListTodo
 };
 
-export const headingIcons = {
-	1: Heading1,
-	2: Heading2,
-	3: Heading3,
-	4: Heading4,
-	5: Heading5,
-	6: Heading6
+export const listLabels: Record<ListType, string> = {
+	bulletList: 'Bullet List',
+	orderedList: 'Ordered List',
+	taskList: 'Task List'
 };
 
-export const HEADING_SHORTCUT_KEYS: Record<Level, string> = {
-	1: 'ctrl+alt+1',
-	2: 'ctrl+alt+2',
-	3: 'ctrl+alt+3',
-	4: 'ctrl+alt+4',
-	5: 'ctrl+alt+5',
-	6: 'ctrl+alt+6'
+export const LIST_SHORTCUT_KEYS: Record<ListType, string> = {
+	bulletList: 'mod+shift+8',
+	orderedList: 'mod+shift+7',
+	taskList: 'mod+shift+9'
 };
 
 /**
- * Checks if heading can be toggled in the current editor state
+ * Checks if a list can be toggled in the current editor state
  */
-export function canToggle(
+export function canToggleList(
 	editor: Editor | null,
-	level?: Level,
+	type: ListType,
 	turnInto: boolean = true
 ): boolean {
 	if (!editor || !editor.isEditable) return false;
 
-	if (
-		!isNodeInSchema('heading', editor) ||
-		isNodeTypeSelected(editor, ['image'])
-	)
+	if (!isNodeInSchema(type, editor) || isNodeTypeSelected(editor, ['image']))
 		return false;
 
 	if (!turnInto) {
-		return level
-			? editor.can().setNode('heading', { level })
-			: editor.can().setNode('heading');
+		switch (type) {
+			case 'bulletList':
+				return editor.can().toggleBulletList();
+			case 'orderedList':
+				return editor.can().toggleOrderedList();
+			case 'taskList':
+				return editor.can().toggleList('taskList', 'taskItem');
+			default:
+				return false;
+		}
 	}
 
 	try {
@@ -119,43 +103,37 @@ export function canToggle(
 }
 
 /**
- * Checks if heading is currently active
+ * Checks if list is currently active
  */
-export function isHeadingActive(
-	editor: Editor | null,
-	level?: Level | Level[]
-): boolean {
+export function isListActive(editor: Editor | null, type: ListType): boolean {
 	if (!editor || !editor.isEditable) return false;
 
-	if (Array.isArray(level)) {
-		return level.some((l) => editor.isActive('heading', { level: l }));
+	switch (type) {
+		case 'bulletList':
+			return editor.isActive('bulletList');
+		case 'orderedList':
+			return editor.isActive('orderedList');
+		case 'taskList':
+			return editor.isActive('taskList');
+		default:
+			return false;
 	}
-
-	return level
-		? editor.isActive('heading', { level })
-		: editor.isActive('heading');
 }
 
 /**
- * Toggles heading in the editor
+ * Toggles list in the editor
  */
-export function toggleHeading(
-	editor: Editor | null,
-	level: Level | Level[]
-): boolean {
+export function toggleList(editor: Editor | null, type: ListType): boolean {
 	if (!editor || !editor.isEditable) return false;
 
-	const levels = Array.isArray(level) ? level : [level];
-	const toggleLevel = levels.find((l) => canToggle(editor, l));
-
-	if (!toggleLevel) return false;
+	if (!canToggleList(editor, type)) return false;
 
 	try {
 		const view = editor.view;
 		let state = view.state;
 		let tr = state.tr;
 
-		// No selection, find the cursor position
+		// No selection, find the the cursor position
 		if (state.selection.empty || state.selection instanceof TextSelection) {
 			const pos = findNodePosition({
 				editor,
@@ -170,6 +148,7 @@ export function toggleHeading(
 		}
 
 		const selection = state.selection;
+
 		let chain = editor.chain().focus();
 
 		// Handle NodeSelection
@@ -188,15 +167,28 @@ export function toggleHeading(
 			chain = chain.setTextSelection({ from, to }).clearNodes();
 		}
 
-		const isActive = levels.some((l) =>
-			editor.isActive('heading', { level: l })
-		);
+		if (editor.isActive(type)) {
+			// Unwrap list
+			chain
+				.liftListItem('listItem')
+				.lift('bulletList')
+				.lift('orderedList')
+				.lift('taskList')
+				.run();
+		} else {
+			// Wrap in specific list type
+			const toggleMap: Record<ListType, () => typeof chain> = {
+				bulletList: () => chain.toggleBulletList(),
+				orderedList: () => chain.toggleOrderedList(),
+				taskList: () => chain.toggleList('taskList', 'taskItem')
+			};
 
-		const toggle = isActive
-			? chain.setNode('paragraph')
-			: chain.setNode('heading', { level: toggleLevel });
+			const toggle = toggleMap[type];
 
-		toggle.run();
+			if (!toggle) return false;
+
+			toggle().run();
+		}
 
 		editor.chain().focus().selectTextblockEnd().run();
 
@@ -207,59 +199,47 @@ export function toggleHeading(
 }
 
 /**
- * Determines if the heading button should be shown
+ * Determines if the list button should be shown
  */
 export function shouldShowButton(props: {
 	editor: Editor | null;
-	level?: Level | Level[];
+	type: ListType;
 	hideWhenUnavailable: boolean;
 }): boolean {
-	const { editor, level, hideWhenUnavailable } = props;
+	const { editor, type, hideWhenUnavailable } = props;
 
 	if (!editor || !editor.isEditable) return false;
 
-	if (!isNodeInSchema('heading', editor)) return false;
+	if (!isNodeInSchema(type, editor)) return false;
 
 	if (hideWhenUnavailable && !editor.isActive('code')) {
-		if (Array.isArray(level)) {
-			return level.some((l) => canToggle(editor, l));
-		}
-
-		return canToggle(editor, level);
+		return canToggleList(editor, type);
 	}
 
 	return true;
 }
 
 /**
- * Custom hook that provides heading functionality for Tiptap editor
+ * Custom hook that provides list functionality for Tiptap editor
  *
  * @example
  * ```tsx
  * // Simple usage
- * function MySimpleHeadingButton() {
- *   const { isVisible, isActive, handleToggle, Icon } = useHeading({ level: 1 })
+ * function MySimpleListButton() {
+ *   const { isVisible, handleToggle, isActive } = useList({ type: "bulletList" })
  *
  *   if (!isVisible) return null
  *
- *   return (
- *     <button
- *       onClick={handleToggle}
- *       aria-pressed={isActive}
- *     >
- *       <Icon />
- *       Heading 1
- *     </button>
- *   )
+ *   return <button onClick={handleToggle}>Bullet List</button>
  * }
  *
  * // Advanced usage with configuration
- * function MyAdvancedHeadingButton() {
- *   const { isVisible, isActive, handleToggle, label, Icon } = useHeading({
- *     level: 2,
+ * function MyAdvancedListButton() {
+ *   const { isVisible, handleToggle, label, isActive } = useList({
+ *     type: "orderedList",
  *     editor: myEditor,
  *     hideWhenUnavailable: true,
- *     onToggled: (isActive) => console.log('Heading toggled:', isActive)
+ *     onToggled: () => console.log('List toggled!')
  *   })
  *
  *   if (!isVisible) return null
@@ -270,31 +250,30 @@ export function shouldShowButton(props: {
  *       aria-label={label}
  *       aria-pressed={isActive}
  *     >
- *       <Icon />
- *       Toggle Heading 2
+ *       Toggle List
  *     </MyButton>
  *   )
  * }
  * ```
  */
-export function useHeading(config: UseHeadingConfig) {
+export function useList(config: UseListConfig) {
 	const {
 		editor: providedEditor,
-		level,
+		type,
 		hideWhenUnavailable = false,
 		onToggled
 	} = config;
 
 	const { editor } = useTiptapEditor(providedEditor);
 	const [isVisible, setIsVisible] = React.useState<boolean>(true);
-	const canToggleState = canToggle(editor, level);
-	const isActive = isHeadingActive(editor, level);
+	const canToggle = canToggleList(editor, type);
+	const isActive = isListActive(editor, type);
 
 	React.useEffect(() => {
 		if (!editor) return;
 
 		const handleSelectionUpdate = () => {
-			setIsVisible(shouldShowButton({ editor, level, hideWhenUnavailable }));
+			setIsVisible(shouldShowButton({ editor, type, hideWhenUnavailable }));
 		};
 
 		handleSelectionUpdate();
@@ -304,27 +283,27 @@ export function useHeading(config: UseHeadingConfig) {
 		return () => {
 			editor.off('selectionUpdate', handleSelectionUpdate);
 		};
-	}, [editor, level, hideWhenUnavailable]);
+	}, [editor, type, hideWhenUnavailable]);
 
 	const handleToggle = React.useCallback(() => {
 		if (!editor) return false;
 
-		const success = toggleHeading(editor, level);
+		const success = toggleList(editor, type);
 
 		if (success) {
 			onToggled?.();
 		}
 
 		return success;
-	}, [editor, level, onToggled]);
+	}, [editor, type, onToggled]);
 
 	return {
 		isVisible,
 		isActive,
 		handleToggle,
-		canToggle: canToggleState,
-		label: headingLabels[level],
-		shortcutKeys: HEADING_SHORTCUT_KEYS[level],
-		Icon: headingIcons[level]
+		canToggle,
+		label: listLabels[type],
+		shortcutKeys: LIST_SHORTCUT_KEYS[type],
+		Icon: listIcons[type]
 	};
 }

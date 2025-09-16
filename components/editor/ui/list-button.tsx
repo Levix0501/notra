@@ -4,12 +4,10 @@ import * as React from 'react';
 
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
-import { useHeading } from '../hooks/use-heading';
+import { useList, UseListConfig } from '../hooks/use-list';
 import { useTiptapEditor } from '../hooks/use-tiptap-editor';
 
-import type { UseHeadingConfig } from '../hooks/use-heading';
-
-export interface HeadingButtonProps extends UseHeadingConfig {
+export interface ListButtonProps extends UseListConfig {
 	/**
 	 * Optional text to display alongside the icon.
 	 */
@@ -21,14 +19,14 @@ export interface HeadingButtonProps extends UseHeadingConfig {
 	showShortcut?: boolean;
 }
 
-export const HeadingButton = ({
+export const ListButton = ({
 	editor: providedEditor,
-	level
-}: HeadingButtonProps) => {
+	type
+}: ListButtonProps) => {
 	const { editor } = useTiptapEditor(providedEditor);
-	const { isVisible, handleToggle, Icon, label } = useHeading({
+	const { isVisible, handleToggle, label, Icon } = useList({
 		editor,
-		level
+		type
 	});
 
 	const handleClick = React.useCallback(

@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { ChildrenProps } from '@/types/common';
 
 import { HeadingDropdownMenu } from './heading-dropdown-menu';
+import { ListDropdownMenu } from './list-dropdown-menu';
 import { UndoRedoButton } from './undo-redo-button';
 
 const ToolbarGroup = ({ children }: ChildrenProps) => {
@@ -30,6 +31,7 @@ const FixedToolbarContent = () => {
 
 			<ToolbarGroup>
 				<HeadingDropdownMenu />
+				<ListDropdownMenu />
 			</ToolbarGroup>
 			<Spacer />
 		</>

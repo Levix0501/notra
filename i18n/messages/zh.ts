@@ -259,11 +259,14 @@ export const zh = {
 		language_select_auto: '自动',
 		language_select_plaintext: '纯文本',
 		slash_command_basic_block: '基本区块',
-		slash_command_heading_1: '标题1',
-		slash_command_heading_2: '标题2',
-		slash_command_heading_3: '标题3',
-		slash_command_heading_4: '标题4',
-		slash_command_heading_5: '标题5',
-		slash_command_heading_6: '标题6'
+		heading_1: '标题1',
+		heading_2: '标题2',
+		heading_3: '标题3',
+		heading_4: '标题4',
+		heading_5: '标题5',
+		heading_6: '标题6',
+		bulleted_list: '无序列表',
+		numbered_list: '有序列表',
+		todo_list: '待办列表'
 	}
 };

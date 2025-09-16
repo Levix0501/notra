@@ -3,7 +3,6 @@
 import { ChevronDown } from 'lucide-react';
 
 import { useTiptapEditor } from '@/components/editor/hooks/use-tiptap-editor';
-import { HeadingButton } from '@/components/editor/ui/heading-button';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -11,17 +10,18 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 
-import { useHeadingDropdownMenu } from '../hooks/use-heading-dropdown-menu';
+import { ListButton } from './list-button';
+import { useListDropdownMenu } from '../hooks/use-list-dropdown-menu';
 
-export const HeadingDropdownMenu = () => {
+export const ListDropdownMenu = () => {
 	const { editor } = useTiptapEditor();
-	const { isVisible, isActive, canToggle, Icon, levels } =
-		useHeadingDropdownMenu({
+	const { filteredLists, canToggle, isActive, isVisible, Icon } =
+		useListDropdownMenu({
 			editor,
-			levels: [1, 2, 3, 4, 5, 6]
+			types: ['bulletList', 'orderedList', 'taskList']
 		});
 
-	if (!isVisible) {
+	if (!isVisible || !editor || !editor.isEditable) {
 		return null;
 	}
 
@@ -29,8 +29,7 @@ export const HeadingDropdownMenu = () => {
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button
-					aria-label="Format text as heading"
-					aria-pressed={isActive}
+					aria-label="List options"
 					data-active-state={isActive ? 'on' : 'off'}
 					data-disabled={!canToggle}
 					data-style="ghost"
@@ -48,8 +47,8 @@ export const HeadingDropdownMenu = () => {
 				align="start"
 				onCloseAutoFocus={(e) => e.preventDefault()}
 			>
-				{levels.map((level) => (
-					<HeadingButton key={`heading-${level}`} level={level} />
+				{filteredLists.map(({ type }) => (
+					<ListButton key={type} type={type} />
 				))}
 			</DropdownMenuContent>
 		</DropdownMenu>

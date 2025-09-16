@@ -260,11 +260,14 @@ export const en = {
 		language_select_auto: 'Auto',
 		language_select_plaintext: 'Plain Text',
 		slash_command_basic_block: 'Basic Block',
-		slash_command_heading_1: 'Heading 1',
-		slash_command_heading_2: 'Heading 2',
-		slash_command_heading_3: 'Heading 3',
-		slash_command_heading_4: 'Heading 4',
-		slash_command_heading_5: 'Heading 5',
-		slash_command_heading_6: 'Heading 6'
+		heading_1: 'Heading 1',
+		heading_2: 'Heading 2',
+		heading_3: 'Heading 3',
+		heading_4: 'Heading 4',
+		heading_5: 'Heading 5',
+		heading_6: 'Heading 6',
+		bulleted_list: 'Bulleted List',
+		numbered_list: 'Numbered List',
+		todo_list: 'To-do List'
 	}
 };
