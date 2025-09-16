@@ -5,13 +5,13 @@
 		display: block;
 	}
 
-	> img:not([data-type='emoji'] img) {
+	img:not([data-type='emoji'] img) {
 		margin: 2rem 0;
 		outline: 0.125rem solid transparent;
 		border-radius: var(--nt-radius-xs, 0.25rem);
 	}
 
-	img:not([data-type='emoji'] img).ProseMirror-selectednode {
+	.ProseMirror-selectednode img:not([data-type='emoji'] img) {
 		outline-color: var(--nt-brand-color-500);
 	}
 

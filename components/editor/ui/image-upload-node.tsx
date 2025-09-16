@@ -2,6 +2,7 @@
 'use client';
 import '@/components/editor/styles/image-upload-node.scss';
 
+import { FileEntity } from '@prisma/client';
 import { NodeViewWrapper } from '@tiptap/react';
 import { X } from 'lucide-react';
 import * as React from 'react';
@@ -73,7 +74,7 @@ export interface UploadOptions {
 		file: File,
 		onProgress: (event: { progress: number }) => void,
 		signal: AbortSignal
-	) => Promise<string>;
+	) => Promise<FileEntity>;
 	/**
 	 * Callback triggered when a file is uploaded successfully
 	 * @param {string} url - URL of the successfully uploaded file
@@ -94,7 +95,7 @@ export interface UploadOptions {
 function useFileUpload(options: UploadOptions) {
 	const [fileItems, setFileItems] = React.useState<FileItem[]>([]);
 
-	const uploadFile = async (file: File): Promise<string | null> => {
+	const uploadFile = async (file: File): Promise<FileEntity | null> => {
 		if (file.size > options.maxSize) {
 			const error = new Error(
 				`File size exceeds maximum allowed (${options.maxSize / 1024 / 1024}MB)`
@@ -123,7 +124,7 @@ function useFileUpload(options: UploadOptions) {
 				throw new Error('Upload function is not defined');
 			}
 
-			const url = await options.upload(
+			const fileEntity = await options.upload(
 				file,
 				(event: { progress: number }) => {
 					setFileItems((prev) =>
@@ -135,19 +136,24 @@ function useFileUpload(options: UploadOptions) {
 				abortController.signal
 			);
 
-			if (!url) throw new Error('Upload failed: No URL returned');
+			if (!fileEntity) throw new Error('Upload failed: No URL returned');
 
 			if (!abortController.signal.aborted) {
 				setFileItems((prev) =>
 					prev.map((item) =>
 						item.id === fileId
-							? { ...item, status: 'success', url, progress: 100 }
+							? {
+									...item,
+									status: 'success',
+									url: fileEntity.url,
+									progress: 100
+								}
 							: item
 					)
 				);
-				options.onSuccess?.(url);
+				options.onSuccess?.(fileEntity.url);
 
-				return url;
+				return fileEntity;
 			}
 
 			return null;
@@ -169,7 +175,7 @@ function useFileUpload(options: UploadOptions) {
 		}
 	};
 
-	const uploadFiles = async (files: File[]): Promise<string[]> => {
+	const uploadFiles = async (files: File[]): Promise<FileEntity[]> => {
 		if (!files || files.length === 0) {
 			options.onError?.(new Error('No files to upload'));
 
@@ -191,7 +197,9 @@ function useFileUpload(options: UploadOptions) {
 		const results = await Promise.all(uploadPromises);
 
 		// Filter out null results (failed uploads)
-		return results.filter((url): url is string => url !== null);
+		return results.filter(
+			(fileEntity): fileEntity is FileEntity => fileEntity !== null
+		);
 	};
 
 	const removeFileItem = (fileId: string) => {
@@ -477,13 +485,13 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
 		useFileUpload(uploadOptions);
 
 	const handleUpload = async (files: File[]) => {
-		const urls = await uploadFiles(files);
+		const fileEntities = await uploadFiles(files);
 
-		if (urls.length > 0) {
+		if (fileEntities.length > 0) {
 			const pos = props.getPos();
 
 			if (isValidPosition(pos)) {
-				const imageNodes = urls.map((url, index) => {
+				const imageNodes = fileEntities.map((fileEntity, index) => {
 					const filename =
 						files[index]?.name.replace(/\.[^/.]+$/, '') || 'unknown';
 
@@ -491,9 +499,11 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
 						type: extension.options.type,
 						attrs: {
 							...extension.options,
-							src: url,
+							src: fileEntity.url,
 							alt: filename,
-							title: filename
+							title: filename,
+							width: fileEntity.width,
+							height: fileEntity.height
 						}
 					};
 				});

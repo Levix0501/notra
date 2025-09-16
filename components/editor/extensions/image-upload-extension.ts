@@ -1,3 +1,4 @@
+import { FileEntity } from '@prisma/client';
 import { mergeAttributes, Node, ReactNodeViewRenderer } from '@tiptap/react';
 
 import { ImageUploadNode as ImageUploadNodeComponent } from '@/components/editor/ui/image-upload-node';
@@ -8,7 +9,7 @@ export type UploadFunction = (
 	file: File,
 	onProgress?: (event: { progress: number }) => void,
 	abortSignal?: AbortSignal
-) => Promise<string>;
+) => Promise<FileEntity>;
 
 export interface ImageUploadNodeOptions {
 	/**

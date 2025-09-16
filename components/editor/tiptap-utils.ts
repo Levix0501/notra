@@ -306,7 +306,7 @@ export const handleImageUpload = async (
 	file: File,
 	onProgress?: (event: { progress: number }) => void,
 	abortSignal?: AbortSignal
-): Promise<string> => {
+): Promise<FileEntity> => {
 	// Validate file
 	if (!file) {
 		throw new Error('No file provided');
@@ -359,7 +359,7 @@ export const handleImageUpload = async (
 		throw new Error(wrappedResponse.message);
 	}
 
-	return wrappedResponse.data.url;
+	return wrappedResponse.data;
 };
 
 type ProtocolOptions = {
