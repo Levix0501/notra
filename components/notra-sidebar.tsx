@@ -143,7 +143,7 @@ export function NotraSidebarTrigger() {
 
 	return (
 		<Button
-			className={'-ml-1 size-7 cursor-pointer'}
+			className={'-ml-1 cursor-pointer'}
 			size="icon"
 			variant="ghost"
 			onClick={handleClick}

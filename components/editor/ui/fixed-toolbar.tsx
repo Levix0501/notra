@@ -1,17 +1,36 @@
 'use client';
 
 import { useNotraSidebar } from '@/components/notra-sidebar';
+import { Separator } from '@/components/ui/separator';
 import { Spacer } from '@/components/ui/spacer';
 import { cn } from '@/lib/utils';
+import { ChildrenProps } from '@/types/common';
 
-import { UndoRedoButton } from './undo-redo-button/undo-redo-button';
+import { HeadingDropdownMenu } from './heading-dropdown-menu';
+import { UndoRedoButton } from './undo-redo-button';
+
+const ToolbarGroup = ({ children }: ChildrenProps) => {
+	return <div className="flex items-center gap-0.5">{children}</div>;
+};
+
+const ToolbarSeparator = () => {
+	return <Separator className="!h-6" orientation="vertical" />;
+};
 
 const FixedToolbarContent = () => {
 	return (
 		<>
 			<Spacer />
-			<UndoRedoButton action="undo" />
-			<UndoRedoButton action="redo" />
+			<ToolbarGroup>
+				<UndoRedoButton action="undo" />
+				<UndoRedoButton action="redo" />
+			</ToolbarGroup>
+
+			<ToolbarSeparator />
+
+			<ToolbarGroup>
+				<HeadingDropdownMenu />
+			</ToolbarGroup>
 			<Spacer />
 		</>
 	);
@@ -29,7 +48,7 @@ export const FixedToolbar = () => {
 				!isResizing && 'transition-[left] duration-250 ease-[ease]'
 			)}
 		>
-			<div className="flex size-full items-center px-2">
+			<div className="flex size-full items-center gap-1 px-2">
 				<FixedToolbarContent />
 			</div>
 		</div>

@@ -161,7 +161,6 @@ export const SlashCommand = Extension.create({
 
 							return handled;
 						},
-
 						onExit() {
 							component?.destroy();
 						}

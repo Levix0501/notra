@@ -118,7 +118,7 @@ export function PublishButton() {
 									href={isPending ? '#' : publishedPageUrl}
 									target={isPending ? void 0 : '_blank'}
 								>
-									<Button className="size-7" size="icon" variant="ghost">
+									<Button size="icon" variant="ghost">
 										<Link2 />
 									</Button>
 								</Link>

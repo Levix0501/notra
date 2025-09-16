@@ -5,9 +5,9 @@ import * as React from 'react';
 import { useTiptapEditor } from '@/components/editor/hooks/use-tiptap-editor';
 import { Button } from '@/components/ui/button';
 
-import { useUndoRedo } from './use-undo-redo';
+import { useUndoRedo } from '../hooks/use-undo-redo';
 
-import type { UseUndoRedoConfig } from './use-undo-redo';
+import type { UseUndoRedoConfig } from '../hooks/use-undo-redo';
 
 export type UndoRedoButtonProps = UseUndoRedoConfig;
 
@@ -40,8 +40,8 @@ export const UndoRedoButton = ({
 
 	return (
 		<Button
-			className="size-7 p-0"
 			disabled={!canExecute}
+			size="icon"
 			variant="ghost"
 			onClick={handleClick}
 		>

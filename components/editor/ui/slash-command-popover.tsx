@@ -158,6 +158,10 @@ export const SlashCommandPopover = ({
 		}
 
 		if (event.key === 'Enter') {
+			if (items.length === 0) {
+				return false;
+			}
+
 			command(items[selectedGroupIndex].items[selectedItemIndex]);
 
 			return true;
@@ -174,7 +178,10 @@ export const SlashCommandPopover = ({
 		<RemoveScroll>
 			<Popover open={isOpen}>
 				<PopoverContent
-					className="absolute p-0"
+					className={cn(
+						'absolute p-0',
+						items.length > 0 ? 'opacity-100' : 'opacity-0'
+					)}
 					style={{
 						left: popoverRect.x,
 						top: popoverRect.y,

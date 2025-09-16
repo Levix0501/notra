@@ -24,13 +24,8 @@ export default function BookSettingsButton({
 	};
 
 	return (
-		<Button
-			className="size-7"
-			size="icon"
-			variant="ghost"
-			onClick={handleClick}
-		>
-			<SlidersHorizontal size={16} />
+		<Button size="icon" variant="ghost" onClick={handleClick}>
+			<SlidersHorizontal />
 			<span className="sr-only">Settings</span>
 		</Button>
 	);

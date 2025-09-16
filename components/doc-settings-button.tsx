@@ -26,12 +26,7 @@ export default function DocSettingsButton() {
 	};
 
 	return (
-		<Button
-			className="size-7"
-			size="icon"
-			variant="ghost"
-			onClick={handleClick}
-		>
+		<Button size="icon" variant="ghost" onClick={handleClick}>
 			<FileSliders />
 		</Button>
 	);
