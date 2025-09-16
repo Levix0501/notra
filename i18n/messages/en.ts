@@ -270,6 +270,9 @@ export const en = {
 		numbered_list: 'Numbered List',
 		todo_list: 'To-do List',
 		blockquote: 'Quote',
-		code_block: 'Code Block'
+		code_block: 'Code Block',
+		click_to_upload: 'Click to upload',
+		or_drag_and_drop: 'or drag and drop',
+		upload_limit: 'Maximum {limit} file(s), {maxSize}MB each.'
 	}
 };

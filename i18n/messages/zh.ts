@@ -269,6 +269,9 @@ export const zh = {
 		numbered_list: '有序列表',
 		todo_list: '待办列表',
 		blockquote: '引用',
-		code_block: '代码块'
+		code_block: '代码块',
+		click_to_upload: '点击上传',
+		or_drag_and_drop: '或拖拽上传',
+		upload_limit: '最多上传 {limit} 个文件，每个文件大小不超过 {maxSize}MB'
 	}
 };

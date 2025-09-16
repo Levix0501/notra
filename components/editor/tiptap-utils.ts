@@ -1,4 +1,8 @@
+import { FileEntity } from '@prisma/client';
 import { NodeSelection, Selection, TextSelection } from '@tiptap/pm/state';
+import axios from 'axios';
+
+import { WrappedResponse } from '@/types/common';
 
 import type { Node as TiptapNode } from '@tiptap/pm/model';
 import type { Editor } from '@tiptap/react';
@@ -316,16 +320,46 @@ export const handleImageUpload = async (
 
 	// For demo/testing: Simulate upload progress. In production, replace the following code
 	// with your own upload implementation.
-	for (let progress = 0; progress <= 100; progress += 10) {
-		if (abortSignal?.aborted) {
-			throw new Error('Upload cancelled');
-		}
+	// for (let progress = 0; progress <= 100; progress += 10) {
+	// 	if (abortSignal?.aborted) {
+	// 		throw new Error('Upload cancelled');
+	// 	}
 
-		await new Promise((resolve) => setTimeout(resolve, 500));
-		onProgress?.({ progress });
+	// 	await new Promise((resolve) => setTimeout(resolve, 500));
+	// 	onProgress?.({ progress });
+	// }
+
+	const formData = new FormData();
+
+	formData.append('file', file);
+
+	const res = await axios.post('/api/files/upload', formData, {
+		onUploadProgress: ({ progress }) => {
+			onProgress?.({ progress: Math.floor(((progress ?? 0) * 100) / 2) });
+
+			if ((progress ?? 0) === 1) {
+				let p = 50;
+
+				const simulateProgress = async () => {
+					while (p < 99) {
+						await new Promise((resolve) => setTimeout(resolve, 100));
+						p = p + 1;
+						onProgress?.({ progress: Math.min(p, 100) });
+					}
+				};
+
+				simulateProgress();
+			}
+		},
+		signal: abortSignal
+	});
+	const wrappedResponse = res.data as WrappedResponse<FileEntity>;
+
+	if (!wrappedResponse.success) {
+		throw new Error(wrappedResponse.message);
 	}
 
-	return '/images/tiptap-ui-placeholder-image.jpg';
+	return wrappedResponse.data.url;
 };
 
 type ProtocolOptions = {

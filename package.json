@@ -82,6 +82,7 @@
 		"react-day-picker": "^9.9.0",
 		"react-dom": "19.1.0",
 		"react-hook-form": "^7.61.1",
+		"react-hotkeys-hook": "^5.1.0",
 		"react-remove-scroll": "^2.7.1",
 		"react-window": "^1.8.11",
 		"sass": "^1.91.0",

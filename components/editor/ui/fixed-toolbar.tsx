@@ -9,6 +9,7 @@ import { ChildrenProps } from '@/types/common';
 import { BlockquoteButton } from './blockquote-button';
 import { CodeBlockButton } from './code-block-button';
 import { HeadingDropdownMenu } from './heading-dropdown-menu';
+import { ImageUploadButton } from './image-upload-button';
 import { ListDropdownMenu } from './list-dropdown-menu';
 import { MarkButton } from './mark-button';
 import { UndoRedoButton } from './undo-redo-button';
@@ -25,6 +26,7 @@ const FixedToolbarContent = () => {
 	return (
 		<>
 			<Spacer />
+
 			<ToolbarGroup>
 				<UndoRedoButton action="undo" />
 				<UndoRedoButton action="redo" />
@@ -54,6 +56,12 @@ const FixedToolbarContent = () => {
 			<ToolbarGroup>
 				<MarkButton type="superscript" />
 				<MarkButton type="subscript" />
+			</ToolbarGroup>
+
+			<ToolbarSeparator />
+
+			<ToolbarGroup>
+				<ImageUploadButton />
 			</ToolbarGroup>
 
 			<Spacer />
