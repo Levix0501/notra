@@ -1,4 +1,3 @@
-import { TaskItem, TaskList } from '@tiptap/extension-list';
 import { Extensions } from '@tiptap/react';
 
 import { ExtensionKitBase } from './extension-kit-base';
@@ -10,7 +9,5 @@ export const ExtensionKit: Extensions = [
 	...ExtensionKitBase,
 	CodeBlock,
 	SlashCommand,
-	ResetEmptyToParagraph,
-	TaskList,
-	TaskItem.configure({ nested: true })
+	ResetEmptyToParagraph
 ];

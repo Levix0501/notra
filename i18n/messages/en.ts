@@ -270,6 +270,6 @@ export const en = {
 		numbered_list: 'Numbered List',
 		todo_list: 'To-do List',
 		blockquote: 'Quote',
-		code_block: 'Code'
+		code_block: 'Code Block'
 	}
 };

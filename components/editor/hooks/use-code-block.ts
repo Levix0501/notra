@@ -2,7 +2,7 @@
 
 import { NodeSelection, TextSelection } from '@tiptap/pm/state';
 import { type Editor } from '@tiptap/react';
-import { Code } from 'lucide-react';
+import { CodeSquare } from 'lucide-react';
 import * as React from 'react';
 
 import { useTiptapEditor } from '@/components/editor/hooks/use-tiptap-editor';
@@ -244,6 +244,6 @@ export function useCodeBlock(config?: UseCodeBlockConfig) {
 		canToggle: canToggleState,
 		label: 'Code Block',
 		shortcutKeys: CODE_BLOCK_SHORTCUT_KEY,
-		Icon: Code
+		Icon: CodeSquare
 	};
 }

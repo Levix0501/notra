@@ -86,6 +86,12 @@ importers:
       '@tiptap/extension-paragraph':
         specifier: ^3.4.1
         version: 3.4.1(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))
+      '@tiptap/extension-subscript':
+        specifier: ^3.4.3
+        version: 3.4.3(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))(@tiptap/pm@3.3.0)
+      '@tiptap/extension-superscript':
+        specifier: ^3.4.3
+        version: 3.4.3(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))(@tiptap/pm@3.3.0)
       '@tiptap/extension-text-align':
         specifier: ^3.3.0
         version: 3.3.0(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))
@@ -1681,6 +1687,18 @@ packages:
     resolution: {integrity: sha512-qTSywaQYtlVo3B2NaLSKgmh5/O5m4XspSME8mekinGH6cTv3d+H3p1SUhQoc1Ue+65CI01+GsLU4v/Gi4B2xNw==}
     peerDependencies:
       '@tiptap/core': ^3.3.0
+
+  '@tiptap/extension-subscript@3.4.3':
+    resolution: {integrity: sha512-3WIm+5vsWYM+dvutN4Jyn05mV6LT544zhZfOFs/Z3ndANnahui71Ot/7RdlJ/hzxs7cMAlyWKGi6rDJJ2yjHNw==}
+    peerDependencies:
+      '@tiptap/core': ^3.4.3
+      '@tiptap/pm': ^3.4.3
+
+  '@tiptap/extension-superscript@3.4.3':
+    resolution: {integrity: sha512-dVcMIJttht100WLiC65L9S7pqxvqLJc+ltZU9Nm4Qina748z0ruurTCvnvO06+JDdtbM+m1N2zG+mWWXYhmLxQ==}
+    peerDependencies:
+      '@tiptap/core': ^3.4.3
+      '@tiptap/pm': ^3.4.3
 
   '@tiptap/extension-text-align@3.3.0':
     resolution: {integrity: sha512-y/ulBpzrukEgXLvMGT0mI+tbnf64zq06vC3jmSvS7MwunOjgVk5K8CFRQeh/OwuAqGHSqQKcmIH5kOkx2FMI1Q==}
@@ -5687,6 +5705,16 @@ snapshots:
   '@tiptap/extension-strike@3.3.0(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))':
     dependencies:
       '@tiptap/core': 3.3.0(@tiptap/pm@3.3.0)
+
+  '@tiptap/extension-subscript@3.4.3(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))(@tiptap/pm@3.3.0)':
+    dependencies:
+      '@tiptap/core': 3.3.0(@tiptap/pm@3.3.0)
+      '@tiptap/pm': 3.3.0
+
+  '@tiptap/extension-superscript@3.4.3(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))(@tiptap/pm@3.3.0)':
+    dependencies:
+      '@tiptap/core': 3.3.0(@tiptap/pm@3.3.0)
+      '@tiptap/pm': 3.3.0
 
   '@tiptap/extension-text-align@3.3.0(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))':
     dependencies:

@@ -8,6 +8,9 @@ import './styles/list.scss';
 import './styles/paragraph.scss';
 
 import { Image } from '@tiptap/extension-image';
+import { TaskItem, TaskList } from '@tiptap/extension-list';
+import { Subscript } from '@tiptap/extension-subscript';
+import { Superscript } from '@tiptap/extension-superscript';
 import { Extensions } from '@tiptap/react';
 
 import { CodeBlockBase } from './extensions/code-block-extension-base';
@@ -18,5 +21,9 @@ export const ExtensionKitBase: Extensions = [
 	Starter,
 	HorizontalRule,
 	Image,
-	CodeBlockBase
+	CodeBlockBase,
+	TaskList,
+	TaskItem.configure({ nested: true }),
+	Superscript,
+	Subscript
 ];

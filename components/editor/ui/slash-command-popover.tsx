@@ -12,7 +12,7 @@ import {
 	ListOrdered,
 	ListTodo,
 	TextQuote,
-	Code
+	CodeSquare
 } from 'lucide-react';
 import { useImperativeHandle, useState } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
@@ -131,7 +131,7 @@ export const groups: Group[] = [
 				}
 			},
 			{
-				icon: Code,
+				icon: CodeSquare,
 				label: t.code_block,
 				keywords: ['```'],
 				enLabel: 'Code Block',

@@ -10,6 +10,7 @@ import { BlockquoteButton } from './blockquote-button';
 import { CodeBlockButton } from './code-block-button';
 import { HeadingDropdownMenu } from './heading-dropdown-menu';
 import { ListDropdownMenu } from './list-dropdown-menu';
+import { MarkButton } from './mark-button';
 import { UndoRedoButton } from './undo-redo-button';
 
 const ToolbarGroup = ({ children }: ChildrenProps) => {
@@ -37,6 +38,24 @@ const FixedToolbarContent = () => {
 				<BlockquoteButton />
 				<CodeBlockButton />
 			</ToolbarGroup>
+
+			<ToolbarSeparator />
+
+			<ToolbarGroup>
+				<MarkButton type="bold" />
+				<MarkButton type="italic" />
+				<MarkButton type="underline" />
+				<MarkButton type="strike" />
+				<MarkButton type="code" />
+			</ToolbarGroup>
+
+			<ToolbarSeparator />
+
+			<ToolbarGroup>
+				<MarkButton type="superscript" />
+				<MarkButton type="subscript" />
+			</ToolbarGroup>
+
 			<Spacer />
 		</>
 	);
@@ -54,7 +73,7 @@ export const FixedToolbar = () => {
 				!isResizing && 'transition-[left] duration-250 ease-[ease]'
 			)}
 		>
-			<div className="flex size-full items-center gap-1 px-2">
+			<div className="scrollbar-hide flex size-full items-center gap-1 overflow-x-auto px-2">
 				<FixedToolbarContent />
 			</div>
 		</div>
