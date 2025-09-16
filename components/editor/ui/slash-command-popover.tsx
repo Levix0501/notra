@@ -12,14 +12,21 @@ import {
 	ListOrdered,
 	ListTodo,
 	TextQuote,
-	CodeSquare
+	CodeSquare,
+	Image
 } from 'lucide-react';
-import { useImperativeHandle, useState } from 'react';
+import { useEffect, useImperativeHandle, useState } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
 
 import { Popover, PopoverContent } from '@/components/ui/popover';
 import { getTranslations } from '@/i18n';
 import { cn } from '@/lib/utils';
+
+import { toggleBlockquote } from '../hooks/use-blockquote';
+import { toggleCodeBlock } from '../hooks/use-code-block';
+import { toggleHeading } from '../hooks/use-heading';
+import { insertImage } from '../hooks/use-image-upload';
+import { toggleList } from '../hooks/use-list';
 
 interface GroupItem {
 	icon: LucideIcon;
@@ -38,7 +45,7 @@ const t = getTranslations('notra_editor');
 
 export const groups: Group[] = [
 	{
-		label: t.slash_command_basic_block,
+		label: t.basic_block,
 		items: [
 			{
 				icon: Heading1,
@@ -46,7 +53,7 @@ export const groups: Group[] = [
 				enLabel: 'Heading 1',
 				keywords: ['title', 'h1'],
 				action: (editor) => {
-					editor.chain().focus().setHeading({ level: 1 }).run();
+					toggleHeading(editor, 1);
 				}
 			},
 			{
@@ -55,7 +62,7 @@ export const groups: Group[] = [
 				enLabel: 'Heading 2',
 				keywords: ['subtitle', 'h2'],
 				action: (editor) => {
-					editor.chain().focus().setHeading({ level: 2 }).run();
+					toggleHeading(editor, 2);
 				}
 			},
 			{
@@ -64,7 +71,7 @@ export const groups: Group[] = [
 				enLabel: 'Heading 3',
 				keywords: ['subtitle', 'h3'],
 				action: (editor) => {
-					editor.chain().focus().setHeading({ level: 3 }).run();
+					toggleHeading(editor, 3);
 				}
 			},
 			{
@@ -73,7 +80,7 @@ export const groups: Group[] = [
 				enLabel: 'Heading 4',
 				keywords: ['subtitle', 'h4'],
 				action: (editor) => {
-					editor.chain().focus().setHeading({ level: 4 }).run();
+					toggleHeading(editor, 4);
 				}
 			},
 			{
@@ -82,7 +89,7 @@ export const groups: Group[] = [
 				enLabel: 'Heading 5',
 				keywords: ['subtitle', 'h5'],
 				action: (editor) => {
-					editor.chain().focus().setHeading({ level: 5 }).run();
+					toggleHeading(editor, 5);
 				}
 			},
 			{
@@ -91,7 +98,7 @@ export const groups: Group[] = [
 				enLabel: 'Heading 6',
 				keywords: ['subtitle', 'h6'],
 				action: (editor) => {
-					editor.chain().focus().setHeading({ level: 6 }).run();
+					toggleHeading(editor, 6);
 				}
 			},
 			{
@@ -100,7 +107,7 @@ export const groups: Group[] = [
 				keywords: ['unordered', 'ul', '-'],
 				enLabel: 'Bulleted List',
 				action: (editor) => {
-					editor.chain().focus().toggleBulletList().run();
+					toggleList(editor, 'bulletList');
 				}
 			},
 			{
@@ -109,7 +116,7 @@ export const groups: Group[] = [
 				keywords: ['ordered', 'ol', '1'],
 				enLabel: 'Numbered List',
 				action: (editor) => {
-					editor.chain().focus().toggleOrderedList().run();
+					toggleList(editor, 'orderedList');
 				}
 			},
 			{
@@ -118,7 +125,7 @@ export const groups: Group[] = [
 				keywords: ['checklist', 'task', 'checkbox', '[]'],
 				enLabel: 'To-do List',
 				action: (editor) => {
-					editor.chain().focus().toggleTaskList().run();
+					toggleList(editor, 'taskList');
 				}
 			},
 			{
@@ -127,7 +134,7 @@ export const groups: Group[] = [
 				keywords: ['citation', 'blockquote', 'quote', '>'],
 				enLabel: 'Blockquote',
 				action: (editor) => {
-					editor.chain().focus().toggleBlockquote().run();
+					toggleBlockquote(editor);
 				}
 			},
 			{
@@ -136,7 +143,21 @@ export const groups: Group[] = [
 				keywords: ['```'],
 				enLabel: 'Code Block',
 				action: (editor) => {
-					editor.chain().focus().toggleCodeBlock().run();
+					toggleCodeBlock(editor);
+				}
+			}
+		]
+	},
+	{
+		label: t.media,
+		items: [
+			{
+				icon: Image,
+				label: t.image,
+				keywords: ['img', 'picture', 'photo'],
+				enLabel: 'Image',
+				action: (editor) => {
+					insertImage(editor);
 				}
 			}
 		]
@@ -228,6 +249,13 @@ export const SlashCommandPopover = ({
 	useImperativeHandle(ref, () => ({
 		onKeyDown: handleKeyDown
 	}));
+
+	useEffect(() => {
+		if (isOpen) {
+			setSelectedGroupIndex(0);
+			setSelectedItemIndex(0);
+		}
+	}, [items, isOpen]);
 
 	return (
 		<RemoveScroll>

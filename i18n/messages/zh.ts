@@ -258,7 +258,7 @@ export const zh = {
 		language_select_no_language_found: '没有找到语言。',
 		language_select_auto: '自动',
 		language_select_plaintext: '纯文本',
-		slash_command_basic_block: '基本区块',
+		basic_block: '基本区块',
 		heading_1: '标题1',
 		heading_2: '标题2',
 		heading_3: '标题3',
@@ -272,6 +272,8 @@ export const zh = {
 		code_block: '代码块',
 		click_to_upload: '点击上传',
 		or_drag_and_drop: '或拖拽上传',
-		upload_limit: '最多上传 {limit} 个文件，每个文件大小不超过 {maxSize}MB'
+		upload_limit: '最多上传 {limit} 个文件，每个文件大小不超过 {maxSize}MB',
+		media: '媒体',
+		image: '图片'
 	}
 };

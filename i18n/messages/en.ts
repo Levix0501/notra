@@ -259,7 +259,7 @@ export const en = {
 		language_select_no_language_found: 'No language found.',
 		language_select_auto: 'Auto',
 		language_select_plaintext: 'Plain Text',
-		slash_command_basic_block: 'Basic Block',
+		basic_block: 'Basic Block',
 		heading_1: 'Heading 1',
 		heading_2: 'Heading 2',
 		heading_3: 'Heading 3',
@@ -273,6 +273,8 @@ export const en = {
 		code_block: 'Code Block',
 		click_to_upload: 'Click to upload',
 		or_drag_and_drop: 'or drag and drop',
-		upload_limit: 'Maximum {limit} file(s), {maxSize}MB each.'
+		upload_limit: 'Maximum {limit} file(s), {maxSize}MB each.',
+		media: 'Media',
+		image: 'Image'
 	}
 };

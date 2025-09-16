@@ -1,7 +1,7 @@
 'use client';
 
 import { type Editor } from '@tiptap/react';
-import { ImagePlus } from 'lucide-react';
+import { Image } from 'lucide-react';
 import * as React from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 
@@ -195,6 +195,6 @@ export function useImageUpload(config?: UseImageUploadConfig) {
 		canInsert,
 		label: 'Add image',
 		shortcutKeys: IMAGE_UPLOAD_SHORTCUT_KEY,
-		Icon: ImagePlus
+		Icon: Image
 	};
 }
