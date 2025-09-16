@@ -9,7 +9,8 @@ import {
 	LucideIcon,
 	Heading6,
 	List,
-	ListOrdered
+	ListOrdered,
+	ListTodo
 } from 'lucide-react';
 import { useImperativeHandle, useState } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
@@ -107,6 +108,15 @@ export const groups: Group[] = [
 				enLabel: 'Numbered List',
 				action: (editor) => {
 					editor.chain().focus().toggleOrderedList().run();
+				}
+			},
+			{
+				icon: ListTodo,
+				label: t.todo_list,
+				keywords: ['checklist', 'task', 'checkbox', '[]'],
+				enLabel: 'To-do List',
+				action: (editor) => {
+					editor.chain().focus().toggleTaskList().run();
 				}
 			}
 		]
