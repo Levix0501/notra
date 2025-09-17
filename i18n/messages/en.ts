@@ -237,7 +237,10 @@ export const en = {
 		get_published_doc_meta_list_error:
 			'Failed to get published document meta list!',
 		publish_doc_error: 'Failed to publish document!',
-		unpublish_doc_error: 'Failed to unpublish document!'
+		unpublish_doc_error: 'Failed to unpublish document!',
+		get_published_doc_total_count_error:
+			'Failed to get published document total count!',
+		increment_view_count_error: 'Failed to increment view count!'
 	},
 	services_file: {
 		upload_error: 'Failed to upload file!'

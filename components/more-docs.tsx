@@ -8,17 +8,20 @@ import { getTranslations } from '@/i18n';
 import { PAGE_SIZE, useGetMorePublishedDocMetaList } from '@/queries/doc';
 
 import DocCard from './doc-card';
+import EmptyState from './empty-state';
 
 interface MoreDocsProps {
 	bookSlug?: BookEntity['slug'];
-	isEmpty: boolean;
+	totalCount: number;
 }
 
 const t = getTranslations('components_more_docs');
 
-export const MoreDocs = ({ bookSlug, isEmpty }: Readonly<MoreDocsProps>) => {
-	const { data, isLoading, size, setSize } =
-		useGetMorePublishedDocMetaList(bookSlug);
+export const MoreDocs = ({ bookSlug, totalCount }: Readonly<MoreDocsProps>) => {
+	const { data, isLoading, size, setSize } = useGetMorePublishedDocMetaList(
+		totalCount,
+		bookSlug
+	);
 
 	const docs = data?.flat() ?? [];
 	const isLoadingMore =
@@ -26,7 +29,9 @@ export const MoreDocs = ({ bookSlug, isEmpty }: Readonly<MoreDocsProps>) => {
 		(size > 0 && data && typeof data[size - 1] === 'undefined') ||
 		false;
 	const isReachingEnd =
-		isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE) || false;
+		totalCount <= PAGE_SIZE ||
+		(data && data[data.length - 1]?.length < PAGE_SIZE) ||
+		false;
 
 	const sentinelRef = useInfiniteScroll({
 		hasNextPage: !isReachingEnd,
@@ -43,8 +48,16 @@ export const MoreDocs = ({ bookSlug, isEmpty }: Readonly<MoreDocsProps>) => {
 
 			<div ref={sentinelRef} className="col-span-full flex justify-center py-6">
 				{!isReachingEnd && <Loader2 className="animate-spin" />}
-				{(isEmpty || (isReachingEnd && !isLoading)) && (
+				{totalCount !== 0 && isReachingEnd && !isLoading && (
 					<div className="text-sm text-muted-foreground">{t.no_more}</div>
+				)}
+				{totalCount === 0 && (
+					<EmptyState
+						content={
+							getTranslations('components_book_index_page_view_tabs')
+								.no_docs_found
+						}
+					/>
 				)}
 			</div>
 		</>

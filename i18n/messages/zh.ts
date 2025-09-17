@@ -236,7 +236,9 @@ export const zh = {
 		update_doc_draft_content_error: '更新文档草稿内容失败！',
 		get_published_doc_meta_list_error: '获取已发布文档元数据列表失败！',
 		publish_doc_error: '发布文档失败！',
-		unpublish_doc_error: '取消发布文档失败！'
+		unpublish_doc_error: '取消发布文档失败！',
+		get_published_doc_total_count_error: '获取已发布文档总数失败！',
+		increment_view_count_error: '更新浏览量失败！'
 	},
 	services_file: {
 		upload_error: '上传文件失败'

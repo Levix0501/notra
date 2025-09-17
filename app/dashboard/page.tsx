@@ -5,6 +5,7 @@ import { CreateBookDialog } from '@/components/create-book-dialog';
 import DashboardSidebarFooter from '@/components/dashboard-sidebar-footer';
 import DashboardSidebarHeader from '@/components/dashboard-sidebar-header';
 import DashboardSidebarNav from '@/components/dashboard-sidebar-nav';
+import { IndexPageCardView } from '@/components/index-page-card-view';
 import {
 	NotraInset,
 	NotraInsetHeader,
@@ -42,7 +43,7 @@ export default function Page() {
 				</NotraInsetHeader>
 
 				<main className="container mx-auto p-4 md:p-8">
-					<SiteIndexPageViewTabs />
+					<SiteIndexPageViewTabs cardTabContent={<IndexPageCardView />} />
 				</main>
 			</NotraInset>
 

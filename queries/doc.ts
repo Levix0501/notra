@@ -55,11 +55,15 @@ export const useGetPublishedDocMetaList = (
 export const PAGE_SIZE = 24;
 
 export const useGetMorePublishedDocMetaList = (
+	totalCount: number,
 	bookSlug?: BookEntity['slug']
 ) => {
 	return useSWRInfinite(
 		(pageIndex, previousPageData) => {
-			if (previousPageData && !previousPageData.length) {
+			if (
+				(previousPageData && !previousPageData.length) ||
+				totalCount <= PAGE_SIZE
+			) {
 				return null;
 			}
 

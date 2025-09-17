@@ -53,6 +53,8 @@ export const generateMetadata = async (): Promise<Metadata> => {
 	};
 };
 
+export const revalidate = 60;
+
 export default function RootLayout({
 	children
 }: Readonly<{

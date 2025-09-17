@@ -14,8 +14,6 @@ import { useGetBook } from '@/queries/book';
 import { useGetPublishedDocMetaList } from '@/queries/doc';
 import { BookVo } from '@/types/book';
 
-import DocCard from './doc-card';
-import EmptyState from './empty-state';
 import IndexPageDocForm, {
 	IndexPageDocFormHandle
 } from './index-page-doc-form';
@@ -23,12 +21,14 @@ import IndexPageDocView from './index-page-doc-view';
 
 export interface BookIndexPageViewTabsProps {
 	defaultBook: BookVo;
+	cardTabContent?: React.ReactNode;
 }
 
 const t = getTranslations('components_book_index_page_view_tabs');
 
 export default function BookIndexPageViewTabs({
-	defaultBook
+	defaultBook,
+	cardTabContent
 }: Readonly<BookIndexPageViewTabsProps>) {
 	const formRef = useRef<IndexPageDocFormHandle>(null);
 
@@ -152,15 +152,7 @@ export default function BookIndexPageViewTabs({
 					<IndexPageDocView {...defaultValues} />
 				)}
 			</TabsContent>
-			<TabsContent value={IndexPageType.CARD}>
-				{docs.length === 0 && <EmptyState content={t.no_docs_found} />}
-
-				<div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-6">
-					{docs.map((doc) => (
-						<DocCard key={doc.id} doc={doc} />
-					))}
-				</div>
-			</TabsContent>
+			<TabsContent value={IndexPageType.CARD}>{cardTabContent}</TabsContent>
 		</Tabs>
 	);
 }

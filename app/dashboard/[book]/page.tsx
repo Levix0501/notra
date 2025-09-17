@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import BookIndexPageViewTabs from '@/components/book-index-page-view-tabs';
+import { IndexPageCardView } from '@/components/index-page-card-view';
 import { NotraInsetHeader } from '@/components/notra-sidebar';
 import BookService from '@/services/book';
 
@@ -37,7 +38,10 @@ export default async function Page({ params }: Readonly<PageProps>) {
 			</NotraInsetHeader>
 
 			<main className="container mx-auto p-4 md:p-8">
-				<BookIndexPageViewTabs defaultBook={book} />
+				<BookIndexPageViewTabs
+					cardTabContent={<IndexPageCardView bookSlug={slug} />}
+					defaultBook={book}
+				/>
 			</main>
 		</>
 	);

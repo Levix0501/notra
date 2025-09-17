@@ -12,7 +12,6 @@ import { getTranslations } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { useGetSiteSettings } from '@/queries/site-settings';
 
-import EmptyState from './empty-state';
 import IndexPageDocForm, {
 	IndexPageDocFormHandle
 } from './index-page-doc-form';
@@ -20,7 +19,13 @@ import IndexPageDocView from './index-page-doc-view';
 
 const t = getTranslations('components_site_index_page_view_tabs');
 
-export default function SiteIndexPageViewTabs() {
+export interface SiteIndexPageViewTabsProps {
+	cardTabContent?: React.ReactNode;
+}
+
+export default function SiteIndexPageViewTabs({
+	cardTabContent
+}: Readonly<SiteIndexPageViewTabsProps>) {
 	const formRef = useRef<IndexPageDocFormHandle>(null);
 
 	const [isEditing, setIsEditing] = useState(false);
@@ -147,9 +152,7 @@ export default function SiteIndexPageViewTabs() {
 					<IndexPageDocView {...defaultValues} />
 				)}
 			</TabsContent>
-			<TabsContent value={IndexPageType.CARD}>
-				<EmptyState content={t.no_docs_found} />
-			</TabsContent>
+			<TabsContent value={IndexPageType.CARD}>{cardTabContent}</TabsContent>
 		</Tabs>
 	);
 }

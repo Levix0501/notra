@@ -134,6 +134,8 @@ model DocEntity {
   cover        String?
   summary      String?
 
+  viewCount Int @default(0) @map("view_count")
+
   isUpdated   Boolean @default(false) @map("is_updated")
   isPublished Boolean @default(false) @map("is_published")
   isDeleted   Boolean @default(false) @map("is_deleted")

@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { Eye } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -48,15 +49,20 @@ export default function DocCard({ doc }: Readonly<DocCardProps>) {
 					{doc.summary}
 				</div>
 
-				<div className="flex items-center">
+				<div className="flex items-center gap-3 text-sm text-muted-foreground">
 					<dl>
 						<dt className="sr-only">Published on</dt>
-						<dd className="text-sm text-muted-foreground">
+						<dd>
 							<time dateTime={dayjs(doc.publishedAt).toISOString()}>
 								{dayjs(doc.publishedAt).fromNow()}
 							</time>
 						</dd>
 					</dl>
+
+					<div className="flex items-center gap-0.5">
+						<Eye size={16} />
+						<span>{doc.viewCount}</span>
+					</div>
 				</div>
 			</div>
 		</Link>

@@ -39,3 +39,9 @@ export const unpublishDoc = async (docId: DocEntity['id']) => {
 
 	return serviceResult.toPlainObject();
 };
+
+export const incrementViewCount = async (docId: DocEntity['id']) => {
+	const serviceResult = await DocService.incrementViewCount(docId);
+
+	return serviceResult.toPlainObject();
+};

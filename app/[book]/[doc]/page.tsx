@@ -3,7 +3,9 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
+import { DocMeta } from '@/components/doc-meta';
 import { EditorView } from '@/components/editor/editor-view';
+import { ViewCountUpdater } from '@/components/view-count-updater';
 import DocService from '@/services/doc';
 
 interface PageProps {
@@ -66,8 +68,15 @@ export default async function Page({ params }: Readonly<PageProps>) {
 				</div>
 			)}
 			<article className="notra-editor">
-				<h1 className="!mt-6 mb-8 text-4xl font-bold">{doc.title}</h1>
-				<EditorView content={doc.draftContent as unknown as JSONContent} />
+				<h1 className="!my-6 text-4xl font-bold">{doc.title}</h1>
+
+				<DocMeta publishedAt={doc.publishedAt} viewCount={doc.viewCount} />
+
+				<ViewCountUpdater docId={doc.id} />
+
+				{doc.content && (
+					<EditorView content={doc.content as unknown as JSONContent} />
+				)}
 			</article>
 		</div>
 	);

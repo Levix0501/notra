@@ -43,6 +43,27 @@ export default class DocService {
 		}
 	);
 
+	static readonly getPublishedDocTotalCount = cache(
+		async ({ bookSlug }: { bookSlug?: Nullable<BookEntity['slug']> }) => {
+			try {
+				const count = await prisma.docEntity.count({
+					where: {
+						book: bookSlug ? { slug: bookSlug } : void 0,
+						isPublished: true,
+						isDeleted: false
+					}
+				});
+
+				return ServiceResult.success(count);
+			} catch (error) {
+				logger('DocService.getPublishedDocTotalCount', error);
+				const t = getTranslations('services_doc');
+
+				return ServiceResult.fail(t.get_published_doc_total_count_error);
+			}
+		}
+	);
+
 	static readonly getPublishedDocMetaList = cache(
 		async ({
 			bookSlug,
@@ -298,6 +319,22 @@ export default class DocService {
 			const t = getTranslations('services_doc');
 
 			return ServiceResult.fail(t.unpublish_doc_error);
+		}
+	}
+
+	static async incrementViewCount(docId: DocEntity['id']) {
+		try {
+			await prisma.docEntity.update({
+				where: { id: docId },
+				data: { viewCount: { increment: 1 } }
+			});
+
+			return ServiceResult.success(null);
+		} catch (error) {
+			logger('DocService.incrementViewCount', error);
+			const t = getTranslations('services_doc');
+
+			return ServiceResult.fail(t.increment_view_count_error);
 		}
 	}
 }

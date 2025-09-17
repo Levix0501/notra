@@ -17,6 +17,9 @@ export const IndexPageCardView = async ({
 		page: 1,
 		pageSize: 24
 	});
+	const { data: totalCount } = await DocService.getPublishedDocTotalCount({
+		bookSlug
+	});
 
 	return (
 		<div className="mx-auto grid max-w-screen-xl grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 md:py-10">
@@ -24,7 +27,7 @@ export const IndexPageCardView = async ({
 				<DocCard key={doc.id} doc={doc} />
 			))}
 
-			<MoreDocs bookSlug={bookSlug} isEmpty={docs?.length === 0} />
+			<MoreDocs bookSlug={bookSlug} totalCount={totalCount ?? 0} />
 		</div>
 	);
 };
