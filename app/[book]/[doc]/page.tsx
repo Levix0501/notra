@@ -53,7 +53,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 	}
 
 	return (
-		<article className="notra-editor mx-auto max-w-screen-md px-4">
+		<div className="mx-auto max-w-screen-md px-4">
 			{doc.cover && (
 				<div className="relative aspect-video w-full">
 					<Image
@@ -65,8 +65,10 @@ export default async function Page({ params }: Readonly<PageProps>) {
 					/>
 				</div>
 			)}
-			<h1 className="!mt-6 mb-8 text-4xl font-bold">{doc.title}</h1>
-			<EditorView content={doc.draftContent as unknown as JSONContent} />
-		</article>
+			<article className="notra-editor">
+				<h1 className="!mt-6 mb-8 text-4xl font-bold">{doc.title}</h1>
+				<EditorView content={doc.draftContent as unknown as JSONContent} />
+			</article>
+		</div>
 	);
 }

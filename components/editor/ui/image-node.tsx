@@ -4,8 +4,6 @@ import Image from 'next/image';
 export const ImageNode = (props: NodeViewProps) => {
 	const dataSource = props.node.attrs['data-source'];
 
-	console.log(props.node.attrs);
-
 	return (
 		<NodeViewWrapper>
 			<div className="flex items-center justify-center">

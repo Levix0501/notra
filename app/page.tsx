@@ -1,5 +1,6 @@
 import { IndexPageType } from '@prisma/client';
 
+import { IndexPageCardView } from '@/components/index-page-card-view';
 import IndexPageDocView from '@/components/index-page-doc-view';
 import NotraFooter from '@/components/notra-footer';
 import NotraHeader from '@/components/notra-header';
@@ -24,7 +25,9 @@ export default async function Page() {
 						subActionText={siteSettings?.subActionText ?? ''}
 						subActionUrl={siteSettings?.subActionUrl ?? '#'}
 					/>
-				) : null}
+				) : (
+					<IndexPageCardView />
+				)}
 			</main>
 
 			<NotraFooter />

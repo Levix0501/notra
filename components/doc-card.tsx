@@ -1,6 +1,12 @@
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import Image from 'next/image';
 import Link from 'next/link';
 
+import { cn } from '@/lib/utils';
 import { DocMetaVo } from '@/types/doc';
+
+dayjs.extend(relativeTime);
 
 interface DocCardProps {
 	doc: DocMetaVo;
@@ -9,22 +15,48 @@ interface DocCardProps {
 export default function DocCard({ doc }: Readonly<DocCardProps>) {
 	return (
 		<Link
-			className="group relative flex flex-col items-center rounded-2xl border transition-all hover:opacity-100 sm:hover:bg-zinc-100"
-			href="#"
+			className="group overflow-hidden rounded-xl border"
+			href={`/${doc.book.slug}/${doc.slug}`}
 		>
-			<div className="relative flex aspect-video w-full items-center overflow-hidden rounded-t-2xl border-b">
-				<div className="flex size-full items-center justify-center p-3 text-center sm:transition-transform sm:ease-in-out sm:group-hover:scale-105">
-					<div className="text-xl font-extrabold text-zinc-600">
+			<div className="relative aspect-video overflow-hidden border-b">
+				{doc.cover ? (
+					<Image
+						fill
+						alt={doc.title}
+						className="sm:transition-transform sm:ease-in-out sm:group-hover:scale-105"
+						src={doc.cover}
+					/>
+				) : (
+					<div className="flex size-full items-center justify-center p-3 text-center text-xl font-extrabold break-all sm:transition-transform sm:ease-in-out sm:group-hover:scale-105">
 						{doc.title}
 					</div>
-				</div>
+				)}
 			</div>
 
-			<div className="flex h-auto w-full min-w-0 flex-col space-y-2 px-3 py-2 text-sm sm:h-[163px] sm:px-5 sm:py-4">
-				<div className="line-clamp-3 break-all text-zinc-500">
-					djfklsdajfljsdlfj djfklsafjk fjdkfj fdjkf f djkfalfdjs flsdaiwoefjo
-					fdsjl fdf fdoafj flds wofjwofjsdlf flddf fd fdjslfjalwei fsdjlfjiowf
-					fdsf
+			<div className="space-y-2 p-4.5">
+				{doc.cover && (
+					<div className="line-clamp-2 text-xl font-semibold break-all">
+						{doc.title}
+					</div>
+				)}
+				<div
+					className={cn(
+						'text-sm break-all',
+						doc.cover ? 'line-clamp-3' : 'line-clamp-2'
+					)}
+				>
+					{doc.summary}
+				</div>
+
+				<div className="flex items-center">
+					<dl>
+						<dt className="sr-only">Published on</dt>
+						<dd className="text-sm text-muted-foreground">
+							<time dateTime={dayjs(doc.publishedAt).toISOString()}>
+								{dayjs(doc.publishedAt).fromNow()}
+							</time>
+						</dd>
+					</dl>
 				</div>
 			</div>
 		</Link>

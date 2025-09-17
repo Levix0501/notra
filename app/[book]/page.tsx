@@ -2,6 +2,7 @@ import { IndexPageType } from '@prisma/client';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import { IndexPageCardView } from '@/components/index-page-card-view';
 import IndexPageDocView from '@/components/index-page-doc-view';
 import BookService from '@/services/book';
 
@@ -45,5 +46,5 @@ export default async function Page({
 		);
 	}
 
-	return null;
+	return <IndexPageCardView bookSlug={slug} />;
 }

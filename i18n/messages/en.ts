@@ -148,6 +148,9 @@ export const en = {
 		password_min_length: 'Password must be at least 6 characters.',
 		login_error: 'Login failed!'
 	},
+	components_more_docs: {
+		no_more: 'No more data'
+	},
 	components_notra_footer: {
 		powered_by:
 			'Powered by <a href="https://notra.tech" target="_blank" class="font-bold hover:text-primary">Notra</a>'

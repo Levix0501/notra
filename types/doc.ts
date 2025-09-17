@@ -1,14 +1,18 @@
-import { DocEntity } from '@prisma/client';
+import { BookEntity, DocEntity } from '@prisma/client';
 import { z } from 'zod';
 
 import { getTranslations } from '@/i18n';
 
-export type DocMetaVo = Omit<DocEntity, 'content' | 'draftContent'>;
+export type DocMetaVo = Omit<DocEntity, 'content' | 'draftContent'> & {
+	book: {
+		slug: BookEntity['slug'];
+	};
+};
 
 export type UpdateDocMetaDto = {
 	id: DocEntity['id'];
 } & {
-	[key in keyof DocMetaVo]?: DocMetaVo[key];
+	[key in keyof Omit<DocMetaVo, 'book'>]?: Omit<DocMetaVo, 'book'>[key];
 };
 
 export const DocSettingsFormSchema = z.object({

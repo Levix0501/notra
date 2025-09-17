@@ -23,6 +23,13 @@ export default class DocService {
 					omit: {
 						draftContent: true,
 						content: true
+					},
+					include: {
+						book: {
+							select: {
+								slug: true
+							}
+						}
 					}
 				});
 
@@ -59,7 +66,15 @@ export default class DocService {
 						updatedAt: 'desc'
 					},
 					omit: {
-						draftContent: true
+						draftContent: true,
+						content: true
+					},
+					include: {
+						book: {
+							select: {
+								slug: true
+							}
+						}
 					}
 				});
 

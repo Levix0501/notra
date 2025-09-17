@@ -1,7 +1,9 @@
 import { BookEntity, DocEntity } from '@prisma/client';
 import { SWRConfiguration } from 'swr';
+import useSWRInfinite from 'swr/infinite';
 
 import { useFetcher } from '@/hooks/use-fetcher';
+import { fetcher } from '@/lib/fetcher';
 import { Nullable } from '@/types/common';
 import { DocMetaVo, DocVo } from '@/types/doc';
 
@@ -49,3 +51,29 @@ export const useGetPublishedDocMetaList = (
 			: void 0,
 		config
 	);
+
+export const PAGE_SIZE = 24;
+
+export const useGetMorePublishedDocMetaList = (
+	bookSlug?: BookEntity['slug']
+) => {
+	return useSWRInfinite(
+		(pageIndex, previousPageData) => {
+			if (previousPageData && !previousPageData.length) {
+				return null;
+			}
+
+			const params = new URLSearchParams();
+
+			if (bookSlug) {
+				params.set('book_slug', bookSlug);
+			}
+
+			params.set('page', (pageIndex + 2).toString());
+			params.set('page_size', PAGE_SIZE.toString());
+
+			return `/api/docs/meta/list?${params.toString()}`;
+		},
+		fetcher<DocMetaVo[]>
+	);
+};
