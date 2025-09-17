@@ -15,7 +15,7 @@ import {
 	CodeSquare,
 	Image
 } from 'lucide-react';
-import { useEffect, useImperativeHandle, useState } from 'react';
+import { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
 
 import { Popover, PopoverContent } from '@/components/ui/popover';
@@ -188,8 +188,35 @@ export const SlashCommandPopover = ({
 	items,
 	command
 }: Readonly<SlashCommandPopoverProps>) => {
+	const activeItem = useRef<HTMLDivElement>(null);
+	const scrollContainer = useRef<HTMLDivElement>(null);
 	const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
 	const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+
+	useEffect(() => {
+		if (isOpen) {
+			setSelectedGroupIndex(0);
+			setSelectedItemIndex(0);
+		}
+	}, [items, isOpen]);
+
+	useEffect(() => {
+		if (activeItem.current && scrollContainer.current) {
+			const scrollContainerTop = scrollContainer.current.scrollTop;
+			const scrollContainerBottom =
+				scrollContainerTop + scrollContainer.current.clientHeight;
+
+			const activeItemTop = activeItem.current.offsetTop;
+			const activeItemBottom = activeItemTop + activeItem.current.clientHeight;
+
+			if (activeItemTop < scrollContainerTop) {
+				scrollContainer.current.scrollTop = activeItemTop - 4;
+			} else if (activeItemBottom > scrollContainerBottom) {
+				scrollContainer.current.scrollTop =
+					activeItemBottom - scrollContainer.current.clientHeight + 4;
+			}
+		}
+	}, [selectedGroupIndex, selectedItemIndex]);
 
 	const handleKeyDown = (props: SuggestionKeyDownProps) => {
 		const { event } = props;
@@ -250,13 +277,6 @@ export const SlashCommandPopover = ({
 		onKeyDown: handleKeyDown
 	}));
 
-	useEffect(() => {
-		if (isOpen) {
-			setSelectedGroupIndex(0);
-			setSelectedItemIndex(0);
-		}
-	}, [items, isOpen]);
-
 	return (
 		<RemoveScroll>
 			<Popover open={isOpen}>
@@ -272,6 +292,7 @@ export const SlashCommandPopover = ({
 					}}
 				>
 					<div
+						ref={scrollContainer}
 						className="overflow-y-auto p-1"
 						style={{ maxHeight: popoverRect.height }}
 					>
@@ -283,6 +304,12 @@ export const SlashCommandPopover = ({
 								{group.items.map((item, itemIndex) => (
 									<div
 										key={item.label}
+										ref={
+											selectedGroupIndex === groupIndex &&
+											selectedItemIndex === itemIndex
+												? activeItem
+												: null
+										}
 										className={cn(
 											'flex h-8 cursor-pointer items-center gap-2 rounded-sm px-2 text-sm text-foreground',
 											selectedGroupIndex === groupIndex &&
