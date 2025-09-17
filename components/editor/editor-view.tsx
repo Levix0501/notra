@@ -22,14 +22,27 @@ export const EditorView = ({ content }: EditorViewProps) => {
 					return <CodeBlock language={language} text={text} />;
 				},
 				image: ({ node }) => {
+					const dataSource = node.attrs['data-source'];
+
 					return (
 						<div className="flex items-center justify-center">
-							<Image
-								alt={node.attrs.alt}
-								height={node.attrs.height}
-								src={node.attrs.src}
-								width={node.attrs.width}
-							/>
+							{dataSource === 'upload' ? (
+								<Image
+									alt={node.attrs.alt}
+									height={node.attrs.height ?? 1}
+									src={node.attrs.src}
+									width={node.attrs.width ?? 1}
+								/>
+							) : (
+								<picture>
+									<img
+										alt={node.attrs.alt}
+										height={node.attrs.height ?? void 0}
+										src={node.attrs.src}
+										width={node.attrs.width ?? void 0}
+									/>
+								</picture>
+							)}
 						</div>
 					);
 				}
