@@ -14,6 +14,7 @@ import {
 } from '@/components/notra-sidebar';
 import SiteIndexPageViewTabs from '@/components/site-index-page-view-tabs';
 import { getTranslations } from '@/i18n';
+import SiteSettingsService from '@/services/site-settings';
 
 const t = getTranslations('app_dashboard_layout');
 
@@ -21,7 +22,9 @@ export const metadata: Metadata = {
 	title: t.metadata_title
 };
 
-export default function Page() {
+export default async function Page() {
+	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
+
 	return (
 		<>
 			<NotraSidebar>
@@ -43,7 +46,10 @@ export default function Page() {
 				</NotraInsetHeader>
 
 				<main className="container mx-auto p-4 md:p-8">
-					<SiteIndexPageViewTabs cardTabContent={<IndexPageCardView />} />
+					<SiteIndexPageViewTabs
+						cardTabContent={<IndexPageCardView />}
+						defaultSiteSettings={siteSettings}
+					/>
 				</main>
 			</NotraInset>
 

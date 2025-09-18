@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getTranslations } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { useGetSiteSettings } from '@/queries/site-settings';
+import { SiteSettingsVo } from '@/types/site-settings';
 
 import IndexPageDocForm, {
 	IndexPageDocFormHandle
@@ -20,21 +21,25 @@ import IndexPageDocView from './index-page-doc-view';
 const t = getTranslations('components_site_index_page_view_tabs');
 
 export interface SiteIndexPageViewTabsProps {
+	defaultSiteSettings: SiteSettingsVo | null;
 	cardTabContent?: React.ReactNode;
 }
 
 export default function SiteIndexPageViewTabs({
-	cardTabContent
+	cardTabContent,
+	defaultSiteSettings
 }: Readonly<SiteIndexPageViewTabsProps>) {
 	const formRef = useRef<IndexPageDocFormHandle>(null);
 
 	const [isEditing, setIsEditing] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [indexPageType, setIndexPageType] = useState<IndexPageType>(
-		IndexPageType.DOC
+		defaultSiteSettings?.indexPageType ?? IndexPageType.DOC
 	);
 
-	const { data: siteSettings, mutate } = useGetSiteSettings();
+	const { data: siteSettings, mutate } = useGetSiteSettings(
+		defaultSiteSettings ?? void 0
+	);
 
 	const defaultValues = useMemo(
 		() => ({
