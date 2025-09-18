@@ -46,26 +46,36 @@ export default function CreateDropdown({
 			setExpandedKeys(expandedKeys);
 		}
 
-		try {
+		const promise = (async () => {
 			const result =
 				type === 'DOC'
 					? await createDoc(book.id, parentCatalogNodeId)
 					: await createStack(book.id, parentCatalogNodeId);
 
 			if (!result.success) {
-				toast.error(result.message);
-
-				return;
+				throw new Error(result.message);
 			}
 
-			if (type === 'DOC' && result.data?.url) {
-				router.push(`/dashboard/${book.slug}/${result.data.url}`);
-			}
+			return result.data;
+		})();
 
-			mutateCatalog(book.id);
-		} catch {
-			toast.error(t.create_error);
-		}
+		toast
+			.promise(promise, {
+				loading: t.create_loading,
+				success: t.create_success,
+				error: t.create_error
+			})
+			.unwrap()
+			.then((data) => {
+				if (type === 'DOC' && data?.url) {
+					router.push(`/dashboard/${book.slug}/${data.url}`);
+				}
+
+				mutateCatalog(book.id);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	const handleCreateDocument = async () => {

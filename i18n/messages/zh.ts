@@ -89,7 +89,9 @@ export const zh = {
 	components_create_dropdown: {
 		new_document: '文档',
 		new_stack: '分组',
-		create_error: '创建失败！'
+		create_error: '创建失败！',
+		create_loading: '创建中...',
+		create_success: '创建成功！'
 	},
 	components_dashboard_button: {
 		dashboard: '工作台'

@@ -89,7 +89,9 @@ export const en = {
 	components_create_dropdown: {
 		new_document: 'Document',
 		new_stack: 'Stack',
-		create_error: 'Failed to create!'
+		create_error: 'Failed to create!',
+		create_loading: 'Creating...',
+		create_success: 'Created successfully!'
 	},
 	components_dashboard_button: {
 		dashboard: 'Dashboard'
