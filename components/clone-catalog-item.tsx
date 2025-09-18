@@ -89,7 +89,7 @@ const CloneCatalogItem = ({
 						</div>
 					)}
 				</div>
-				{item.title}
+				<div className="flex-1 truncate select-none">{item.title}</div>
 			</div>
 		</div>
 	);

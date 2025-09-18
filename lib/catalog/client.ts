@@ -117,7 +117,7 @@ const prependChild = (
 		newParentNode.childId = node.id;
 
 		node.parentId = newParentId;
-		node.prevId = null;
+		node.prevId = newParentId;
 		node.siblingId = newParentNodeChild ? newParentNodeChild.id : null;
 		node.level = newParentNode.level + 1;
 
