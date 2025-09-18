@@ -36,8 +36,16 @@ export default class BookService {
 
 	static async deleteBook(id: BookEntity['id']) {
 		try {
-			await prisma.bookEntity.delete({
-				where: { id }
+			await prisma.$transaction(async (tx) => {
+				await tx.catalogNodeEntity.deleteMany({
+					where: { bookId: id }
+				});
+				await tx.docEntity.deleteMany({
+					where: { bookId: id }
+				});
+				await tx.bookEntity.delete({
+					where: { id }
+				});
 			});
 
 			return ServiceResult.success(true);
