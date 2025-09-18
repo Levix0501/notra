@@ -67,8 +67,8 @@ export default async function Page({ params }: Readonly<PageProps>) {
 					/>
 				</div>
 			)}
-			<article className="notra-editor">
-				<h1 className="!my-6 text-4xl font-bold">{doc.title}</h1>
+			<article className="notra-editor pt-6">
+				<h1>{doc.title}</h1>
 
 				<DocMeta publishedAt={doc.publishedAt} viewCount={doc.viewCount} />
 

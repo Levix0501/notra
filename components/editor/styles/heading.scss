@@ -13,26 +13,33 @@
 	}
 
 	h1 {
-		font-size: 1.5em;
+		margin-top: 0;
+		margin-bottom: 0.888889em;
+		font-size: 2.25em;
 		font-weight: 700;
-		margin-top: 3em;
+		line-height: 1.11111;
 	}
 
 	h2 {
-		font-size: 1.25em;
+		margin-top: 2em;
+		margin-bottom: 1em;
+		font-size: 1.5em;
 		font-weight: 700;
-		margin-top: 2.5em;
+		line-height: 1.33333;
 	}
 
 	h3 {
-		font-size: 1.125em;
+		margin-top: 1.6em;
+		margin-bottom: 0.6em;
+		font-size: 1.25em;
 		font-weight: 600;
-		margin-top: 2em;
+		line-height: 1.6;
 	}
 
 	h4 {
-		font-size: 1em;
+		margin-top: 1.5em;
+		margin-bottom: 0.5em;
 		font-weight: 600;
-		margin-top: 2em;
+		line-height: 1.5;
 	}
 }
