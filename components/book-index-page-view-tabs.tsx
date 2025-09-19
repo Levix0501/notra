@@ -11,7 +11,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getTranslations } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { useGetBook } from '@/queries/book';
-import { useGetPublishedDocMetaList } from '@/queries/doc';
 import { BookVo } from '@/types/book';
 
 import IndexPageDocForm, {
@@ -39,9 +38,6 @@ export default function BookIndexPageViewTabs({
 	);
 
 	const { data: book, mutate } = useGetBook(defaultBook.slug, defaultBook);
-	const { data: docs } = useGetPublishedDocMetaList({
-		book: defaultBook.slug
-	});
 
 	const defaultValues = useMemo(() => {
 		return {
@@ -56,7 +52,7 @@ export default function BookIndexPageViewTabs({
 		};
 	}, [book]);
 
-	if (!book || !docs) {
+	if (!book) {
 		return null;
 	}
 

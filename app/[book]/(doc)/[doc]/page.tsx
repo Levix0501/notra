@@ -55,29 +55,31 @@ export default async function Page({ params }: Readonly<PageProps>) {
 	}
 
 	return (
-		<div className="mx-auto max-w-screen-md px-4">
-			{doc.cover && (
-				<div className="relative aspect-video w-full">
-					<Image
-						fill
-						alt={doc.title}
-						className="rounded-[4px]"
-						sizes="768px"
-						src={doc.cover}
-					/>
-				</div>
-			)}
-			<article className="notra-editor pt-6">
-				<h1>{doc.title}</h1>
-
-				<DocMeta publishedAt={doc.publishedAt} viewCount={doc.viewCount} />
-
-				<ViewCountUpdater docId={doc.id} />
-
-				{doc.content && (
-					<EditorView content={doc.content as unknown as JSONContent} />
+		<div className="min-w-0 md:px-16">
+			<div className="max-w-screen-md">
+				{doc.cover && (
+					<div className="relative aspect-video w-full">
+						<Image
+							fill
+							alt={doc.title}
+							className="rounded-[4px]"
+							sizes="768px"
+							src={doc.cover}
+						/>
+					</div>
 				)}
-			</article>
+				<article className="notra-editor pt-6">
+					<h1>{doc.title}</h1>
+
+					<DocMeta publishedAt={doc.publishedAt} viewCount={doc.viewCount} />
+
+					<ViewCountUpdater docId={doc.id} />
+
+					{doc.content && (
+						<EditorView content={doc.content as unknown as JSONContent} />
+					)}
+				</article>
+			</div>
 		</div>
 	);
 }

@@ -218,6 +218,7 @@ export const en = {
 	},
 	services_catalog_node: {
 		get_catalog_nodes_error: 'Failed to get nodes!',
+		get_published_catalog_nodes_error: 'Failed to get published nodes!',
 		new_stack_default_name: 'Stack',
 		new_doc_default_name: 'Untitled Document',
 		create_stack_error: 'Failed to create stack!',

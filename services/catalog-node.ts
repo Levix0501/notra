@@ -1,4 +1,4 @@
-import { CatalogNodeEntity, CatalogNodeType } from '@prisma/client';
+import { BookEntity, CatalogNodeEntity, CatalogNodeType } from '@prisma/client';
 
 import { getTranslations } from '@/i18n';
 import { deleteNodeWithChildren, moveNode } from '@/lib/catalog/server';
@@ -193,6 +193,41 @@ export default class CatalogNodeService {
 			logger('CatalogNodeService.getCatalogNodes', error);
 
 			return ServiceResult.fail(t.get_catalog_nodes_error);
+		}
+	}
+
+	static async getPublishedCatalogNodes(bookSlug: BookEntity['slug']) {
+		try {
+			const nodes = await prisma.catalogNodeEntity.findMany({
+				where: {
+					book: {
+						slug: bookSlug
+					},
+					OR: [
+						{
+							type: CatalogNodeType.STACK
+						},
+						{
+							type: CatalogNodeType.DOC,
+							DocEntity: {
+								isPublished: true,
+								isDeleted: false
+							}
+						}
+					]
+				},
+				omit: {
+					createdAt: true,
+					updatedAt: true,
+					bookId: true
+				}
+			});
+
+			return ServiceResult.success(flattenCatalogNodes(nodes));
+		} catch (error) {
+			logger('CatalogNodeService.getPublishedCatalogNodes', error);
+
+			return ServiceResult.fail(t.get_published_catalog_nodes_error);
 		}
 	}
 

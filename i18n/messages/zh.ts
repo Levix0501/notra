@@ -218,6 +218,7 @@ export const zh = {
 	},
 	services_catalog_node: {
 		get_catalog_nodes_error: '获取节点失败！',
+		get_published_catalog_nodes_error: '获取已发布节点失败！',
 		new_stack_default_name: '新分组',
 		new_doc_default_name: '无标题文档',
 		create_stack_error: '创建分组失败！',
