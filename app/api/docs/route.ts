@@ -15,9 +15,9 @@ export async function GET(request: Request) {
 	}
 
 	const { searchParams } = new URL(request.url);
-	const bookSlug = searchParams.get('book_slug');
-	const docSlug = searchParams.get('doc_slug');
-	const result = await DocService.getDoc(bookSlug ?? '', docSlug ?? '');
+	const bookId = searchParams.get('book_id');
+	const docId = searchParams.get('doc_id');
+	const result = await DocService.getDoc(Number(bookId), Number(docId));
 
 	return result.nextResponse();
 }

@@ -17,7 +17,7 @@ export default async function Layout({
 	params: Promise<{ book: string }>;
 }>) {
 	const { book: slug } = await params;
-	const { data: book } = await BookService.getBook(slug);
+	const { data: book } = await BookService.getBookBySlug(slug);
 
 	if (!book) {
 		notFound();

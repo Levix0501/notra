@@ -12,10 +12,10 @@ export const updateDocMeta = async (values: UpdateDocMetaDto) => {
 };
 
 export const checkDocSlug = async (
-	bookSlug: BookEntity['slug'],
+	bookId: BookEntity['id'],
 	docSlug: DocEntity['slug']
 ) => {
-	const serviceResult = await DocService.checkDocSlug(bookSlug, docSlug);
+	const serviceResult = await DocService.checkDocSlug(bookId, docSlug);
 
 	return serviceResult.toPlainObject();
 };

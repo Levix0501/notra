@@ -37,7 +37,7 @@ export default function BookIndexPageViewTabs({
 		defaultBook.indexPageType
 	);
 
-	const { data: book, mutate } = useGetBook(defaultBook.slug, defaultBook);
+	const { data: book, mutate } = useGetBook(defaultBook.id, defaultBook);
 
 	const defaultValues = useMemo(() => {
 		return {

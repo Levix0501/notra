@@ -9,35 +9,35 @@ import DocService from '@/services/doc';
 
 interface PageProps {
 	params: Promise<{
-		book: string;
-		doc: string;
+		bookId: string;
+		docId: string;
 	}>;
 }
 
 export const generateMetadata = async ({
 	params
 }: Readonly<PageProps>): Promise<Metadata> => {
-	const { doc } = await params;
+	const { docId } = await params;
 
 	return {
-		title: doc
+		title: docId
 	};
 };
 
 export const generateStaticParams = async ({ params }: Readonly<PageProps>) => {
-	const { book } = await params;
+	const { bookId } = await params;
 
-	const { data: docs } = await DocService.getDocsByBookSlug(book);
+	const { data: docs } = await DocService.getDocs(Number(bookId));
 
 	return (
 		docs?.map((doc) => ({
-			doc: doc.slug
+			docId: doc.id
 		})) ?? []
 	);
 };
 
 export default async function Page({ params }: Readonly<PageProps>) {
-	const { book, doc } = await params;
+	const { bookId, docId } = await params;
 
 	return (
 		<>
@@ -52,7 +52,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 			</NotraInsetHeader>
 
 			<main className="flex min-h-[calc(100dvh-3.5rem)] flex-col">
-				<NotraEditor bookSlug={book} docSlug={doc} />
+				<NotraEditor bookId={Number(bookId)} docId={Number(docId)} />
 			</main>
 		</>
 	);

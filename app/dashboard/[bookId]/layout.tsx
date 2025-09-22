@@ -16,7 +16,7 @@ import BookService from '@/services/book';
 export const generateStaticParams = async () => {
 	const { data: books } = await BookService.getBooks();
 
-	return books?.map((book) => ({ book: book.slug })) ?? [];
+	return books?.map((book) => ({ book: book.id })) ?? [];
 };
 
 export default async function Layout({
@@ -24,10 +24,10 @@ export default async function Layout({
 	params
 }: Readonly<{
 	children: React.ReactNode;
-	params: Promise<{ book: string }>;
+	params: Promise<{ bookId: string }>;
 }>) {
-	const { book: slug } = await params;
-	const { data: book } = await BookService.getBook(slug);
+	const { bookId } = await params;
+	const { data: book } = await BookService.getBook(Number(bookId));
 
 	if (!book) {
 		notFound();
@@ -41,10 +41,10 @@ export default async function Layout({
 				<NotraSidebarContent>
 					<div className="mb-4 flex items-center justify-between gap-2 px-5 md:px-3.5">
 						<BookName defaultBook={book} />
-						<BookSettingsButton bookSlug={book.slug} />
+						<BookSettingsButton bookId={book.id} />
 					</div>
 
-					<BookSidebarNav bookSlug={book.slug} />
+					<BookSidebarNav bookId={book.id} />
 
 					<div className="flex-1 overflow-hidden">
 						<BookCatalog bookId={book.id} />

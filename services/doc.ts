@@ -6,19 +6,16 @@ import { getTranslations } from '@/i18n';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
 import { ServiceResult } from '@/lib/service-result';
-import { Nullable } from '@/types/common';
 import { UpdateDocDraftContentDto, UpdateDocMetaDto } from '@/types/doc';
 
 export default class DocService {
 	static readonly getDocMeta = cache(
-		async (bookSlug: BookEntity['slug'], docSlug: DocEntity['slug']) => {
+		async (bookId: BookEntity['id'], docId: DocEntity['id']) => {
 			try {
 				const doc = await prisma.docEntity.findFirst({
 					where: {
-						slug: docSlug,
-						book: {
-							slug: bookSlug
-						}
+						id: docId,
+						bookId
 					},
 					omit: {
 						draftContent: true,
@@ -44,11 +41,11 @@ export default class DocService {
 	);
 
 	static readonly getPublishedDocTotalCount = cache(
-		async ({ bookSlug }: { bookSlug?: Nullable<BookEntity['slug']> }) => {
+		async ({ bookId }: { bookId?: BookEntity['id'] }) => {
 			try {
 				const count = await prisma.docEntity.count({
 					where: {
-						book: bookSlug ? { slug: bookSlug } : void 0,
+						bookId,
 						isPublished: true,
 						isDeleted: false
 					}
@@ -66,18 +63,18 @@ export default class DocService {
 
 	static readonly getPublishedDocMetaList = cache(
 		async ({
-			bookSlug,
+			bookId,
 			page,
 			pageSize = 12
 		}: {
-			bookSlug?: Nullable<BookEntity['slug']>;
+			bookId?: BookEntity['id'];
 			page: number;
 			pageSize: number;
 		}) => {
 			try {
 				const docs = await prisma.docEntity.findMany({
 					where: {
-						book: bookSlug ? { slug: bookSlug } : void 0,
+						bookId,
 						isPublished: true,
 						isDeleted: false
 					},
@@ -110,14 +107,12 @@ export default class DocService {
 	);
 
 	static readonly getDoc = cache(
-		async (bookSlug: BookEntity['slug'], docSlug: DocEntity['slug']) => {
+		async (bookId: BookEntity['id'], docId: DocEntity['id']) => {
 			try {
 				const doc = await prisma.docEntity.findFirst({
 					where: {
-						slug: docSlug,
-						book: {
-							slug: bookSlug
-						}
+						id: docId,
+						bookId
 					}
 				});
 
@@ -155,22 +150,20 @@ export default class DocService {
 		}
 	);
 
-	static readonly getDocsByBookSlug = cache(
-		async (bookSlug: BookEntity['slug']) => {
-			try {
-				const docs = await prisma.docEntity.findMany({
-					where: { book: { slug: bookSlug } }
-				});
+	static readonly getDocs = cache(async (bookId: BookEntity['id']) => {
+		try {
+			const docs = await prisma.docEntity.findMany({
+				where: { bookId }
+			});
 
-				return ServiceResult.success(docs);
-			} catch (error) {
-				logger('DocService.getDocsByBookSlug', error);
-				const t = getTranslations('services_doc');
+			return ServiceResult.success(docs);
+		} catch (error) {
+			logger('DocService.getDocs', error);
+			const t = getTranslations('services_doc');
 
-				return ServiceResult.fail(t.get_docs_by_book_slug_error);
-			}
+			return ServiceResult.fail(t.get_docs_error);
 		}
-	);
+	});
 
 	static readonly getPublishedDocsByBookSlug = cache(
 		async (bookSlug: BookEntity['slug']) => {
@@ -217,7 +210,7 @@ export default class DocService {
 				return doc;
 			});
 
-			return DocService.getDocMeta(doc.book.slug, doc.slug);
+			return DocService.getDocMeta(doc.bookId, doc.id);
 		} catch (error) {
 			logger('DocService.updateDocMeta', error);
 			const t = getTranslations('services_doc');
@@ -246,12 +239,12 @@ export default class DocService {
 	}
 
 	static readonly checkDocSlug = async (
-		bookSlug: BookEntity['slug'],
+		bookId: BookEntity['id'],
 		docSlug: DocEntity['slug']
 	) => {
 		try {
 			const doc = await prisma.docEntity.findFirst({
-				where: { slug: docSlug, book: { slug: bookSlug } }
+				where: { slug: docSlug, bookId }
 			});
 
 			return ServiceResult.success(!doc);
@@ -266,18 +259,7 @@ export default class DocService {
 	static async publishDoc(docId: DocEntity['id']) {
 		try {
 			const doc = await prisma.docEntity.findUniqueOrThrow({
-				where: { id: docId },
-				select: {
-					draftContent: true,
-					isPublished: true,
-					publishedAt: true,
-					slug: true,
-					book: {
-						select: {
-							slug: true
-						}
-					}
-				}
+				where: { id: docId }
 			});
 
 			await prisma.docEntity.update({
@@ -290,7 +272,7 @@ export default class DocService {
 				}
 			});
 
-			return DocService.getDocMeta(doc.book.slug, doc.slug);
+			return DocService.getDocMeta(doc.bookId, doc.id);
 		} catch (error) {
 			logger('DocService.publishDoc', error);
 			const t = getTranslations('services_doc');
@@ -313,7 +295,7 @@ export default class DocService {
 				}
 			});
 
-			return DocService.getDocMeta(doc.book.slug, doc.slug);
+			return DocService.getDocMeta(doc.bookId, doc.id);
 		} catch (error) {
 			logger('DocService.unpublishDoc', error);
 			const t = getTranslations('services_doc');

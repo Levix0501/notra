@@ -12,7 +12,7 @@ export const generateMetadata = async ({
 	params: Promise<{ book: string }>;
 }>): Promise<Metadata> => {
 	const { book: slug } = await params;
-	const { data: book } = await BookService.getBook(slug);
+	const { data: book } = await BookService.getBookBySlug(slug);
 
 	return {
 		title: book?.name ?? ''
@@ -25,7 +25,7 @@ export default async function Page({
 	params: Promise<{ book: string }>;
 }>) {
 	const { book: slug } = await params;
-	const { data: book } = await BookService.getBook(slug);
+	const { data: book } = await BookService.getBookBySlug(slug);
 
 	if (!book) {
 		notFound();
@@ -46,5 +46,5 @@ export default async function Page({
 		);
 	}
 
-	return <IndexPageCardView bookSlug={slug} />;
+	return <IndexPageCardView bookId={book.id} />;
 }

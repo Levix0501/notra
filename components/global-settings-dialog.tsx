@@ -1,5 +1,6 @@
 'use client';
 
+import { BookEntity, DocEntity } from '@prisma/client';
 import { BookText, ChartPie, FileSliders, Settings } from 'lucide-react';
 import { create } from 'zustand';
 
@@ -7,6 +8,7 @@ import { getTranslations } from '@/i18n';
 import { useGetBook } from '@/queries/book';
 import { useGetDocMeta } from '@/queries/doc';
 import { useGetSiteSettings } from '@/queries/site-settings';
+import { Nullable } from '@/types/common';
 
 import AnalyticsForm from './analytics-form';
 import BookSettingsForm from './book-settings-form';
@@ -27,10 +29,10 @@ type GlobalSettingsDialogStore = {
 	setOpen: (open: boolean) => void;
 	tab: 'doc' | 'book' | 'site' | 'analytics';
 	setTab: (tab: 'doc' | 'book' | 'site' | 'analytics') => void;
-	docSlug: string;
-	setDocSlug: (docSlug: string) => void;
-	bookSlug: string;
-	setBookSlug: (bookSlug: string) => void;
+	docId: Nullable<DocEntity['id']>;
+	setDocId: (docId: Nullable<DocEntity['id']>) => void;
+	bookId: Nullable<BookEntity['id']>;
+	setBookId: (bookId: Nullable<BookEntity['id']>) => void;
 };
 
 export const useGlobalSettingsDialog = create<GlobalSettingsDialogStore>(
@@ -39,31 +41,31 @@ export const useGlobalSettingsDialog = create<GlobalSettingsDialogStore>(
 		setOpen: (open) => set({ open }),
 		tab: 'site',
 		setTab: (tab) => set({ tab }),
-		docSlug: '',
-		setDocSlug: (docSlug) => set({ docSlug }),
-		bookSlug: '',
-		setBookSlug: (bookSlug) => set({ bookSlug })
+		docId: null,
+		setDocId: (docId) => set({ docId }),
+		bookId: null,
+		setBookId: (bookId) => set({ bookId })
 	})
 );
 
 const t = getTranslations('components_global_settings_dialog');
 
 export default function GlobalSettingsDialog() {
-	const { open, setOpen, tab, docSlug, bookSlug } = useGlobalSettingsDialog();
+	const { open, setOpen, tab, docId, bookId } = useGlobalSettingsDialog();
 	const { data: siteSettings, mutate: mutateSiteSettings } =
 		useGetSiteSettings();
 	const {
 		data: book,
 		mutate: mutateBook,
 		isLoading: isBookLoading
-	} = useGetBook(bookSlug);
+	} = useGetBook(bookId);
 	const {
 		data: docMeta,
 		mutate: mutateDocMeta,
 		isLoading: isDocMetaLoading
 	} = useGetDocMeta({
-		book: bookSlug,
-		doc: docSlug
+		bookId,
+		docId
 	});
 
 	return (
@@ -71,7 +73,7 @@ export default function GlobalSettingsDialog() {
 			<SettingsTabs defaultValue={tab}>
 				<SettingsTabsList>
 					<CloseButton onClick={() => setOpen(false)} />
-					{docSlug && (
+					{docId && (
 						<SettingsTabsTrigger value="doc">
 							<FileSliders />
 							<div className="flex-1">
@@ -80,7 +82,7 @@ export default function GlobalSettingsDialog() {
 						</SettingsTabsTrigger>
 					)}
 
-					{bookSlug && (
+					{bookId && (
 						<SettingsTabsTrigger value="book">
 							<BookText />
 							<div className="flex-1">
@@ -111,7 +113,6 @@ export default function GlobalSettingsDialog() {
 						<DocSettingsForm
 							key={JSON.stringify(docMeta)}
 							bookId={docMeta?.bookId ?? 0}
-							bookSlug={bookSlug}
 							defaultDocCover={docMeta?.cover ?? ''}
 							defaultDocSlug={docMeta?.slug ?? ''}
 							defaultDocSummary={docMeta?.summary ?? ''}

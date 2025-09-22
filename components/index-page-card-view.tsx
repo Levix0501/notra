@@ -6,19 +6,19 @@ import DocCard from './doc-card';
 import { MoreDocs } from './more-docs';
 
 export interface IndexPageCardViewProps {
-	bookSlug?: BookEntity['slug'];
+	bookId?: BookEntity['id'];
 }
 
 export const IndexPageCardView = async ({
-	bookSlug
+	bookId
 }: Readonly<IndexPageCardViewProps>) => {
 	const { data: docs } = await DocService.getPublishedDocMetaList({
-		bookSlug,
+		bookId,
 		page: 1,
 		pageSize: 24
 	});
 	const { data: totalCount } = await DocService.getPublishedDocTotalCount({
-		bookSlug
+		bookId
 	});
 
 	return (
@@ -27,7 +27,7 @@ export const IndexPageCardView = async ({
 				<DocCard key={doc.id} doc={doc} />
 			))}
 
-			<MoreDocs bookSlug={bookSlug} totalCount={totalCount ?? 0} />
+			<MoreDocs bookId={bookId} totalCount={totalCount ?? 0} />
 		</div>
 	);
 };

@@ -34,10 +34,10 @@ export const useDocStore = create<DocStore>((set, get) => ({
 }));
 
 export const useCurrentDocMeta = () => {
-	const { book, doc } = useParams<{ book: string; doc: string }>();
+	const { bookId, docId } = useParams<{ bookId: string; docId: string }>();
 
 	return useGetDocMeta(
-		{ book, doc },
+		{ bookId: Number(bookId), docId: Number(docId) },
 		{
 			onSuccess(data) {
 				useDocStore.getState().setId(data.id);

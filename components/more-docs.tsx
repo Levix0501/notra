@@ -11,16 +11,16 @@ import DocCard from './doc-card';
 import EmptyState from './empty-state';
 
 interface MoreDocsProps {
-	bookSlug?: BookEntity['slug'];
+	bookId?: BookEntity['id'];
 	totalCount: number;
 }
 
 const t = getTranslations('components_more_docs');
 
-export const MoreDocs = ({ bookSlug, totalCount }: Readonly<MoreDocsProps>) => {
+export const MoreDocs = ({ bookId, totalCount }: Readonly<MoreDocsProps>) => {
 	const { data, isLoading, size, setSize } = useGetMorePublishedDocMetaList(
 		totalCount,
-		bookSlug
+		bookId
 	);
 
 	const docs = data?.flat() ?? [];

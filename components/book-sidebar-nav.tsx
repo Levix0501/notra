@@ -1,5 +1,6 @@
 'use client';
 
+import { BookEntity } from '@prisma/client';
 import { BookText } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
@@ -12,13 +13,13 @@ import {
 } from './notra-sidebar';
 
 interface BookSidebarNavProps {
-	bookSlug: string;
+	bookId: BookEntity['id'];
 }
 
 const t = getTranslations('components_book_sidebar_nav');
 
 export default function BookSidebarNav({
-	bookSlug
+	bookId
 }: Readonly<BookSidebarNavProps>) {
 	const pathname = usePathname();
 
@@ -26,8 +27,8 @@ export default function BookSidebarNav({
 		<NotraSidebarMenu>
 			<NotraSidebarMenuItem>
 				<NotraSidebarButton
-					href={`/dashboard/${bookSlug}`}
-					isActive={pathname === `/dashboard/${bookSlug}`}
+					href={`/dashboard/${bookId}`}
+					isActive={pathname === `/dashboard/${bookId}`}
 				>
 					<BookText size={16} />
 					<span>{t.book_home}</span>

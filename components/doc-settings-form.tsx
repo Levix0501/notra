@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BookEntity, DocEntity, FileEntity } from '@prisma/client';
+import { DocEntity, FileEntity } from '@prisma/client';
 import { Upload } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -24,14 +24,12 @@ import { uploadFile } from '@/lib/utils';
 import { mutateCatalog } from '@/stores/catalog';
 import { DocSettingsFormSchema, DocSettingsFormValues } from '@/types/doc';
 
-import { useGlobalSettingsDialog } from './global-settings-dialog';
 import { ImageCropper } from './image-cropper';
 import { Textarea } from './ui/textarea';
 
 export interface DocSettingsFormProps {
 	docId: DocEntity['id'];
 	bookId: DocEntity['id'];
-	bookSlug: BookEntity['slug'];
 	defaultDocCover: DocEntity['cover'];
 	defaultDocSummary: DocEntity['summary'];
 	defaultDocSlug: DocEntity['slug'];
@@ -43,7 +41,6 @@ const t = getTranslations('components_doc_settings_form');
 export default function DocSettingsForm({
 	docId,
 	bookId,
-	bookSlug,
 	defaultDocCover,
 	defaultDocSummary,
 	defaultDocSlug,
@@ -62,14 +59,13 @@ export default function DocSettingsForm({
 	});
 	const router = useRouter();
 	const pathname = usePathname();
-	const setDocSlug = useGlobalSettingsDialog((state) => state.setDocSlug);
 
 	const onSubmit = async (values: DocSettingsFormValues) => {
 		setIsPending(true);
 
 		const promise = (async () => {
 			if (values.slug !== defaultDocSlug) {
-				const checkResult = await checkDocSlug(bookSlug, values.slug);
+				const checkResult = await checkDocSlug(bookId, values.slug);
 
 				if (checkResult.success && !checkResult.data) {
 					form.setError('slug', { message: t.slug_exists });
@@ -96,7 +92,6 @@ export default function DocSettingsForm({
 				throw new Error(result.message);
 			}
 
-			setDocSlug(values.slug);
 			mutateDocMeta();
 			mutateCatalog(bookId);
 

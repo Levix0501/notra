@@ -213,6 +213,7 @@ export const en = {
 		get_books_error: 'Failed to get books!',
 		delete_book_error: 'Failed to delete book!',
 		get_book_error: 'Failed to get book!',
+		get_book_by_slug_error: 'Failed to get book by slug!',
 		check_book_slug_error: 'Failed to check book slug!',
 		update_book_error: 'Failed to update book!'
 	},
@@ -232,7 +233,7 @@ export const en = {
 		get_doc_meta_error: 'Failed to get document meta!',
 		get_doc_error: 'Failed to get document!',
 		get_published_doc_error: 'Failed to get published document!',
-		get_docs_by_book_slug_error: 'Failed to get documents!',
+		get_docs_error: 'Failed to get documents!',
 		get_published_docs_by_book_slug_error: 'Failed to get published documents!',
 		update_doc_meta_error: 'Failed to update document meta!',
 		check_doc_slug_error: 'Failed to check document slug!',

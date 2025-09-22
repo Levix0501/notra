@@ -9,54 +9,34 @@ import { DocMetaVo, DocVo } from '@/types/doc';
 
 export const useGetDocMeta = (
 	{
-		book,
-		doc
+		bookId,
+		docId
 	}: {
-		book?: Nullable<BookEntity['slug']>;
-		doc?: Nullable<DocEntity['slug']>;
+		bookId: Nullable<BookEntity['id']>;
+		docId: Nullable<DocEntity['id']>;
 	},
 	config?: SWRConfiguration<DocMetaVo>
 ) =>
 	useFetcher<DocMetaVo>(
-		book && doc ? `/api/docs/meta?book_slug=${book}&doc_slug=${doc}` : void 0,
+		bookId && docId
+			? `/api/docs/meta?book_id=${bookId}&doc_id=${docId}`
+			: void 0,
 		config
 	);
 
 export const useGetDoc = ({
-	book,
-	doc
+	bookId,
+	docId
 }: {
-	book?: Nullable<BookEntity['slug']>;
-	doc?: Nullable<DocEntity['slug']>;
-}) =>
-	useFetcher<DocVo>(
-		book && doc ? `/api/docs?book_slug=${book}&doc_slug=${doc}` : void 0
-	);
-
-export const useGetPublishedDocMetaList = (
-	{
-		book,
-		page = 1,
-		pageSize = 12
-	}: {
-		book?: Nullable<BookEntity['slug']>;
-		page?: number;
-		pageSize?: number;
-	},
-	config?: SWRConfiguration<DocMetaVo[]>
-) =>
-	useFetcher<DocMetaVo[]>(
-		book
-			? `/api/docs/meta/list?book_slug=${book}&page=${page}&page_size=${pageSize}`
-			: void 0,
-		config
-	);
+	bookId: BookEntity['id'];
+	docId: DocEntity['id'];
+}) => useFetcher<DocVo>(`/api/docs?book_id=${bookId}&doc_id=${docId}`);
 
 export const PAGE_SIZE = 24;
 
 export const useGetMorePublishedDocMetaList = (
 	totalCount: number,
-	bookSlug?: BookEntity['slug']
+	bookId?: BookEntity['id']
 ) => {
 	return useSWRInfinite(
 		(pageIndex, previousPageData) => {
@@ -69,14 +49,14 @@ export const useGetMorePublishedDocMetaList = (
 
 			const params = new URLSearchParams();
 
-			if (bookSlug) {
-				params.set('book_slug', bookSlug);
+			if (bookId) {
+				params.set('book_id', bookId.toString());
 			}
 
 			params.set('page', (pageIndex + 2).toString());
 			params.set('page_size', PAGE_SIZE.toString());
 
-			return `/api/docs/meta/list?${params.toString()}`;
+			return `/api/docs/meta?${params.toString()}`;
 		},
 		fetcher<DocMetaVo[]>
 	);

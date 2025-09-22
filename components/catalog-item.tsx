@@ -92,8 +92,8 @@ const CatalogItem = ({
 		if (item.type === 'DOC' && item.url) {
 			useGlobalSettingsDialog.setState({
 				tab: 'doc',
-				docSlug: item.url,
-				bookSlug: book.slug,
+				docId: item.id,
+				bookId: book.id,
 				open: true
 			});
 		}
@@ -163,7 +163,7 @@ const CatalogItem = ({
 
 		if (item.docId !== null && item.docId === useDocStore.getState().id) {
 			mutate(
-				`/api/docs/meta?book_slug=${book.slug}&doc_slug=${item.url}`,
+				`/api/docs/meta?book_id=${book.id}&doc_id=${item.id}`,
 				async () => {
 					useDocStore.getState().setIsSaving(true);
 

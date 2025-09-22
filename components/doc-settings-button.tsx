@@ -20,8 +20,8 @@ export default function DocSettingsButton() {
 		useGlobalSettingsDialog.setState({
 			open: true,
 			tab: 'doc',
-			docSlug: docMeta.slug,
-			bookSlug: book.slug
+			docId: docMeta.id,
+			bookId: book.id
 		});
 	};
 

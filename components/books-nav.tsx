@@ -81,7 +81,7 @@ export default function BooksNav() {
 
 						{books?.map((item) => (
 							<NotraSidebarMenuItem key={item.id}>
-								<NotraSidebarButton href={`/dashboard/${item.slug}`}>
+								<NotraSidebarButton href={`/dashboard/${item.id}`}>
 									<div className="flex w-full items-center">
 										<div className="flex-1 truncate select-none">
 											{item.name}
@@ -112,7 +112,7 @@ export default function BooksNav() {
 													<DropdownMenuItem
 														onClick={() => {
 															useGlobalSettingsDialog.setState({
-																bookSlug: item.slug,
+																bookId: item.id,
 																tab: 'book',
 																open: true
 															});

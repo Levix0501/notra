@@ -27,8 +27,8 @@ export default function AccountDropdown() {
 		useGlobalSettingsDialog.setState({
 			open: true,
 			tab: 'site',
-			bookSlug: '',
-			docSlug: ''
+			bookId: null,
+			docId: null
 		});
 	};
 

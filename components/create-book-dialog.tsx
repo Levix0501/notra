@@ -71,7 +71,7 @@ export function CreateBookDialog() {
 			})
 			.unwrap()
 			.then((data) => {
-				router.push(`/dashboard/${data?.slug}`);
+				router.push(`/dashboard/${data?.id}`);
 				mutate();
 				setOpen(false);
 				form.reset();

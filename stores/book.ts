@@ -4,7 +4,7 @@ import { useGetBook } from '@/queries/book';
 import { BookVo } from '@/types/book';
 
 export const useCurrentBook = (fallbackData?: BookVo) => {
-	const { book: bookSlug } = useParams<{ book: string }>();
+	const { bookId } = useParams<{ bookId: string }>();
 
-	return useGetBook(bookSlug ?? '', fallbackData);
+	return useGetBook(bookId, fallbackData);
 };

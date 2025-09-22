@@ -175,7 +175,7 @@ export default class CatalogNodeService {
 		}
 	}
 
-	static async getCatalogNodes(bookId: CatalogNodeEntity['bookId']) {
+	static async getCatalogNodes(bookId: BookEntity['id']) {
 		try {
 			const nodes = await prisma.catalogNodeEntity.findMany({
 				where: {

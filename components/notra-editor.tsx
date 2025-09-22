@@ -11,17 +11,17 @@ import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
 import { EditorCore } from './editor/editor-core';
 
 export interface NotraEditorProps {
-	bookSlug: BookEntity['slug'];
-	docSlug: DocEntity['slug'];
+	bookId: BookEntity['id'];
+	docId: DocEntity['id'];
 }
 
 export default function NotraEditor({
-	bookSlug,
-	docSlug
+	bookId,
+	docId
 }: Readonly<NotraEditorProps>) {
 	const setIsSaving = useDocStore((state) => state.setIsSaving);
 	const setUpdateAt = useDocStore((state) => state.setUpdateAt);
-	const { data: doc, mutate } = useGetDoc({ book: bookSlug, doc: docSlug });
+	const { data: doc, mutate } = useGetDoc({ bookId, docId });
 	const { mutate: mutateDocMeta } = useCurrentDocMeta();
 	const debouncedUpdateDocDraftContent = useDebounceCallback(
 		async (content: Content) => {

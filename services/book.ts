@@ -91,10 +91,10 @@ export default class BookService {
 		}
 	});
 
-	static readonly getBook = cache(async (slug: BookEntity['slug']) => {
+	static readonly getBook = cache(async (id: BookEntity['id']) => {
 		try {
 			const book = await prisma.bookEntity.findUnique({
-				where: { slug },
+				where: { id },
 				omit: {
 					createdAt: true,
 					updatedAt: true
@@ -107,6 +107,25 @@ export default class BookService {
 			const t = getTranslations('services_book');
 
 			return ServiceResult.fail(t.get_book_error);
+		}
+	});
+
+	static readonly getBookBySlug = cache(async (slug: BookEntity['slug']) => {
+		try {
+			const book = await prisma.bookEntity.findUnique({
+				where: { slug },
+				omit: {
+					createdAt: true,
+					updatedAt: true
+				}
+			});
+
+			return ServiceResult.success(book);
+		} catch (error) {
+			logger('BookService.getBookBySlug', error);
+			const t = getTranslations('services_book');
+
+			return ServiceResult.fail(t.get_book_by_slug_error);
 		}
 	});
 

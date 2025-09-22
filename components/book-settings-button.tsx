@@ -8,18 +8,18 @@ import { Button } from '@/components/ui/button';
 import { useGlobalSettingsDialog } from './global-settings-dialog';
 
 interface BookSettingsButtonProps {
-	bookSlug: BookEntity['slug'];
+	bookId: BookEntity['id'];
 }
 
 export default function BookSettingsButton({
-	bookSlug
+	bookId
 }: Readonly<BookSettingsButtonProps>) {
 	const handleClick = () => {
 		useGlobalSettingsDialog.setState({
 			open: true,
 			tab: 'book',
-			bookSlug,
-			docSlug: ''
+			bookId,
+			docId: null
 		});
 	};
 

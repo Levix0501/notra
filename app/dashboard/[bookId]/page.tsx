@@ -7,14 +7,14 @@ import { NotraInsetHeader } from '@/components/notra-sidebar';
 import BookService from '@/services/book';
 
 interface PageProps {
-	params: Promise<{ book: string }>;
+	params: Promise<{ bookId: string }>;
 }
 
 export const generateMetadata = async ({
 	params
 }: Readonly<PageProps>): Promise<Metadata> => {
-	const { book: slug } = await params;
-	const { data: book } = await BookService.getBook(slug);
+	const { bookId } = await params;
+	const { data: book } = await BookService.getBook(Number(bookId));
 
 	return {
 		title: book?.name ?? ''
@@ -22,8 +22,8 @@ export const generateMetadata = async ({
 };
 
 export default async function Page({ params }: Readonly<PageProps>) {
-	const { book: slug } = await params;
-	const { data: book } = await BookService.getBook(slug);
+	const { bookId } = await params;
+	const { data: book } = await BookService.getBook(Number(bookId));
 
 	if (!book) {
 		notFound();
@@ -39,7 +39,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 
 			<main className="container mx-auto p-4 md:p-8">
 				<BookIndexPageViewTabs
-					cardTabContent={<IndexPageCardView bookSlug={slug} />}
+					cardTabContent={<IndexPageCardView bookId={book.id} />}
 					defaultBook={book}
 				/>
 			</main>
