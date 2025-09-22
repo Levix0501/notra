@@ -21,7 +21,7 @@ export const CodeBlock = ({ language, text }: CodeBlockProps) => {
 
 	if (language === 'html') {
 		return (
-			<Tabs defaultValue="code">
+			<Tabs className="not-first:mt-5" defaultValue="code">
 				<TabsList>
 					<TabsTrigger value="code">{t.code_block_code}</TabsTrigger>
 					<TabsTrigger value="preview">{t.code_block_preview}</TabsTrigger>

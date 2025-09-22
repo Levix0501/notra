@@ -55,7 +55,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 	}
 
 	return (
-		<div className="min-w-0 md:px-16">
+		<div className="min-w-0 flex-1 md:px-16">
 			<div className="max-w-screen-md">
 				{doc.cover && (
 					<div className="relative aspect-video w-full">
