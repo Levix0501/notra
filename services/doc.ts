@@ -84,7 +84,7 @@ export default class DocService {
 					skip: (page - 1) * pageSize,
 					take: pageSize,
 					orderBy: {
-						updatedAt: 'desc'
+						publishedAt: 'desc'
 					},
 					omit: {
 						draftContent: true,
