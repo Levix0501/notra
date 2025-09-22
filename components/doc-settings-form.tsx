@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DocEntity, FileEntity } from '@prisma/client';
 import { Upload } from 'lucide-react';
-import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -57,8 +56,6 @@ export default function DocSettingsForm({
 			slug: defaultDocSlug
 		}
 	});
-	const router = useRouter();
-	const pathname = usePathname();
 
 	const onSubmit = async (values: DocSettingsFormValues) => {
 		setIsPending(true);
@@ -92,12 +89,14 @@ export default function DocSettingsForm({
 				throw new Error(result.message);
 			}
 
+			form.reset({
+				cover: void 0,
+				summary: values.summary,
+				slug: values.slug
+			});
+
 			mutateDocMeta();
 			mutateCatalog(bookId);
-
-			if (values.slug !== defaultDocSlug) {
-				router.replace(pathname.replace(defaultDocSlug, values.slug));
-			}
 		})();
 
 		toast

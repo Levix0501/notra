@@ -72,6 +72,11 @@ export default function BookSettingsForm({
 				throw new Error(updateResult.message);
 			}
 
+			form.reset({
+				name: values.name,
+				slug: values.slug
+			});
+
 			mutateBook();
 			mutateBooks();
 		})();

@@ -111,7 +111,6 @@ export default function GlobalSettingsDialog() {
 						<NotraSkeleton />
 					) : (
 						<DocSettingsForm
-							key={JSON.stringify(docMeta)}
 							bookId={docMeta?.bookId ?? 0}
 							defaultDocCover={docMeta?.cover ?? ''}
 							defaultDocSlug={docMeta?.slug ?? ''}
@@ -127,7 +126,6 @@ export default function GlobalSettingsDialog() {
 						<NotraSkeleton />
 					) : (
 						<BookSettingsForm
-							key={JSON.stringify(book)}
 							bookId={book?.id ?? 0}
 							defaultName={book?.name ?? ''}
 							defaultSlug={book?.slug ?? ''}

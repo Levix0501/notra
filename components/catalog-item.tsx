@@ -257,7 +257,7 @@ const CatalogItem = ({
 						isEditingTitle && 'invisible'
 					)}
 				>
-					<div className="flex items-center gap-x-2">
+					<div className="flex items-center gap-px">
 						<DropdownMenu modal={false}>
 							<DropdownMenuTrigger
 								asChild
