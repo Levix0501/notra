@@ -28,11 +28,14 @@ export const mutateCatalog = (
 	bookId: BookEntity['id'],
 	mutateFn?: () => Promise<CatalogNodeVoWithLevel[]>
 ) => {
+	const optimisticData = flattenCatalogNodes(Array.from(nodeMap.values()));
+
+	setNodeMap(optimisticData);
 	mutate(
 		`/api/catalog-nodes?book_id=${bookId}`,
 		mutateFn || ((state) => state),
 		{
-			optimisticData: flattenCatalogNodes(Array.from(nodeMap.values())),
+			optimisticData,
 			revalidate: !mutateFn
 		}
 	);
