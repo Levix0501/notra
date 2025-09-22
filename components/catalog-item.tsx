@@ -63,7 +63,7 @@ const CatalogItem = ({
 		return null;
 	}
 
-	const isActive = pathname === `/dashboard/${book.slug}/${item.url}`;
+	const isActive = pathname === `/dashboard/${book.id}/${item.id}`;
 
 	const toggleExpandedKey = (key: number) => {
 		if (expandedKeys.has(key)) {
@@ -125,7 +125,7 @@ const CatalogItem = ({
 		});
 
 		if (item.docId === useDocStore.getState().id) {
-			router.replace(`/dashboard/${book.slug}`);
+			router.replace(`/dashboard/${book.id}`);
 		}
 	};
 

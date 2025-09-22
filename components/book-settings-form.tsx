@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BookEntity } from '@prisma/client';
-import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -48,8 +47,6 @@ export default function BookSettingsForm({
 		}
 	});
 	const { mutate: mutateBooks } = useGetBooks();
-	const pathname = usePathname();
-	const router = useRouter();
 
 	const onSubmit = async (values: UpdateBookInfoValues) => {
 		setIsPending(true);
@@ -77,13 +74,6 @@ export default function BookSettingsForm({
 
 			mutateBook();
 			mutateBooks();
-
-			if (
-				pathname.startsWith(`/dashboard/${defaultSlug}`) &&
-				values.slug !== defaultSlug
-			) {
-				router.replace(pathname.replace(defaultSlug, values.slug));
-			}
 		})();
 
 		toast

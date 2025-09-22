@@ -27,7 +27,7 @@ export default function CatalogItemWrapper({
 		return (
 			<Link
 				className={className}
-				href={`/dashboard/${book?.slug}/${item.url}`}
+				href={`/dashboard/${book?.id}/${item.id}`}
 				style={style}
 				onClick={onClick}
 			>
