@@ -117,7 +117,7 @@ export function SettingsTabsContent({
 }: Readonly<SettingsTabsContentProps>) {
 	return (
 		<TabsContent
-			className="max-h-[50vh] overflow-y-auto px-4 py-5 text-sm md:min-h-[380px]"
+			className="overflow-y-auto px-4 py-5 text-sm md:min-h-[380px]"
 			value={value}
 		>
 			{children}
