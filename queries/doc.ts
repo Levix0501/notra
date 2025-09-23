@@ -58,6 +58,9 @@ export const useGetMorePublishedDocMetaList = (
 
 			return `/api/docs/meta?${params.toString()}`;
 		},
-		fetcher<DocMetaVo[]>
+		fetcher<DocMetaVo[]>,
+		{
+			revalidateFirstPage: false
+		}
 	);
 };

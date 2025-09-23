@@ -25,6 +25,7 @@ export default function DocCard({ doc }: Readonly<DocCardProps>) {
 						fill
 						alt={doc.title}
 						className="sm:transition-transform sm:ease-in-out sm:group-hover:scale-105"
+						sizes="(max-width:639px) 100vw, (max-width:767px) 50vw, 33vw"
 						src={doc.cover}
 					/>
 				) : (

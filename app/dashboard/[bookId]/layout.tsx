@@ -46,7 +46,7 @@ export default async function Layout({
 
 					<BookSidebarNav bookId={book.id} />
 
-					<div className="flex flex-1 flex-col overflow-hidden">
+					<div className="flex-1 overflow-hidden">
 						<BookCatalog bookId={book.id} />
 					</div>
 				</NotraSidebarContent>
