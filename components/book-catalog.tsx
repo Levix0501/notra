@@ -49,9 +49,7 @@ export default function BookCatalog({ bookId }: Readonly<BookCatalogProps>) {
 	);
 
 	return (
-		<div className="relative size-full">
-			<div ref={ref} className="absolute h-full w-px"></div>
-
+		<>
 			{isLoading && (
 				<div className="px-4 md:px-2.5">
 					<NotraSkeleton />
@@ -67,14 +65,17 @@ export default function BookCatalog({ bookId }: Readonly<BookCatalogProps>) {
 					</div>
 				</CreateDropdown>
 			)}
+			<div className="relative flex-1">
+				<div ref={ref} className="absolute h-full w-px"></div>
 
-			{!isLoading && data && data.length > 0 && (
-				<DragDropZone
-					bookId={bookId}
-					draggableList={draggableList}
-					height={height}
-				/>
-			)}
-		</div>
+				{!isLoading && data && data.length > 0 && (
+					<DragDropZone
+						bookId={bookId}
+						draggableList={draggableList}
+						height={height}
+					/>
+				)}
+			</div>
+		</>
 	);
 }
