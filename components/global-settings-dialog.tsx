@@ -136,7 +136,6 @@ export default function GlobalSettingsDialog() {
 
 				<SettingsTabsContent value="site">
 					<SiteSettingsForm
-						key={JSON.stringify(siteSettings)}
 						defaultCopyright={siteSettings?.copyright ?? ''}
 						defaultDarkLogo={siteSettings?.darkLogo ?? ''}
 						defaultDescription={siteSettings?.description ?? ''}
@@ -148,7 +147,6 @@ export default function GlobalSettingsDialog() {
 
 				<SettingsTabsContent value="analytics">
 					<AnalyticsForm
-						key={JSON.stringify(siteSettings)}
 						defaultGaId={siteSettings?.gaId ?? ''}
 						mutateSiteSettings={mutateSiteSettings}
 					/>

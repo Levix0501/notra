@@ -89,6 +89,14 @@ export default function SiteSettingsForm({
 				throw new Error(result.message);
 			}
 
+			form.reset({
+				title: values.title,
+				description: values.description,
+				logo: void 0,
+				darkLogo: void 0,
+				copyright: values.copyright
+			});
+
 			mutateSiteSettings();
 		})();
 

@@ -55,6 +55,10 @@ export default function AnalyticsForm({
 				throw new Error(result.message);
 			}
 
+			form.reset({
+				gaId: values.gaId
+			});
+
 			mutateSiteSettings();
 		})();
 
