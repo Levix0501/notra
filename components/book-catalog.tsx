@@ -48,8 +48,6 @@ export default function BookCatalog({ bookId }: Readonly<BookCatalogProps>) {
 			node.level === 0 || (node.parentId && expandedKeys.has(node.parentId))
 	);
 
-	console.log(height);
-
 	return (
 		<div className="relative size-full">
 			<div ref={ref} className="absolute h-full w-px"></div>
