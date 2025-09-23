@@ -39,11 +39,8 @@ export const generateMetadata = async ({
 	};
 };
 
-export const generateStaticParams = async ({ params }: Readonly<PageProps>) => {
-	const { book: bookSlug } = await params;
-	const { data: docs } = await DocService.getPublishedDocsByBookSlug(bookSlug);
-
-	return docs?.map((doc) => ({ book: bookSlug, doc: doc.slug })) ?? [];
+export const generateStaticParams = async () => {
+	return [];
 };
 
 export default async function Page({ params }: Readonly<PageProps>) {

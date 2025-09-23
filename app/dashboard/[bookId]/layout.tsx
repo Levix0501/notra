@@ -14,9 +14,7 @@ import {
 import BookService from '@/services/book';
 
 export const generateStaticParams = async () => {
-	const { data: books } = await BookService.getBooks();
-
-	return books?.map((book) => ({ book: book.id })) ?? [];
+	return [];
 };
 
 export default async function Layout({

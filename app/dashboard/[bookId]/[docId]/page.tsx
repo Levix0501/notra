@@ -5,7 +5,6 @@ import HeaderEditableTitle from '@/components/header-editable-title';
 import NotraEditor from '@/components/notra-editor';
 import { NotraInsetHeader } from '@/components/notra-sidebar';
 import { PublishButton } from '@/components/publish-button';
-import DocService from '@/services/doc';
 
 interface PageProps {
 	params: Promise<{
@@ -24,16 +23,8 @@ export const generateMetadata = async ({
 	};
 };
 
-export const generateStaticParams = async ({ params }: Readonly<PageProps>) => {
-	const { bookId } = await params;
-
-	const { data: docs } = await DocService.getDocs(Number(bookId));
-
-	return (
-		docs?.map((doc) => ({
-			docId: doc.id
-		})) ?? []
-	);
+export const generateStaticParams = async () => {
+	return [];
 };
 
 export default async function Page({ params }: Readonly<PageProps>) {
