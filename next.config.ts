@@ -6,7 +6,8 @@ const nextConfig: NextConfig = {
 			{
 				hostname: '**.supabase.co'
 			}
-		]
+		],
+		minimumCacheTTL: 2678400 // 31 days
 	}
 };
 
