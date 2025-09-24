@@ -1,6 +1,7 @@
 import { BookEntity, CatalogNodeEntity, CatalogNodeType } from '@prisma/client';
 
 import { getTranslations } from '@/i18n';
+import { revalidateDoc } from '@/lib/cache';
 import { deleteNodeWithChildren, moveNode } from '@/lib/catalog/server';
 import { flattenCatalogNodes } from '@/lib/catalog/shared';
 import { logger } from '@/lib/logger';
@@ -157,9 +158,23 @@ export default class CatalogNodeService {
 				});
 
 				if (node.docId !== null) {
-					await tx.docEntity.update({
+					const doc = await tx.docEntity.update({
 						where: { id: node.docId },
-						data: { title }
+						data: { title },
+						include: {
+							book: {
+								select: {
+									slug: true
+								}
+							}
+						}
+					});
+
+					revalidateDoc({
+						bookId: doc.bookId,
+						bookSlug: doc.book.slug,
+						docId: doc.id,
+						docSlug: doc.slug
 					});
 				}
 

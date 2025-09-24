@@ -1,7 +1,5 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-
 import BookService from '@/services/book';
 import { CreateBookFormValues, UpdateBookDto } from '@/types/book';
 
@@ -25,8 +23,6 @@ export const checkBookSlug = async (slug: string) => {
 
 export const updateBook = async (values: UpdateBookDto) => {
 	const serviceResult = await BookService.updateBook(values);
-
-	revalidatePath('/', 'layout');
 
 	return serviceResult.toPlainObject();
 };

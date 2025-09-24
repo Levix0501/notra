@@ -53,7 +53,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 	};
 };
 
-export const revalidate = 60;
+export const revalidate = 31536000; // 1 year
 
 export default function RootLayout({
 	children

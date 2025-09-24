@@ -1,3 +1,5 @@
+import { ENV_NEXT_IMAGE_CACHE_TIME } from './constants/env';
+
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
@@ -7,7 +9,7 @@ const nextConfig: NextConfig = {
 				hostname: '**.supabase.co'
 			}
 		],
-		minimumCacheTTL: 2678400 // 31 days
+		minimumCacheTTL: ENV_NEXT_IMAGE_CACHE_TIME
 	}
 };
 

@@ -2,6 +2,7 @@ import { BookEntity } from '@prisma/client';
 import { cache } from 'react';
 
 import { getTranslations } from '@/i18n';
+import { revalidateBook } from '@/lib/cache';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
 import { ServiceResult } from '@/lib/service-result';
@@ -36,16 +37,23 @@ export default class BookService {
 
 	static async deleteBook(id: BookEntity['id']) {
 		try {
-			await prisma.$transaction(async (tx) => {
+			const book = await prisma.$transaction(async (tx) => {
 				await tx.catalogNodeEntity.deleteMany({
 					where: { bookId: id }
 				});
 				await tx.docEntity.deleteMany({
 					where: { bookId: id }
 				});
-				await tx.bookEntity.delete({
+				const book = await tx.bookEntity.delete({
 					where: { id }
 				});
+
+				return book;
+			});
+
+			revalidateBook({
+				bookId: book.id,
+				bookSlug: book.slug
 			});
 
 			return ServiceResult.success(true);
@@ -62,6 +70,12 @@ export default class BookService {
 			const book = await prisma.bookEntity.update({
 				where: { id },
 				data: values
+			});
+
+			revalidateBook({
+				bookId: book.id,
+				bookSlug: book.slug,
+				oldSlug: values.slug
 			});
 
 			return ServiceResult.success(book);

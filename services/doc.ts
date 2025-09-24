@@ -3,6 +3,7 @@ import { InputJsonValue } from '@prisma/client/runtime/library';
 import { cache } from 'react';
 
 import { getTranslations } from '@/i18n';
+import { revalidateBook, revalidateDoc } from '@/lib/cache';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
 import { ServiceResult } from '@/lib/service-result';
@@ -210,6 +211,14 @@ export default class DocService {
 				return doc;
 			});
 
+			revalidateDoc({
+				bookId: doc.bookId,
+				bookSlug: doc.book.slug,
+				docId: doc.id,
+				docSlug: doc.slug,
+				oldSlug: values.slug
+			});
+
 			return DocService.getDocMeta(doc.bookId, doc.id);
 		} catch (error) {
 			logger('DocService.updateDocMeta', error);
@@ -259,7 +268,14 @@ export default class DocService {
 	static async publishDoc(docId: DocEntity['id']) {
 		try {
 			const doc = await prisma.docEntity.findUniqueOrThrow({
-				where: { id: docId }
+				where: { id: docId },
+				include: {
+					book: {
+						select: {
+							slug: true
+						}
+					}
+				}
 			});
 
 			await prisma.docEntity.update({
@@ -271,6 +287,20 @@ export default class DocService {
 					publishedAt: doc.isPublished ? doc.publishedAt : new Date()
 				}
 			});
+
+			if (doc.isPublished) {
+				revalidateDoc({
+					bookId: doc.bookId,
+					bookSlug: doc.book.slug,
+					docId: doc.id,
+					docSlug: doc.slug
+				});
+			} else {
+				revalidateBook({
+					bookId: doc.bookId,
+					bookSlug: doc.book.slug
+				});
+			}
 
 			return DocService.getDocMeta(doc.bookId, doc.id);
 		} catch (error) {
@@ -293,6 +323,11 @@ export default class DocService {
 						}
 					}
 				}
+			});
+
+			revalidateBook({
+				bookId: doc.bookId,
+				bookSlug: doc.book.slug
 			});
 
 			return DocService.getDocMeta(doc.bookId, doc.id);
