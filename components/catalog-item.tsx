@@ -63,7 +63,7 @@ const CatalogItem = ({
 		return null;
 	}
 
-	const isActive = pathname === `/dashboard/${book.id}/${item.id}`;
+	const isActive = pathname === `/dashboard/${book.id}/${item.docId}`;
 
 	const toggleExpandedKey = (key: number) => {
 		if (expandedKeys.has(key)) {
@@ -89,10 +89,10 @@ const CatalogItem = ({
 	};
 
 	const handleSettings = () => {
-		if (item.type === 'DOC' && item.url) {
+		if (item.type === 'DOC' && item.docId) {
 			useGlobalSettingsDialog.setState({
 				tab: 'doc',
-				docId: item.id,
+				docId: item.docId,
 				bookId: book.id,
 				open: true
 			});

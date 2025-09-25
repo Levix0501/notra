@@ -67,8 +67,8 @@ export default function CreateDropdown({
 			})
 			.unwrap()
 			.then((data) => {
-				if (type === 'DOC' && data?.url) {
-					router.push(`/dashboard/${book.id}/${data.id}`);
+				if (type === 'DOC' && data?.docId) {
+					router.push(`/dashboard/${book.id}/${data.docId}`);
 				}
 
 				mutateCatalog(book.id);
