@@ -9,6 +9,7 @@ import { PAGE_SIZE, useGetMorePublishedDocMetaList } from '@/queries/doc';
 
 import DocCard from './doc-card';
 import EmptyState from './empty-state';
+import { ViewCount } from './view-count';
 
 interface MoreDocsProps {
 	bookId?: BookEntity['id'];
@@ -43,7 +44,13 @@ export const MoreDocs = ({ bookId, totalCount }: Readonly<MoreDocsProps>) => {
 	return (
 		<>
 			{docs.map((doc) => (
-				<DocCard key={doc.id} doc={doc} />
+				<DocCard key={doc.id} doc={doc}>
+					<ViewCount
+						docId={doc.id}
+						type="DocCardClient"
+						viewCount={doc.viewCount}
+					/>
+				</DocCard>
 			))}
 
 			<div ref={sentinelRef} className="col-span-full flex justify-center py-6">

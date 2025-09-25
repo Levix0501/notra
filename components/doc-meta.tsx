@@ -1,15 +1,16 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Eye } from 'lucide-react';
+import { ReactNode } from 'react';
 
 dayjs.extend(relativeTime);
 
 interface DocMetaProps {
-	viewCount: number;
 	publishedAt: Date;
+	children: ReactNode;
 }
 
-export const DocMeta = ({ viewCount, publishedAt }: Readonly<DocMetaProps>) => {
+export const DocMeta = ({ publishedAt, children }: Readonly<DocMetaProps>) => {
 	return (
 		<div className="flex items-center gap-3 text-sm text-muted-foreground">
 			<dl>
@@ -23,7 +24,7 @@ export const DocMeta = ({ viewCount, publishedAt }: Readonly<DocMetaProps>) => {
 
 			<div className="flex items-center gap-0.5">
 				<Eye size={16} />
-				<span>{viewCount}</span>
+				{children}
 			</div>
 		</div>
 	);

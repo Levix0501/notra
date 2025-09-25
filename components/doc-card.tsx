@@ -1,19 +1,17 @@
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import { Eye } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
+import { ChildrenProps } from '@/types/common';
 import { DocMetaVo } from '@/types/doc';
 
-dayjs.extend(relativeTime);
+import { DocMeta } from './doc-meta';
 
-interface DocCardProps {
+interface DocCardProps extends ChildrenProps {
 	doc: DocMetaVo;
 }
 
-export default function DocCard({ doc }: Readonly<DocCardProps>) {
+export default function DocCard({ doc, children }: Readonly<DocCardProps>) {
 	return (
 		<Link
 			className="group overflow-hidden rounded-xl border"
@@ -50,21 +48,7 @@ export default function DocCard({ doc }: Readonly<DocCardProps>) {
 					{doc.summary}
 				</div>
 
-				<div className="flex items-center gap-3 text-sm text-muted-foreground">
-					<dl>
-						<dt className="sr-only">Published on</dt>
-						<dd>
-							<time dateTime={dayjs(doc.publishedAt).toISOString()}>
-								{dayjs(doc.publishedAt).fromNow()}
-							</time>
-						</dd>
-					</dl>
-
-					<div className="flex items-center gap-0.5">
-						<Eye size={16} />
-						<span>{doc.viewCount}</span>
-					</div>
-				</div>
+				<DocMeta publishedAt={doc.publishedAt}>{children}</DocMeta>
 			</div>
 		</Link>
 	);

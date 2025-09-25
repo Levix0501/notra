@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 
 import { DocMeta } from '@/components/doc-meta';
 import { EditorView } from '@/components/editor/editor-view';
+import { ViewCount } from '@/components/view-count';
 import { ViewCountUpdater } from '@/components/view-count-updater';
 import DocService from '@/services/doc';
 
@@ -68,7 +69,9 @@ export default async function Page({ params }: Readonly<PageProps>) {
 				<article className="notra-editor pt-6">
 					<h1>{doc.title}</h1>
 
-					<DocMeta publishedAt={doc.publishedAt} viewCount={doc.viewCount} />
+					<DocMeta publishedAt={doc.publishedAt}>
+						<ViewCount docId={doc.id} type="DocPage" />
+					</DocMeta>
 
 					<ViewCountUpdater docId={doc.id} />
 

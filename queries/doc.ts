@@ -5,7 +5,35 @@ import useSWRInfinite from 'swr/infinite';
 import { useFetcher } from '@/hooks/use-fetcher';
 import { fetcher } from '@/lib/fetcher';
 import { Nullable } from '@/types/common';
-import { DocMetaVo, DocVo } from '@/types/doc';
+import { DocMetaVo, DocVo, PublishedDocViewsVo } from '@/types/doc';
+
+export const useGetPublishedDocViews = (docId?: DocEntity['id']) =>
+	useFetcher<PublishedDocViewsVo>(
+		docId ? `/api/public/docs/${docId}/views` : void 0
+	);
+
+export const useGetPublishedDocsViews = ({
+	bookId,
+	page,
+	pageSize
+}: {
+	bookId?: BookEntity['id'];
+	page: number;
+	pageSize: number;
+}) => {
+	const params = new URLSearchParams();
+
+	if (bookId) {
+		params.set('book_id', bookId.toString());
+	}
+
+	params.set('page', page.toString());
+	params.set('page_size', pageSize.toString());
+
+	return useFetcher<PublishedDocViewsVo[]>(
+		`/api/public/docs/views?${params.toString()}`
+	);
+};
 
 export const useGetDocMeta = (
 	{
