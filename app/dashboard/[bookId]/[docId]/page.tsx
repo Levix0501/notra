@@ -28,7 +28,7 @@ export const generateStaticParams = async () => {
 };
 
 export default async function Page({ params }: Readonly<PageProps>) {
-	const { bookId, docId } = await params;
+	const { docId } = await params;
 
 	return (
 		<>
@@ -43,7 +43,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 			</NotraInsetHeader>
 
 			<main className="flex min-h-[calc(100dvh-3.5rem)] flex-col">
-				<NotraEditor bookId={Number(bookId)} docId={Number(docId)} />
+				<NotraEditor docId={Number(docId)} />
 			</main>
 		</>
 	);

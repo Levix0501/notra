@@ -8,11 +8,28 @@ export type PublishedDocViewsVo = {
 	viewCount: DocEntity['viewCount'];
 };
 
+export type PublishedDocsMetaVo = Omit<
+	DocEntity,
+	| 'content'
+	| 'draftContent'
+	| 'isUpdated'
+	| 'isPublished'
+	| 'isDeleted'
+	| 'createdAt'
+	| 'updatedAt'
+> & {
+	book: {
+		slug: BookEntity['slug'];
+	};
+};
+
 export type DocMetaVo = Omit<DocEntity, 'content' | 'draftContent'> & {
 	book: {
 		slug: BookEntity['slug'];
 	};
 };
+
+export type DocVo = DocEntity;
 
 export type UpdateDocMetaDto = {
 	id: DocEntity['id'];
@@ -29,8 +46,6 @@ export const DocSettingsFormSchema = z.object({
 });
 
 export type DocSettingsFormValues = z.infer<typeof DocSettingsFormSchema>;
-
-export type DocVo = DocEntity;
 
 export type UpdateDocDraftContentDto = {
 	id: DocEntity['id'];

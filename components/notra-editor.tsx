@@ -1,6 +1,6 @@
 'use client';
 
-import { BookEntity, DocEntity } from '@prisma/client';
+import { DocEntity } from '@prisma/client';
 import { Content } from '@tiptap/react';
 import { useDebounceCallback } from 'usehooks-ts';
 
@@ -11,17 +11,13 @@ import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
 import { EditorCore } from './editor/editor-core';
 
 export interface NotraEditorProps {
-	bookId: BookEntity['id'];
 	docId: DocEntity['id'];
 }
 
-export default function NotraEditor({
-	bookId,
-	docId
-}: Readonly<NotraEditorProps>) {
+export default function NotraEditor({ docId }: Readonly<NotraEditorProps>) {
 	const setIsSaving = useDocStore((state) => state.setIsSaving);
 	const setUpdateAt = useDocStore((state) => state.setUpdateAt);
-	const { data: doc, mutate } = useGetDoc({ bookId, docId });
+	const { data: doc, mutate } = useGetDoc(docId);
 	const { mutate: mutateDocMeta } = useCurrentDocMeta();
 	const debouncedUpdateDocDraftContent = useDebounceCallback(
 		async (content: Content) => {

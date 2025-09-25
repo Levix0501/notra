@@ -2,10 +2,16 @@ import { BookEntity, DocEntity } from '@prisma/client';
 import { SWRConfiguration } from 'swr';
 import useSWRInfinite from 'swr/infinite';
 
+import { CARD_LIST_PAGE_SIZE } from '@/constants/pagination';
 import { useFetcher } from '@/hooks/use-fetcher';
 import { fetcher } from '@/lib/fetcher';
 import { Nullable } from '@/types/common';
-import { DocMetaVo, DocVo, PublishedDocViewsVo } from '@/types/doc';
+import {
+	DocMetaVo,
+	DocVo,
+	PublishedDocsMetaVo,
+	PublishedDocViewsVo
+} from '@/types/doc';
 
 export const useGetPublishedDocViews = (docId?: DocEntity['id']) =>
 	useFetcher<PublishedDocViewsVo>(
@@ -45,34 +51,7 @@ export const useGetPublishedDocsViews = ({
 	);
 };
 
-export const useGetDocMeta = (
-	{
-		bookId,
-		docId
-	}: {
-		bookId: Nullable<BookEntity['id']>;
-		docId: Nullable<DocEntity['id']>;
-	},
-	config?: SWRConfiguration<DocMetaVo>
-) =>
-	useFetcher<DocMetaVo>(
-		bookId && docId
-			? `/api/docs/meta?book_id=${bookId}&doc_id=${docId}`
-			: void 0,
-		config
-	);
-
-export const useGetDoc = ({
-	bookId,
-	docId
-}: {
-	bookId: BookEntity['id'];
-	docId: DocEntity['id'];
-}) => useFetcher<DocVo>(`/api/docs?book_id=${bookId}&doc_id=${docId}`);
-
-export const PAGE_SIZE = 24;
-
-export const useGetMorePublishedDocMetaList = (
+export const useGetPublishedDocsMeta = (
 	totalCount: number,
 	bookId?: BookEntity['id']
 ) => {
@@ -80,7 +59,7 @@ export const useGetMorePublishedDocMetaList = (
 		(pageIndex, previousPageData) => {
 			if (
 				(previousPageData && !previousPageData.length) ||
-				totalCount <= PAGE_SIZE
+				totalCount <= CARD_LIST_PAGE_SIZE
 			) {
 				return null;
 			}
@@ -92,13 +71,21 @@ export const useGetMorePublishedDocMetaList = (
 			}
 
 			params.set('page', (pageIndex + 2).toString());
-			params.set('page_size', PAGE_SIZE.toString());
+			params.set('page_size', CARD_LIST_PAGE_SIZE.toString());
 
-			return `/api/docs/meta?${params.toString()}`;
+			return `/api/public/docs/meta?${params.toString()}`;
 		},
-		fetcher<DocMetaVo[]>,
+		fetcher<PublishedDocsMetaVo[]>,
 		{
 			revalidateFirstPage: false
 		}
 	);
 };
+
+export const useGetDocMeta = (
+	docId: Nullable<DocEntity['id']>,
+	config?: SWRConfiguration<DocMetaVo>
+) => useFetcher<DocMetaVo>(docId ? `/api/docs/${docId}/meta` : void 0, config);
+
+export const useGetDoc = (docId: DocEntity['id']) =>
+	useFetcher<DocVo>(`/api/docs/${docId}`);

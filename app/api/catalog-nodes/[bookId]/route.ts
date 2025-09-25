@@ -5,7 +5,10 @@ import { getTranslations } from '@/i18n';
 import { ServiceResult } from '@/lib/service-result';
 import CatalogNodeService from '@/services/catalog-node';
 
-export async function GET(request: NextRequest) {
+export async function GET(
+	_: NextRequest,
+	{ params }: { params: Promise<{ bookId: string }> }
+) {
 	const session = await auth();
 
 	if (!session) {
@@ -16,8 +19,7 @@ export async function GET(request: NextRequest) {
 		});
 	}
 
-	const { searchParams } = new URL(request.url);
-	const bookId = searchParams.get('book_id');
+	const { bookId } = await params;
 	const nodes = await CatalogNodeService.getCatalogNodes(Number(bookId));
 
 	return nodes.nextResponse();

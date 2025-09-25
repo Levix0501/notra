@@ -3,12 +3,12 @@ import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
 import { ChildrenProps } from '@/types/common';
-import { DocMetaVo } from '@/types/doc';
+import { PublishedDocsMetaVo } from '@/types/doc';
 
 import { DocMeta } from './doc-meta';
 
 interface DocCardProps extends ChildrenProps {
-	doc: DocMetaVo;
+	doc: PublishedDocsMetaVo;
 }
 
 export default function DocCard({ doc, children }: Readonly<DocCardProps>) {

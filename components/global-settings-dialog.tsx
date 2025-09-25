@@ -63,10 +63,7 @@ export default function GlobalSettingsDialog() {
 		data: docMeta,
 		mutate: mutateDocMeta,
 		isLoading: isDocMetaLoading
-	} = useGetDocMeta({
-		bookId,
-		docId
-	});
+	} = useGetDocMeta(docId);
 
 	return (
 		<SettingsDialog open={open} onOpenChange={setOpen}>

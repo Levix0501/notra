@@ -31,14 +31,10 @@ export const mutateCatalog = (
 	const optimisticData = flattenCatalogNodes(Array.from(nodeMap.values()));
 
 	setNodeMap(optimisticData);
-	mutate(
-		`/api/catalog-nodes?book_id=${bookId}`,
-		mutateFn || ((state) => state),
-		{
-			optimisticData,
-			revalidate: !mutateFn
-		}
-	);
+	mutate(`/api/catalog-nodes/${bookId}`, mutateFn || ((state) => state), {
+		optimisticData,
+		revalidate: !mutateFn
+	});
 };
 
 type CatalogStore = {

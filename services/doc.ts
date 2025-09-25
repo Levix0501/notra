@@ -69,17 +69,36 @@ export default class DocService {
 		}
 	);
 
-	static readonly getDocMeta = cache(
-		async (bookId: BookEntity['id'], docId: DocEntity['id']) => {
+	static readonly getPublishedDocsMeta = cache(
+		async ({
+			bookId,
+			page,
+			pageSize
+		}: {
+			bookId?: BookEntity['id'];
+			page: number;
+			pageSize: number;
+		}) => {
 			try {
-				const doc = await prisma.docEntity.findFirst({
+				const docs = await prisma.docEntity.findMany({
 					where: {
-						id: docId,
-						bookId
+						bookId,
+						isPublished: true,
+						isDeleted: false
+					},
+					skip: (page - 1) * pageSize,
+					take: pageSize,
+					orderBy: {
+						publishedAt: 'desc'
 					},
 					omit: {
 						draftContent: true,
-						content: true
+						content: true,
+						isUpdated: true,
+						isPublished: true,
+						isDeleted: true,
+						createdAt: true,
+						updatedAt: true
 					},
 					include: {
 						book: {
@@ -90,15 +109,43 @@ export default class DocService {
 					}
 				});
 
-				return ServiceResult.success(doc);
+				return ServiceResult.success(docs);
 			} catch (error) {
-				logger('DocService.getDocMeta', error);
+				logger('DocService.getPublishedDocsMeta', error);
 				const t = getTranslations('services_doc');
 
-				return ServiceResult.fail(t.get_doc_meta_error);
+				return ServiceResult.fail(t.get_published_docs_meta_error);
 			}
 		}
 	);
+
+	static readonly getDocMeta = cache(async (docId: DocEntity['id']) => {
+		try {
+			const doc = await prisma.docEntity.findUniqueOrThrow({
+				where: {
+					id: docId
+				},
+				omit: {
+					draftContent: true,
+					content: true
+				},
+				include: {
+					book: {
+						select: {
+							slug: true
+						}
+					}
+				}
+			});
+
+			return ServiceResult.success(doc);
+		} catch (error) {
+			logger('DocService.getDocMeta', error);
+			const t = getTranslations('services_doc');
+
+			return ServiceResult.fail(t.get_doc_meta_error);
+		}
+	});
 
 	static readonly getPublishedDocTotalCount = cache(
 		async ({ bookId }: { bookId?: BookEntity['id'] }) => {
@@ -121,70 +168,22 @@ export default class DocService {
 		}
 	);
 
-	static readonly getPublishedDocMetaList = cache(
-		async ({
-			bookId,
-			page,
-			pageSize = 12
-		}: {
-			bookId?: BookEntity['id'];
-			page: number;
-			pageSize: number;
-		}) => {
-			try {
-				const docs = await prisma.docEntity.findMany({
-					where: {
-						bookId,
-						isPublished: true,
-						isDeleted: false
-					},
-					skip: (page - 1) * pageSize,
-					take: pageSize,
-					orderBy: {
-						publishedAt: 'desc'
-					},
-					omit: {
-						draftContent: true,
-						content: true
-					},
-					include: {
-						book: {
-							select: {
-								slug: true
-							}
-						}
-					}
-				});
+	static readonly getDoc = cache(async (docId: DocEntity['id']) => {
+		try {
+			const doc = await prisma.docEntity.findUniqueOrThrow({
+				where: {
+					id: docId
+				}
+			});
 
-				return ServiceResult.success(docs);
-			} catch (error) {
-				logger('DocService.getPublishedDocMetaList', error);
-				const t = getTranslations('services_doc');
+			return ServiceResult.success(doc);
+		} catch (error) {
+			logger('DocService.getDoc', error);
+			const t = getTranslations('services_doc');
 
-				return ServiceResult.fail(t.get_published_doc_meta_list_error);
-			}
+			return ServiceResult.fail(t.get_doc_error);
 		}
-	);
-
-	static readonly getDoc = cache(
-		async (bookId: BookEntity['id'], docId: DocEntity['id']) => {
-			try {
-				const doc = await prisma.docEntity.findFirst({
-					where: {
-						id: docId,
-						bookId
-					}
-				});
-
-				return ServiceResult.success(doc);
-			} catch (error) {
-				logger('DocService.getDoc', error);
-				const t = getTranslations('services_doc');
-
-				return ServiceResult.fail(t.get_doc_error);
-			}
-		}
-	);
+	});
 
 	static readonly getPublishedDoc = cache(
 		async (bookSlug: BookEntity['slug'], docSlug: DocEntity['slug']) => {
@@ -278,7 +277,7 @@ export default class DocService {
 				oldSlug: values.slug
 			});
 
-			return DocService.getDocMeta(doc.bookId, doc.id);
+			return DocService.getDocMeta(doc.id);
 		} catch (error) {
 			logger('DocService.updateDocMeta', error);
 			const t = getTranslations('services_doc');
@@ -361,7 +360,7 @@ export default class DocService {
 				});
 			}
 
-			return DocService.getDocMeta(doc.bookId, doc.id);
+			return DocService.getDocMeta(doc.id);
 		} catch (error) {
 			logger('DocService.publishDoc', error);
 			const t = getTranslations('services_doc');
@@ -389,7 +388,7 @@ export default class DocService {
 				bookSlug: doc.book.slug
 			});
 
-			return DocService.getDocMeta(doc.bookId, doc.id);
+			return DocService.getDocMeta(doc.id);
 		} catch (error) {
 			logger('DocService.unpublishDoc', error);
 			const t = getTranslations('services_doc');

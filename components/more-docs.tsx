@@ -3,9 +3,10 @@
 import { BookEntity } from '@prisma/client';
 import { Loader2 } from 'lucide-react';
 
+import { CARD_LIST_PAGE_SIZE } from '@/constants/pagination';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 import { getTranslations } from '@/i18n';
-import { PAGE_SIZE, useGetMorePublishedDocMetaList } from '@/queries/doc';
+import { useGetPublishedDocsMeta } from '@/queries/doc';
 
 import DocCard from './doc-card';
 import EmptyState from './empty-state';
@@ -19,7 +20,7 @@ interface MoreDocsProps {
 const t = getTranslations('components_more_docs');
 
 export const MoreDocs = ({ bookId, totalCount }: Readonly<MoreDocsProps>) => {
-	const { data, isLoading, size, setSize } = useGetMorePublishedDocMetaList(
+	const { data, isLoading, size, setSize } = useGetPublishedDocsMeta(
 		totalCount,
 		bookId
 	);
@@ -30,8 +31,8 @@ export const MoreDocs = ({ bookId, totalCount }: Readonly<MoreDocsProps>) => {
 		(size > 0 && data && typeof data[size - 1] === 'undefined') ||
 		false;
 	const isReachingEnd =
-		totalCount <= PAGE_SIZE ||
-		(data && data[data.length - 1]?.length < PAGE_SIZE) ||
+		totalCount <= CARD_LIST_PAGE_SIZE ||
+		(data && data[data.length - 1]?.length < CARD_LIST_PAGE_SIZE) ||
 		false;
 
 	const sentinelRef = useInfiniteScroll({

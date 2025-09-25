@@ -1,9 +1,12 @@
 import { auth } from '@/app/(auth)/auth';
 import { getTranslations } from '@/i18n';
 import { ServiceResult } from '@/lib/service-result';
-import DocService from '@/services/doc';
+import BookService from '@/services/book';
 
-export async function GET(request: Request) {
+export async function GET(
+	_: Request,
+	{ params }: { params: Promise<{ id: string }> }
+) {
 	const session = await auth();
 
 	if (!session) {
@@ -14,10 +17,8 @@ export async function GET(request: Request) {
 		});
 	}
 
-	const { searchParams } = new URL(request.url);
-	const bookId = searchParams.get('book_id');
-	const docId = searchParams.get('doc_id');
-	const result = await DocService.getDoc(Number(bookId), Number(docId));
+	const { id } = await params;
+	const result = await BookService.getBook(Number(id));
 
 	return result.nextResponse();
 }

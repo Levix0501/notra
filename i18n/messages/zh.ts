@@ -232,6 +232,7 @@ export const zh = {
 	services_doc: {
 		get_published_doc_views_error: '获取已发布文档浏览量失败！',
 		get_published_docs_views_error: '获取已发布文档浏览量失败！',
+		get_published_docs_meta_error: '获取已发布文档元数据列表失败！',
 		get_doc_meta_error: '获取文档元数据失败！',
 		get_doc_error: '获取文档失败！',
 		get_published_doc_error: '获取已发布文档失败！',
@@ -240,7 +241,6 @@ export const zh = {
 		update_doc_meta_error: '更新文档元数据失败！',
 		check_doc_slug_error: '检查文档路径是否可用失败！',
 		update_doc_draft_content_error: '更新文档草稿内容失败！',
-		get_published_doc_meta_list_error: '获取已发布文档元数据列表失败！',
 		publish_doc_error: '发布文档失败！',
 		unpublish_doc_error: '取消发布文档失败！',
 		get_published_doc_total_count_error: '获取已发布文档总数失败！',

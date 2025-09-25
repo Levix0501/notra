@@ -14,7 +14,7 @@ export interface IndexPageCardViewProps {
 export const IndexPageCardView = async ({
 	bookId
 }: Readonly<IndexPageCardViewProps>) => {
-	const { data: docs } = await DocService.getPublishedDocMetaList({
+	const { data: docs } = await DocService.getPublishedDocsMeta({
 		bookId,
 		page: 1,
 		pageSize: CARD_LIST_PAGE_SIZE

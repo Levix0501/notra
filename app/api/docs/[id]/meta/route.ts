@@ -1,9 +1,12 @@
 import { auth } from '@/app/(auth)/auth';
 import { getTranslations } from '@/i18n';
 import { ServiceResult } from '@/lib/service-result';
-import BookService from '@/services/book';
+import DocService from '@/services/doc';
 
-export async function GET() {
+export async function GET(
+	_: Request,
+	{ params }: { params: Promise<{ id: string }> }
+) {
 	const session = await auth();
 
 	if (!session) {
@@ -14,7 +17,8 @@ export async function GET() {
 		});
 	}
 
-	const result = await BookService.getBooks();
+	const { id } = await params;
+	const result = await DocService.getDocMeta(Number(id));
 
 	return result.nextResponse();
 }

@@ -9,6 +9,6 @@ export const useGetCatalogNodes = (
 	config?: SWRConfiguration<CatalogNodeVoWithLevel[]>
 ) =>
 	useFetcher<CatalogNodeVoWithLevel[]>(
-		id ? `/api/catalog-nodes?book_id=${id}` : void 0,
+		id ? `/api/catalog-nodes/${id}` : void 0,
 		config
 	);

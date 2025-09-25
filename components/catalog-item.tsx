@@ -163,7 +163,7 @@ const CatalogItem = ({
 
 		if (item.docId !== null && item.docId === useDocStore.getState().id) {
 			mutate(
-				`/api/docs/meta?book_id=${book.id}&doc_id=${item.id}`,
+				`/api/docs/${item.docId}/meta`,
 				async () => {
 					useDocStore.getState().setIsSaving(true);
 

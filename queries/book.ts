@@ -10,6 +10,6 @@ export const useGetBook = (
 	bookId: Nullable<BookEntity['id'] | string>,
 	fallbackData?: BookVo
 ) =>
-	useFetcher<BookVo>(bookId ? `/api/books?book_id=${bookId}` : void 0, {
+	useFetcher<BookVo>(bookId ? `/api/books/${bookId}` : void 0, {
 		fallbackData
 	});
