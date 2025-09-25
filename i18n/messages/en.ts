@@ -230,8 +230,7 @@ export const en = {
 		update_title_error: 'Failed to update title!'
 	},
 	services_doc: {
-		get_published_doc_views_error: 'Failed to get published document views!',
-		get_published_docs_views_error: 'Failed to get published documents views!',
+		get_published_doc_meta_error: 'Failed to get published document meta!',
 		get_published_docs_meta_error: 'Failed to get published documents meta!',
 		get_doc_meta_error: 'Failed to get document meta!',
 		get_doc_error: 'Failed to get document!',

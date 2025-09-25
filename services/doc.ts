@@ -10,61 +10,35 @@ import { ServiceResult } from '@/lib/service-result';
 import { UpdateDocDraftContentDto, UpdateDocMetaDto } from '@/types/doc';
 
 export default class DocService {
-	static readonly getPublishedDocViews = cache(
+	static readonly getPublishedDocMeta = cache(
 		async (docId: DocEntity['id']) => {
 			try {
 				const doc = await prisma.docEntity.findUniqueOrThrow({
-					where: { id: docId, isPublished: true, isDeleted: false },
-					select: {
-						id: true,
-						viewCount: true
+					where: { id: docId },
+					omit: {
+						draftContent: true,
+						content: true,
+						isUpdated: true,
+						isPublished: true,
+						isDeleted: true,
+						createdAt: true,
+						updatedAt: true
+					},
+					include: {
+						book: {
+							select: {
+								slug: true
+							}
+						}
 					}
 				});
 
 				return ServiceResult.success(doc);
 			} catch (error) {
-				logger('DocService.getPublishedDocViews', error);
+				logger('DocService.getPublishedDocMeta', error);
 				const t = getTranslations('services_doc');
 
-				return ServiceResult.fail(t.get_published_doc_views_error);
-			}
-		}
-	);
-
-	static readonly getPublishedDocsViews = cache(
-		async ({
-			bookId,
-			page,
-			pageSize
-		}: {
-			bookId?: BookEntity['id'];
-			page: number;
-			pageSize: number;
-		}) => {
-			try {
-				const docs = await prisma.docEntity.findMany({
-					where: {
-						bookId,
-						isPublished: true,
-						isDeleted: false
-					},
-					skip: (page - 1) * pageSize,
-					take: pageSize,
-					orderBy: {
-						publishedAt: 'desc'
-					},
-					select: {
-						id: true,
-						viewCount: true
-					}
-				});
-
-				return ServiceResult.success(docs);
-			} catch (error) {
-				logger('DocService.getPublishedDocsViews', error);
-				const t = getTranslations('services_doc');
-
-				return ServiceResult.fail(t.get_published_docs_views_error);
+				return ServiceResult.fail(t.get_published_doc_meta_error);
 			}
 		}
 	);

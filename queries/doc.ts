@@ -6,16 +6,11 @@ import { CARD_LIST_PAGE_SIZE } from '@/constants/pagination';
 import { useFetcher } from '@/hooks/use-fetcher';
 import { fetcher } from '@/lib/fetcher';
 import { Nullable } from '@/types/common';
-import {
-	DocMetaVo,
-	DocVo,
-	PublishedDocsMetaVo,
-	PublishedDocViewsVo
-} from '@/types/doc';
+import { DocMetaVo, DocVo, PublishedDocMetaVo } from '@/types/doc';
 
-export const useGetPublishedDocViews = (docId?: DocEntity['id']) =>
-	useFetcher<PublishedDocViewsVo>(
-		docId ? `/api/public/docs/${docId}/views` : void 0,
+export const useGetPublishedDocMeta = (docId?: DocEntity['id']) =>
+	useFetcher<PublishedDocMetaVo>(
+		docId ? `/api/public/docs/${docId}/meta` : void 0,
 		{
 			revalidateIfStale: false,
 			revalidateOnFocus: false,
@@ -23,26 +18,18 @@ export const useGetPublishedDocViews = (docId?: DocEntity['id']) =>
 		}
 	);
 
-export const useGetPublishedDocsViews = ({
-	bookId,
-	page,
-	pageSize
-}: {
-	bookId?: BookEntity['id'];
-	page: number;
-	pageSize: number;
-}) => {
+export const useGetFirstPagePublishedDocsMeta = (bookId?: BookEntity['id']) => {
 	const params = new URLSearchParams();
 
 	if (bookId) {
 		params.set('book_id', bookId.toString());
 	}
 
-	params.set('page', page.toString());
-	params.set('page_size', pageSize.toString());
+	params.set('page', '1');
+	params.set('page_size', CARD_LIST_PAGE_SIZE.toString());
 
-	return useFetcher<PublishedDocViewsVo[]>(
-		`/api/public/docs/views?${params.toString()}`,
+	return useFetcher<PublishedDocMetaVo[]>(
+		`/api/public/docs/meta?${params.toString()}`,
 		{
 			revalidateIfStale: false,
 			revalidateOnFocus: false,
@@ -75,7 +62,7 @@ export const useGetPublishedDocsMeta = (
 
 			return `/api/public/docs/meta?${params.toString()}`;
 		},
-		fetcher<PublishedDocsMetaVo[]>,
+		fetcher<PublishedDocMetaVo[]>,
 		{
 			revalidateFirstPage: false
 		}

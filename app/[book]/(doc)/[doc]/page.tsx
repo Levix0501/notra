@@ -5,7 +5,6 @@ import { notFound } from 'next/navigation';
 
 import { DocMeta } from '@/components/doc-meta';
 import { EditorView } from '@/components/editor/editor-view';
-import { ViewCount } from '@/components/view-count';
 import { ViewCountUpdater } from '@/components/view-count-updater';
 import DocService from '@/services/doc';
 
@@ -29,6 +28,7 @@ export const generateMetadata = async ({
 			type: 'article',
 			title: doc?.title,
 			description: doc?.summary ?? '',
+			publishedTime: doc?.publishedAt?.toISOString(),
 			...(doc?.cover ? { images: { url: doc.cover } } : void 0)
 		},
 		twitter: {
@@ -69,9 +69,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 				<article className="notra-editor pt-6">
 					<h1>{doc.title}</h1>
 
-					<DocMeta publishedAt={doc.publishedAt}>
-						<ViewCount docId={doc.id} type="DocPage" />
-					</DocMeta>
+					<DocMeta docId={doc.id} type="DocPage" />
 
 					<ViewCountUpdater docId={doc.id} />
 

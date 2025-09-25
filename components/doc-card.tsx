@@ -3,12 +3,10 @@ import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
 import { ChildrenProps } from '@/types/common';
-import { PublishedDocsMetaVo } from '@/types/doc';
-
-import { DocMeta } from './doc-meta';
+import { PublishedDocMetaVo } from '@/types/doc';
 
 interface DocCardProps extends ChildrenProps {
-	doc: PublishedDocsMetaVo;
+	doc: PublishedDocMetaVo;
 }
 
 export default function DocCard({ doc, children }: Readonly<DocCardProps>) {
@@ -48,7 +46,7 @@ export default function DocCard({ doc, children }: Readonly<DocCardProps>) {
 					{doc.summary}
 				</div>
 
-				<DocMeta publishedAt={doc.publishedAt}>{children}</DocMeta>
+				{children}
 			</div>
 		</Link>
 	);

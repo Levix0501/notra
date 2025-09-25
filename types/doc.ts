@@ -3,12 +3,7 @@ import { z } from 'zod';
 
 import { getTranslations } from '@/i18n';
 
-export type PublishedDocViewsVo = {
-	id: DocEntity['id'];
-	viewCount: DocEntity['viewCount'];
-};
-
-export type PublishedDocsMetaVo = Omit<
+export type PublishedDocMetaVo = Omit<
 	DocEntity,
 	| 'content'
 	| 'draftContent'

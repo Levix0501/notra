@@ -4,8 +4,8 @@ import { CARD_LIST_PAGE_SIZE } from '@/constants/pagination';
 import DocService from '@/services/doc';
 
 import DocCard from './doc-card';
+import { DocMeta } from './doc-meta';
 import { MoreDocs } from './more-docs';
-import { ViewCount } from './view-count';
 
 export interface IndexPageCardViewProps {
 	bookId?: BookEntity['id'];
@@ -27,7 +27,7 @@ export const IndexPageCardView = async ({
 		<div className="mx-auto grid max-w-screen-xl grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 md:py-10">
 			{docs?.map((doc) => (
 				<DocCard key={doc.id} doc={doc}>
-					<ViewCount bookId={bookId} docId={doc.id} type="DocCardServer" />
+					<DocMeta bookId={bookId} docId={doc.id} type="DocCardServer" />
 				</DocCard>
 			))}
 

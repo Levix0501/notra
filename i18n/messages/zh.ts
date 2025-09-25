@@ -230,8 +230,7 @@ export const zh = {
 		update_title_error: '更新标题失败！'
 	},
 	services_doc: {
-		get_published_doc_views_error: '获取已发布文档浏览量失败！',
-		get_published_docs_views_error: '获取已发布文档浏览量失败！',
+		get_published_doc_meta_error: '获取已发布文档元数据失败！',
 		get_published_docs_meta_error: '获取已发布文档元数据列表失败！',
 		get_doc_meta_error: '获取文档元数据失败！',
 		get_doc_error: '获取文档失败！',

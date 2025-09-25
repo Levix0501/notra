@@ -9,8 +9,8 @@ import { getTranslations } from '@/i18n';
 import { useGetPublishedDocsMeta } from '@/queries/doc';
 
 import DocCard from './doc-card';
+import { DocMeta } from './doc-meta';
 import EmptyState from './empty-state';
-import { ViewCount } from './view-count';
 
 interface MoreDocsProps {
 	bookId?: BookEntity['id'];
@@ -46,11 +46,7 @@ export const MoreDocs = ({ bookId, totalCount }: Readonly<MoreDocsProps>) => {
 		<>
 			{docs.map((doc) => (
 				<DocCard key={doc.id} doc={doc}>
-					<ViewCount
-						docId={doc.id}
-						type="DocCardClient"
-						viewCount={doc.viewCount}
-					/>
+					<DocMeta doc={doc} type="DocCardClient" />
 				</DocCard>
 			))}
 
