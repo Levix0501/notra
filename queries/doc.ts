@@ -9,7 +9,12 @@ import { DocMetaVo, DocVo, PublishedDocViewsVo } from '@/types/doc';
 
 export const useGetPublishedDocViews = (docId?: DocEntity['id']) =>
 	useFetcher<PublishedDocViewsVo>(
-		docId ? `/api/public/docs/${docId}/views` : void 0
+		docId ? `/api/public/docs/${docId}/views` : void 0,
+		{
+			revalidateIfStale: false,
+			revalidateOnFocus: false,
+			revalidateOnReconnect: false
+		}
 	);
 
 export const useGetPublishedDocsViews = ({
@@ -31,7 +36,12 @@ export const useGetPublishedDocsViews = ({
 	params.set('page_size', pageSize.toString());
 
 	return useFetcher<PublishedDocViewsVo[]>(
-		`/api/public/docs/views?${params.toString()}`
+		`/api/public/docs/views?${params.toString()}`,
+		{
+			revalidateIfStale: false,
+			revalidateOnFocus: false,
+			revalidateOnReconnect: false
+		}
 	);
 };
 
