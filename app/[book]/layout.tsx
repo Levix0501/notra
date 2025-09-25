@@ -13,7 +13,7 @@ export default function Layout({
 		<div className="flex min-h-dvh flex-col">
 			<NotraHeader />
 
-			<main className="container mx-auto flex-1">{children}</main>
+			<main className="container mx-auto flex flex-1 flex-col">{children}</main>
 		</div>
 	);
 }

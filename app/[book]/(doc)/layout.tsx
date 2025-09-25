@@ -25,7 +25,7 @@ export default async function Layout({
 
 	return (
 		<>
-			<div className="px-4 md:flex md:justify-center">
+			<div className="flex-1 px-4 md:flex md:justify-center">
 				<div className="flex h-12 items-center md:hidden">
 					{book.indexPageType === IndexPageType.DOC && (
 						<BookCatalogStaticTrigger />
