@@ -2,6 +2,8 @@ import { JSONContent } from '@tiptap/react';
 import { renderToReactElement } from '@tiptap/static-renderer/pm/react';
 import Image from 'next/image';
 
+import { isAllowedDomain } from '@/lib/image';
+
 import { ExtensionKitBase } from './extension-kit-base';
 import { CodeBlock } from './ui/code-block';
 
@@ -22,11 +24,11 @@ export const EditorView = ({ content }: EditorViewProps) => {
 					return <CodeBlock language={language} text={text} />;
 				},
 				image: ({ node }) => {
-					const dataSource = node.attrs['data-source'];
+					const src = node.attrs.src;
 
 					return (
 						<div className="flex items-center justify-center">
-							{dataSource === 'upload' ? (
+							{isAllowedDomain(src) ? (
 								<Image
 									alt={node.attrs.alt}
 									height={node.attrs.height ?? 1}

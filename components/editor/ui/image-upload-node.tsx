@@ -503,8 +503,7 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
 							alt: filename,
 							title: filename,
 							width: fileEntity.width,
-							height: fileEntity.height,
-							'data-source': 'upload'
+							height: fileEntity.height
 						}
 					};
 				});
