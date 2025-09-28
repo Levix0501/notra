@@ -70,13 +70,7 @@ export const zh = {
 		delete_loading: '删除中...'
 	},
 	components_catalog_item: {
-		default_catalog_node_name: '无标题',
-		rename: '重命名',
-		settings: '设置',
-		delete: '删除',
-		delete_loading: '删除中...',
-		delete_error: '删除失败！',
-		delete_success: '删除成功！'
+		default_catalog_node_name: '无标题'
 	},
 	components_create_book_dialog: {
 		new_book: '创建知识库',
@@ -153,6 +147,16 @@ export const zh = {
 	components_more_docs: {
 		no_more: '没有更多了'
 	},
+	components_more_dropdown: {
+		rename: '重命名',
+		settings: '设置',
+		publish: '发布',
+		unpublish: '取消发布',
+		delete: '删除',
+		delete_loading: '删除中...',
+		delete_error: '删除失败！',
+		delete_success: '删除成功！'
+	},
 	components_notra_footer: {
 		powered_by:
 			'本网站由 <a href="https://notra.tech" target="_blank" class="font-bold hover:text-primary">Notra</a> 提供技术支持'
@@ -227,7 +231,9 @@ export const zh = {
 		delete_with_children_error: '删除失败！',
 		prepend_child_error: '添加子节点失败！',
 		move_after_error: '移动失败！',
-		update_title_error: '更新标题失败！'
+		update_title_error: '更新标题失败！',
+		publish_error: '发布失败！',
+		unpublish_error: '取消发布失败！'
 	},
 	services_doc: {
 		get_published_doc_meta_error: '获取已发布文档元数据失败！',

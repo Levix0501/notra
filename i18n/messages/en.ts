@@ -70,13 +70,7 @@ export const en = {
 		delete_loading: 'Deleting...'
 	},
 	components_catalog_item: {
-		default_catalog_node_name: 'Untitled',
-		rename: 'Rename',
-		settings: 'Settings',
-		delete: 'Delete',
-		delete_loading: 'Deleting...',
-		delete_error: 'Failed to delete!',
-		delete_success: 'Deleted successfully!'
+		default_catalog_node_name: 'Untitled'
 	},
 	components_create_book_dialog: {
 		new_book: 'New Book',
@@ -153,6 +147,16 @@ export const en = {
 	components_more_docs: {
 		no_more: 'No more data'
 	},
+	components_more_dropdown: {
+		rename: 'Rename',
+		settings: 'Settings',
+		publish: 'Publish',
+		unpublish: 'Unpublish',
+		delete: 'Delete',
+		delete_loading: 'Deleting...',
+		delete_error: 'Failed to delete!',
+		delete_success: 'Deleted successfully!'
+	},
 	components_notra_footer: {
 		powered_by:
 			'Powered by <a href="https://notra.tech" target="_blank" class="font-bold hover:text-primary">Notra</a>'
@@ -227,7 +231,9 @@ export const en = {
 		delete_with_children_error: 'Failed to delete!',
 		prepend_child_error: 'Failed to prepend child!',
 		move_after_error: 'Failed to move after!',
-		update_title_error: 'Failed to update title!'
+		update_title_error: 'Failed to update title!',
+		publish_error: 'Failed to publish!',
+		unpublish_error: 'Failed to unpublish!'
 	},
 	services_doc: {
 		get_published_doc_meta_error: 'Failed to get published document meta!',

@@ -1,4 +1,9 @@
-import { BookEntity, CatalogNodeEntity, CatalogNodeType } from '@prisma/client';
+import {
+	BookEntity,
+	CatalogNodeEntity,
+	CatalogNodeType,
+	DocEntity
+} from '@prisma/client';
 
 import { getTranslations } from '@/i18n';
 import { revalidateDoc } from '@/lib/cache';
@@ -305,6 +310,74 @@ export default class CatalogNodeService {
 			const t = getTranslations('services_catalog_node');
 
 			return ServiceResult.fail(t.move_after_error);
+		}
+	}
+
+	static async publish({
+		nodeIds,
+		docIds,
+		bookId
+	}: {
+		nodeIds: CatalogNodeEntity['id'][];
+		docIds: DocEntity['id'][];
+		bookId: BookEntity['id'];
+	}) {
+		try {
+			await prisma.$transaction(async (tx) => {
+				await Promise.all([
+					tx.catalogNodeEntity.updateMany({
+						where: { id: { in: nodeIds } },
+						data: { isPublished: true }
+					}),
+					tx.docEntity.updateMany({
+						where: { id: { in: docIds } },
+						data: { isPublished: true }
+					}),
+					tx.bookEntity.update({
+						where: { id: bookId },
+						data: { isPublished: true }
+					})
+				]);
+			});
+
+			return CatalogNodeService.getCatalogNodes(bookId);
+		} catch (error) {
+			logger('CatalogNodeService.publish', error);
+			const t = getTranslations('services_catalog_node');
+
+			return ServiceResult.fail(t.publish_error);
+		}
+	}
+
+	static async unpublish({
+		nodeIds,
+		docIds,
+		bookId
+	}: {
+		nodeIds: CatalogNodeEntity['id'][];
+		docIds: DocEntity['id'][];
+		bookId: BookEntity['id'];
+	}) {
+		try {
+			await prisma.$transaction(async (tx) => {
+				await Promise.all([
+					tx.catalogNodeEntity.updateMany({
+						where: { id: { in: nodeIds } },
+						data: { isPublished: false }
+					}),
+					tx.docEntity.updateMany({
+						where: { id: { in: docIds } },
+						data: { isPublished: false }
+					})
+				]);
+			});
+
+			return CatalogNodeService.getCatalogNodes(bookId);
+		} catch (error) {
+			logger('CatalogNodeService.unpublish', error);
+			const t = getTranslations('services_catalog_node');
+
+			return ServiceResult.fail(t.unpublish_error);
 		}
 	}
 }

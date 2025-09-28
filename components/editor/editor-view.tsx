@@ -32,6 +32,7 @@ export const EditorView = ({ content }: EditorViewProps) => {
 								<Image
 									alt={node.attrs.alt}
 									height={node.attrs.height ?? 1}
+									sizes="100%"
 									src={node.attrs.src}
 									width={node.attrs.width ?? 1}
 								/>

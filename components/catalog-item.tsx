@@ -1,29 +1,13 @@
 import { DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
-import {
-	ChevronRight,
-	MoreVertical,
-	Plus,
-	SlidersHorizontal,
-	TextCursorInput,
-	Trash2
-} from 'lucide-react';
-import { usePathname, useRouter } from 'next/navigation';
+import { ChevronRight, FileText, Plus } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { CSSProperties, useState } from 'react';
-import { toast } from 'sonner';
 import { mutate } from 'swr';
 
-import { deleteWithChildren, updateTitle } from '@/actions/catalog-node';
+import { updateTitle } from '@/actions/catalog-node';
 import { updateDocMeta } from '@/actions/doc';
 import { Button } from '@/components/ui/button';
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
 import { getTranslations } from '@/i18n';
-import { deleteNodeWithChildren } from '@/lib/catalog/client';
 import { cn } from '@/lib/utils';
 import { useCurrentBook } from '@/stores/book';
 import useCatalog, { mutateCatalog, nodeMap } from '@/stores/catalog';
@@ -33,8 +17,8 @@ import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
 import CatalogItemWrapper from './catalog-item-wrapper';
 import CreateDropdown from './create-dropdown';
 import EditTitleForm from './edit-title-form';
-import { useGlobalSettingsDialog } from './global-settings-dialog';
 import LevelIndicator from './level-indicator';
+import { MoreDropdown } from './more-dropdown';
 
 export interface CatalogItemProps {
 	dragProvided: DraggableProvided;
@@ -57,7 +41,6 @@ const CatalogItem = ({
 	const expandedKeys = useCatalog((state) => state.expandedKeys);
 	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
 	const pathname = usePathname();
-	const router = useRouter();
 
 	if (!book) {
 		return null;
@@ -86,47 +69,6 @@ const CatalogItem = ({
 
 	const handleRename = () => {
 		setIsEditingTitle(true);
-	};
-
-	const handleSettings = () => {
-		if (item.type === 'DOC' && item.docId) {
-			useGlobalSettingsDialog.setState({
-				tab: 'doc',
-				docId: item.docId,
-				bookId: book.id,
-				open: true
-			});
-		}
-	};
-
-	const handleDelete = () => {
-		deleteNodeWithChildren(nodeMap, item.id);
-		mutateCatalog(book.id, async () => {
-			const promise = (async () => {
-				const result = await deleteWithChildren({
-					nodeId: item.id,
-					bookId: book.id
-				});
-
-				if (!result.success || !result.data) {
-					throw new Error(result.message);
-				}
-
-				return result.data;
-			})();
-
-			return await toast
-				.promise(promise, {
-					loading: t.delete_loading,
-					success: t.delete_success,
-					error: t.delete_error
-				})
-				.unwrap();
-		});
-
-		if (item.docId === useDocStore.getState().id) {
-			router.replace(`/dashboard/${book.id}`);
-		}
 	};
 
 	const handleSubmit = (title: string) => {
@@ -218,8 +160,8 @@ const CatalogItem = ({
 				style={{ paddingLeft: 24 * item.level + 'px' }}
 				onClick={handleClick}
 			>
-				<div className="mr-1 size-6">
-					{item.childId !== null && (
+				<div className="relative mr-1 size-6">
+					{item.type === 'STACK' || item.childId !== null ? (
 						<Button
 							className="size-6 hover:bg-border"
 							size="icon"
@@ -232,12 +174,22 @@ const CatalogItem = ({
 						>
 							<ChevronRight
 								className={cn(
-									'transition-transform duration-200',
+									'absolute transition-transform duration-200',
 									expandedKeys.has(item.id) && 'rotate-90'
 								)}
 								size={16}
 							/>
 						</Button>
+					) : (
+						<div className={'flex size-6 items-center justify-center'}>
+							<FileText size={16} />
+						</div>
+					)}
+
+					{!item.isPublished && (
+						<div className="absolute right-0.5 bottom-0.5 size-2 rounded-full bg-sidebar p-[1.5px]">
+							<div className="size-[5px] rounded-full bg-[#EA580C]"></div>
+						</div>
 					)}
 				</div>
 
@@ -258,47 +210,7 @@ const CatalogItem = ({
 					)}
 				>
 					<div className="flex items-center gap-px">
-						<DropdownMenu modal={false}>
-							<DropdownMenuTrigger
-								asChild
-								onClick={(e) => {
-									e.stopPropagation();
-									e.preventDefault();
-								}}
-							>
-								<Button
-									className="size-6 hover:bg-border"
-									size="icon"
-									variant="ghost"
-								>
-									<MoreVertical />
-									<span className="sr-only">More</span>
-								</Button>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent
-								align="start"
-								onClick={(e) => e.stopPropagation()}
-							>
-								<DropdownMenuItem onClick={handleRename}>
-									<TextCursorInput className="text-popover-foreground" />
-									{t.rename}
-								</DropdownMenuItem>
-
-								{item.type === 'DOC' && (
-									<DropdownMenuItem onClick={handleSettings}>
-										<SlidersHorizontal className="text-popover-foreground" />
-										{t.settings}
-									</DropdownMenuItem>
-								)}
-
-								<DropdownMenuSeparator />
-
-								<DropdownMenuItem variant="destructive" onClick={handleDelete}>
-									<Trash2 />
-									{t.delete}
-								</DropdownMenuItem>
-							</DropdownMenuContent>
-						</DropdownMenu>
+						<MoreDropdown item={item} onRename={handleRename} />
 
 						<CreateDropdown parentCatalogNodeId={item.id}>
 							<Button

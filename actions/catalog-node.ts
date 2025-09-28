@@ -1,6 +1,6 @@
 'use server';
 
-import { CatalogNodeEntity } from '@prisma/client';
+import { BookEntity, CatalogNodeEntity, DocEntity } from '@prisma/client';
 
 import CatalogNodeService from '@/services/catalog-node';
 import { Nullable } from '@/types/common';
@@ -82,6 +82,26 @@ export const updateTitle = async ({
 	title: CatalogNodeEntity['title'];
 }) => {
 	const serviceResult = await CatalogNodeService.updateTitle({ id, title });
+
+	return serviceResult.toPlainObject();
+};
+
+export const publishWithParent = async (publishDto: {
+	nodeIds: CatalogNodeEntity['id'][];
+	docIds: DocEntity['id'][];
+	bookId: BookEntity['id'];
+}) => {
+	const serviceResult = await CatalogNodeService.publish(publishDto);
+
+	return serviceResult.toPlainObject();
+};
+
+export const unpublishWithChildren = async (unpublishDto: {
+	nodeIds: CatalogNodeEntity['id'][];
+	docIds: DocEntity['id'][];
+	bookId: BookEntity['id'];
+}) => {
+	const serviceResult = await CatalogNodeService.unpublish(unpublishDto);
 
 	return serviceResult.toPlainObject();
 };

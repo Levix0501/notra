@@ -13,6 +13,7 @@ export const ImageNode = (props: NodeViewProps) => {
 					<Image
 						alt={props.node.attrs.alt}
 						height={props.node.attrs.height}
+						sizes="100%"
 						src={props.node.attrs.src}
 						width={props.node.attrs.width}
 					/>

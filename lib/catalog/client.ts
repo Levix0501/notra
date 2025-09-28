@@ -1,3 +1,5 @@
+import { CatalogNodeEntity, DocEntity } from '@prisma/client';
+
 import { CatalogNodeView } from '@/types/catalog-node';
 
 export const checkShouldMoveNode = (
@@ -218,4 +220,70 @@ export const moveNode = (
 		newParentId,
 		newPrevId
 	});
+};
+
+export const publishNode = (
+	nodeMap: Map<number, CatalogNodeView>,
+	nodeId: CatalogNodeView['id']
+) => {
+	const nodeIdsToPublish: CatalogNodeEntity['id'][] = [];
+	const docIdsToPublish: DocEntity['id'][] = [];
+
+	const publish = (nodeId: number) => {
+		const node = nodeMap.get(nodeId);
+
+		if (!node || node.isPublished) {
+			return;
+		}
+
+		node.isPublished = true;
+		nodeIdsToPublish.push(nodeId);
+
+		if (node.docId) {
+			docIdsToPublish.push(node.docId);
+		}
+
+		if (node.parentId) {
+			publish(node.parentId);
+		}
+	};
+
+	publish(nodeId);
+
+	return [nodeIdsToPublish, docIdsToPublish];
+};
+
+export const unpublishNode = (
+	nodeMap: Map<number, CatalogNodeView>,
+	nodeId: CatalogNodeView['id']
+) => {
+	const nodeIdsToUnpublish: CatalogNodeEntity['id'][] = [];
+	const docIdsToUnpublish: DocEntity['id'][] = [];
+
+	const unpublish = (nodeId: number) => {
+		const node = nodeMap.get(nodeId);
+
+		if (!node || !node.isPublished) {
+			return;
+		}
+
+		node.isPublished = false;
+		nodeIdsToUnpublish.push(nodeId);
+
+		if (node.docId) {
+			docIdsToUnpublish.push(node.docId);
+		}
+
+		const children = nodeMap
+			.values()
+			.filter((node) => node.parentId === nodeId);
+
+		for (const child of children) {
+			unpublish(child.id);
+		}
+	};
+
+	unpublish(nodeId);
+
+	return [nodeIdsToUnpublish, docIdsToUnpublish];
 };

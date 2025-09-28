@@ -87,6 +87,8 @@ model BookEntity {
   subActionUrl     String?       @map("sub_action_url")
   isSubNewTab      Boolean       @default(false) @map("is_sub_new_tab")
 
+  isPublished Boolean @default(false) @map("is_published")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -112,6 +114,8 @@ model CatalogNodeEntity {
   title     String
   type      CatalogNodeType
   url       String?
+
+  isPublished Boolean @default(false) @map("is_published")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

@@ -4,9 +4,14 @@ import { Link2 } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { publishDoc, unpublishDoc } from '@/actions/doc';
+import {
+	publishWithParent,
+	unpublishWithChildren
+} from '@/actions/catalog-node';
 import { getTranslations } from '@/i18n';
+import { publishNode, unpublishNode } from '@/lib/catalog/client';
 import { useCurrentBook } from '@/stores/book';
+import { mutateCatalog, nodeMap } from '@/stores/catalog';
 import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
 
 import { CopyButton } from './copy-button';
@@ -30,21 +35,39 @@ export function PublishButton() {
 	const publishedPageUrl = `${location.origin}/${book.slug}/${docMeta.slug}`;
 
 	const handlePublish = async () => {
-		mutate(
-			async () => {
-				setIsPending(true);
-				const result = await publishDoc(docMeta.id);
+		const item = nodeMap.values().find((e) => e.docId === docMeta.id);
 
-				if (!result.success || !result.data) {
-					setIsPending(false);
+		if (!item) {
+			return;
+		}
 
-					throw new Error(result.message);
-				}
+		const [nodeIds, docIds] = publishNode(nodeMap, item.id);
 
+		mutateCatalog(book.id, async () => {
+			setIsPending(true);
+			const result = await publishWithParent({
+				nodeIds,
+				docIds,
+				bookId: book.id
+			});
+
+			if (!result.success || !result.data) {
 				setIsPending(false);
 
-				return result.data;
-			},
+				throw new Error(result.message);
+			}
+
+			setIsPending(false);
+
+			return result.data;
+		});
+
+		mutate(
+			async () => ({
+				...docMeta,
+				isPublished: true,
+				isUpdated: false
+			}),
 			{
 				optimisticData: {
 					...docMeta,
@@ -57,21 +80,39 @@ export function PublishButton() {
 	};
 
 	const handleUnpublish = async () => {
-		mutate(
-			async () => {
-				setIsPending(true);
-				const result = await unpublishDoc(docMeta.id);
+		const item = nodeMap.values().find((e) => e.docId === docMeta.id);
 
-				if (!result.success || !result.data) {
-					setIsPending(false);
+		if (!item) {
+			return;
+		}
 
-					throw new Error(result.message);
-				}
+		const [nodeIds, docIds] = unpublishNode(nodeMap, item.id);
 
+		mutateCatalog(book.id, async () => {
+			setIsPending(true);
+			const result = await unpublishWithChildren({
+				nodeIds,
+				docIds,
+				bookId: book.id
+			});
+
+			if (!result.success || !result.data) {
 				setIsPending(false);
 
-				return result.data;
-			},
+				throw new Error(result.message);
+			}
+
+			setIsPending(false);
+
+			return result.data;
+		});
+
+		mutate(
+			async () => ({
+				...docMeta,
+				isPublished: false,
+				isUpdated: false
+			}),
 			{
 				optimisticData: {
 					...docMeta,
