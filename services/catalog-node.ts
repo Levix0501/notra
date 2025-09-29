@@ -6,7 +6,7 @@ import {
 } from '@prisma/client';
 
 import { getTranslations } from '@/i18n';
-import { revalidateDoc } from '@/lib/cache';
+import { revalidateBook, revalidateDoc } from '@/lib/cache';
 import { deleteNodeWithChildren, moveNode } from '@/lib/catalog/server';
 import { flattenCatalogNodes } from '@/lib/catalog/shared';
 import { logger } from '@/lib/logger';
@@ -340,6 +340,15 @@ export default class CatalogNodeService {
 				]);
 			});
 
+			const book = await prisma.bookEntity.findUniqueOrThrow({
+				where: { id: bookId }
+			});
+
+			revalidateBook({
+				bookId: bookId,
+				bookSlug: book.slug
+			});
+
 			return CatalogNodeService.getCatalogNodes(bookId);
 		} catch (error) {
 			logger('CatalogNodeService.publish', error);
@@ -370,6 +379,15 @@ export default class CatalogNodeService {
 						data: { isPublished: false }
 					})
 				]);
+			});
+
+			const book = await prisma.bookEntity.findUniqueOrThrow({
+				where: { id: bookId }
+			});
+
+			revalidateBook({
+				bookId: bookId,
+				bookSlug: book.slug
 			});
 
 			return CatalogNodeService.getCatalogNodes(bookId);

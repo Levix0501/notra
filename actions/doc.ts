@@ -28,18 +28,6 @@ export const updateDocDraftContent = async (
 	return serviceResult.toPlainObject();
 };
 
-export const publishDoc = async (docId: DocEntity['id']) => {
-	const serviceResult = await DocService.publishDoc(docId);
-
-	return serviceResult.toPlainObject();
-};
-
-export const unpublishDoc = async (docId: DocEntity['id']) => {
-	const serviceResult = await DocService.unpublishDoc(docId);
-
-	return serviceResult.toPlainObject();
-};
-
 export const incrementViewCount = async (docId: DocEntity['id']) => {
 	const serviceResult = await DocService.incrementViewCount(docId);
 

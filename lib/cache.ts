@@ -12,6 +12,7 @@ export const revalidateBook = ({
 }) => {
 	revalidatePath('/');
 	revalidatePath(`/${bookSlug}`, 'layout');
+	revalidatePath(`/dashboard`);
 	revalidatePath(`/dashboard/${bookId}`, 'layout');
 
 	if (oldSlug) {
