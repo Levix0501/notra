@@ -155,7 +155,13 @@ export const zh = {
 		delete: '删除',
 		delete_loading: '删除中...',
 		delete_error: '删除失败！',
-		delete_success: '删除成功！'
+		delete_success: '删除成功！',
+		publish_loading: '发布中...',
+		publish_error: '发布失败！',
+		publish_success: '发布成功！',
+		unpublish_loading: '取消发布中...',
+		unpublish_error: '取消发布失败！',
+		unpublish_success: '取消发布成功！'
 	},
 	components_notra_footer: {
 		powered_by:

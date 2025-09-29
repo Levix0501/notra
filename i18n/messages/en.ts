@@ -155,7 +155,13 @@ export const en = {
 		delete: 'Delete',
 		delete_loading: 'Deleting...',
 		delete_error: 'Failed to delete!',
-		delete_success: 'Deleted successfully!'
+		delete_success: 'Deleted successfully!',
+		publish_loading: 'Publishing...',
+		publish_error: 'Failed to publish!',
+		publish_success: 'Published successfully!',
+		unpublish_loading: 'Unpublishing...',
+		unpublish_error: 'Failed to unpublish!',
+		unpublish_success: 'Unpublished successfully!'
 	},
 	components_notra_footer: {
 		powered_by:

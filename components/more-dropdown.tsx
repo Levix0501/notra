@@ -95,17 +95,27 @@ export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
 		const [nodeIds, docIds] = publishNode(nodeMap, item.id);
 
 		mutateCatalog(book.id, async () => {
-			const result = await publishWithParent({
-				nodeIds,
-				docIds,
-				bookId: book.id
-			});
+			const promise = (async () => {
+				const result = await publishWithParent({
+					nodeIds,
+					docIds,
+					bookId: book.id
+				});
 
-			if (!result.success || !result.data) {
-				throw new Error(result.message);
-			}
+				if (!result.success || !result.data) {
+					throw new Error(result.message);
+				}
 
-			return result.data;
+				return result.data;
+			})();
+
+			return await toast
+				.promise(promise, {
+					loading: t.publish_loading,
+					success: t.publish_success,
+					error: t.publish_error
+				})
+				.unwrap();
 		});
 
 		const currentDocId = useDocStore.getState().id;
@@ -133,17 +143,27 @@ export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
 		const [nodeIds, docIds] = unpublishNode(nodeMap, item.id);
 
 		mutateCatalog(book.id, async () => {
-			const result = await unpublishWithChildren({
-				nodeIds,
-				docIds,
-				bookId: book.id
-			});
+			const promise = (async () => {
+				const result = await unpublishWithChildren({
+					nodeIds,
+					docIds,
+					bookId: book.id
+				});
 
-			if (!result.success || !result.data) {
-				throw new Error(result.message);
-			}
+				if (!result.success || !result.data) {
+					throw new Error(result.message);
+				}
 
-			return result.data;
+				return result.data;
+			})();
+
+			return await toast
+				.promise(promise, {
+					loading: t.unpublish_loading,
+					success: t.unpublish_success,
+					error: t.unpublish_error
+				})
+				.unwrap();
 		});
 
 		const currentDocId = useDocStore.getState().id;
