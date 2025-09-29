@@ -7,7 +7,7 @@ import {
 
 import { getTranslations } from '@/i18n';
 import { revalidateBook, revalidateDoc } from '@/lib/cache';
-import { deleteNodeWithChildren, moveNode } from '@/lib/catalog/server';
+import { moveNode, removeNodeFromOldPosition } from '@/lib/catalog/server';
 import { flattenCatalogNodes } from '@/lib/catalog/shared';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
@@ -129,14 +129,29 @@ export default class CatalogNodeService {
 
 	static async deleteWithChildren({
 		nodeId,
+		nodeIds,
+		docIds,
 		bookId
 	}: {
 		nodeId: CatalogNodeEntity['id'];
+		nodeIds: CatalogNodeEntity['id'][];
+		docIds: DocEntity['id'][];
 		bookId: CatalogNodeEntity['bookId'];
 	}) {
 		try {
 			await prisma.$transaction(async (tx) => {
-				await deleteNodeWithChildren(tx, nodeId);
+				const node = await tx.catalogNodeEntity.findUniqueOrThrow({
+					where: { id: nodeId }
+				});
+
+				await Promise.all([
+					removeNodeFromOldPosition(tx, node),
+					tx.catalogNodeEntity.deleteMany({ where: { id: { in: nodeIds } } }),
+					tx.docEntity.updateMany({
+						where: { id: { in: docIds } },
+						data: { isDeleted: true }
+					})
+				]);
 			});
 
 			return CatalogNodeService.getCatalogNodes(bookId);

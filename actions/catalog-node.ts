@@ -23,17 +23,13 @@ export const createDoc = async (
 	return serviceResult.toPlainObject();
 };
 
-export const deleteWithChildren = async ({
-	nodeId,
-	bookId
-}: {
+export const deleteNodeWithChildren = async (deleteDto: {
 	nodeId: CatalogNodeEntity['id'];
+	nodeIds: CatalogNodeEntity['id'][];
+	docIds: DocEntity['id'][];
 	bookId: CatalogNodeEntity['bookId'];
 }) => {
-	const serviceResult = await CatalogNodeService.deleteWithChildren({
-		nodeId,
-		bookId
-	});
+	const serviceResult = await CatalogNodeService.deleteWithChildren(deleteDto);
 
 	return serviceResult.toPlainObject();
 };

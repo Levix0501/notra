@@ -56,42 +56,54 @@ const removeNodeFromOldPosition = (
 	}
 };
 
-const deleteChildren = (
+export const deleteNode = (
 	nodeMap: Map<number, CatalogNodeView>,
 	nodeId: CatalogNodeView['id']
 ) => {
 	const nodeIdsToDelete: number[] = [];
+	const docIdsToDelete: DocEntity['id'][] = [];
 
-	const collectNodeIds = (parentId: number) => {
-		for (const node of nodeMap.values()) {
-			if (node.parentId === parentId) {
-				nodeIdsToDelete.push(node.id);
-				collectNodeIds(node.id);
-			}
-		}
-	};
-
-	collectNodeIds(nodeId);
-
-	for (const id of nodeIdsToDelete) {
-		nodeMap.delete(id);
-	}
-};
-
-export const deleteNodeWithChildren = (
-	nodeMap: Map<number, CatalogNodeView>,
-	nodeId: CatalogNodeView['id']
-) => {
 	const deletedNode = nodeMap.get(nodeId);
 
 	nodeMap.delete(nodeId);
 
 	if (!deletedNode) {
-		return;
+		return [nodeIdsToDelete, docIdsToDelete];
+	}
+
+	nodeIdsToDelete.push(nodeId);
+
+	if (deletedNode.docId) {
+		docIdsToDelete.push(deletedNode.docId);
 	}
 
 	removeNodeFromOldPosition(nodeMap, deletedNode);
-	deleteChildren(nodeMap, deletedNode.id);
+
+	const deleteChildren = () => {
+		const collectNodeIds = (parentId: number) => {
+			for (const node of nodeMap.values()) {
+				if (node.parentId === parentId) {
+					nodeIdsToDelete.push(node.id);
+
+					if (node.docId) {
+						docIdsToDelete.push(node.docId);
+					}
+
+					collectNodeIds(node.id);
+				}
+			}
+		};
+
+		collectNodeIds(nodeId);
+
+		for (const id of nodeIdsToDelete) {
+			nodeMap.delete(id);
+		}
+	};
+
+	deleteChildren();
+
+	return [nodeIdsToDelete, docIdsToDelete];
 };
 
 const prependChild = (

@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import {
-	deleteWithChildren,
+	deleteNodeWithChildren,
 	publishWithParent,
 	unpublishWithChildren
 } from '@/actions/catalog-node';
@@ -23,11 +23,7 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { getTranslations } from '@/i18n';
-import {
-	deleteNodeWithChildren,
-	publishNode,
-	unpublishNode
-} from '@/lib/catalog/client';
+import { deleteNode, publishNode, unpublishNode } from '@/lib/catalog/client';
 import { useCurrentBook } from '@/stores/book';
 import { mutateCatalog, nodeMap } from '@/stores/catalog';
 import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
@@ -63,11 +59,14 @@ export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
 	};
 
 	const handleDelete = () => {
-		deleteNodeWithChildren(nodeMap, item.id);
+		const [nodeIds, docIds] = deleteNode(nodeMap, item.id);
+
 		mutateCatalog(book.id, async () => {
 			const promise = (async () => {
-				const result = await deleteWithChildren({
+				const result = await deleteNodeWithChildren({
 					nodeId: item.id,
+					nodeIds,
+					docIds,
 					bookId: book.id
 				});
 

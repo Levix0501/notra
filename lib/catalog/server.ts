@@ -34,7 +34,10 @@ const checkShouldMoveNode = async (
 	};
 };
 
-const removeNodeFromOldPosition = async (tx: Tx, node: CatalogNodeEntity) => {
+export const removeNodeFromOldPosition = async (
+	tx: Tx,
+	node: CatalogNodeEntity
+) => {
 	if (node.parentId === node.prevId) {
 		await Promise.all([
 			node.parentId
@@ -66,40 +69,6 @@ const removeNodeFromOldPosition = async (tx: Tx, node: CatalogNodeEntity) => {
 				: null
 		]);
 	}
-};
-
-const deleteChildren = async (tx: Tx, nodeId: CatalogNodeEntity['id']) => {
-	const children = await tx.catalogNodeEntity.findMany({
-		where: { parentId: nodeId }
-	});
-
-	await Promise.all([
-		...children.map((child) => deleteChildren(tx, child.id)),
-		tx.catalogNodeEntity.deleteMany({
-			where: { parentId: nodeId }
-		})
-	]);
-};
-
-export const deleteNodeWithChildren = async (
-	tx: Tx,
-	nodeId: CatalogNodeEntity['id']
-) => {
-	const [deletedNode] = await Promise.all([
-		tx.catalogNodeEntity.delete({
-			where: { id: nodeId }
-		}),
-		deleteChildren(tx, nodeId)
-	]);
-
-	if (deletedNode.docId) {
-		await tx.docEntity.update({
-			where: { id: deletedNode.docId },
-			data: { isDeleted: true }
-		});
-	}
-
-	await removeNodeFromOldPosition(tx, deletedNode);
 };
 
 const prependChild = async (
