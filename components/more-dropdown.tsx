@@ -6,7 +6,7 @@ import {
 	TextCursorInput,
 	Trash2
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import {
@@ -39,11 +39,12 @@ interface MoreDropdownProps {
 const t = getTranslations('components_more_dropdown');
 
 export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
+	const { docId } = useParams<{ bookId: string; docId: string }>();
 	const router = useRouter();
 	const { data: book } = useCurrentBook();
 	const { data: docMeta, mutate } = useCurrentDocMeta();
 
-	if (!book || !docMeta) {
+	if (!book || (!docMeta && docId)) {
 		return null;
 	}
 
@@ -120,7 +121,7 @@ export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
 
 		const currentDocId = useDocStore.getState().id;
 
-		if (currentDocId !== null && docIds.includes(currentDocId)) {
+		if (docMeta && currentDocId !== null && docIds.includes(currentDocId)) {
 			mutate(
 				async () => ({
 					...docMeta,
@@ -168,7 +169,7 @@ export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
 
 		const currentDocId = useDocStore.getState().id;
 
-		if (currentDocId !== null && docIds.includes(currentDocId)) {
+		if (docMeta && currentDocId !== null && docIds.includes(currentDocId)) {
 			mutate(
 				async () => ({
 					...docMeta,
