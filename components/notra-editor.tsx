@@ -4,7 +4,7 @@ import { DocEntity } from '@prisma/client';
 import { Content } from '@tiptap/react';
 import { useDebounceCallback } from 'usehooks-ts';
 
-import { updateDocDraftContent } from '@/actions/doc';
+import { updateDocContent } from '@/actions/doc';
 import { useGetDoc } from '@/queries/doc';
 import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
 
@@ -19,7 +19,7 @@ export default function NotraEditor({ docId }: Readonly<NotraEditorProps>) {
 	const setUpdateAt = useDocStore((state) => state.setUpdateAt);
 	const { data: doc, mutate } = useGetDoc(docId);
 	const { mutate: mutateDocMeta } = useCurrentDocMeta();
-	const debouncedUpdateDocDraftContent = useDebounceCallback(
+	const debouncedUpdateDocContent = useDebounceCallback(
 		async (content: Content) => {
 			if (!doc) {
 				return;
@@ -28,9 +28,9 @@ export default function NotraEditor({ docId }: Readonly<NotraEditorProps>) {
 			mutate(
 				async () => {
 					setIsSaving(true);
-					const result = await updateDocDraftContent({
+					const result = await updateDocContent({
 						id: doc.id,
-						draftContent: JSON.stringify(content)
+						content: JSON.stringify(content)
 					});
 
 					if (!result.success || !result.data) {
@@ -46,7 +46,7 @@ export default function NotraEditor({ docId }: Readonly<NotraEditorProps>) {
 				{
 					optimisticData: {
 						...doc,
-						draftContent: content
+						content: content
 					}
 				}
 			);
@@ -55,7 +55,7 @@ export default function NotraEditor({ docId }: Readonly<NotraEditorProps>) {
 	);
 
 	const handleContentChange = (content: Content) => {
-		debouncedUpdateDocDraftContent(content);
+		debouncedUpdateDocContent(content);
 	};
 
 	if (!doc) {
@@ -64,7 +64,7 @@ export default function NotraEditor({ docId }: Readonly<NotraEditorProps>) {
 
 	return (
 		<EditorCore
-			initialContent={doc?.draftContent as unknown as Content}
+			initialContent={doc?.content as unknown as Content}
 			onContentChange={handleContentChange}
 		/>
 	);

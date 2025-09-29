@@ -93,6 +93,9 @@ export const zh = {
 	components_dashboard_sidebar_nav: {
 		home: '主页'
 	},
+	components_doc_settings_button: {
+		doc_settings: '文档设置'
+	},
 	components_doc_settings_form: {
 		cover: '封面',
 		cover_placeholder: '建议尺寸：1200 x 630 px',
@@ -169,10 +172,9 @@ export const zh = {
 	},
 	components_publish_button: {
 		publish: '发布',
-		update: '更新',
+		share: '分享',
 		unpublish: '取消发布',
 		view_page: '查看页面',
-		share: '分享',
 		publish_to_web: '公开至互联网'
 	},
 	components_site_index_page_view_tabs: {
@@ -251,7 +253,7 @@ export const zh = {
 		get_published_docs_by_book_slug_error: '获取已发布文档失败！',
 		update_doc_meta_error: '更新文档元数据失败！',
 		check_doc_slug_error: '检查文档路径是否可用失败！',
-		update_doc_draft_content_error: '更新文档草稿内容失败！',
+		update_doc_content_error: '更新文档内容失败！',
 		publish_doc_error: '发布文档失败！',
 		unpublish_doc_error: '取消发布文档失败！',
 		get_published_doc_total_count_error: '获取已发布文档总数失败！',

@@ -35,7 +35,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 			<NotraInsetHeader>
 				<div className="flex size-full items-center justify-between">
 					<HeaderEditableTitle />
-					<div className="flex items-center gap-2">
+					<div className="flex items-center">
 						<DocSettingsButton />
 						<PublishButton />
 					</div>

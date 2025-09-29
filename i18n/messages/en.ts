@@ -93,6 +93,9 @@ export const en = {
 	components_dashboard_sidebar_nav: {
 		home: 'Home'
 	},
+	components_doc_settings_button: {
+		doc_settings: 'Doc Settings'
+	},
 	components_doc_settings_form: {
 		cover: 'Cover',
 		cover_placeholder: 'Recommended dimension: 1200 x 630 px',
@@ -169,10 +172,9 @@ export const en = {
 	},
 	components_publish_button: {
 		publish: 'Publish',
-		update: 'Update',
+		share: 'Share',
 		unpublish: 'Unpublish',
 		view_page: 'View page',
-		share: 'Share',
 		publish_to_web: 'Publish to web'
 	},
 	components_site_index_page_view_tabs: {
@@ -251,7 +253,7 @@ export const en = {
 		get_published_docs_by_book_slug_error: 'Failed to get published documents!',
 		update_doc_meta_error: 'Failed to update document meta!',
 		check_doc_slug_error: 'Failed to check document slug!',
-		update_doc_draft_content_error: 'Failed to update document draft content!',
+		update_doc_content_error: 'Failed to update document content!',
 		publish_doc_error: 'Failed to publish document!',
 		unpublish_doc_error: 'Failed to unpublish document!',
 		get_published_doc_total_count_error:

@@ -125,14 +125,12 @@ export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
 			mutate(
 				async () => ({
 					...docMeta,
-					isPublished: true,
-					isUpdated: false
+					isPublished: true
 				}),
 				{
 					optimisticData: {
 						...docMeta,
-						isPublished: true,
-						isUpdated: false
+						isPublished: true
 					},
 					revalidate: false
 				}
@@ -173,14 +171,12 @@ export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
 			mutate(
 				async () => ({
 					...docMeta,
-					isPublished: false,
-					isUpdated: false
+					isPublished: false
 				}),
 				{
 					optimisticData: {
 						...docMeta,
-						isPublished: false,
-						isUpdated: false
+						isPublished: false
 					},
 					revalidate: false
 				}

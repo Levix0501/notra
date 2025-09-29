@@ -1,6 +1,6 @@
 'use client';
 
-import { Link2 } from 'lucide-react';
+import { Send } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -18,6 +18,7 @@ import { CopyButton } from './copy-button';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 const t = getTranslations('components_publish_button');
 
@@ -65,14 +66,12 @@ export function PublishButton() {
 		mutate(
 			async () => ({
 				...docMeta,
-				isPublished: true,
-				isUpdated: false
+				isPublished: true
 			}),
 			{
 				optimisticData: {
 					...docMeta,
-					isPublished: true,
-					isUpdated: false
+					isPublished: true
 				},
 				revalidate: false
 			}
@@ -123,24 +122,19 @@ export function PublishButton() {
 		);
 	};
 
-	const handleUpdate = () => {
-		handlePublish();
-	};
-
-	const renderButtonText = () => {
-		if (docMeta.isPublished) {
-			return docMeta.isUpdated ? t.update : t.share;
-		}
-
-		return t.publish;
-	};
-
 	return (
 		<Popover>
-			<PopoverTrigger asChild>
-				<Button className="w-auto" size="sm" variant="outline">
-					{renderButtonText()}
-				</Button>
+			<PopoverTrigger>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<Button size="icon" variant="ghost">
+							<Send />
+						</Button>
+					</TooltipTrigger>
+					<TooltipContent>
+						<p>{t.share}</p>
+					</TooltipContent>
+				</Tooltip>
 			</PopoverTrigger>
 			<PopoverContent align="end" className="w-80">
 				{docMeta.isPublished ? (
@@ -154,15 +148,6 @@ export function PublishButton() {
 
 							<div>
 								<CopyButton value={publishedPageUrl} />
-
-								<Link
-									href={isPending ? '#' : publishedPageUrl}
-									target={isPending ? void 0 : '_blank'}
-								>
-									<Button size="icon" variant="ghost">
-										<Link2 />
-									</Button>
-								</Link>
 							</div>
 						</div>
 
@@ -179,28 +164,15 @@ export function PublishButton() {
 								</Button>
 							</div>
 
-							{docMeta.isUpdated ? (
-								<div className="flex-1">
-									<Button
-										className="w-full"
-										disabled={isSaving || isPending}
-										size="sm"
-										onClick={handleUpdate}
-									>
-										{t.update}
-									</Button>
-								</div>
-							) : (
-								<Link
-									className="flex-1"
-									href={isPending ? '#' : publishedPageUrl}
-									target={isPending ? void 0 : '_blank'}
-								>
-									<Button className="w-full" disabled={isPending} size="sm">
-										{t.view_page}
-									</Button>
-								</Link>
-							)}
+							<Link
+								className="flex-1"
+								href={isPending ? '#' : publishedPageUrl}
+								target={isPending ? void 0 : '_blank'}
+							>
+								<Button className="w-full" disabled={isPending} size="sm">
+									{t.view_page}
+								</Button>
+							</Link>
 						</div>
 					</div>
 				) : (

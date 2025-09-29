@@ -6,7 +6,6 @@ import { getTranslations } from '@/i18n';
 export type PublishedDocMetaVo = Omit<
 	DocEntity,
 	| 'content'
-	| 'draftContent'
 	| 'isUpdated'
 	| 'isPublished'
 	| 'isDeleted'
@@ -18,7 +17,7 @@ export type PublishedDocMetaVo = Omit<
 	};
 };
 
-export type DocMetaVo = Omit<DocEntity, 'content' | 'draftContent'> & {
+export type DocMetaVo = Omit<DocEntity, 'content'> & {
 	book: {
 		slug: BookEntity['slug'];
 	};
@@ -42,7 +41,7 @@ export const DocSettingsFormSchema = z.object({
 
 export type DocSettingsFormValues = z.infer<typeof DocSettingsFormSchema>;
 
-export type UpdateDocDraftContentDto = {
+export type UpdateDocContentDto = {
 	id: DocEntity['id'];
-	draftContent: string;
+	content: string;
 };

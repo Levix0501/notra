@@ -3,7 +3,7 @@
 import { BookEntity, DocEntity } from '@prisma/client';
 
 import DocService from '@/services/doc';
-import { UpdateDocDraftContentDto, UpdateDocMetaDto } from '@/types/doc';
+import { UpdateDocContentDto, UpdateDocMetaDto } from '@/types/doc';
 
 export const updateDocMeta = async (values: UpdateDocMetaDto) => {
 	const serviceResult = await DocService.updateDocMeta(values);
@@ -20,10 +20,8 @@ export const checkDocSlug = async (
 	return serviceResult.toPlainObject();
 };
 
-export const updateDocDraftContent = async (
-	values: UpdateDocDraftContentDto
-) => {
-	const serviceResult = await DocService.updateDocDraftContent(values);
+export const updateDocContent = async (values: UpdateDocContentDto) => {
+	const serviceResult = await DocService.updateDocContent(values);
 
 	return serviceResult.toPlainObject();
 };

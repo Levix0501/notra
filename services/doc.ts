@@ -1,13 +1,12 @@
 import { BookEntity, DocEntity } from '@prisma/client';
-import { InputJsonValue } from '@prisma/client/runtime/library';
 import { cache } from 'react';
 
 import { getTranslations } from '@/i18n';
-import { revalidateBook, revalidateDoc } from '@/lib/cache';
+import { revalidateDoc } from '@/lib/cache';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
 import { ServiceResult } from '@/lib/service-result';
-import { UpdateDocDraftContentDto, UpdateDocMetaDto } from '@/types/doc';
+import { UpdateDocContentDto, UpdateDocMetaDto } from '@/types/doc';
 
 export default class DocService {
 	static readonly getPublishedDocMeta = cache(
@@ -16,9 +15,7 @@ export default class DocService {
 				const doc = await prisma.docEntity.findUniqueOrThrow({
 					where: { id: docId },
 					omit: {
-						draftContent: true,
 						content: true,
-						isUpdated: true,
 						isPublished: true,
 						isDeleted: true,
 						createdAt: true,
@@ -66,9 +63,7 @@ export default class DocService {
 						publishedAt: 'desc'
 					},
 					omit: {
-						draftContent: true,
 						content: true,
-						isUpdated: true,
 						isPublished: true,
 						isDeleted: true,
 						createdAt: true,
@@ -100,7 +95,6 @@ export default class DocService {
 					id: docId
 				},
 				omit: {
-					draftContent: true,
 					content: true
 				},
 				include: {
@@ -260,22 +254,37 @@ export default class DocService {
 		}
 	}
 
-	static async updateDocDraftContent(values: UpdateDocDraftContentDto) {
+	static async updateDocContent(values: UpdateDocContentDto) {
 		try {
 			const doc = await prisma.docEntity.update({
 				where: { id: values.id },
 				data: {
-					draftContent: JSON.parse(values.draftContent),
-					isUpdated: true
+					content: JSON.parse(values.content)
+				},
+				include: {
+					book: {
+						select: {
+							slug: true
+						}
+					}
 				}
 			});
 
+			if (doc.isPublished) {
+				revalidateDoc({
+					bookId: doc.bookId,
+					bookSlug: doc.book.slug,
+					docId: doc.id,
+					docSlug: doc.slug
+				});
+			}
+
 			return ServiceResult.success(doc);
 		} catch (error) {
-			logger('DocService.updateDocDraftContent', error);
+			logger('DocService.updateDocContent', error);
 			const t = getTranslations('services_doc');
 
-			return ServiceResult.fail(t.update_doc_draft_content_error);
+			return ServiceResult.fail(t.update_doc_content_error);
 		}
 	}
 
@@ -296,80 +305,6 @@ export default class DocService {
 			return ServiceResult.fail(t.check_doc_slug_error);
 		}
 	};
-
-	static async publishDoc(docId: DocEntity['id']) {
-		try {
-			const doc = await prisma.docEntity.findUniqueOrThrow({
-				where: { id: docId },
-				include: {
-					book: {
-						select: {
-							slug: true
-						}
-					}
-				}
-			});
-
-			await prisma.docEntity.update({
-				where: { id: docId },
-				data: {
-					isPublished: true,
-					isUpdated: false,
-					content: doc.draftContent as unknown as InputJsonValue,
-					publishedAt: doc.isPublished ? doc.publishedAt : new Date()
-				}
-			});
-
-			if (doc.isPublished) {
-				revalidateDoc({
-					bookId: doc.bookId,
-					bookSlug: doc.book.slug,
-					docId: doc.id,
-					docSlug: doc.slug
-				});
-			} else {
-				revalidateBook({
-					bookId: doc.bookId,
-					bookSlug: doc.book.slug
-				});
-			}
-
-			return DocService.getDocMeta(doc.id);
-		} catch (error) {
-			logger('DocService.publishDoc', error);
-			const t = getTranslations('services_doc');
-
-			return ServiceResult.fail(t.publish_doc_error);
-		}
-	}
-
-	static async unpublishDoc(docId: DocEntity['id']) {
-		try {
-			const doc = await prisma.docEntity.update({
-				where: { id: docId },
-				data: { isPublished: false },
-				include: {
-					book: {
-						select: {
-							slug: true
-						}
-					}
-				}
-			});
-
-			revalidateBook({
-				bookId: doc.bookId,
-				bookSlug: doc.book.slug
-			});
-
-			return DocService.getDocMeta(doc.id);
-		} catch (error) {
-			logger('DocService.unpublishDoc', error);
-			const t = getTranslations('services_doc');
-
-			return ServiceResult.fail(t.unpublish_doc_error);
-		}
-	}
 
 	static async incrementViewCount(docId: DocEntity['id']) {
 		try {

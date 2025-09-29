@@ -3,10 +3,14 @@
 import { FileSliders } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { getTranslations } from '@/i18n';
 import { useCurrentBook } from '@/stores/book';
 import { useCurrentDocMeta } from '@/stores/doc';
 
 import { useGlobalSettingsDialog } from './global-settings-dialog';
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+
+const t = getTranslations('components_doc_settings_button');
 
 export default function DocSettingsButton() {
 	const { data: docMeta } = useCurrentDocMeta();
@@ -26,8 +30,15 @@ export default function DocSettingsButton() {
 	};
 
 	return (
-		<Button size="icon" variant="ghost" onClick={handleClick}>
-			<FileSliders />
-		</Button>
+		<Tooltip>
+			<TooltipTrigger asChild>
+				<Button size="icon" variant="ghost" onClick={handleClick}>
+					<FileSliders />
+				</Button>
+			</TooltipTrigger>
+			<TooltipContent>
+				<p>{t.doc_settings}</p>
+			</TooltipContent>
+		</Tooltip>
 	);
 }
