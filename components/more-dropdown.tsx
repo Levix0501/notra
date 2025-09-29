@@ -1,8 +1,8 @@
 import {
+	FileSliders,
 	Globe,
 	GlobeLock,
 	MoreVertical,
-	SlidersHorizontal,
 	TextCursorInput,
 	Trash2
 } from 'lucide-react';
@@ -210,7 +210,7 @@ export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
 
 				{item.type === 'DOC' && (
 					<DropdownMenuItem onClick={handleOpenSettingsDialog}>
-						<SlidersHorizontal className="text-popover-foreground" />
+						<FileSliders className="text-popover-foreground" />
 						{t.settings}
 					</DropdownMenuItem>
 				)}

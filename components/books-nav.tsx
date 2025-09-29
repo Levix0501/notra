@@ -1,6 +1,12 @@
 'use client';
 
-import { MoreVertical, Plus, SlidersHorizontal, Trash2 } from 'lucide-react';
+import {
+	BookText,
+	MoreVertical,
+	Plus,
+	SlidersHorizontal,
+	Trash2
+} from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -71,7 +77,7 @@ export default function BooksNav() {
 						{!isLoading && (
 							<NotraSidebarMenuItem>
 								<NotraSidebarButton
-									className="text-secondary-foreground"
+									className="px-1 text-secondary-foreground"
 									onClick={handleOpenCreateBookDialog}
 								>
 									<Plus size={16} /> <span>{t.new_book}</span>
@@ -83,6 +89,8 @@ export default function BooksNav() {
 							<NotraSidebarMenuItem key={item.id}>
 								<NotraSidebarButton href={`/dashboard/${item.id}`}>
 									<div className="flex w-full items-center">
+										<BookText className="mr-2" size={16} />
+
 										<div className="flex-1 truncate select-none">
 											{item.name}
 										</div>

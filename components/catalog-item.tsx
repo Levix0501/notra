@@ -150,7 +150,7 @@ const CatalogItem = ({
 		>
 			<CatalogItemWrapper
 				className={cn(
-					'my-px flex h-[34px] items-center rounded-md border-[1.5px] border-transparent pr-1.5 text-sm hover:bg-sidebar-accent',
+					'my-px flex h-[34px] items-center rounded-md border-[1.5px] border-transparent pr-1 text-sm hover:bg-sidebar-accent',
 					Boolean(dragSnapshot.combineTargetFor) &&
 						'border-[#117cee] dark:border-[#3b82ce]',
 					isActive && 'bg-sidebar-accent font-bold'
@@ -187,8 +187,8 @@ const CatalogItem = ({
 					)}
 
 					{!item.isPublished && (
-						<div className="absolute right-0.5 bottom-0.5 size-2 rounded-full bg-sidebar p-[1.5px]">
-							<div className="size-[5px] rounded-full bg-[#EA580C]"></div>
+						<div className="pointer-events-none absolute right-0.5 bottom-0.5 size-2 rounded-full bg-sidebar">
+							<div className="absolute top-1/2 left-1/2 size-[5px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#EA580C]"></div>
 						</div>
 					)}
 				</div>

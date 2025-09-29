@@ -29,7 +29,11 @@ export default function DashboardSidebarNav() {
 		<NotraSidebarMenu>
 			{navItems.map((item) => (
 				<NotraSidebarMenuItem key={item.url}>
-					<NotraSidebarButton href={item.url} isActive={pathname === item.url}>
+					<NotraSidebarButton
+						className="px-1"
+						href={item.url}
+						isActive={pathname === item.url}
+					>
 						{item.icon && <item.icon size={16} />}
 						<span>{item.title}</span>
 					</NotraSidebarButton>

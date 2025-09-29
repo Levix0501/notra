@@ -27,6 +27,7 @@ export default function BookSidebarNav({
 		<NotraSidebarMenu>
 			<NotraSidebarMenuItem>
 				<NotraSidebarButton
+					className="px-1"
 					href={`/dashboard/${bookId}`}
 					isActive={pathname === `/dashboard/${bookId}`}
 				>
