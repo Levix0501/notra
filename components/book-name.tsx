@@ -10,5 +10,5 @@ interface BookNameProps {
 export default function BookName({ defaultBook }: Readonly<BookNameProps>) {
 	const { data: book } = useCurrentBook(defaultBook);
 
-	return <span className="flex-1 truncate font-bold">{book?.name}</span>;
+	return <span className="truncate font-bold">{book?.name}</span>;
 }

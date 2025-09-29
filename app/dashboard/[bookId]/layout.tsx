@@ -5,6 +5,7 @@ import BookName from '@/components/book-name';
 import BookSettingsButton from '@/components/book-settings-button';
 import BookSidebarHeader from '@/components/book-sidebar-header';
 import BookSidebarNav from '@/components/book-sidebar-nav';
+import { BooksDropdown } from '@/components/books-dropdown';
 import DashboardSidebarFooter from '@/components/dashboard-sidebar-footer';
 import {
 	NotraInset,
@@ -37,8 +38,11 @@ export default async function Layout({
 				<BookSidebarHeader />
 
 				<NotraSidebarContent>
-					<div className="mb-4 flex items-center justify-between gap-2 px-5 md:px-3.5">
-						<BookName defaultBook={book} />
+					<div className="mb-4 flex items-center justify-between px-5 md:px-3.5">
+						<div className="flex items-center gap-1">
+							<BookName defaultBook={book} />
+							<BooksDropdown />
+						</div>
 						<BookSettingsButton bookId={book.id} />
 					</div>
 
