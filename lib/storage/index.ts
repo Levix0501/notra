@@ -1,5 +1,12 @@
-import { ENV_SUPABASE_API_KEY, ENV_SUPABASE_URL } from '@/constants/env';
+import {
+	ENV_MINIO_ENDPOINT,
+	ENV_MINIO_ROOT_PASSWORD,
+	ENV_MINIO_ROOT_USER,
+	ENV_SUPABASE_API_KEY,
+	ENV_SUPABASE_URL
+} from '@/constants/env';
 
+import MinioStorage from './minio';
 import SupabaseStorage from './supabase';
 
 export interface IStorage {
@@ -18,6 +25,12 @@ let storage: IStorage = {
 
 if (ENV_SUPABASE_URL && ENV_SUPABASE_API_KEY) {
 	storage = new SupabaseStorage();
+} else if (
+	ENV_MINIO_ENDPOINT &&
+	ENV_MINIO_ROOT_USER &&
+	ENV_MINIO_ROOT_PASSWORD
+) {
+	storage = new MinioStorage();
 }
 
 export default storage;
