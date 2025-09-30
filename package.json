@@ -19,6 +19,7 @@
 	"scripts": {
 		"dev": "prisma generate && next dev --turbopack",
 		"build": "prisma generate && prisma migrate deploy && next build",
+		"next:build": "next build",
 		"start": "next start",
 		"lint": "eslint . && prettier --check . && stylelint \"**/*.{css,scss}\" && pnpm check-types",
 		"lint:fix": "eslint . --fix && prettier --write . && stylelint \"**/*.{css,scss}\" --fix",

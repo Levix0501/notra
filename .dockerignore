@@ -1,0 +1,15 @@
+.git
+.github
+.husky
+.next
+.vscode
+node_modules
+.dockerignore
+.env
+.env.example
+.gitignore
+docker-compose.yml
+Dockerfile
+LICENSE
+README.md
+tsconfig.tsbuildinfo

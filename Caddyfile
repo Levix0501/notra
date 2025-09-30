@@ -1,0 +1,7 @@
+localhost {
+    reverse_proxy app:3000
+}
+
+localhost:9000 {
+    reverse_proxy storage:9000
+}

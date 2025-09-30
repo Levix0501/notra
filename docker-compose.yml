@@ -1,0 +1,74 @@
+services:
+  app:
+    build: .
+    container_name: notra-app
+    restart: always
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@pgbouncer:5432/postgres
+      DIRECT_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/postgres
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+      - storage
+      - pgbouncer
+
+  db:
+    image: postgres:18.0
+    container_name: notra-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgbouncer:
+    image: edoburu/pgbouncer:v1.24.1-p1
+    container_name: notra-pgbouncer
+    restart: always
+    environment:
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_HOST: db
+      DB_PORT: 5432
+      POOL_MODE: transaction
+      AUTH_TYPE: scram-sha-256
+    depends_on:
+      - db
+
+  storage:
+    image: minio/minio:RELEASE.2025-09-07T16-13-09Z-cpuv1
+    container_name: notra-storage
+    restart: always
+    command: server /data
+    environment:
+      MINIO_ROOT_USER: notra
+      MINIO_ROOT_PASSWORD: notra123456
+    ports:
+      - '9000:9000'
+    volumes:
+      - minio_data:/data
+
+  caddy:
+    image: caddy:latest
+    container_name: notra-caddy
+    restart: always
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+    depends_on:
+      - app
+      - storage
+
+volumes:
+  postgres_data:
+  minio_data:
