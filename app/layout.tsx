@@ -3,6 +3,7 @@ import './globals.css';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Toaster } from 'sonner';
 
+import { ClientEnvInjector } from '@/components/client-env-injector';
 import GoogleAnalytics from '@/components/google-analytics';
 import {
 	DEFAULT_SITE_LOGO,
@@ -62,6 +63,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html suppressHydrationWarning lang={ENV_LOCALE}>
+			<ClientEnvInjector />
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
 				<Providers>
 					<Toaster richColors position="top-right" />
