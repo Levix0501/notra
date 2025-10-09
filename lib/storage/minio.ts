@@ -69,7 +69,7 @@ export default class MinioStorage implements IStorage {
 			Buffer.from(await file.arrayBuffer())
 		);
 
-		const publicUrl = `https://${ENV_MINIO_ENDPOINT}/${this.BUCKET_NAME}/${path}`;
+		const publicUrl = `https://${ENV_MINIO_ENDPOINT}/minio/${this.BUCKET_NAME}/${path}`;
 
 		return publicUrl;
 	}

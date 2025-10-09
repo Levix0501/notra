@@ -7,6 +7,7 @@ services:
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@pgbouncer:5432/postgres
       DIRECT_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/postgres
+      AUTH_URL: ${CADDY_DOMAIN}
     ports:
       - '3000:3000'
     depends_on:
@@ -47,8 +48,8 @@ services:
     restart: always
     command: server /data
     environment:
-      MINIO_ROOT_USER: notra
-      MINIO_ROOT_PASSWORD: notra123456
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     ports:
       - '9000:9000'
     volumes:
@@ -58,6 +59,9 @@ services:
     image: caddy:latest
     container_name: notra-caddy
     restart: always
+    environment:
+      CADDY_DOMAIN: ${CADDY_DOMAIN}
+      CADDY_EMAIL: ${CADDY_EMAIL}
     ports:
       - '80:80'
       - '443:443'

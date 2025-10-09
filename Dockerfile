@@ -42,7 +42,11 @@ COPY --from=builder /app/.next/static ./standalone/.next/static
 COPY --from=builder /app/public ./standalone/public
 
 COPY ./prisma ./prisma
+COPY ./prisma/package.json ./package.json
+RUN npm config set registry https://registry.npmmirror.com/
+RUN npm install pnpm -g
+RUN pnpm install
 
 EXPOSE 3000
 
-CMD echo "y" | npx prisma migrate deploy && node ./standalone/server.js
+CMD pnpm db:deploy && node ./standalone/server.js

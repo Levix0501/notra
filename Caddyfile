@@ -5,3 +5,22 @@ localhost {
 localhost:9000 {
     reverse_proxy storage:9000
 }
+
+{$CADDY_DOMAIN} {
+    tls {$CADDY_EMAIL}
+    redir https://www.{$CADDY_DOMAIN}{uri} 301
+}
+
+www.{$CADDY_DOMAIN} {
+    tls {$CADDY_EMAIL}
+
+    handle_path /minio/* {
+        reverse_proxy storage:9000
+    }
+
+    reverse_proxy app:3000 {
+        header_up Origin https://www.{$CADDY_DOMAIN}
+    }
+}
+
+
