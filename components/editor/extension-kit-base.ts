@@ -17,13 +17,17 @@ import { CodeBlockBase } from './extensions/code-block-extension-base';
 import { HorizontalRule } from './extensions/horizontal-rule-extension';
 import { Starter } from './extensions/starter-extensiton';
 
-export const ExtensionKitBase: Extensions = [
+export const SharedExtensions = [
 	Starter,
 	HorizontalRule,
-	Image,
-	CodeBlockBase,
 	TaskList,
 	TaskItem.configure({ nested: true }),
 	Superscript,
 	Subscript
+];
+
+export const ExtensionKitBase: Extensions = [
+	...SharedExtensions,
+	CodeBlockBase,
+	Image
 ];

@@ -5,5 +5,6 @@ export const Starter = StarterKit.configure({
 	link: {
 		openOnClick: false,
 		enableClickSelection: true
-	}
+	},
+	codeBlock: false
 });
