@@ -63,8 +63,8 @@ export default function RootLayout({
 }>) {
 	return (
 		<html suppressHydrationWarning lang={ENV_LOCALE}>
-			<ClientEnvInjector />
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
+				<ClientEnvInjector />
 				<Providers>
 					<Toaster richColors position="top-right" />
 					{children}

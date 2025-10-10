@@ -1,3 +1,5 @@
+import Script from 'next/script';
+
 /**
  * Bridges server-side environment variables to the client at runtime.
  * This is useful when deploying pre-built artifacts (e.g., Docker images),
@@ -12,12 +14,11 @@
  */
 export const ClientEnvInjector = () => {
 	return (
-		<script
-			dangerouslySetInnerHTML={{
-				__html: `window.__ENV__ = {
+		// eslint-disable-next-line @next/next/no-before-interactive-script-outside-document
+		<Script id="client-env-injector" strategy="beforeInteractive">
+			{`window.__ENV__ = {
                     LOCALE: '${process.env.NEXT_PUBLIC_LOCALE}',
-                };`
-			}}
-		/>
+                };`}
+		</Script>
 	);
 };
