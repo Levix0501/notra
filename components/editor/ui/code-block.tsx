@@ -14,9 +14,10 @@ interface CodeBlockProps {
 const t = getTranslations('notra_editor');
 
 export const CodeBlock = ({ language, text }: CodeBlockProps) => {
-	const tree = lowlight.listLanguages().includes(language)
-		? lowlight.highlight(language, text)
-		: lowlight.highlightAuto(text);
+	const tree =
+		lowlight.listLanguages().includes(language) || language === 'html'
+			? lowlight.highlight(language, text)
+			: lowlight.highlightAuto(text);
 	const html = toHtml(tree);
 
 	if (language === 'html') {
