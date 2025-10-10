@@ -42,11 +42,7 @@ const CatalogItem = ({
 	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
 	const pathname = usePathname();
 
-	if (!book) {
-		return null;
-	}
-
-	const isActive = pathname === `/dashboard/${book.id}/${item.docId}`;
+	const isActive = pathname === `/dashboard/${book?.id}/${item.docId}`;
 
 	const toggleExpandedKey = (key: number) => {
 		if (expandedKeys.has(key)) {
@@ -72,6 +68,10 @@ const CatalogItem = ({
 	};
 
 	const handleSubmit = (title: string) => {
+		if (!book) {
+			return;
+		}
+
 		if (title === item.title) {
 			setIsEditingTitle(false);
 
