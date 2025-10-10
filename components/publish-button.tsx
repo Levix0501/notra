@@ -23,6 +23,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 const t = getTranslations('components_publish_button');
 
 export function PublishButton() {
+	const [isOpen, setIsOpen] = useState(false);
 	const [isPending, setIsPending] = useState(false);
 
 	const isSaving = useDocStore((state) => state.isSaving);
@@ -123,73 +124,76 @@ export function PublishButton() {
 	};
 
 	return (
-		<Popover>
-			<PopoverTrigger>
-				<Tooltip>
-					<TooltipTrigger asChild>
-						<Button size="icon" variant="ghost">
-							<Send />
-						</Button>
-					</TooltipTrigger>
-					<TooltipContent>
-						<p>{t.share}</p>
-					</TooltipContent>
-				</Tooltip>
-			</PopoverTrigger>
-			<PopoverContent align="end" className="w-80">
-				{docMeta.isPublished ? (
-					<div className="flex flex-col items-center gap-4">
-						<div className="mt-2 flex w-full items-center">
-							<Input
-								disabled
-								className="mr-2 h-8 flex-1"
-								value={publishedPageUrl}
-							/>
+		<div className="relative size-7">
+			<Popover open={isOpen} onOpenChange={setIsOpen}>
+				<PopoverTrigger asChild>
+					<div className="absolute size-7"></div>
+				</PopoverTrigger>
+				<PopoverContent align="end" className="w-80">
+					{docMeta.isPublished ? (
+						<div className="flex flex-col items-center gap-4">
+							<div className="mt-2 flex w-full items-center">
+								<Input
+									disabled
+									className="mr-2 h-8 flex-1"
+									value={publishedPageUrl}
+								/>
 
-							<div>
-								<CopyButton value={publishedPageUrl} />
+								<div>
+									<CopyButton value={publishedPageUrl} />
+								</div>
 							</div>
-						</div>
 
-						<div className="flex w-full items-center gap-2">
-							<div className="flex-1">
-								<Button
-									className="w-full"
-									disabled={isPending}
-									size="sm"
-									variant="outline"
-									onClick={handleUnpublish}
+							<div className="flex w-full items-center gap-2">
+								<div className="flex-1">
+									<Button
+										className="w-full"
+										disabled={isPending}
+										size="sm"
+										variant="outline"
+										onClick={handleUnpublish}
+									>
+										{t.unpublish}
+									</Button>
+								</div>
+
+								<Link
+									className="flex-1"
+									href={isPending ? '#' : publishedPageUrl}
+									target={isPending ? void 0 : '_blank'}
 								>
-									{t.unpublish}
-								</Button>
+									<Button className="w-full" disabled={isPending} size="sm">
+										{t.view_page}
+									</Button>
+								</Link>
 							</div>
-
-							<Link
-								className="flex-1"
-								href={isPending ? '#' : publishedPageUrl}
-								target={isPending ? void 0 : '_blank'}
-							>
-								<Button className="w-full" disabled={isPending} size="sm">
-									{t.view_page}
-								</Button>
-							</Link>
 						</div>
-					</div>
-				) : (
-					<div className="flex flex-col items-center gap-4">
-						<p className="mt-2 font-semibold">{t.publish_to_web}</p>
+					) : (
+						<div className="flex flex-col items-center gap-4">
+							<p className="mt-2 font-semibold">{t.publish_to_web}</p>
 
-						<Button
-							className="w-full"
-							disabled={isSaving || isPending}
-							size="sm"
-							onClick={handlePublish}
-						>
-							{t.publish}
-						</Button>
-					</div>
-				)}
-			</PopoverContent>
-		</Popover>
+							<Button
+								className="w-full"
+								disabled={isSaving || isPending}
+								size="sm"
+								onClick={handlePublish}
+							>
+								{t.publish}
+							</Button>
+						</div>
+					)}
+				</PopoverContent>
+			</Popover>
+			<Tooltip>
+				<TooltipTrigger asChild onClick={() => setIsOpen(true)}>
+					<Button className="absolute" size="icon" variant="ghost">
+						<Send />
+					</Button>
+				</TooltipTrigger>
+				<TooltipContent>
+					<p>{t.share}</p>
+				</TooltipContent>
+			</Tooltip>
+		</div>
 	);
 }
