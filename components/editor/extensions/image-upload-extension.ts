@@ -93,7 +93,8 @@ export const ImageUpload = Node.create<ImageUploadNodeOptions>({
 			},
 			maxSize: {
 				default: this.options.maxSize
-			}
+			},
+			pasteFile: {}
 		};
 	},
 

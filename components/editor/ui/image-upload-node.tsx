@@ -468,9 +468,10 @@ const DropZoneContent: React.FC<{ maxSize: number; limit: number }> = ({
 );
 
 export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
-	const { accept, limit, maxSize } = props.node.attrs;
+	const { accept, limit, maxSize, pasteFile } = props.node.attrs;
+	const { getPos, node, editor, extension } = props;
 	const inputRef = React.useRef<HTMLInputElement>(null);
-	const extension = props.extension;
+	const autoUpload = React.useRef(Boolean(pasteFile));
 
 	const uploadOptions: UploadOptions = {
 		maxSize,
@@ -484,41 +485,52 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
 	const { fileItems, uploadFiles, removeFileItem, clearAllFiles } =
 		useFileUpload(uploadOptions);
 
-	const handleUpload = async (files: File[]) => {
-		const fileEntities = await uploadFiles(files);
+	const handleUpload = React.useCallback(
+		async (files: File[]) => {
+			const fileEntities = await uploadFiles(files);
 
-		if (fileEntities.length > 0) {
-			const pos = props.getPos();
+			if (fileEntities.length > 0) {
+				const pos = getPos();
 
-			if (isValidPosition(pos)) {
-				const imageNodes = fileEntities.map((fileEntity, index) => {
-					const filename =
-						files[index]?.name.replace(/\.[^/.]+$/, '') || 'unknown';
+				if (isValidPosition(pos)) {
+					const imageNodes = fileEntities.map((fileEntity, index) => {
+						const filename =
+							files[index]?.name.replace(/\.[^/.]+$/, '') || 'unknown';
 
-					return {
-						type: extension.options.type,
-						attrs: {
-							...extension.options,
-							src: fileEntity.url,
-							alt: filename,
-							title: filename,
-							width: fileEntity.width,
-							height: fileEntity.height
-						}
-					};
-				});
+						return {
+							type: extension.options.type,
+							attrs: {
+								...extension.options,
+								src: fileEntity.url,
+								alt: filename,
+								title: filename,
+								width: fileEntity.width,
+								height: fileEntity.height
+							}
+						};
+					});
 
-				props.editor
-					.chain()
-					.focus()
-					.deleteRange({ from: pos, to: pos + props.node.nodeSize })
-					.insertContentAt(pos, imageNodes)
-					.run();
+					editor
+						.chain()
+						.focus()
+						.deleteRange({ from: pos, to: pos + node.nodeSize })
+						.insertContentAt(pos, imageNodes)
+						.run();
 
-				focusNextNode(props.editor);
+					focusNextNode(editor);
+				}
 			}
+		},
+		[uploadFiles, getPos, node.nodeSize, extension.options, editor]
+	);
+
+	React.useEffect(() => {
+		if (autoUpload.current && pasteFile) {
+			setTimeout(() => props.updateAttributes({ pasteFile: undefined }), 0);
+			autoUpload.current = false;
+			handleUpload([pasteFile]);
 		}
-	};
+	}, [pasteFile, props, handleUpload]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files;

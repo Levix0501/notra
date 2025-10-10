@@ -52,6 +52,7 @@
 		"@radix-ui/react-visually-hidden": "^1.2.3",
 		"@supabase/supabase-js": "^2.53.0",
 		"@tiptap/extension-code-block-lowlight": "^3.3.0",
+		"@tiptap/extension-file-handler": "^3.6.6",
 		"@tiptap/extension-horizontal-rule": "^3.3.0",
 		"@tiptap/extension-image": "^3.3.0",
 		"@tiptap/extension-list": "^3.4.3",

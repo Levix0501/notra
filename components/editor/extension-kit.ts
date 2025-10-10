@@ -2,6 +2,7 @@ import { Extensions } from '@tiptap/react';
 
 import { SharedExtensions } from './extension-kit-base';
 import { CodeBlock } from './extensions/code-block-extension';
+import { FileHandler } from './extensions/file-handler-extension';
 import { Image } from './extensions/image-extension';
 import { ImageUpload } from './extensions/image-upload-extension';
 import { MarkdownPaste } from './extensions/markdown-paste-extension';
@@ -22,5 +23,6 @@ export const ExtensionKit: Extensions = [
 		upload: handleImageUpload,
 		onError: (error) => console.error('Upload failed:', error)
 	}),
-	MarkdownPaste
+	MarkdownPaste,
+	FileHandler
 ];

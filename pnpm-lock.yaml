@@ -74,6 +74,9 @@ importers:
       '@tiptap/extension-code-block-lowlight':
         specifier: ^3.3.0
         version: 3.3.0(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))(@tiptap/extension-code-block@3.3.0(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))(@tiptap/pm@3.3.0))(@tiptap/pm@3.3.0)(highlight.js@11.11.1)(lowlight@3.3.0)
+      '@tiptap/extension-file-handler':
+        specifier: ^3.6.6
+        version: 3.6.6(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))(@tiptap/extension-text-style@3.6.6(@tiptap/core@3.3.0(@tiptap/pm@3.3.0)))(@tiptap/pm@3.3.0)
       '@tiptap/extension-horizontal-rule':
         specifier: ^3.3.0
         version: 3.3.0(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))(@tiptap/pm@3.3.0)
@@ -1631,6 +1634,13 @@ packages:
     peerDependencies:
       '@tiptap/extensions': ^3.3.0
 
+  '@tiptap/extension-file-handler@3.6.6':
+    resolution: {integrity: sha512-DXJ7IHO6hMv/psOEOYp8y8BPWF9zy5snHGMcd3Ykf96hfl5dpFtxYgpy1nboywtKBcuxxvWPr6cbP6Ns0e6oug==}
+    peerDependencies:
+      '@tiptap/core': ^3.6.6
+      '@tiptap/extension-text-style': ^3.6.6
+      '@tiptap/pm': ^3.6.6
+
   '@tiptap/extension-floating-menu@3.3.0':
     resolution: {integrity: sha512-+YbP4hwTM4YLgrei4A3Jqk+Q10L5z1tQ8/vpEgXrzTdUrSnQo9XbyZxmFYWen5TT0ezgPEopnx/eTru6NS2+Lg==}
     peerDependencies:
@@ -1722,6 +1732,11 @@ packages:
     resolution: {integrity: sha512-y/ulBpzrukEgXLvMGT0mI+tbnf64zq06vC3jmSvS7MwunOjgVk5K8CFRQeh/OwuAqGHSqQKcmIH5kOkx2FMI1Q==}
     peerDependencies:
       '@tiptap/core': ^3.3.0
+
+  '@tiptap/extension-text-style@3.6.6':
+    resolution: {integrity: sha512-mjcMfNIij77tK++Cu41z5rxK0I4nUR7EbTtBGCSdbwZukTFqCeaiuUX3A/i0sqnf5kklBqmG+pur/ylwEcxmzA==}
+    peerDependencies:
+      '@tiptap/core': ^3.6.6
 
   '@tiptap/extension-text@3.3.0':
     resolution: {integrity: sha512-yhNpKfRlZsZFtjBQyiWyjg9WPUTzjgxR/ZID1UEY3SGo9aPUuvAvEnn2v2tSopHyf+qBMyN5IfSjrauauGkWMA==}
@@ -5891,6 +5906,12 @@ snapshots:
     dependencies:
       '@tiptap/extensions': 3.3.0(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))(@tiptap/pm@3.3.0)
 
+  '@tiptap/extension-file-handler@3.6.6(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))(@tiptap/extension-text-style@3.6.6(@tiptap/core@3.3.0(@tiptap/pm@3.3.0)))(@tiptap/pm@3.3.0)':
+    dependencies:
+      '@tiptap/core': 3.3.0(@tiptap/pm@3.3.0)
+      '@tiptap/extension-text-style': 3.6.6(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))
+      '@tiptap/pm': 3.3.0
+
   '@tiptap/extension-floating-menu@3.3.0(@floating-ui/dom@1.7.3)(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))(@tiptap/pm@3.3.0)':
     dependencies:
       '@floating-ui/dom': 1.7.3
@@ -5965,6 +5986,10 @@ snapshots:
       '@tiptap/pm': 3.3.0
 
   '@tiptap/extension-text-align@3.3.0(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))':
+    dependencies:
+      '@tiptap/core': 3.3.0(@tiptap/pm@3.3.0)
+
+  '@tiptap/extension-text-style@3.6.6(@tiptap/core@3.3.0(@tiptap/pm@3.3.0))':
     dependencies:
       '@tiptap/core': 3.3.0(@tiptap/pm@3.3.0)
 
