@@ -1,5 +1,3 @@
-import { ENV_MINIO_ENDPOINT, ENV_NEXT_IMAGE_CACHE_TIME } from './constants/env';
-
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
@@ -9,15 +7,11 @@ const nextConfig: NextConfig = {
 			{
 				hostname: '**.supabase.co'
 			},
-			...(ENV_MINIO_ENDPOINT
-				? [
-						{
-							hostname: ENV_MINIO_ENDPOINT
-						}
-					]
-				: [])
+			{
+				hostname: '__CADDY_DOMAIN__' // do not change this, is will be replaced by the Caddy domain in the entrypoint.sh script
+			}
 		],
-		minimumCacheTTL: ENV_NEXT_IMAGE_CACHE_TIME
+		minimumCacheTTL: 60 * 60 * 24 * 365
 	}
 };
 

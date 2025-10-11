@@ -47,6 +47,11 @@ RUN npm config set registry https://registry.npmmirror.com/
 RUN npm install pnpm -g
 RUN pnpm install
 
+COPY ./scripts/entrypoint.sh ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
+
 EXPOSE 3000
+
+ENTRYPOINT ["./entrypoint.sh"]
 
 CMD pnpm db:deploy && node ./standalone/server.js
