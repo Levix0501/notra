@@ -26,7 +26,7 @@ export function SubmitButton({
 	return (
 		<Button
 			aria-disabled={isPending}
-			className={cn('h-8 w-full cursor-pointer', className)}
+			className={cn('w-full cursor-pointer transition-none', className)}
 			disabled={disabled || isPending}
 			size={size}
 			type={isPending || onClick ? 'button' : 'submit'}

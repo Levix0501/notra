@@ -1,8 +1,9 @@
+import { BookEntity } from '@prisma/client';
 import {
+	Ellipsis,
 	FileSliders,
 	Globe,
 	GlobeLock,
-	MoreVertical,
 	TextCursorInput,
 	Trash2
 } from 'lucide-react';
@@ -13,7 +14,7 @@ import {
 	deleteNodeWithChildren,
 	publishWithParent,
 	unpublishWithChildren
-} from '@/actions/catalog-node';
+} from '@/actions/tree-node';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -23,25 +24,26 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { getTranslations } from '@/i18n';
-import { deleteNode, publishNode, unpublishNode } from '@/lib/catalog/client';
-import { useCurrentBook } from '@/stores/book';
-import { mutateCatalog, nodeMap } from '@/stores/catalog';
+import { deleteNode, publishNode, unpublishNode } from '@/lib/tree/client';
+import { useGetBook } from '@/queries/book';
 import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
-import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
+import { mutateTree, nodeMap } from '@/stores/tree';
+import { TreeNodeVoWithLevel } from '@/types/tree-node';
 
-import { useGlobalSettingsDialog } from './global-settings-dialog';
+import { useDocSettingsSheet } from './doc-settings-sheet';
 
 interface MoreDropdownProps {
-	item: CatalogNodeVoWithLevel;
+	bookId: BookEntity['id'];
+	item: TreeNodeVoWithLevel;
 	onRename: () => void;
 }
 
 const t = getTranslations('components_more_dropdown');
 
-export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
+export const MoreDropdown = ({ bookId, item, onRename }: MoreDropdownProps) => {
 	const { docId } = useParams<{ bookId: string; docId: string }>();
 	const router = useRouter();
-	const { data: book } = useCurrentBook();
+	const { data: book } = useGetBook(bookId);
 	const { data: docMeta, mutate } = useCurrentDocMeta();
 
 	if (!book || (!docMeta && docId)) {
@@ -50,11 +52,9 @@ export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
 
 	const handleOpenSettingsDialog = () => {
 		if (item.type === 'DOC' && item.docId) {
-			useGlobalSettingsDialog.setState({
-				tab: 'doc',
-				docId: item.docId,
-				bookId: book.id,
-				open: true
+			useDocSettingsSheet.setState({
+				open: true,
+				docId: item.docId
 			});
 		}
 	};
@@ -62,7 +62,7 @@ export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
 	const handleDelete = () => {
 		const [nodeIds, docIds] = deleteNode(nodeMap, item.id);
 
-		mutateCatalog(book.id, async () => {
+		mutateTree(book.id, async () => {
 			const promise = (async () => {
 				const result = await deleteNodeWithChildren({
 					nodeId: item.id,
@@ -95,7 +95,7 @@ export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
 	const handlePublish = () => {
 		const [nodeIds, docIds] = publishNode(nodeMap, item.id);
 
-		mutateCatalog(book.id, async () => {
+		mutateTree(book.id, async () => {
 			const promise = (async () => {
 				const result = await publishWithParent({
 					nodeIds,
@@ -141,7 +141,7 @@ export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
 	const handleUnpublish = () => {
 		const [nodeIds, docIds] = unpublishNode(nodeMap, item.id);
 
-		mutateCatalog(book.id, async () => {
+		mutateTree(book.id, async () => {
 			const promise = (async () => {
 				const result = await unpublishWithChildren({
 					nodeIds,
@@ -194,7 +194,7 @@ export const MoreDropdown = ({ item, onRename }: MoreDropdownProps) => {
 				}}
 			>
 				<Button className="size-6 hover:bg-border" size="icon" variant="ghost">
-					<MoreVertical />
+					<Ellipsis />
 					<span className="sr-only">More</span>
 				</Button>
 			</DropdownMenuTrigger>

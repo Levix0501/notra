@@ -1,31 +1,36 @@
 'use client';
 
+import { BookEntity } from '@prisma/client';
 import { FileSliders } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { getTranslations } from '@/i18n';
-import { useCurrentBook } from '@/stores/book';
+import { useGetBook } from '@/queries/book';
 import { useCurrentDocMeta } from '@/stores/doc';
 
-import { useGlobalSettingsDialog } from './global-settings-dialog';
+import { useDocSettingsSheet } from './doc-settings-sheet';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+
+interface DocSettingsButtonProps {
+	bookId: BookEntity['id'];
+}
 
 const t = getTranslations('components_doc_settings_button');
 
-export default function DocSettingsButton() {
+export function DocSettingsButton({
+	bookId
+}: Readonly<DocSettingsButtonProps>) {
 	const { data: docMeta } = useCurrentDocMeta();
-	const { data: book } = useCurrentBook();
+	const { data: book } = useGetBook(bookId);
 
 	if (!docMeta || !book) {
 		return null;
 	}
 
 	const handleClick = () => {
-		useGlobalSettingsDialog.setState({
+		useDocSettingsSheet.setState({
 			open: true,
-			tab: 'doc',
-			docId: docMeta.id,
-			bookId: book.id
+			docId: docMeta.id
 		});
 	};
 

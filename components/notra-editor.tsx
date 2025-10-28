@@ -14,7 +14,7 @@ export interface NotraEditorProps {
 	docId: DocEntity['id'];
 }
 
-export default function NotraEditor({ docId }: Readonly<NotraEditorProps>) {
+export function NotraEditor({ docId }: Readonly<NotraEditorProps>) {
 	const setIsSaving = useDocStore((state) => state.setIsSaving);
 	const setUpdateAt = useDocStore((state) => state.setUpdateAt);
 	const { data: doc, mutate } = useGetDoc(docId);

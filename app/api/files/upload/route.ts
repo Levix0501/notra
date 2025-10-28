@@ -1,7 +1,7 @@
 import { auth } from '@/app/(auth)/auth';
 import { getTranslations } from '@/i18n';
 import { ServiceResult } from '@/lib/service-result';
-import FileService from '@/services/file';
+import { FileService } from '@/services/file';
 
 export async function POST(request: Request) {
 	const session = await auth();

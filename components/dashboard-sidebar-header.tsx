@@ -1,19 +1,19 @@
 import Link from 'next/link';
 
 import { DEFAULT_SITE_TITLE } from '@/constants/default';
-import SiteSettingsService from '@/services/site-settings';
+import { SiteSettingsService } from '@/services/site-settings';
 
-import AccountDropdown from './account-dropdown';
-import NotraLogo from './notra-logo';
+import { AccountDropdown } from './account-dropdown';
+import { NotraLogo } from './notra-logo';
 
-export default async function DashboardSidebarHeader() {
+export async function DashboardSidebarHeader() {
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
 	const title = siteSettings?.title ?? DEFAULT_SITE_TITLE;
 
 	return (
 		<div className="flex h-14 items-center justify-between gap-3 px-4 md:px-2.5">
 			<Link
-				className="flex h-8 flex-1 items-center gap-2 overflow-hidden transition-opacity hover:opacity-60"
+				className="flex h-8 flex-1 items-center gap-2 overflow-hidden"
 				href="/"
 			>
 				<NotraLogo size={28} />

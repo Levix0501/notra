@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
-import DocSettingsButton from '@/components/doc-settings-button';
-import HeaderEditableTitle from '@/components/header-editable-title';
-import NotraEditor from '@/components/notra-editor';
+import { DocSettingsButton } from '@/components/doc-settings-button';
+import { HeaderEditableTitle } from '@/components/header-editable-title';
+import { NotraEditor } from '@/components/notra-editor';
 import { NotraInsetHeader } from '@/components/notra-sidebar';
 import { PublishButton } from '@/components/publish-button';
 
@@ -28,7 +28,7 @@ export const generateStaticParams = async () => {
 };
 
 export default async function Page({ params }: Readonly<PageProps>) {
-	const { docId } = await params;
+	const { docId, bookId } = await params;
 
 	return (
 		<>
@@ -36,8 +36,8 @@ export default async function Page({ params }: Readonly<PageProps>) {
 				<div className="flex size-full items-center justify-between">
 					<HeaderEditableTitle />
 					<div className="flex items-center">
-						<DocSettingsButton />
-						<PublishButton />
+						<DocSettingsButton bookId={Number(bookId)} />
+						<PublishButton bookId={Number(bookId)} />
 					</div>
 				</div>
 			</NotraInsetHeader>

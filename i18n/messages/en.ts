@@ -2,13 +2,14 @@ export const en = {
 	app_api: {
 		unauthorized: 'Unauthorized'
 	},
-	app_dashboard_layout: {
-		metadata_title: 'Dashboard'
-	},
 	app_login_page: {
 		metadata_title: 'Login',
 		card_title: 'Admin Login',
 		card_description: 'An account will be created on first login.'
+	},
+	app_dashboard_main_page: {
+		navbar: 'Navbar',
+		configure_navbar: 'Configure the navbar for your site'
 	},
 	components_account_dropdown: {
 		settings: 'Settings',
@@ -29,31 +30,28 @@ export const en = {
 	components_book_catalog: {
 		new: 'Add New'
 	},
-	components_book_index_page_view_tabs: {
-		doc_view: 'Doc',
-		card_view: 'Card',
-		edit_index_page: 'Edit Index Page',
-		update: 'Update',
-		no_docs_found: 'No docs found',
-		update_loading: 'Updating...',
-		update_success: 'Updated successfully!',
-		update_error: 'Failed to update!'
-	},
-	components_book_settings_dialog: {
-		book_settings: 'Book Settings',
-		doc_settings: 'Doc Settings'
-	},
 	components_book_settings_form: {
+		visibility: 'Visibility',
 		name: 'Name',
 		slug: 'Slug',
+		type: 'Type',
+		blogs: 'Blogs',
+		docs: 'Docs',
 		update: 'Update',
 		slug_exists: 'Slug already exists',
 		update_loading: 'Updating book...',
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
-	components_book_sidebar_nav: {
-		book_home: 'Book Home'
+	components_book_settings_sheet: {
+		book_settings: 'Book Settings'
+	},
+	components_book_visibility_radio_group: {
+		public: 'Public',
+		hidden: 'Hidden',
+		public_description:
+			'Publish this book, making it publicly accessible on the internet.',
+		hidden_description: 'Unpublish this book.'
 	},
 	components_books_nav: {
 		books: 'Books',
@@ -81,17 +79,15 @@ export const en = {
 		create_error: 'Failed to create!'
 	},
 	components_create_dropdown: {
-		new_document: 'Document',
-		new_stack: 'Stack',
-		create_error: 'Failed to create!',
-		create_loading: 'Creating...',
-		create_success: 'Created successfully!'
+		new_doc: 'Document',
+		new_group: 'Group'
 	},
 	components_dashboard_button: {
 		dashboard: 'Dashboard'
 	},
 	components_dashboard_sidebar_nav: {
-		home: 'Home'
+		dashboard: 'Dashboard',
+		appearance: 'Appearance'
 	},
 	components_doc_settings_button: {
 		doc_settings: 'Doc Settings'
@@ -108,11 +104,33 @@ export const en = {
 		update: 'Update',
 		slug_exists: 'Slug already exists!'
 	},
+	components_doc_settings_sheet: {
+		doc_settings: 'Doc Settings'
+	},
+	components_empty_book: {
+		no_documents: 'No accessible content in this book',
+		no_documents_description:
+			"You haven't created any documents yet. Get started by creating your first document.",
+		create_document: 'Create Document'
+	},
 	components_global_settings_dialog: {
-		doc_settings: 'Doc Settings',
-		book_settings: 'Book Settings',
-		site_settings: 'Site Settings',
-		analytics_settings: 'Analytics Settings'
+		appearance: 'Appearance',
+		general_settings: 'General Settings',
+		integrations: 'Integrations'
+	},
+	components_home_page_redirect_form: {
+		home_page_redirect_to: 'Home Page Redirect To',
+		home_page_redirect_to_description:
+			'If the content is not published or deleted, this setting will be invalid',
+		default_no_redirect: 'Default No Redirect',
+		search_placeholder: 'Search...',
+		no_related_content_found: 'No related content found',
+		books: 'Books',
+		docs: 'Docs',
+		update: 'Update',
+		update_loading: 'Updating...',
+		update_success: 'Updated successfully!',
+		update_error: 'Failed to update!'
 	},
 	components_image_cropper: {
 		re_select: 'Re-select',
@@ -120,24 +138,6 @@ export const en = {
 		crop: 'Crop',
 		max_size: 'Image size should be less than {size}MB',
 		file_type_error: 'Image type should be jpg/png'
-	},
-	components_index_page_doc_form: {
-		index_title: 'Title',
-		index_description: 'Description',
-		main_action_text: 'Main Action Text',
-		main_action_url: 'Main Action URL',
-		is_main_new_tab: 'Open Main Action URL in new tab',
-		sub_action_text: 'Sub Action Text',
-		sub_action_url: 'Sub Action URL',
-		is_sub_new_tab: 'Open Sub Action URL in new tab',
-		form: 'Form',
-		preview: 'Preview'
-	},
-	components_index_page_doc_view: {
-		no_index_title: 'Please enter a title',
-		no_index_description: 'Please enter a description',
-		no_main_action_text: 'Main Action Text',
-		no_sub_action_text: 'Sub Action Text'
 	},
 	components_login_form: {
 		username_label: 'Username',
@@ -147,8 +147,9 @@ export const en = {
 		password_min_length: 'Password must be at least 6 characters.',
 		login_error: 'Login failed!'
 	},
-	components_more_docs: {
-		no_more: 'No more data'
+	components_more_blogs: {
+		no_more: 'No more blogs.',
+		no_blogs_found: 'No blogs found.'
 	},
 	components_more_dropdown: {
 		rename: 'Rename',
@@ -166,9 +167,74 @@ export const en = {
 		unpublish_error: 'Failed to unpublish!',
 		unpublish_success: 'Unpublished successfully!'
 	},
+	components_navbar: {
+		no_navbar_items: 'No Navbar Items',
+		no_navbar_items_description: "You haven't created any navbar items yet."
+	},
+	components_navbar_publish_button: {
+		publish: 'Publish',
+		publish_loading: 'Publishing...',
+		publish_success: 'Published successfully!',
+		publish_error: 'Failed to publish!'
+	},
+	components_nav_item: {
+		default_nav_item_name: 'Untitled'
+	},
+	components_nav_item_add_button: {
+		add: 'Add Navbar Item'
+	},
+	components_nav_item_delete_dialog: {
+		delete: 'Delete',
+		delete_loading: 'Deleting...',
+		delete_success: 'Deleted successfully!',
+		delete_error: 'Failed to delete!',
+		cancel: 'Cancel',
+		confirm: 'Confirm',
+		title: 'Confirm deletion?',
+		description: 'This action cannot be undone.'
+	},
+	components_nav_item_form: {
+		add: 'Add',
+		update: 'Update',
+		add_loading: 'Adding...',
+		add_success: 'Added successfully!',
+		add_error: 'Failed to add!',
+		update_loading: 'Updating...',
+		update_success: 'Updated successfully!',
+		update_error: 'Failed to update!',
+		title: 'Title',
+		group: 'Group',
+		link: 'Link',
+		example: 'Example: "https://www.notra.tech", "/docs/123"',
+		type: 'Type',
+		url: 'URL',
+		books: 'Books',
+		docs: 'Docs',
+		search_in: 'Search...',
+		no_related_content_found: 'No related content found',
+		open_in_new_tab: 'Open in a new tab'
+	},
+	components_nav_item_more_dropdown: {
+		edit: 'Edit',
+		rename: 'Rename',
+		settings: 'Settings',
+		publish: 'Publish',
+		unpublish: 'Unpublish',
+		delete: 'Delete',
+		publish_loading: 'Publishing...',
+		publish_success: 'Published successfully!',
+		publish_error: 'Failed to publish!',
+		unpublish_loading: 'Unpublishing...',
+		unpublish_success: 'Unpublished successfully!',
+		unpublish_error: 'Failed to unpublish!'
+	},
+	components_nav_item_sheet: {
+		add_navbar_item: 'Add Navbar Item',
+		edit_navbar_item: 'Edit Navbar Item'
+	},
 	components_notra_footer: {
 		powered_by:
-			'Powered by <a href="https://notra.tech" target="_blank" class="font-bold hover:text-primary">Notra</a>'
+			'Powered by <a href="https://www.notra.tech" target="_blank" class="underline">Notra</a>'
 	},
 	components_publish_button: {
 		publish: 'Publish',
@@ -176,16 +242,6 @@ export const en = {
 		unpublish: 'Unpublish',
 		view_page: 'View page',
 		publish_to_web: 'Publish to web'
-	},
-	components_site_index_page_view_tabs: {
-		doc_view: 'Doc',
-		card_view: 'Card',
-		edit_index_page: 'Edit Index Page',
-		update: 'Update',
-		no_docs_found: 'No docs found',
-		update_loading: 'Updating...',
-		update_success: 'Updated successfully!',
-		update_error: 'Failed to update!'
 	},
 	components_site_settings_form: {
 		title: 'Site Title',
@@ -203,17 +259,13 @@ export const en = {
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
-	components_theme_changer: {
-		toggle_theme: 'Toggle theme',
-		light: 'Light',
-		dark: 'Dark',
-		system: 'System'
+	hooks_use_create_tree_node: {
+		create_loading: 'Creating...',
+		create_success: 'Created successfully!',
+		create_error: 'Failed to create!'
 	},
 	hooks_use_edit_doc_title: {
 		untitled: 'Untitled'
-	},
-	hooks_use_upload_file: {
-		upload_error: 'Failed to upload file!'
 	},
 	services_account: {
 		get_account_error: 'Failed to get account!',
@@ -221,43 +273,26 @@ export const en = {
 		login_error: 'Failed to login!'
 	},
 	services_book: {
-		create_book_error: 'Failed to create book!',
 		get_books_error: 'Failed to get books!',
 		delete_book_error: 'Failed to delete book!',
+		create_book_error: 'Failed to create book!',
 		get_book_error: 'Failed to get book!',
-		get_book_by_slug_error: 'Failed to get book by slug!',
 		check_book_slug_error: 'Failed to check book slug!',
-		update_book_error: 'Failed to update book!'
-	},
-	services_catalog_node: {
-		get_catalog_nodes_error: 'Failed to get nodes!',
-		get_published_catalog_nodes_error: 'Failed to get published nodes!',
-		new_stack_default_name: 'Stack',
-		new_doc_default_name: 'Untitled Document',
-		create_stack_error: 'Failed to create stack!',
-		create_doc_error: 'Failed to create document!',
-		delete_with_children_error: 'Failed to delete!',
-		prepend_child_error: 'Failed to prepend child!',
-		move_after_error: 'Failed to move after!',
-		update_title_error: 'Failed to update title!',
-		publish_error: 'Failed to publish!',
-		unpublish_error: 'Failed to unpublish!'
+		update_book_error: 'Failed to update book!',
+		get_published_book_by_slug_error: 'Failed to get published book by slug!',
+		get_navbar_book_error: 'Failed to get navbar book!'
 	},
 	services_doc: {
-		get_published_doc_meta_error: 'Failed to get published document meta!',
-		get_published_docs_meta_error: 'Failed to get published documents meta!',
-		get_doc_meta_error: 'Failed to get document meta!',
-		get_doc_error: 'Failed to get document!',
-		get_published_doc_error: 'Failed to get published document!',
-		get_docs_error: 'Failed to get documents!',
-		get_published_docs_by_book_slug_error: 'Failed to get published documents!',
-		update_doc_meta_error: 'Failed to update document meta!',
-		check_doc_slug_error: 'Failed to check document slug!',
-		update_doc_content_error: 'Failed to update document content!',
-		publish_doc_error: 'Failed to publish document!',
-		unpublish_doc_error: 'Failed to unpublish document!',
-		get_published_doc_total_count_error:
-			'Failed to get published document total count!',
+		get_published_blogs_error: 'Failed to get published blogs!',
+		get_published_blog_error: 'Failed to get published blog!',
+		get_doc_meta_error: 'Failed to get doc meta!',
+		get_all_docs_meta_error: 'Failed to get all docs meta!',
+		update_doc_meta_error: 'Failed to update doc meta!',
+		update_doc_content_error: 'Failed to update doc content!',
+		get_doc_error: 'Failed to get doc!',
+		check_doc_slug_error: 'Failed to check doc slug!',
+		get_published_page_by_slug_error: 'Failed to get published page by slug!',
+		get_published_doc_error: 'Failed to get published doc!',
 		increment_view_count_error: 'Failed to increment view count!'
 	},
 	services_file: {
@@ -267,13 +302,38 @@ export const en = {
 		get_site_settings_error: 'Failed to get site settings',
 		update_site_settings_error: 'Failed to update site settings'
 	},
+	services_tree_node: {
+		get_tree_nodes_by_book_id_error: 'Failed to get nodes!',
+		get_published_tree_nodes_by_book_id_error: 'Failed to get published nodes!',
+		new_doc_default_name: 'New Doc',
+		new_group_default_name: 'New Group',
+		create_doc_error: 'Failed to create doc!',
+		create_group_error: 'Failed to create group!',
+		update_title_error: 'Failed to update title!',
+		delete_with_children_error: 'Failed to delete with children!',
+		prepend_child_error: 'Failed to prepend child!',
+		move_after_error: 'Failed to move after!',
+		publish_error: 'Failed to publish!',
+		unpublish_error: 'Failed to unpublish!',
+		create_nav_item_error: 'Failed to create nav item!',
+		update_nav_item_error: 'Failed to update nav item!',
+		publish_navbar_error: 'Failed to publish navbar!',
+		get_published_nav_items_error: 'Failed to get published nav items!'
+	},
 	types_book: {
 		name_required: 'Name is required',
-		slug_required: 'Slug is required',
+		slug_min_length: 'Slug should be at least 2 characters',
+		slug_max_length: 'Slug should be no more than 100 characters',
+		slug_format_invalid:
+			'Only letters, numbers, hyphen, underscore and dot are allowed.',
 		slug_invalid: 'Slug is invalid'
 	},
 	types_doc: {
 		slug_required: 'Slug is required'
+	},
+	types_tree_node: {
+		title_required: 'Title is required',
+		url_regex: 'URL should start with "http://", "https://" or "/"'
 	},
 	notra_editor: {
 		code_block_code: 'Code',

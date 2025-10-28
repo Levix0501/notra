@@ -4,22 +4,27 @@ import { BookEntity } from '@prisma/client';
 import { SlidersHorizontal } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { useGetBook } from '@/queries/book';
 
-import { useGlobalSettingsDialog } from './global-settings-dialog';
+import { useBookSettingsSheet } from './book-settings-sheet';
 
 interface BookSettingsButtonProps {
 	bookId: BookEntity['id'];
 }
 
-export default function BookSettingsButton({
+export function BookSettingsButton({
 	bookId
 }: Readonly<BookSettingsButtonProps>) {
+	const { data: book } = useGetBook(bookId);
+
+	if (!book) {
+		return <div className="size-7"></div>;
+	}
+
 	const handleClick = () => {
-		useGlobalSettingsDialog.setState({
+		useBookSettingsSheet.setState({
 			open: true,
-			tab: 'book',
-			bookId,
-			docId: null
+			bookId
 		});
 	};
 

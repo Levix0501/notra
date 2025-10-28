@@ -1,1 +1,1 @@
-export const INVALID_BOOK_SLUG_LIST = ['login', 'api', 'dashboard', 'minio'];
+export const INVALID_SLUG_LIST = ['login', 'api', 'dashboard', 'minio'];

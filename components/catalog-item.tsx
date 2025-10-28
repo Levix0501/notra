@@ -1,45 +1,48 @@
 import { DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
+import { BookEntity } from '@prisma/client';
 import { ChevronRight, FileText, Plus } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { CSSProperties, useState } from 'react';
 import { mutate } from 'swr';
 
-import { updateTitle } from '@/actions/catalog-node';
 import { updateDocMeta } from '@/actions/doc';
+import { updateTitle } from '@/actions/tree-node';
 import { Button } from '@/components/ui/button';
 import { getTranslations } from '@/i18n';
 import { cn } from '@/lib/utils';
-import { useCurrentBook } from '@/stores/book';
-import useCatalog, { mutateCatalog, nodeMap } from '@/stores/catalog';
+import { useGetBook } from '@/queries/book';
 import { useDocStore } from '@/stores/doc';
-import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
+import { useTree, nodeMap, mutateTree } from '@/stores/tree';
+import { TreeNodeVoWithLevel } from '@/types/tree-node';
 
-import CatalogItemWrapper from './catalog-item-wrapper';
-import CreateDropdown from './create-dropdown';
-import EditTitleForm from './edit-title-form';
-import LevelIndicator from './level-indicator';
+import { CatalogItemWrapper } from './catalog-item-wrapper';
+import { CreateDropdown } from './create-dropdown';
+import { EditTitleForm } from './edit-title-form';
+import { LevelIndicator } from './level-indicator';
 import { MoreDropdown } from './more-dropdown';
 
 export interface CatalogItemProps {
 	dragProvided: DraggableProvided;
 	dragSnapshot: DraggableStateSnapshot;
-	item: CatalogNodeVoWithLevel;
+	bookId: BookEntity['id'];
+	item: TreeNodeVoWithLevel;
 	style?: CSSProperties;
 }
 
 const t = getTranslations('components_catalog_item');
 
-const CatalogItem = ({
+export const CatalogItem = ({
 	dragProvided,
 	dragSnapshot,
+	bookId,
 	item,
 	style
 }: CatalogItemProps) => {
 	const [isEditingTitle, setIsEditingTitle] = useState(false);
 
-	const { data: book } = useCurrentBook();
-	const expandedKeys = useCatalog((state) => state.expandedKeys);
-	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
+	const { data: book } = useGetBook(bookId);
+	const expandedKeys = useTree((state) => state.expandedKeys);
+	const setExpandedKeys = useTree((state) => state.setExpandedKeys);
 	const pathname = usePathname();
 
 	const isActive = pathname === `/dashboard/${book?.id}/${item.docId}`;
@@ -55,7 +58,7 @@ const CatalogItem = ({
 	};
 
 	const handleClick = () => {
-		if (item.type === 'STACK') {
+		if (item.type === 'GROUP') {
 			toggleExpandedKey(item.id);
 		} else if (item.type === 'DOC') {
 			expandedKeys.add(item.id);
@@ -90,7 +93,7 @@ const CatalogItem = ({
 
 		node.title = title;
 
-		mutateCatalog(book.id, async () => {
+		mutateTree(book.id, async () => {
 			const result = await updateTitle({
 				id: item.id,
 				title
@@ -149,6 +152,7 @@ const CatalogItem = ({
 			}}
 		>
 			<CatalogItemWrapper
+				bookId={bookId}
 				className={cn(
 					'my-px flex h-[34px] items-center rounded-md border-[1.5px] border-transparent pr-1 text-sm hover:bg-sidebar-accent',
 					Boolean(dragSnapshot.combineTargetFor) &&
@@ -161,7 +165,7 @@ const CatalogItem = ({
 				onClick={handleClick}
 			>
 				<div className="relative mr-1 size-6">
-					{item.type === 'STACK' || item.childId !== null ? (
+					{item.type === 'GROUP' || item.childId !== null ? (
 						<Button
 							className="size-6 hover:bg-border"
 							size="icon"
@@ -210,9 +214,7 @@ const CatalogItem = ({
 					)}
 				>
 					<div className="flex items-center gap-px">
-						<MoreDropdown item={item} onRename={handleRename} />
-
-						<CreateDropdown parentCatalogNodeId={item.id}>
+						<CreateDropdown bookId={bookId} parentTreeNodeId={item.id}>
 							<Button
 								className="size-6 hover:bg-border"
 								size="icon"
@@ -221,6 +223,8 @@ const CatalogItem = ({
 								<Plus />
 							</Button>
 						</CreateDropdown>
+
+						<MoreDropdown bookId={bookId} item={item} onRename={handleRename} />
 					</div>
 				</div>
 			</CatalogItemWrapper>
@@ -229,5 +233,3 @@ const CatalogItem = ({
 		</div>
 	);
 };
-
-export default CatalogItem;

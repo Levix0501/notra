@@ -1,9 +1,10 @@
 'use client';
 
+import { BookEntity } from '@prisma/client';
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 
-import { useGetBooks } from '@/queries/book';
+import { useGetBook, useGetBooks } from '@/queries/book';
 
 import { Button } from './ui/button';
 import {
@@ -13,10 +14,15 @@ import {
 	DropdownMenuTrigger
 } from './ui/dropdown-menu';
 
-export const BooksDropdown = () => {
-	const { data: books } = useGetBooks();
+interface BooksDropdownProps {
+	bookId: BookEntity['id'];
+}
 
-	if (!books) {
+export const BooksDropdown = ({ bookId }: BooksDropdownProps) => {
+	const { data: books } = useGetBooks();
+	const { data: book } = useGetBook(bookId);
+
+	if (!books || !book) {
 		return null;
 	}
 

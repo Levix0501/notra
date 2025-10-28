@@ -1,6 +1,6 @@
 'use client';
 
-import { Home } from 'lucide-react';
+import { LayoutDashboard } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 import { getTranslations } from '@/i18n';
@@ -14,25 +14,37 @@ import {
 
 const t = getTranslations('components_dashboard_sidebar_nav');
 
-export default function DashboardSidebarNav() {
+export function DashboardSidebarNav() {
 	const pathname = usePathname();
 
 	const navItems: SidebarNavItem[] = [
 		{
-			title: t.home,
+			title: t.dashboard,
 			url: '/dashboard',
-			icon: Home
+			icon: LayoutDashboard
 		}
+
+		// {
+		// 	title: t.appearance,
+		// 	icon: Palette,
+		// 	onClick: () => {
+		// 		useGlobalSettingsDialog.setState({
+		// 			open: true,
+		// 			activeTab: 'appearance'
+		// 		});
+		// 	}
+		// }
 	];
 
 	return (
 		<NotraSidebarMenu>
-			{navItems.map((item) => (
-				<NotraSidebarMenuItem key={item.url}>
+			{navItems.map((item, index) => (
+				<NotraSidebarMenuItem key={index}>
 					<NotraSidebarButton
 						className="px-1"
 						href={item.url}
 						isActive={pathname === item.url}
+						onClick={item.onClick}
 					>
 						{item.icon && <item.icon size={16} />}
 						<span>{item.title}</span>

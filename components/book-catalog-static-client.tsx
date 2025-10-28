@@ -1,6 +1,6 @@
 'use client';
 
-import { CatalogNodeType } from '@prisma/client';
+import { TreeNodeType } from '@prisma/client';
 import { ChevronRight, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -8,8 +8,8 @@ import { useMemo, useState } from 'react';
 import { create } from 'zustand';
 
 import { cn } from '@/lib/utils';
-import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
 import { ChildrenProps } from '@/types/common';
+import { TreeNodeVoWithLevel } from '@/types/tree-node';
 
 import { Button } from './ui/button';
 
@@ -31,7 +31,7 @@ export function BookCatalogStaticAside({ children }: Readonly<ChildrenProps>) {
 	return (
 		<aside
 			className={cn(
-				'fixed top-0 bottom-0 left-0 z-50 w-80 translate-x-[-100%] overscroll-contain bg-background opacity-0 transition-[translate,opacity] duration-250 ease-[ease] md:sticky md:top-20 md:h-[calc(100dvh-80px)] md:w-64 md:shrink-0 md:translate-x-0 md:opacity-100',
+				'fixed top-0 bottom-0 left-0 z-45 w-80 translate-x-[-100%] overscroll-contain bg-background opacity-0 transition-[translate,opacity] duration-250 ease-[ease] md:sticky md:top-20 md:z-30 md:h-[calc(100dvh-80px)] md:w-64 md:shrink-0 md:translate-x-0 md:opacity-100',
 				mobileOpen && 'translate-x-0 opacity-100'
 			)}
 		>
@@ -75,24 +75,22 @@ export function BookCatalogStaticTrigger() {
 
 interface BookCatalogStaticContentProps {
 	bookSlug: string;
-	catalogNodes: CatalogNodeVoWithLevel[];
+	treeNodes: TreeNodeVoWithLevel[];
 }
 
 export const BookCatalogStaticContent = ({
 	bookSlug,
-	catalogNodes
+	treeNodes
 }: Readonly<BookCatalogStaticContentProps>) => {
 	const [expandedKeys, setExpandedKeys] = useState(
-		new Set(
-			catalogNodes.filter((node) => node.level === 0).map((node) => node.id)
-		)
+		new Set(treeNodes.filter((node) => node.level === 0).map((node) => node.id))
 	);
 	const items = useMemo(() => {
-		return catalogNodes.filter(
+		return treeNodes.filter(
 			(node) =>
 				node.level === 0 || (node.parentId && expandedKeys.has(node.parentId))
 		);
-	}, [catalogNodes, expandedKeys]);
+	}, [treeNodes, expandedKeys]);
 
 	const pathname = usePathname();
 
@@ -110,7 +108,7 @@ export const BookCatalogStaticContent = ({
 		});
 	};
 
-	const renderItem = (item: CatalogNodeVoWithLevel) => {
+	const renderItem = (item: TreeNodeVoWithLevel) => {
 		return (
 			<>
 				<div className="mr-1 size-6">
@@ -141,7 +139,7 @@ export const BookCatalogStaticContent = ({
 	};
 
 	return items.map((item) =>
-		item.type === CatalogNodeType.STACK ? (
+		item.type === TreeNodeType.GROUP ? (
 			<div
 				key={item.id}
 				className={cn(

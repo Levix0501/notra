@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DocEntity, FileEntity } from '@prisma/client';
+import { BookEntity, DocEntity, FileEntity } from '@prisma/client';
 import { Upload } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -17,18 +17,24 @@ import {
 	FormLabel,
 	FormMessage
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { getTranslations } from '@/i18n';
 import { uploadFile } from '@/lib/utils';
-import { mutateCatalog } from '@/stores/catalog';
+import { mutateTree } from '@/stores/tree';
 import { DocSettingsFormSchema, DocSettingsFormValues } from '@/types/doc';
 
 import { ImageCropper } from './image-cropper';
+import {
+	InputGroup,
+	InputGroupAddon,
+	InputGroupInput,
+	InputGroupText
+} from './ui/input-group';
 import { Textarea } from './ui/textarea';
 
 export interface DocSettingsFormProps {
 	docId: DocEntity['id'];
 	bookId: DocEntity['id'];
+	bookSlug: BookEntity['slug'];
 	defaultDocCover: DocEntity['cover'];
 	defaultDocSummary: DocEntity['summary'];
 	defaultDocSlug: DocEntity['slug'];
@@ -37,9 +43,10 @@ export interface DocSettingsFormProps {
 
 const t = getTranslations('components_doc_settings_form');
 
-export default function DocSettingsForm({
+export function DocSettingsForm({
 	docId,
 	bookId,
+	bookSlug,
 	defaultDocCover,
 	defaultDocSummary,
 	defaultDocSlug,
@@ -96,7 +103,7 @@ export default function DocSettingsForm({
 			});
 
 			mutateDocMeta();
-			mutateCatalog(bookId);
+			mutateTree(bookId);
 		})();
 
 		toast
@@ -164,15 +171,22 @@ export default function DocSettingsForm({
 						<FormItem>
 							<FormLabel>{t.slug}</FormLabel>
 							<FormControl>
-								<Input
-									{...field}
-									disabled={isPending}
-									placeholder={defaultDocSlug}
-									onChange={(e) => {
-										form.clearErrors('slug');
-										field.onChange(e);
-									}}
-								/>
+								<InputGroup>
+									<InputGroupInput
+										className="!pl-0"
+										{...field}
+										disabled={isPending}
+										onChange={(e) => {
+											form.clearErrors('slug');
+											field.onChange(e);
+										}}
+									/>
+									<InputGroupAddon>
+										<InputGroupText>
+											{location.origin + '/' + bookSlug + '/'}
+										</InputGroupText>
+									</InputGroupAddon>
+								</InputGroup>
 							</FormControl>
 							<FormMessage />
 						</FormItem>

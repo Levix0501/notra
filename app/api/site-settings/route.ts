@@ -1,7 +1,7 @@
 import { auth } from '@/app/(auth)/auth';
 import { getTranslations } from '@/i18n';
 import { ServiceResult } from '@/lib/service-result';
-import SiteSettingsService from '@/services/site-settings';
+import { SiteSettingsService } from '@/services/site-settings';
 
 export async function GET() {
 	const session = await auth();

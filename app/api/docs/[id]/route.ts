@@ -1,7 +1,7 @@
 import { auth } from '@/app/(auth)/auth';
 import { getTranslations } from '@/i18n';
 import { ServiceResult } from '@/lib/service-result';
-import DocService from '@/services/doc';
+import { DocService } from '@/services/doc';
 
 export async function GET(
 	_: Request,

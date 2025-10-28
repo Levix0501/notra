@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BookEntity } from '@prisma/client';
+import { BookEntity, BookType } from '@prisma/client';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -21,19 +21,38 @@ import { getTranslations } from '@/i18n';
 import { useGetBooks } from '@/queries/book';
 import { UpdateBookInfoSchema, UpdateBookInfoValues } from '@/types/book';
 
+import { BookVisibilityRadioGroup } from './book-visibility-radio-group';
+import {
+	InputGroup,
+	InputGroupAddon,
+	InputGroupInput,
+	InputGroupText
+} from './ui/input-group';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue
+} from './ui/select';
+
 export interface BookSettingsFormProps {
 	bookId: BookEntity['id'];
+	defaultIsPublished: boolean;
 	defaultName: string;
 	defaultSlug: string;
+	defaultType: BookType;
 	mutateBook: () => void;
 }
 
 const t = getTranslations('components_book_settings_form');
 
-export default function BookSettingsForm({
+export function BookSettingsForm({
 	bookId,
+	defaultIsPublished,
 	defaultName,
 	defaultSlug,
+	defaultType,
 	mutateBook
 }: Readonly<BookSettingsFormProps>) {
 	const [isPending, setIsPending] = useState(false);
@@ -42,8 +61,10 @@ export default function BookSettingsForm({
 		resolver: zodResolver(UpdateBookInfoSchema),
 		mode: 'onChange',
 		defaultValues: {
+			isPublished: defaultIsPublished,
 			name: defaultName,
-			slug: defaultSlug
+			slug: defaultSlug,
+			type: defaultType
 		}
 	});
 	const { mutate: mutateBooks } = useGetBooks();
@@ -73,8 +94,10 @@ export default function BookSettingsForm({
 			}
 
 			form.reset({
+				isPublished: values.isPublished,
 				name: values.name,
-				slug: values.slug
+				slug: values.slug,
+				type: values.type
 			});
 
 			mutateBook();
@@ -101,6 +124,20 @@ export default function BookSettingsForm({
 			<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
 				<FormField
 					control={form.control}
+					name="isPublished"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>{t.visibility}</FormLabel>
+							<FormControl>
+								<BookVisibilityRadioGroup {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
 					name="name"
 					render={({ field }) => (
 						<FormItem>
@@ -120,7 +157,46 @@ export default function BookSettingsForm({
 						<FormItem>
 							<FormLabel>{t.slug}</FormLabel>
 							<FormControl>
-								<Input {...field} disabled={isPending} />
+								<InputGroup>
+									<InputGroupInput
+										className="!pl-0"
+										{...field}
+										disabled={isPending}
+										onChange={(e) => {
+											form.clearErrors('slug');
+											field.onChange(e);
+										}}
+									/>
+									<InputGroupAddon>
+										<InputGroupText>{location.origin + '/'}</InputGroupText>
+									</InputGroupAddon>
+								</InputGroup>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="type"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>{t.type}</FormLabel>
+							<FormControl>
+								<Select
+									{...field}
+									disabled={isPending}
+									onValueChange={field.onChange}
+								>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder={t.type} />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="BLOGS">{t.blogs}</SelectItem>
+										<SelectItem value="DOCS">{t.docs}</SelectItem>
+									</SelectContent>
+								</Select>
 							</FormControl>
 							<FormMessage />
 						</FormItem>

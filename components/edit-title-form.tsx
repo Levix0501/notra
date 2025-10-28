@@ -7,7 +7,7 @@ export interface EditTitleFormProps {
 	onSubmit: (title: string) => void;
 }
 
-export default function EditTitleForm({
+export function EditTitleForm({
 	defaultTitle,
 	onSubmit
 }: Readonly<EditTitleFormProps>) {

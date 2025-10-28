@@ -26,7 +26,7 @@ export function SettingsDialog({
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent
-				className="block max-h-[85vh] overflow-hidden p-0 focus-visible:outline-0 max-md:min-h-[60vh] md:h-[600px] md:max-w-[680px]"
+				className="block flex max-h-[85vh] flex-col overflow-hidden p-0 focus-visible:outline-0 max-md:min-h-[60vh] md:h-[600px] md:max-w-[680px]"
 				showCloseButton={false}
 				onCloseAutoFocus={(e) => e.preventDefault()}
 				onOpenAutoFocus={(e) => e.preventDefault()}
@@ -47,17 +47,23 @@ export function SettingsDialog({
 }
 
 export interface SettingsTabsProps extends ChildrenProps {
-	defaultValue: string;
+	defaultValue?: string;
+	onValueChange?: (value: string) => void;
+	value?: string;
 }
 
 export function SettingsTabs({
 	defaultValue,
-	children
+	onValueChange,
+	children,
+	value
 }: Readonly<SettingsTabsProps>) {
 	return (
 		<Tabs
-			className="flex h-full flex-col gap-0 md:flex-row"
+			className="flex min-h-0 flex-1 flex-col gap-0 md:flex-row"
 			defaultValue={defaultValue}
+			value={value}
+			onValueChange={onValueChange}
 		>
 			{children}
 		</Tabs>
@@ -66,7 +72,7 @@ export function SettingsTabs({
 
 export function SettingsTabsList({ children }: Readonly<ChildrenProps>) {
 	return (
-		<TabsList className="flex h-full w-full shrink-0 flex-row flex-wrap items-stretch justify-start rounded-none border-sidebar-accent bg-sidebar p-0 select-none max-md:overflow-x-auto max-md:border-b max-md:p-1.5 md:max-w-[200px] md:flex-col md:border-r">
+		<TabsList className="flex h-auto w-full shrink-0 flex-row flex-wrap items-stretch justify-start rounded-none border-sidebar-accent bg-sidebar p-0 select-none max-md:overflow-x-auto max-md:border-b max-md:p-1.5 md:max-w-[200px] md:flex-col md:border-r">
 			{children}
 		</TabsList>
 	);

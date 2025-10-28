@@ -6,11 +6,11 @@ import { CARD_LIST_PAGE_SIZE } from '@/constants/pagination';
 import { useFetcher } from '@/hooks/use-fetcher';
 import { fetcher } from '@/lib/fetcher';
 import { Nullable } from '@/types/common';
-import { DocMetaVo, DocVo, PublishedDocMetaVo } from '@/types/doc';
+import { DocMetaVo, DocVo, PublishedBlogVo } from '@/types/doc';
 
-export const useGetPublishedDocMeta = (docId?: DocEntity['id']) =>
-	useFetcher<PublishedDocMetaVo>(
-		docId ? `/api/public/docs/${docId}/meta` : void 0,
+export const useGetPublishedBlog = (docId?: DocEntity['id']) =>
+	useFetcher<PublishedBlogVo>(
+		docId ? `/api/public/docs/blogs/${docId}` : void 0,
 		{
 			revalidateIfStale: false,
 			revalidateOnFocus: false,
@@ -18,7 +18,7 @@ export const useGetPublishedDocMeta = (docId?: DocEntity['id']) =>
 		}
 	);
 
-export const useGetFirstPagePublishedDocsMeta = (bookId?: BookEntity['id']) => {
+export const useGetFirstPagePublishedBlogs = (bookId?: BookEntity['id']) => {
 	const params = new URLSearchParams();
 
 	if (bookId) {
@@ -28,8 +28,8 @@ export const useGetFirstPagePublishedDocsMeta = (bookId?: BookEntity['id']) => {
 	params.set('page', '1');
 	params.set('page_size', CARD_LIST_PAGE_SIZE.toString());
 
-	return useFetcher<PublishedDocMetaVo[]>(
-		`/api/public/docs/meta?${params.toString()}`,
+	return useFetcher<PublishedBlogVo[]>(
+		`/api/public/docs/blogs?${params.toString()}`,
 		{
 			revalidateIfStale: false,
 			revalidateOnFocus: false,
@@ -38,7 +38,7 @@ export const useGetFirstPagePublishedDocsMeta = (bookId?: BookEntity['id']) => {
 	);
 };
 
-export const useGetPublishedDocsMeta = (
+export const useGetPublishedBlogs = (
 	totalCount: number,
 	bookId?: BookEntity['id']
 ) => {
@@ -60,9 +60,9 @@ export const useGetPublishedDocsMeta = (
 			params.set('page', (pageIndex + 2).toString());
 			params.set('page_size', CARD_LIST_PAGE_SIZE.toString());
 
-			return `/api/public/docs/meta?${params.toString()}`;
+			return `/api/public/docs/blogs?${params.toString()}`;
 		},
-		fetcher<PublishedDocMetaVo[]>,
+		fetcher<PublishedBlogVo[]>,
 		{
 			revalidateFirstPage: false
 		}
@@ -76,3 +76,6 @@ export const useGetDocMeta = (
 
 export const useGetDoc = (docId: DocEntity['id']) =>
 	useFetcher<DocVo>(`/api/docs/${docId}`);
+
+export const useGetAllDocsMeta = () =>
+	useFetcher<DocMetaVo[]>('/api/docs/meta');

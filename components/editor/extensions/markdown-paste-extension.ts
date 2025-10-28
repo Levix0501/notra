@@ -36,8 +36,6 @@ export const MarkdownPaste = Extension.create({
 						paste: (view, event: ClipboardEvent) => {
 							const text = event.clipboardData?.getData('text/plain') ?? '';
 
-							console.log(text);
-
 							if (!text.trim() || !isMarkdownContent(text)) {
 								return false;
 							}

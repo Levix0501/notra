@@ -7,7 +7,7 @@ import { ServiceResult } from '@/lib/service-result';
 import storage from '@/lib/storage';
 import { encryptFileMD5 } from '@/lib/utils';
 
-export default class FileService {
+export class FileService {
 	static async uploadFile(file: File) {
 		try {
 			const arrayBuffer = await file.arrayBuffer();

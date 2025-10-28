@@ -1,46 +1,64 @@
 'use client';
 
-import { Moon, Sun } from 'lucide-react';
+import { Monitor, MoonStar, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
-import { Button } from '@/components/ui/button';
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuRadioGroup,
-	DropdownMenuRadioItem,
-	DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { getTranslations } from '@/i18n';
+import { cn } from '@/lib/utils';
 
-const t = getTranslations('components_theme_changer');
+import { Button } from './ui/button';
 
 export function ThemeChanger() {
+	const [displayedTheme, setDisplayedTheme] = useState<string | undefined>(
+		undefined
+	);
 	const { theme, setTheme } = useTheme();
 
+	useEffect(() => {
+		setDisplayedTheme(theme);
+	}, [theme]);
+
 	return (
-		<DropdownMenu modal={false}>
-			<DropdownMenuTrigger asChild>
-				<Button className="size-8 cursor-pointer" size="icon" variant="outline">
-					<Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-					<Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-					<span className="sr-only">{t.toggle_theme}</span>
-				</Button>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end">
-				<DropdownMenuGroup>
-					<DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
-						<DropdownMenuRadioItem value="light">
-							{t.light}
-						</DropdownMenuRadioItem>
-						<DropdownMenuRadioItem value="dark">{t.dark}</DropdownMenuRadioItem>
-						<DropdownMenuRadioItem value="system">
-							{t.system}
-						</DropdownMenuRadioItem>
-					</DropdownMenuRadioGroup>
-				</DropdownMenuGroup>
-			</DropdownMenuContent>
-		</DropdownMenu>
+		<div className="flex rounded-full border border-border p-0.75">
+			<Button
+				aria-label={`Switch to light theme`}
+				className={cn(
+					'size-8 rounded-full text-muted-foreground hover:bg-transparent hover:text-foreground dark:hover:bg-transparent dark:hover:text-foreground',
+					displayedTheme === 'light' &&
+						'bg-accent text-foreground hover:bg-accent dark:hover:bg-accent'
+				)}
+				size="icon"
+				variant="ghost"
+				onClick={() => setTheme('light')}
+			>
+				<Sun />
+			</Button>
+			<Button
+				aria-label={`Switch to system theme`}
+				className={cn(
+					'size-8 rounded-full text-muted-foreground hover:bg-transparent hover:text-foreground dark:hover:bg-transparent dark:hover:text-foreground',
+					displayedTheme === 'system' &&
+						'bg-accent text-foreground hover:bg-accent dark:hover:bg-accent'
+				)}
+				size="icon"
+				variant="ghost"
+				onClick={() => setTheme('system')}
+			>
+				<Monitor />
+			</Button>
+			<Button
+				aria-label={`Switch to dark theme`}
+				className={cn(
+					'size-8 rounded-full text-muted-foreground hover:bg-transparent hover:text-foreground dark:hover:bg-transparent dark:hover:text-foreground',
+					displayedTheme === 'dark' &&
+						'bg-accent text-foreground hover:bg-accent dark:hover:bg-accent'
+				)}
+				size="icon"
+				variant="ghost"
+				onClick={() => setTheme('dark')}
+			>
+				<MoonStar />
+			</Button>
+		</div>
 	);
 }

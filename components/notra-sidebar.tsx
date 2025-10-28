@@ -27,9 +27,10 @@ export const useNotraSidebar = create<NotraSidebarStore>((set) => ({
 
 export interface SidebarNavItem {
 	title: string;
-	url: string;
+	url?: string;
 	icon?: LucideIcon;
 	subItems?: SidebarNavItem[];
+	onClick?: () => void;
 }
 
 export function NotraSidebar({ children }: Readonly<ChildrenProps>) {

@@ -1,18 +1,16 @@
 'use client';
 
+import { BookEntity } from '@prisma/client';
 import { Send } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import {
-	publishWithParent,
-	unpublishWithChildren
-} from '@/actions/catalog-node';
+import { publishWithParent, unpublishWithChildren } from '@/actions/tree-node';
 import { getTranslations } from '@/i18n';
-import { publishNode, unpublishNode } from '@/lib/catalog/client';
-import { useCurrentBook } from '@/stores/book';
-import { mutateCatalog, nodeMap } from '@/stores/catalog';
+import { publishNode, unpublishNode } from '@/lib/tree/client';
+import { useGetBook } from '@/queries/book';
 import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
+import { mutateTree, nodeMap } from '@/stores/tree';
 
 import { CopyButton } from './copy-button';
 import { Button } from './ui/button';
@@ -20,15 +18,19 @@ import { Input } from './ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
+interface PublishButtonProps {
+	bookId: BookEntity['id'];
+}
+
 const t = getTranslations('components_publish_button');
 
-export function PublishButton() {
+export function PublishButton({ bookId }: Readonly<PublishButtonProps>) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isPending, setIsPending] = useState(false);
 
 	const isSaving = useDocStore((state) => state.isSaving);
 	const { data: docMeta, mutate } = useCurrentDocMeta();
-	const { data: book } = useCurrentBook();
+	const { data: book } = useGetBook(bookId);
 
 	if (!docMeta || !book) {
 		return null;
@@ -45,7 +47,7 @@ export function PublishButton() {
 
 		const [nodeIds, docIds] = publishNode(nodeMap, item.id);
 
-		mutateCatalog(book.id, async () => {
+		mutateTree(book.id, async () => {
 			setIsPending(true);
 			const result = await publishWithParent({
 				nodeIds,
@@ -88,7 +90,7 @@ export function PublishButton() {
 
 		const [nodeIds, docIds] = unpublishNode(nodeMap, item.id);
 
-		mutateCatalog(book.id, async () => {
+		mutateTree(book.id, async () => {
 			setIsPending(true);
 			const result = await unpublishWithChildren({
 				nodeIds,

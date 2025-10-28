@@ -2,7 +2,7 @@ import { SessionProvider } from 'next-auth/react';
 
 import { ThemeProvider } from '@/components/theme-provider';
 
-export default function Providers({
+export function Providers({
 	children
 }: Readonly<{
 	children: React.ReactNode;

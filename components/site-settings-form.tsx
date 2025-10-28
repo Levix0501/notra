@@ -40,7 +40,7 @@ export interface SiteSettingsFormProps {
 
 const t = getTranslations('components_site_settings_form');
 
-export default function SiteSettingsForm({
+export function SiteSettingsForm({
 	defaultTitle,
 	defaultDescription,
 	defaultLogo,

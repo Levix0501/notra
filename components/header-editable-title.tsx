@@ -12,9 +12,9 @@ import { Input } from '@/components/ui/input';
 import { useEditDocTitle } from '@/hooks/use-edit-doc-title';
 import { useCurrentDocMeta } from '@/stores/doc';
 
-import AutoSaveTip from './auto-save-tip';
+import { AutoSaveTip } from './auto-save-tip';
 
-export default function HeaderEditableTitle() {
+export function HeaderEditableTitle() {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const [isEditing, setIsEditing] = useState(false);

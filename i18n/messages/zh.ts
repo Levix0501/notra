@@ -2,13 +2,14 @@ export const zh = {
 	app_api: {
 		unauthorized: '未授权'
 	},
-	app_dashboard_layout: {
-		metadata_title: '工作台'
-	},
 	app_login_page: {
 		metadata_title: '登录',
 		card_title: '管理员登录',
 		card_description: '首次登录会自动创建账户'
+	},
+	app_dashboard_main_page: {
+		navbar: '导航栏',
+		configure_navbar: '配置导航栏'
 	},
 	components_account_dropdown: {
 		settings: '设置',
@@ -29,31 +30,27 @@ export const zh = {
 	components_book_catalog: {
 		new: '新增'
 	},
-	components_book_index_page_view_tabs: {
-		doc_view: '文档',
-		card_view: '卡片',
-		edit_index_page: '编辑首页',
-		update: '更新',
-		no_docs_found: '还没有文档',
-		update_loading: '更新中...',
-		update_success: '更新成功！',
-		update_error: '更新失败！'
-	},
-	components_book_settings_dialog: {
-		book_settings: '知识库设置',
-		doc_settings: '文档设置'
-	},
 	components_book_settings_form: {
+		visibility: '可见性',
 		name: '名称',
 		slug: '路径',
+		type: '类型',
+		blogs: '博客',
+		docs: '文档',
 		update: '更新',
 		slug_exists: '路径已存在',
 		update_loading: '更新中...',
 		update_success: '更新成功！',
 		update_error: '更新失败！'
 	},
-	components_book_sidebar_nav: {
-		book_home: '知识库主页'
+	components_book_settings_sheet: {
+		book_settings: '知识库设置'
+	},
+	components_book_visibility_radio_group: {
+		public: '公开',
+		hidden: '隐藏',
+		public_description: '发布知识库，将知识库公开至互联网',
+		hidden_description: '取消发布知识库'
 	},
 	components_books_nav: {
 		books: '知识库',
@@ -81,17 +78,15 @@ export const zh = {
 		create_error: '创建失败！'
 	},
 	components_create_dropdown: {
-		new_document: '文档',
-		new_stack: '分组',
-		create_error: '创建失败！',
-		create_loading: '创建中...',
-		create_success: '创建成功！'
+		new_doc: '文档',
+		new_group: '分组'
 	},
 	components_dashboard_button: {
 		dashboard: '工作台'
 	},
 	components_dashboard_sidebar_nav: {
-		home: '主页'
+		dashboard: '工作台',
+		appearance: '外观'
 	},
 	components_doc_settings_button: {
 		doc_settings: '文档设置'
@@ -108,11 +103,29 @@ export const zh = {
 		update: '更新',
 		slug_exists: '链接已存在！'
 	},
+	components_empty_book: {
+		no_documents: '当前知识库暂无可访问内容',
+		no_documents_description: '您还没有创建任何文档。开始创建您的第一个文档。',
+		create_document: '创建文档'
+	},
 	components_global_settings_dialog: {
-		doc_settings: '文档设置',
-		book_settings: '知识库设置',
-		site_settings: '站点设置',
-		analytics_settings: '统计设置'
+		appearance: '外观',
+		general_settings: '常规设置',
+		integrations: '集成'
+	},
+	components_home_page_redirect_form: {
+		home_page_redirect_to: '首页跳转页面',
+		home_page_redirect_to_description:
+			'如果设置的内容未发布或被删除，此设置将失效',
+		default_no_redirect: '默认不跳转',
+		search_placeholder: '搜索...',
+		no_related_content_found: '没有找到相关内容',
+		books: '知识库',
+		docs: '文档',
+		update: '更新',
+		update_loading: '更新中...',
+		update_success: '更新成功！',
+		update_error: '更新失败！'
 	},
 	components_image_cropper: {
 		re_select: '重新选择',
@@ -120,24 +133,6 @@ export const zh = {
 		crop: '裁剪',
 		max_size: '图片尺寸不能超过 {size}MB',
 		file_type_error: '图片类型应为 jpg/png'
-	},
-	components_index_page_doc_form: {
-		index_title: '标题',
-		index_description: '描述',
-		main_action_text: '主按钮文本',
-		main_action_url: '主按钮链接',
-		is_main_new_tab: '主按钮链接在新标签页打开',
-		sub_action_text: '次按钮文本',
-		sub_action_url: '次按钮链接',
-		is_sub_new_tab: '次按钮链接在新标签页打开',
-		form: '表单',
-		preview: '预览'
-	},
-	components_index_page_doc_view: {
-		no_index_title: '请输入标题',
-		no_index_description: '请输入描述',
-		no_main_action_text: '主按钮文本',
-		no_sub_action_text: '次按钮文本'
 	},
 	components_login_form: {
 		username_label: '用户名',
@@ -147,8 +142,9 @@ export const zh = {
 		password_min_length: '请输入至少6个字符的密码',
 		login_error: '登录失败！'
 	},
-	components_more_docs: {
-		no_more: '没有更多了'
+	components_more_blogs: {
+		no_more: '没有更多了',
+		no_blogs_found: '没有找到内容'
 	},
 	components_more_dropdown: {
 		rename: '重命名',
@@ -166,9 +162,74 @@ export const zh = {
 		unpublish_error: '取消发布失败！',
 		unpublish_success: '取消发布成功！'
 	},
+	components_navbar: {
+		no_navbar_items: '没有导航项',
+		no_navbar_items_description: '您还没有创建任何导航项。'
+	},
+	components_navbar_publish_button: {
+		publish: '发布',
+		publish_loading: '发布中...',
+		publish_success: '发布成功！',
+		publish_error: '发布失败！'
+	},
+	components_nav_item: {
+		default_nav_item_name: '未命名'
+	},
+	components_nav_item_add_button: {
+		add: '添加导航项'
+	},
+	components_nav_item_delete_dialog: {
+		delete: '删除',
+		delete_loading: '删除中...',
+		delete_success: '删除成功！',
+		delete_error: '删除失败！',
+		cancel: '取消',
+		confirm: '确定',
+		title: '确认删除？',
+		description: '此操作不可逆。'
+	},
+	components_nav_item_form: {
+		add: '新增',
+		update: '更新',
+		add_loading: '新增中...',
+		add_success: '新增成功！',
+		add_error: '新增失败！',
+		update_loading: '更新中...',
+		update_success: '更新成功！',
+		update_error: '更新失败！',
+		title: '标题',
+		group: '分组',
+		link: '链接',
+		example: '示例：“https://www.notra.tech”, “/docs/123”',
+		type: '类型',
+		url: 'URL',
+		books: '知识库',
+		docs: '文档',
+		search_in: '搜索...',
+		no_related_content_found: '没有找到相关内容',
+		open_in_new_tab: '在新标签页中打开'
+	},
+	components_nav_item_more_dropdown: {
+		edit: '编辑',
+		rename: '重命名',
+		settings: '设置',
+		publish: '发布',
+		unpublish: '取消发布',
+		delete: '删除',
+		publish_loading: '发布中...',
+		publish_success: '发布成功！',
+		publish_error: '发布失败！',
+		unpublish_loading: '取消发布中...',
+		unpublish_error: '取消发布失败！',
+		unpublish_success: '取消发布成功！'
+	},
+	components_nav_item_sheet: {
+		add_navbar_item: '添加导航项',
+		edit_navbar_item: '编辑导航项'
+	},
 	components_notra_footer: {
 		powered_by:
-			'本网站由 <a href="https://notra.tech" target="_blank" class="font-bold hover:text-primary">Notra</a> 提供技术支持'
+			'由 <a href="https://www.notra.tech" target="_blank" class="underline">Notra</a> 驱动'
 	},
 	components_publish_button: {
 		publish: '发布',
@@ -176,16 +237,6 @@ export const zh = {
 		unpublish: '取消发布',
 		view_page: '查看页面',
 		publish_to_web: '公开至互联网'
-	},
-	components_site_index_page_view_tabs: {
-		doc_view: '文档',
-		card_view: '卡片',
-		edit_index_page: '编辑首页',
-		update: '更新',
-		no_docs_found: '还没有文档',
-		update_loading: '更新中...',
-		update_success: '更新成功！',
-		update_error: '更新失败！'
 	},
 	components_site_settings_form: {
 		title: '站点标题',
@@ -203,17 +254,16 @@ export const zh = {
 		update_success: '更新成功！',
 		update_error: '更新失败！'
 	},
-	components_theme_changer: {
-		toggle_theme: '切换主题',
-		light: '亮色',
-		dark: '暗色',
-		system: '系统'
+	components_doc_settings_sheet: {
+		doc_settings: '文档设置'
+	},
+	hooks_use_create_tree_node: {
+		create_loading: '创建中...',
+		create_success: '创建成功！',
+		create_error: '创建失败！'
 	},
 	hooks_use_edit_doc_title: {
-		untitled: '无标题'
-	},
-	hooks_use_upload_file: {
-		upload_error: '上传文件失败！'
+		untitled: '未命名标题'
 	},
 	services_account: {
 		get_account_error: '获取账户失败！',
@@ -221,58 +271,66 @@ export const zh = {
 		login_error: '登录失败'
 	},
 	services_book: {
-		create_book_error: '创建知识库失败',
-		get_books_error: '获取知识库失败',
-		delete_book_error: '删除知识库失败',
-		get_book_error: '获取知识库失败',
-		get_book_by_slug_error: '获取知识库失败',
-		check_book_slug_error: '检查知识库路径是否可用失败',
-		update_book_error: '更新知识库失败'
-	},
-	services_catalog_node: {
-		get_catalog_nodes_error: '获取节点失败！',
-		get_published_catalog_nodes_error: '获取已发布节点失败！',
-		new_stack_default_name: '新分组',
-		new_doc_default_name: '无标题文档',
-		create_stack_error: '创建分组失败！',
-		create_doc_error: '创建文档失败！',
-		delete_with_children_error: '删除失败！',
-		prepend_child_error: '添加子节点失败！',
-		move_after_error: '移动失败！',
-		update_title_error: '更新标题失败！',
-		publish_error: '发布失败！',
-		unpublish_error: '取消发布失败！'
+		get_books_error: '获取知识库失败！',
+		delete_book_error: '删除知识库失败！',
+		create_book_error: '创建知识库失败！',
+		get_book_error: '获取知识库失败！',
+		check_book_slug_error: '检查知识库 slug 失败！',
+		update_book_error: '更新知识库失败！',
+		get_published_book_by_slug_error: '获取已发布知识库失败！',
+		get_navbar_book_error: '获取导航栏知识库失败！'
 	},
 	services_doc: {
-		get_published_doc_meta_error: '获取已发布文档元数据失败！',
-		get_published_docs_meta_error: '获取已发布文档元数据列表失败！',
+		get_published_blogs_error: '获取已发布博客失败！',
+		get_published_blog_error: '获取已发布博客失败！',
 		get_doc_meta_error: '获取文档元数据失败！',
-		get_doc_error: '获取文档失败！',
-		get_published_doc_error: '获取已发布文档失败！',
-		get_docs_error: '获取文档失败！',
-		get_published_docs_by_book_slug_error: '获取已发布文档失败！',
+		get_all_docs_meta_error: '获取文档元数据失败！',
 		update_doc_meta_error: '更新文档元数据失败！',
-		check_doc_slug_error: '检查文档路径是否可用失败！',
 		update_doc_content_error: '更新文档内容失败！',
-		publish_doc_error: '发布文档失败！',
-		unpublish_doc_error: '取消发布文档失败！',
-		get_published_doc_total_count_error: '获取已发布文档总数失败！',
-		increment_view_count_error: '更新浏览量失败！'
+		get_doc_error: '获取文档失败！',
+		check_doc_slug_error: '检查文档 slug 失败！',
+		get_published_page_by_slug_error: '获取已发布页面失败！',
+		get_published_doc_error: '获取已发布文档失败！',
+		increment_view_count_error: '增加浏览量失败！'
 	},
 	services_file: {
-		upload_error: '上传文件失败'
+		upload_error: '上传文件失败！'
 	},
 	services_site_settings: {
 		get_site_settings_error: '获取站点设置失败',
 		update_site_settings_error: '更新站点设置失败'
 	},
+	services_tree_node: {
+		get_tree_nodes_by_book_id_error: '获取节点失败！',
+		get_published_tree_nodes_by_book_id_error: '获取已发布节点失败！',
+		new_doc_default_name: '新文档',
+		new_group_default_name: '新分组',
+		create_doc_error: '创建文档失败！',
+		create_group_error: '创建分组失败！',
+		update_title_error: '更新标题失败！',
+		delete_with_children_error: '删除节点失败！',
+		prepend_child_error: '添加子节点失败！',
+		move_after_error: '移动节点失败！',
+		publish_error: '发布失败！',
+		unpublish_error: '取消发布失败！',
+		create_nav_item_error: '创建导航项失败！',
+		update_nav_item_error: '更新导航项失败！',
+		publish_navbar_error: '发布导航栏失败！',
+		get_published_nav_items_error: '获取已发布导航项失败！'
+	},
 	types_book: {
 		name_required: '名称是必填项',
-		slug_required: '路径是必填项',
+		slug_min_length: '访问路径至少需要2个字符',
+		slug_max_length: '访问路径不能超过100个字符',
+		slug_format_invalid: '访问路径只能包含小写字母、数字、横线、下划线和点',
 		slug_invalid: '非法路径'
 	},
 	types_doc: {
 		slug_required: '路径是必填项'
+	},
+	types_tree_node: {
+		title_required: '标题是必填项',
+		url_regex: 'URL 需以 “http://”, “https://” 或者 “/” 开头'
 	},
 	notra_editor: {
 		code_block_code: '代码',

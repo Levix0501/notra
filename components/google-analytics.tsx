@@ -1,8 +1,8 @@
 import { GoogleAnalytics as GoogleAnalyticsComponent } from '@next/third-parties/google';
 
-import SiteSettingsService from '@/services/site-settings';
+import { SiteSettingsService } from '@/services/site-settings';
 
-const GoogleAnalytics = async () => {
+export const GoogleAnalytics = async () => {
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
 
 	return (
@@ -10,5 +10,3 @@ const GoogleAnalytics = async () => {
 		siteSettings?.gaId && <GoogleAnalyticsComponent gaId={siteSettings.gaId} />
 	);
 };
-
-export default GoogleAnalytics;

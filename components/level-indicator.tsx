@@ -1,18 +1,16 @@
-import { CatalogNodeEntity } from '@prisma/client';
+import { TreeNodeEntity } from '@prisma/client';
 
-import useCatalog from '@/stores/catalog';
+import { useTree } from '@/stores/tree';
 
 export interface LevelIndicatorProps {
-	nodeId: CatalogNodeEntity['id'];
+	nodeId: TreeNodeEntity['id'];
 }
 
-export default function LevelIndicator({
-	nodeId
-}: Readonly<LevelIndicatorProps>) {
-	const isDragging = useCatalog((state) => state.isDragging);
-	const currentDropNode = useCatalog((state) => state.currentDropNode);
-	const reachLevel = useCatalog((state) => state.reachLevelMap.get(nodeId));
-	const minReachLevel = useCatalog(
+export function LevelIndicator({ nodeId }: Readonly<LevelIndicatorProps>) {
+	const isDragging = useTree((state) => state.isDragging);
+	const currentDropNode = useTree((state) => state.currentDropNode);
+	const reachLevel = useTree((state) => state.reachLevelMap.get(nodeId));
+	const minReachLevel = useTree(
 		(state) => state.reachLevelRangeMap.get(nodeId)?.[0] ?? 0
 	);
 

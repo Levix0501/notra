@@ -4,16 +4,16 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { Toaster } from 'sonner';
 
 import { ClientEnvInjector } from '@/components/client-env-injector';
-import GoogleAnalytics from '@/components/google-analytics';
+import { GoogleAnalytics } from '@/components/google-analytics';
 import {
 	DEFAULT_SITE_LOGO,
 	DEFAULT_SITE_LOGO_DARK,
 	DEFAULT_SITE_TITLE
 } from '@/constants/default';
 import { ENV_LOCALE } from '@/constants/env';
-import SiteSettingsService from '@/services/site-settings';
+import { SiteSettingsService } from '@/services/site-settings';
 
-import Providers from './providers';
+import { Providers } from './providers';
 
 import type { Metadata } from 'next';
 
@@ -66,7 +66,7 @@ export default function RootLayout({
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
 				<ClientEnvInjector />
 				<Providers>
-					<Toaster richColors position="top-right" />
+					<Toaster richColors position="bottom-right" />
 					{children}
 				</Providers>
 			</body>

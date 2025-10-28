@@ -5,13 +5,13 @@ import {
 	DEFAULT_SITE_LOGO_DARK,
 	DEFAULT_SITE_TITLE
 } from '@/constants/default';
-import SiteSettingsService from '@/services/site-settings';
+import { SiteSettingsService } from '@/services/site-settings';
 
 export interface NotraLogoProps {
 	size: number;
 }
 
-export default async function NotraLogo({ size }: Readonly<NotraLogoProps>) {
+export async function NotraLogo({ size }: Readonly<NotraLogoProps>) {
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
 	const darkLogo =
 		siteSettings?.darkLogo ?? siteSettings?.logo ?? DEFAULT_SITE_LOGO_DARK;

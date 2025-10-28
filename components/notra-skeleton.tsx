@@ -1,6 +1,6 @@
 import { Skeleton } from './ui/skeleton';
 
-export default function NotraSkeleton() {
+export function NotraSkeleton() {
 	return (
 		<div className="px-2">
 			<div className="py-2">

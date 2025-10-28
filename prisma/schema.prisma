@@ -24,31 +24,28 @@ model AccountEntity {
   @@map("account")
 }
 
-enum IndexPageType {
+enum RedirectType {
+  BOOK
   DOC
-  CARD
+  PAGE
+  NONE
 }
 
-// Represents site settings 
+// Represents site settings
 // This entity is designed to store site information with only one record
 model SiteSettingsEntity {
-  id          String  @id @default("default")
-  title       String?
-  description String?
-  logo        String?
-  darkLogo    String? @map("dark_logo")
-  copyright   String?
-  gaId        String? @map("ga_id")
-
-  indexPageType    IndexPageType @default(CARD) @map("index_page_type")
-  indexTitle       String?       @map("index_title")
-  indexDescription String?       @map("index_description")
-  mainActionText   String?       @map("main_action_text")
-  mainActionUrl    String?       @map("main_action_url")
-  isMainNewTab     Boolean       @default(false) @map("is_main_new_tab")
-  subActionText    String?       @map("sub_action_text")
-  subActionUrl     String?       @map("sub_action_url")
-  isSubNewTab      Boolean       @default(false) @map("is_sub_new_tab")
+  id                   String       @id @default("default")
+  title                String?
+  description          String?
+  logo                 String?
+  darkLogo             String?      @map("dark_logo")
+  copyright            String?
+  gaId                 String?      @map("ga_id")
+  homePageRedirectType RedirectType @default(NONE) @map("home_page_redirect_type")
+  redirectToBook       BookEntity?  @relation(fields: [redirectToBookId], references: [id])
+  redirectToBookId     Int?         @map("redirect_to_book_id")
+  redirectToDoc        DocEntity?   @relation(fields: [redirectToDocId], references: [id])
+  redirectToDocId      Int?         @map("redirect_to_doc_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -71,74 +68,40 @@ model FileEntity {
   @@map("files")
 }
 
+enum BookType {
+  BLOGS
+  DOCS
+  PAGES
+  NAVBAR
+}
+
 // Represents a book in the system
 model BookEntity {
-  id   Int    @id @default(autoincrement())
-  name String
-  slug String @unique @default(cuid())
-
-  indexPageType    IndexPageType @default(CARD) @map("index_page_type")
-  indexTitle       String?       @map("index_title")
-  indexDescription String?       @map("index_description")
-  mainActionText   String?       @map("main_action_text")
-  mainActionUrl    String?       @map("main_action_url")
-  isMainNewTab     Boolean       @default(false) @map("is_main_new_tab")
-  subActionText    String?       @map("sub_action_text")
-  subActionUrl     String?       @map("sub_action_url")
-  isSubNewTab      Boolean       @default(false) @map("is_sub_new_tab")
-
-  isPublished Boolean @default(false) @map("is_published")
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique @default(cuid())
+  type        BookType @default(BLOGS)
+  isPublished Boolean  @default(false) @map("is_published")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  CatalogNodeEntity CatalogNodeEntity[]
-  DocEntity         DocEntity[]
+  docs         DocEntity[]
+  treeNodes    TreeNodeEntity[]
+  siteSettings SiteSettingsEntity[]
 
   @@map("books")
 }
 
-// Represents the type of a catalog node
-enum CatalogNodeType {
-  STACK
-  DOC
-}
-
-// Represents a catalog node of a book
-model CatalogNodeEntity {
-  id        Int             @id @default(autoincrement())
-  parentId  Int?            @map("parent_id")
-  prevId    Int?            @map("prev_id")
-  siblingId Int?            @map("sibling_id")
-  childId   Int?            @map("child_id")
-  title     String
-  type      CatalogNodeType
-  url       String?
-
-  isPublished Boolean @default(false) @map("is_published")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  bookId    Int        @map("book_id")
-  book      BookEntity @relation(fields: [bookId], references: [id])
-  docId     Int?       @unique @map("doc_id")
-  DocEntity DocEntity? @relation(fields: [docId], references: [id])
-
-  @@map("catalog_nodes")
-}
-
-// Represents a document in the system
+// Represents a doc in the system
 model DocEntity {
-  id      Int     @id @default(autoincrement())
-  title   String
-  slug    String  @default(cuid())
-  content Json?
-  cover   String?
-  summary String?
-
-  viewCount Int @default(0) @map("view_count")
-
+  id          Int     @id @default(autoincrement())
+  title       String
+  slug        String  @default(cuid())
+  content     Json?
+  cover       String?
+  summary     String?
+  viewCount   Int     @default(0) @map("view_count")
   isPublished Boolean @default(false) @map("is_published")
   isDeleted   Boolean @default(false) @map("is_deleted")
 
@@ -146,9 +109,41 @@ model DocEntity {
   updatedAt   DateTime @updatedAt @map("updated_at")
   publishedAt DateTime @default(now()) @map("published_at")
 
-  bookId      Int                @map("book_id")
-  book        BookEntity         @relation(fields: [bookId], references: [id])
-  catalogNode CatalogNodeEntity?
+  bookId       Int                  @map("book_id")
+  book         BookEntity           @relation(fields: [bookId], references: [id])
+  treeNode     TreeNodeEntity?
+  siteSettings SiteSettingsEntity[]
 
   @@map("docs")
+}
+
+// Represents the type of a tree node
+enum TreeNodeType {
+  DOC
+  GROUP
+  LINK
+}
+
+// Represents a tree node
+model TreeNodeEntity {
+  id          Int          @id @default(autoincrement())
+  parentId    Int?         @map("parent_id")
+  prevId      Int?         @map("prev_id")
+  siblingId   Int?         @map("sibling_id")
+  childId     Int?         @map("child_id")
+  type        TreeNodeType
+  title       String
+  url         String?
+  isPublished Boolean      @default(false) @map("is_published")
+  isExternal  Boolean      @default(false) @map("is_external")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  bookId Int        @map("book_id")
+  book   BookEntity @relation(fields: [bookId], references: [id])
+  docId  Int?       @unique @map("doc_id")
+  doc    DocEntity? @relation(fields: [docId], references: [id])
+
+  @@map("tree_nodes")
 }

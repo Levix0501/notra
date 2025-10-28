@@ -42,3 +42,7 @@ export const revalidateDoc = ({
 		revalidatePath(`/${bookSlug}/${oldSlug}`);
 	}
 };
+
+export const revalidateDashboardBookIndex = (bookId: BookEntity['id']) => {
+	revalidatePath(`/dashboard/${bookId}`);
+};

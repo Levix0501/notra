@@ -1,27 +1,30 @@
+import { BookEntity } from '@prisma/client';
 import Link from 'next/link';
 import { CSSProperties } from 'react';
 
-import { useCurrentBook } from '@/stores/book';
-import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
+import { useGetBook } from '@/queries/book';
 import { ChildrenProps } from '@/types/common';
+import { TreeNodeVoWithLevel } from '@/types/tree-node';
 
 export interface CatalogItemWrapperProps extends ChildrenProps {
 	className?: string;
 	style?: CSSProperties;
-	item: CatalogNodeVoWithLevel;
+	bookId: BookEntity['id'];
+	item: TreeNodeVoWithLevel;
 	isEditingTitle?: boolean;
 	onClick?: () => void;
 }
 
-export default function CatalogItemWrapper({
+export function CatalogItemWrapper({
 	children,
 	className,
 	style,
+	bookId,
 	isEditingTitle,
 	item,
 	onClick
 }: Readonly<CatalogItemWrapperProps>) {
-	const { data: book } = useCurrentBook();
+	const { data: book } = useGetBook(bookId);
 
 	if (item.type === 'DOC' && !isEditingTitle) {
 		return (

@@ -1,6 +1,5 @@
 import {
 	DragDropContext,
-	Draggable,
 	DraggableProvided,
 	DraggableRubric,
 	DraggableStateSnapshot,
@@ -10,68 +9,47 @@ import {
 	DroppableProvided,
 	DropResult
 } from '@hello-pangea/dnd';
-import { CatalogNodeEntity } from '@prisma/client';
-import { CSSProperties, useCallback, useRef } from 'react';
+import { BookEntity, TreeNodeEntity } from '@prisma/client';
+import { CSSProperties, JSX, useCallback, useRef } from 'react';
 import { FixedSizeList } from 'react-window';
 
 import {
 	prependChild as prependChildAction,
 	moveAfter as moveAfterAction
-} from '@/actions/catalog-node';
-import { checkShouldMoveNode, moveNode } from '@/lib/catalog/client';
-import useCatalog, { mutateCatalog, nodeMap } from '@/stores/catalog';
-import { CatalogNodeView, CatalogNodeVoWithLevel } from '@/types/catalog-node';
+} from '@/actions/tree-node';
+import { checkShouldMoveNode, moveNode } from '@/lib/tree/client';
+import { useTree, nodeMap, mutateTree } from '@/stores/tree';
+import { TreeNodeView, TreeNodeVoWithLevel } from '@/types/tree-node';
 
-import CatalogItem from './catalog-item';
-import CloneCatalogItem from './clone-catalog-item';
+import { CloneCatalogItem } from './clone-catalog-item';
 
 interface DragDropZoneProps {
-	bookId: CatalogNodeEntity['bookId'];
-	draggableList: CatalogNodeVoWithLevel[];
+	bookId: BookEntity['id'];
+	draggableList: TreeNodeVoWithLevel[];
 	height: number;
+	maxLevel?: number;
+	renderItem: (props: {
+		data: TreeNodeVoWithLevel[];
+		index: number;
+		style: CSSProperties;
+	}) => JSX.Element;
 }
 
-export default function DragDropZone({
+export function DragDropZone({
 	bookId,
 	draggableList,
-	height
+	height,
+	maxLevel = 999,
+	renderItem
 }: Readonly<DragDropZoneProps>) {
 	const expandedKeysBeforeDrag = useRef<Set<number>>(new Set());
 
-	const expandedKeys = useCatalog((state) => state.expandedKeys);
-	const reachLevelMap = useCatalog((state) => state.reachLevelMap);
-	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
-	const setIsDragging = useCatalog((state) => state.setIsDragging);
-	const setCurrentDropNode = useCatalog((state) => state.setCurrentDropNode);
-	const setReachLevelRange = useCatalog((state) => state.setReachLevelRange);
-
-	const renderItem = useCallback(
-		(props: {
-			data: CatalogNodeVoWithLevel[];
-			index: number;
-			style: CSSProperties;
-		}) => {
-			const { data, index, style } = props;
-			const item = data[index];
-
-			return (
-				<Draggable key={item.id} draggableId={item.id.toString()} index={index}>
-					{(
-						dragProvided: DraggableProvided,
-						dragSnapshot: DraggableStateSnapshot
-					) => (
-						<CatalogItem
-							dragProvided={dragProvided}
-							dragSnapshot={dragSnapshot}
-							item={item}
-							style={style}
-						/>
-					)}
-				</Draggable>
-			);
-		},
-		[]
-	);
+	const expandedKeys = useTree((state) => state.expandedKeys);
+	const reachLevelMap = useTree((state) => state.reachLevelMap);
+	const setExpandedKeys = useTree((state) => state.setExpandedKeys);
+	const setIsDragging = useTree((state) => state.setIsDragging);
+	const setCurrentDropNode = useTree((state) => state.setCurrentDropNode);
+	const setReachLevelRange = useTree((state) => state.setReachLevelRange);
 
 	const renderCloneItem = useCallback(
 		(
@@ -92,8 +70,8 @@ export default function DragDropZone({
 		dropNode,
 		nodeAfterDropNode
 	}: {
-		dropNode?: CatalogNodeView | null;
-		nodeAfterDropNode?: CatalogNodeView;
+		dropNode?: TreeNodeView | null;
+		nodeAfterDropNode?: TreeNodeView;
 	}) => {
 		if (!dropNode) {
 			setCurrentDropNode(null);
@@ -123,18 +101,21 @@ export default function DragDropZone({
 		nodeId,
 		newParentId
 	}: {
-		nodeId: CatalogNodeEntity['id'];
-		newParentId: CatalogNodeEntity['parentId'];
+		nodeId: TreeNodeEntity['id'];
+		newParentId: TreeNodeEntity['parentId'];
 	}) => {
 		const newPrevId = newParentId;
 
-		const { shouldUpdateNode, node } = checkShouldMoveNode(nodeMap, {
-			nodeId,
-			newParentId,
-			newPrevId
-		});
+		const { shouldUpdateNode, node, subTreeMaxLevel } = checkShouldMoveNode(
+			nodeMap,
+			{
+				nodeId,
+				newParentId,
+				newPrevId
+			}
+		);
 
-		if (!shouldUpdateNode || !node) {
+		if (!shouldUpdateNode || !node || subTreeMaxLevel > maxLevel) {
 			return;
 		}
 
@@ -148,7 +129,7 @@ export default function DragDropZone({
 			expandedKeysBeforeDrag.current.add(newParentId);
 		}
 
-		mutateCatalog(bookId, async () => {
+		mutateTree(bookId, async () => {
 			const result = await prependChildAction({
 				bookId,
 				nodeId,
@@ -167,8 +148,8 @@ export default function DragDropZone({
 		nodeId,
 		newPrevId
 	}: {
-		nodeId: CatalogNodeEntity['id'];
-		newPrevId: CatalogNodeEntity['id'];
+		nodeId: TreeNodeEntity['id'];
+		newPrevId: TreeNodeEntity['id'];
 	}) => {
 		const newPrevNode = nodeMap.get(newPrevId);
 
@@ -176,13 +157,16 @@ export default function DragDropZone({
 			return;
 		}
 
-		const { shouldUpdateNode, node } = checkShouldMoveNode(nodeMap, {
-			nodeId,
-			newParentId: newPrevNode.parentId,
-			newPrevId
-		});
+		const { shouldUpdateNode, node, subTreeMaxLevel } = checkShouldMoveNode(
+			nodeMap,
+			{
+				nodeId,
+				newParentId: newPrevNode.parentId,
+				newPrevId
+			}
+		);
 
-		if (!shouldUpdateNode || !node) {
+		if (!shouldUpdateNode || !node || subTreeMaxLevel > maxLevel) {
 			return;
 		}
 
@@ -192,7 +176,7 @@ export default function DragDropZone({
 			newPrevId
 		});
 
-		mutateCatalog(bookId, async () => {
+		mutateTree(bookId, async () => {
 			const result = await moveAfterAction({
 				bookId,
 				nodeId,
@@ -268,11 +252,11 @@ export default function DragDropZone({
 		}
 
 		if (update.destination && update.destination.index > 0) {
-			let nodeAfterDropNode: CatalogNodeView | undefined = void 0;
+			let nodeAfterDropNode: TreeNodeView | undefined = void 0;
 
 			if (update.destination.index < draggableList.length - 1) {
 				const index =
-					update.destination.index <= update.source.index
+					update.destination.index < update.source.index
 						? update.destination.index
 						: update.destination.index + 1;
 

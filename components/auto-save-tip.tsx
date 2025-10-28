@@ -7,7 +7,7 @@ import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
 
 const t = getTranslations('components_auto_save_tip');
 
-export default function AutoSaveTip() {
+export function AutoSaveTip() {
 	const updateAt = useDocStore((state) => state.updateAt);
 	const isSaving = useDocStore((state) => state.isSaving);
 	const isFirstLoad = useDocStore((state) => state.isFirstLoad);

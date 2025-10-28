@@ -6,7 +6,7 @@ import prisma from '@/lib/prisma';
 import { ServiceResult } from '@/lib/service-result';
 import { UpdateSiteSettingsDto } from '@/types/site-settings';
 
-export default class SiteSettingsService {
+export class SiteSettingsService {
 	static readonly getSiteSettings = cache(async () => {
 		try {
 			let siteSettings = await prisma.siteSettingsEntity.findUnique({
@@ -15,6 +15,27 @@ export default class SiteSettingsService {
 					id: true,
 					createdAt: true,
 					updatedAt: true
+				},
+				include: {
+					redirectToBook: {
+						select: {
+							slug: true,
+							isPublished: true
+						}
+					},
+					redirectToDoc: {
+						select: {
+							slug: true,
+							isPublished: true,
+							isDeleted: true,
+							book: {
+								select: {
+									slug: true,
+									isPublished: true
+								}
+							}
+						}
+					}
 				}
 			});
 
@@ -26,6 +47,27 @@ export default class SiteSettingsService {
 					id: true,
 					createdAt: true,
 					updatedAt: true
+				},
+				include: {
+					redirectToBook: {
+						select: {
+							slug: true,
+							isPublished: true
+						}
+					},
+					redirectToDoc: {
+						select: {
+							slug: true,
+							isPublished: true,
+							isDeleted: true,
+							book: {
+								select: {
+									slug: true,
+									isPublished: true
+								}
+							}
+						}
+					}
 				}
 			});
 

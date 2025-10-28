@@ -3,24 +3,24 @@ import { ChevronRight } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 import { cn } from '@/lib/utils';
-import useCatalog from '@/stores/catalog';
-import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
+import { useTree } from '@/stores/tree';
+import { TreeNodeVoWithLevel } from '@/types/tree-node';
 
 export interface CatalogItemProps {
 	dragProvided: DraggableProvided;
 	dragSnapshot: DraggableStateSnapshot;
-	item: CatalogNodeVoWithLevel;
+	item: TreeNodeVoWithLevel;
 }
 
-const CloneCatalogItem = ({
+export const CloneCatalogItem = ({
 	dragProvided,
 	dragSnapshot,
 	item
 }: CatalogItemProps) => {
 	const targetLevel = useRef(item.level);
 
-	const setIsDragging = useCatalog((state) => state.setIsDragging);
-	const setCurrentDropNodeReachLevel = useCatalog(
+	const setIsDragging = useTree((state) => state.setIsDragging);
+	const setCurrentDropNodeReachLevel = useTree(
 		(state) => state.setCurrentDropNodeReachLevel
 	);
 
@@ -94,5 +94,3 @@ const CloneCatalogItem = ({
 		</div>
 	);
 };
-
-export default CloneCatalogItem;

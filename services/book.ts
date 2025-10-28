@@ -1,4 +1,4 @@
-import { BookEntity } from '@prisma/client';
+import { BookEntity, BookType } from '@prisma/client';
 import { cache } from 'react';
 
 import { getTranslations } from '@/i18n';
@@ -8,37 +8,34 @@ import prisma from '@/lib/prisma';
 import { ServiceResult } from '@/lib/service-result';
 import { CreateBookFormValues, UpdateBookDto } from '@/types/book';
 
-export default class BookService {
-	static async createBook(values: CreateBookFormValues) {
+export class BookService {
+	static readonly getBooks = cache(async () => {
 		try {
-			const book = await prisma.$transaction(async (tx) => {
-				const book = await tx.bookEntity.create({
-					data: {
-						name: values.name
+			const books = await prisma.bookEntity.findMany({
+				where: {
+					type: {
+						in: [BookType.BLOGS, BookType.DOCS]
 					}
-				});
-
-				return await tx.bookEntity.update({
-					where: { id: book.id },
-					data: {
-						slug: (book.id * 100000).toString(36)
-					}
-				});
+				},
+				select: { id: true, slug: true, name: true },
+				orderBy: {
+					createdAt: 'desc'
+				}
 			});
 
-			return ServiceResult.success(book);
+			return ServiceResult.success(books);
 		} catch (error) {
-			logger('BookService.createBook', error);
+			logger('BookService.getBooks', error);
 			const t = getTranslations('services_book');
 
-			return ServiceResult.fail(t.create_book_error);
+			return ServiceResult.fail(t.get_books_error);
 		}
-	}
+	});
 
 	static async deleteBook(id: BookEntity['id']) {
 		try {
 			const book = await prisma.$transaction(async (tx) => {
-				await tx.catalogNodeEntity.deleteMany({
+				await tx.treeNodeEntity.deleteMany({
 					where: { bookId: id }
 				});
 				await tx.docEntity.deleteMany({
@@ -65,6 +62,66 @@ export default class BookService {
 		}
 	}
 
+	static async createBook(values: CreateBookFormValues) {
+		try {
+			const book = await prisma.$transaction(async (tx) => {
+				const book = await tx.bookEntity.create({
+					data: {
+						name: values.name
+					}
+				});
+
+				return await tx.bookEntity.update({
+					where: { id: book.id },
+					data: {
+						slug: (book.id * 100000).toString(36)
+					}
+				});
+			});
+
+			return ServiceResult.success(book);
+		} catch (error) {
+			logger('BookService.createBook', error);
+			const t = getTranslations('services_book');
+
+			return ServiceResult.fail(t.create_book_error);
+		}
+	}
+
+	static readonly getBook = cache(async (id: BookEntity['id']) => {
+		try {
+			const book = await prisma.bookEntity.findUnique({
+				where: { id },
+				omit: {
+					createdAt: true,
+					updatedAt: true
+				}
+			});
+
+			return ServiceResult.success(book);
+		} catch (error) {
+			logger('BookService.getBook', error);
+			const t = getTranslations('services_book');
+
+			return ServiceResult.fail(t.get_book_error);
+		}
+	});
+
+	static readonly checkBookSlug = async (slug: BookEntity['slug']) => {
+		try {
+			const book = await prisma.bookEntity.findUnique({
+				where: { slug }
+			});
+
+			return ServiceResult.success(!book);
+		} catch (error) {
+			logger('BookService.checkBookSlug', error);
+			const t = getTranslations('services_book');
+
+			return ServiceResult.fail(t.check_book_slug_error);
+		}
+	};
+
 	static async updateBook({ id, ...values }: UpdateBookDto) {
 		try {
 			const book = await prisma.bookEntity.update({
@@ -87,74 +144,45 @@ export default class BookService {
 		}
 	}
 
-	static readonly getBooks = cache(async () => {
-		try {
-			const books = await prisma.bookEntity.findMany({
-				select: { id: true, slug: true, name: true },
-				orderBy: {
-					createdAt: 'desc'
-				}
-			});
+	static readonly getPublishedBookBySlug = cache(
+		async (slug: BookEntity['slug']) => {
+			try {
+				const book = await prisma.bookEntity.findUnique({
+					where: { slug, isPublished: true },
+					omit: {
+						createdAt: true,
+						updatedAt: true
+					}
+				});
 
-			return ServiceResult.success(books);
-		} catch (error) {
-			logger('BookService.getBooks', error);
-			const t = getTranslations('services_book');
+				return ServiceResult.success(book);
+			} catch (error) {
+				logger('BookService.getPublishedBookBySlug', error);
+				const t = getTranslations('services_book');
 
-			return ServiceResult.fail(t.get_books_error);
+				return ServiceResult.fail(t.get_published_book_by_slug_error);
+			}
 		}
-	});
+	);
 
-	static readonly getBook = cache(async (id: BookEntity['id']) => {
+	static readonly getNavbarBook = cache(async () => {
 		try {
-			const book = await prisma.bookEntity.findUnique({
-				where: { id },
-				omit: {
-					createdAt: true,
-					updatedAt: true
-				}
+			let book = await prisma.bookEntity.findFirst({
+				where: { type: BookType.NAVBAR }
 			});
+
+			if (!book) {
+				book = await prisma.bookEntity.create({
+					data: { type: BookType.NAVBAR, name: 'Navbar' }
+				});
+			}
 
 			return ServiceResult.success(book);
 		} catch (error) {
-			logger('BookService.getBook', error);
+			logger('BookService.getNavbarBook', error);
 			const t = getTranslations('services_book');
 
-			return ServiceResult.fail(t.get_book_error);
+			return ServiceResult.fail(t.get_navbar_book_error);
 		}
 	});
-
-	static readonly getBookBySlug = cache(async (slug: BookEntity['slug']) => {
-		try {
-			const book = await prisma.bookEntity.findUnique({
-				where: { slug },
-				omit: {
-					createdAt: true,
-					updatedAt: true
-				}
-			});
-
-			return ServiceResult.success(book);
-		} catch (error) {
-			logger('BookService.getBookBySlug', error);
-			const t = getTranslations('services_book');
-
-			return ServiceResult.fail(t.get_book_by_slug_error);
-		}
-	});
-
-	static readonly checkBookSlug = async (slug: BookEntity['slug']) => {
-		try {
-			const book = await prisma.bookEntity.findUnique({
-				where: { slug }
-			});
-
-			return ServiceResult.success(!book);
-		} catch (error) {
-			logger('BookService.checkBookSlug', error);
-			const t = getTranslations('services_book');
-
-			return ServiceResult.fail(t.check_book_slug_error);
-		}
-	};
 }

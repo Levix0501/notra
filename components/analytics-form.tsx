@@ -30,7 +30,7 @@ export interface AnalyticsFormProps {
 
 const t = getTranslations('components_analytics_form');
 
-export default function AnalyticsForm({
+export function AnalyticsForm({
 	defaultGaId,
 	mutateSiteSettings
 }: Readonly<AnalyticsFormProps>) {

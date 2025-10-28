@@ -2,7 +2,7 @@
 
 import {
 	BookText,
-	MoreVertical,
+	Ellipsis,
 	Plus,
 	SlidersHorizontal,
 	Trash2
@@ -23,20 +23,20 @@ import { getTranslations } from '@/i18n';
 import { useGetBooks } from '@/queries/book';
 import { BookVo } from '@/types/book';
 
+import { useBookSettingsSheet } from './book-settings-sheet';
 import { useCreateBookDialog } from './create-book-dialog';
-import { useGlobalSettingsDialog } from './global-settings-dialog';
 import { NotraAlertDialog } from './notra-alert-dialog';
 import {
 	NotraSidebarButton,
 	NotraSidebarMenu,
 	NotraSidebarMenuItem
 } from './notra-sidebar';
-import NotraSkeleton from './notra-skeleton';
+import { NotraSkeleton } from './notra-skeleton';
 import { ScrollArea } from './ui/scroll-area';
 
 const t = getTranslations('components_books_nav');
 
-export default function BooksNav() {
+export function BooksNav() {
 	const [bookToDelete, setBookToDelete] = useState<BookVo | null>(null);
 	const [openDeleteBookDialog, setOpenDeleteBookDialog] = useState(false);
 
@@ -109,7 +109,7 @@ export default function BooksNav() {
 														size="icon"
 														variant="ghost"
 													>
-														<MoreVertical />
+														<Ellipsis />
 														<span className="sr-only">More</span>
 													</Button>
 												</DropdownMenuTrigger>
@@ -119,10 +119,9 @@ export default function BooksNav() {
 												>
 													<DropdownMenuItem
 														onClick={() => {
-															useGlobalSettingsDialog.setState({
-																bookId: item.id,
-																tab: 'book',
-																open: true
+															useBookSettingsSheet.setState({
+																open: true,
+																bookId: item.id
 															});
 														}}
 													>

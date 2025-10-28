@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 import { LoginForm } from '@/components/login-form';
-import NotraFooter from '@/components/notra-footer';
-import NotraHeader from '@/components/notra-header';
+import { NotraFooter } from '@/components/notra-footer';
+import { NotraHeader } from '@/components/notra-header';
 import {
 	Card,
 	CardContent,
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default function Page() {
 	return (
 		<div className="flex min-h-dvh flex-col">
-			<NotraHeader withDashboardButton={false} />
+			<NotraHeader />
 
 			<main className="flex flex-1 items-center justify-center">
 				<Card className="w-sm">

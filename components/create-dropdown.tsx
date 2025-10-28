@@ -1,12 +1,9 @@
 'use client';
 
-import { CatalogNodeEntity, CatalogNodeType } from '@prisma/client';
+import { BookEntity, TreeNodeEntity } from '@prisma/client';
 import { Plus, FolderOpen, FileText } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { PropsWithChildren } from 'react';
-import { toast } from 'sonner';
 
-import { createDoc, createStack } from '@/actions/catalog-node';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -14,76 +11,36 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { useCreateTreeNode } from '@/hooks/use-create-tree-node';
 import { getTranslations } from '@/i18n';
-import { useCurrentBook } from '@/stores/book';
-import useCatalog, { mutateCatalog } from '@/stores/catalog';
 
 export interface CreateDropdownProps extends PropsWithChildren {
-	parentCatalogNodeId: CatalogNodeEntity['parentId'];
+	bookId: BookEntity['id'];
+	parentTreeNodeId: TreeNodeEntity['parentId'];
 }
 
 const t = getTranslations('components_create_dropdown');
 
-export default function CreateDropdown({
-	parentCatalogNodeId,
+export function CreateDropdown({
+	bookId,
+	parentTreeNodeId,
 	children
 }: Readonly<CreateDropdownProps>) {
-	const { data: book } = useCurrentBook();
-	const expandedKeys = useCatalog((state) => state.expandedKeys);
-	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
-	const router = useRouter();
+	const createTreeNode = useCreateTreeNode({
+		bookId,
+		parentTreeNodeId
+	});
 
-	if (!book) {
+	if (!createTreeNode) {
 		return null;
 	}
 
-	const create = async (type: CatalogNodeType) => {
-		if (
-			parentCatalogNodeId !== null &&
-			!expandedKeys.has(parentCatalogNodeId)
-		) {
-			expandedKeys.add(parentCatalogNodeId);
-			setExpandedKeys(expandedKeys);
-		}
-
-		const promise = (async () => {
-			const result =
-				type === 'DOC'
-					? await createDoc(book.id, parentCatalogNodeId)
-					: await createStack(book.id, parentCatalogNodeId);
-
-			if (!result.success) {
-				throw new Error(result.message);
-			}
-
-			return result.data;
-		})();
-
-		toast
-			.promise(promise, {
-				loading: t.create_loading,
-				success: t.create_success,
-				error: t.create_error
-			})
-			.unwrap()
-			.then((data) => {
-				if (type === 'DOC' && data?.docId) {
-					router.push(`/dashboard/${book.id}/${data.docId}`);
-				}
-
-				mutateCatalog(book.id);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+	const handleCreateDoc = () => {
+		createTreeNode('DOC');
 	};
 
-	const handleCreateDocument = async () => {
-		create('DOC');
-	};
-
-	const handleCreateStack = async () => {
-		create('STACK');
+	const handleCreateGroup = () => {
+		createTreeNode('GROUP');
 	};
 
 	return (
@@ -102,13 +59,13 @@ export default function CreateDropdown({
 				)}
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-				<DropdownMenuItem onClick={handleCreateDocument}>
+				<DropdownMenuItem onClick={handleCreateDoc}>
 					<FileText className="text-popover-foreground" />
-					{t.new_document}
+					{t.new_doc}
 				</DropdownMenuItem>
-				<DropdownMenuItem onClick={handleCreateStack}>
+				<DropdownMenuItem onClick={handleCreateGroup}>
 					<FolderOpen className="text-popover-foreground" />
-					{t.new_stack}
+					{t.new_group}
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

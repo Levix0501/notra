@@ -1,13 +1,32 @@
-import { SiteSettingsEntity } from '@prisma/client';
+import { BookEntity, DocEntity, SiteSettingsEntity } from '@prisma/client';
 import { z } from 'zod';
 
 export type SiteSettingsVo = Omit<
 	SiteSettingsEntity,
 	'id' | 'createdAt' | 'updatedAt'
+> & {
+	redirectToBook: {
+		slug: BookEntity['slug'];
+		isPublished: BookEntity['isPublished'];
+	};
+	redirectToDoc: {
+		slug: DocEntity['slug'];
+		isPublished: DocEntity['isPublished'];
+		isDeleted: DocEntity['isDeleted'];
+		book: {
+			slug: BookEntity['slug'];
+			isPublished: BookEntity['isPublished'];
+		};
+	};
+};
+
+type UpdateSiteSettingsVo = Omit<
+	SiteSettingsEntity,
+	'id' | 'createdAt' | 'updatedAt'
 >;
 
 export type UpdateSiteSettingsDto = {
-	[key in keyof SiteSettingsVo]?: SiteSettingsVo[key];
+	[key in keyof UpdateSiteSettingsVo]?: UpdateSiteSettingsVo[key];
 };
 
 export const SiteSettingsFormSchema = z.object({
@@ -25,3 +44,13 @@ export const AnalyticsFormSchema = z.object({
 });
 
 export type AnalyticsFormValues = z.infer<typeof AnalyticsFormSchema>;
+
+export const HomePageRedirectFormSchema = z.object({
+	homePageRedirectType: z.enum(['BOOK', 'DOC', 'PAGE', 'NONE']),
+	redirectToBookId: z.number().nullable(),
+	redirectToDocId: z.number().nullable()
+});
+
+export type HomePageRedirectFormValues = z.infer<
+	typeof HomePageRedirectFormSchema
+>;

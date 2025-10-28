@@ -22,13 +22,10 @@ import { useGlobalSettingsDialog } from './global-settings-dialog';
 
 const t = getTranslations('components_account_dropdown');
 
-export default function AccountDropdown() {
+export function AccountDropdown() {
 	const handleOpenGlobalSettings = () => {
 		useGlobalSettingsDialog.setState({
-			open: true,
-			tab: 'site',
-			bookId: null,
-			docId: null
+			open: true
 		});
 	};
 

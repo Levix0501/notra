@@ -4,10 +4,10 @@ import { getTranslations } from '@/i18n';
 
 import { Button } from './ui/button';
 
-export default function DashboardButton() {
+export function DashboardButton() {
 	return (
 		<Link href="/dashboard">
-			<Button size="sm">
+			<Button size="sm" variant="outline">
 				{getTranslations('components_dashboard_button').dashboard}
 			</Button>
 		</Link>
