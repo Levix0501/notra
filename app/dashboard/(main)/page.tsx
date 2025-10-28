@@ -1,5 +1,3 @@
-import { notFound } from 'next/navigation';
-
 import { NavItemAddButton } from '@/components/nav-item-add-button';
 import { NavItemDeleteDialog } from '@/components/nav-item-delete-dialog';
 import { NavItemSheet } from '@/components/nav-item-sheet';
@@ -22,7 +20,7 @@ export default async function Page() {
 	const navbarBookResult = await BookService.getNavbarBook();
 
 	if (!navbarBookResult.data) {
-		notFound();
+		return null;
 	}
 
 	return (
