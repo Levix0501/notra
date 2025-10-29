@@ -282,6 +282,7 @@ export const zh = {
 	},
 	services_doc: {
 		get_published_blogs_error: '获取已发布博客失败！',
+		get_published_blogs_count_error: '获取已发布博客总数失败！',
 		get_published_blog_error: '获取已发布博客失败！',
 		get_doc_meta_error: '获取文档元数据失败！',
 		get_all_docs_meta_error: '获取文档元数据失败！',

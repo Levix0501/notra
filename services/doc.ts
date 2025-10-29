@@ -50,6 +50,20 @@ export class DocService {
 						}
 					}
 				});
+
+				return ServiceResult.success(blogs);
+			} catch (error) {
+				logger('DocService.getPublishedBlogs', error);
+				const t = getTranslations('services_doc');
+
+				return ServiceResult.fail(t.get_published_blogs_error);
+			}
+		}
+	);
+
+	static readonly getPublishedBlogsCount = cache(
+		async ({ bookId }: { bookId?: BookEntity['id'] }) => {
+			try {
 				const total = await prisma.docEntity.count({
 					where: {
 						bookId,
@@ -62,15 +76,12 @@ export class DocService {
 					}
 				});
 
-				return ServiceResult.success({
-					blogs,
-					total
-				});
+				return ServiceResult.success(total);
 			} catch (error) {
-				logger('DocService.getPublishedBlogs', error);
+				logger('DocService.getPublishedBlogsCount', error);
 				const t = getTranslations('services_doc');
 
-				return ServiceResult.fail(t.get_published_blogs_error);
+				return ServiceResult.fail(t.get_published_blogs_count_error);
 			}
 		}
 	);

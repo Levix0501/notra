@@ -16,14 +16,15 @@ export const BlogCards = async ({ bookId }: BlogCardsProps) => {
 		page: 1,
 		pageSize: CARD_LIST_PAGE_SIZE
 	});
+	const { data: total } = await DocService.getPublishedBlogsCount({ bookId });
 
 	return (
 		<div className="mx-auto grid max-w-screen-xl grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 md:py-10">
-			{data?.blogs?.map((blog) => (
+			{data?.map((blog) => (
 				<BlogCard key={blog.id} isFirstPage blog={blog} bookId={bookId} />
 			))}
 
-			<MoreBlogs bookId={bookId} totalCount={data?.total ?? 0} />
+			<MoreBlogs bookId={bookId} totalCount={total ?? 0} />
 		</div>
 	);
 };

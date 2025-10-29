@@ -53,16 +53,16 @@ export const BlogCard = ({
 				>
 					{blog.summary}
 				</div>
-			</div>
 
-			{isFirstPage ? (
-				<FirstPageMeta bookId={bookId} docId={blog.id} />
-			) : (
-				<BlogCardMeta
-					publishedAt={blog.publishedAt}
-					viewCount={blog.viewCount}
-				/>
-			)}
+				{isFirstPage ? (
+					<FirstPageMeta bookId={bookId} docId={blog.id} />
+				) : (
+					<BlogCardMeta
+						publishedAt={blog.publishedAt}
+						viewCount={blog.viewCount}
+					/>
+				)}
+			</div>
 		</Link>
 	);
 };

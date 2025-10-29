@@ -284,6 +284,7 @@ export const en = {
 	},
 	services_doc: {
 		get_published_blogs_error: 'Failed to get published blogs!',
+		get_published_blogs_count_error: 'Failed to get published blogs count!',
 		get_published_blog_error: 'Failed to get published blog!',
 		get_doc_meta_error: 'Failed to get doc meta!',
 		get_all_docs_meta_error: 'Failed to get all docs meta!',
