@@ -49,7 +49,7 @@ export function BookCatalogStaticBackdrop() {
 	);
 
 	useEffect(() => {
-		if (isMobile && mobileOpen) {
+		if (isMobile) {
 			document.body.style.overflow = 'hidden';
 		} else {
 			document.body.style.overflow = 'auto';
@@ -172,6 +172,11 @@ export const BookCatalogStaticContent = ({
 				)}
 				href={`/${bookSlug}/${item.url}`}
 				style={{ paddingLeft: 24 * item.level + 'px' }}
+				onClick={() => {
+					useBookCatalogStaticAside.setState({
+						mobileOpen: false
+					});
+				}}
 			>
 				{renderItem(item)}
 			</Link>
