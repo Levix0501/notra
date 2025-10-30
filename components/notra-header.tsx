@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { DEFAULT_SITE_TITLE } from '@/constants/default';
 import { SiteSettingsService } from '@/services/site-settings';
+import { TreeNodeService } from '@/services/tree-node';
 
 import { DashboardButton } from './dashboard-button';
 import { NavbarStatic } from './navbar-static';
@@ -10,6 +11,7 @@ import { NotraLogo } from './notra-logo';
 
 export async function NotraHeader() {
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
+	const { data: navItems } = await TreeNodeService.getPublishedNavItems();
 
 	return (
 		<header className="sticky top-0 z-40 h-14 bg-background px-6 not-md:pr-3">
@@ -26,7 +28,7 @@ export async function NotraHeader() {
 				<div className="flex h-full items-center gap-1">
 					<DashboardButton />
 
-					<NavbarStaticMobileButton />
+					{navItems && navItems.length > 0 && <NavbarStaticMobileButton />}
 				</div>
 			</div>
 		</header>

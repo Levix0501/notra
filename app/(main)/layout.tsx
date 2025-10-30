@@ -16,7 +16,9 @@ export default async function Layout({
 		<>
 			<NotraHeader />
 			<main className="container mx-auto md:pt-6">{children}</main>
-			<NavbarStaticMobile navItems={navItems ?? []} />
+			{navItems && navItems.length > 0 && (
+				<NavbarStaticMobile navItems={navItems} />
+			)}
 			<NotraFooter />
 		</>
 	);
