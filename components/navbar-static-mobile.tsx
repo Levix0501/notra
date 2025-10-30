@@ -86,10 +86,16 @@ export const NavbarStaticMobile = ({ navItems }: { navItems: NavItemVo[] }) => {
 		});
 	};
 
+	const handleClick = () => {
+		useNavbarStaticMobile.setState({
+			isOpen: false
+		});
+	};
+
 	return (
 		<div
 			className={cn(
-				'fixed top-0 right-0 bottom-0 left-0 z-50 bg-background pr-4 pl-8',
+				'fixed top-0 right-0 bottom-0 left-0 z-50 border-t border-accent bg-background pr-4 pl-8',
 				isOpen ? 'translate-y-14' : '-translate-y-full'
 			)}
 		>
@@ -105,6 +111,7 @@ export const NavbarStaticMobile = ({ navItems }: { navItems: NavItemVo[] }) => {
 								)}
 								href={item.url ?? '#'}
 								target={item.isExternal ? '_blank' : void 0}
+								onClick={handleClick}
 							>
 								{item.title}
 								{item.isExternal && (
@@ -141,6 +148,7 @@ export const NavbarStaticMobile = ({ navItems }: { navItems: NavItemVo[] }) => {
 										)}
 										href={item.url ?? '#'}
 										target={item.isExternal ? '_blank' : void 0}
+										onClick={handleClick}
 									>
 										<div className="flex-1 truncate">
 											{item.title}
@@ -180,6 +188,7 @@ export const NavbarStaticMobile = ({ navItems }: { navItems: NavItemVo[] }) => {
 												)}
 												href={child.url ?? '#'}
 												target={child.isExternal ? '_blank' : void 0}
+												onClick={handleClick}
 											>
 												{child.title}
 												{child.isExternal && (
