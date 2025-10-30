@@ -18,7 +18,15 @@ type NavbarStaticMobileStore = {
 
 const useNavbarStaticMobile = create<NavbarStaticMobileStore>((set) => ({
 	isOpen: false,
-	setIsOpen: (isOpen) => set({ isOpen })
+	setIsOpen: (isOpen) => {
+		set({ isOpen });
+
+		if (isOpen) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
+	}
 }));
 
 export const NavbarStaticMobileButton = () => {
@@ -27,12 +35,6 @@ export const NavbarStaticMobileButton = () => {
 
 	const handleClick = () => {
 		setIsOpen(!isOpen);
-
-		if (isOpen) {
-			document.body.style.overflow = 'auto';
-		} else {
-			document.body.style.overflow = 'hidden';
-		}
 	};
 
 	return (
