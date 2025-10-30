@@ -1,12 +1,24 @@
 'use client';
 
+import { useEffect } from 'react';
+
+import { useIsMobile } from '@/hooks/use-is-mobile';
 import { cn } from '@/lib/utils';
 
 import { useNotraSidebar } from './notra-sidebar';
 
 export function NotraBackdrop() {
+	const isMobile = useIsMobile();
 	const mobileOpen = useNotraSidebar((state) => state.mobileOpen);
 	const toggleMobileOpen = useNotraSidebar((state) => state.toggleMobileOpen);
+
+	useEffect(() => {
+		if (isMobile && mobileOpen) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
+	}, [isMobile, mobileOpen]);
 
 	const handleClick = () => {
 		toggleMobileOpen();
