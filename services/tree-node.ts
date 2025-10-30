@@ -7,12 +7,7 @@ import {
 } from '@prisma/client';
 
 import { getTranslations } from '@/i18n';
-import {
-	revalidateAll,
-	revalidateBook,
-	revalidateDashboardBookIndex,
-	revalidateDoc
-} from '@/lib/cache';
+import { revalidateAll, revalidateDashboardBook } from '@/lib/cache';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
 import { ServiceResult } from '@/lib/service-result';
@@ -146,7 +141,7 @@ export class TreeNodeService {
 			});
 
 			if (type === TreeNodeType.DOC) {
-				revalidateDashboardBookIndex(bookId);
+				revalidateDashboardBook();
 			}
 
 			return ServiceResult.success(node);
@@ -167,12 +162,10 @@ export class TreeNodeService {
 
 	static async updateTitle({
 		id,
-		title,
-		bookType
+		title
 	}: {
 		id: TreeNodeEntity['id'];
 		title: TreeNodeEntity['title'];
-		bookType: BookEntity['type'];
 	}) {
 		try {
 			const node = await prisma.$transaction(async (tx) => {
@@ -182,28 +175,7 @@ export class TreeNodeService {
 				});
 
 				if (node.docId !== null) {
-					const doc = await tx.docEntity.update({
-						where: { id: node.docId },
-						data: { title },
-						include: {
-							book: {
-								select: {
-									slug: true
-								}
-							}
-						}
-					});
-
-					if (bookType === BookType.NAVBAR) {
-						revalidateAll();
-					} else {
-						revalidateDoc({
-							bookId: doc.bookId,
-							bookSlug: doc.book.slug,
-							docId: doc.id,
-							docSlug: doc.slug
-						});
-					}
+					revalidateAll();
 				}
 
 				return node;
@@ -245,18 +217,7 @@ export class TreeNodeService {
 				]);
 			});
 
-			const book = await prisma.bookEntity.findUniqueOrThrow({
-				where: { id: bookId }
-			});
-
-			if (book.type === BookType.NAVBAR) {
-				revalidateAll();
-			} else {
-				revalidateBook({
-					bookId,
-					bookSlug: book.slug
-				});
-			}
+			revalidateAll();
 
 			return TreeNodeService.getTreeNodesByBookId(bookId);
 		} catch (error) {
@@ -286,18 +247,7 @@ export class TreeNodeService {
 				});
 			});
 
-			const book = await prisma.bookEntity.findUniqueOrThrow({
-				where: { id: bookId }
-			});
-
-			if (book.type === BookType.NAVBAR) {
-				revalidateAll();
-			} else {
-				revalidateBook({
-					bookId,
-					bookSlug: book.slug
-				});
-			}
+			revalidateAll();
 
 			return TreeNodeService.getTreeNodesByBookId(bookId);
 		} catch (error) {
@@ -333,18 +283,7 @@ export class TreeNodeService {
 				});
 			});
 
-			const book = await prisma.bookEntity.findUniqueOrThrow({
-				where: { id: bookId }
-			});
-
-			if (book.type === BookType.NAVBAR) {
-				revalidateAll();
-			} else {
-				revalidateBook({
-					bookId,
-					bookSlug: book.slug
-				});
-			}
+			revalidateAll();
 
 			return TreeNodeService.getTreeNodesByBookId(bookId);
 		} catch (error) {
@@ -358,13 +297,11 @@ export class TreeNodeService {
 	static async publish({
 		nodeIds,
 		docIds,
-		bookId,
-		bookType
+		bookId
 	}: {
 		nodeIds: TreeNodeEntity['id'][];
 		docIds: DocEntity['id'][];
 		bookId: BookEntity['id'];
-		bookType: BookEntity['type'];
 	}) {
 		try {
 			await prisma.$transaction(async (tx) => {
@@ -384,18 +321,7 @@ export class TreeNodeService {
 				]);
 			});
 
-			const book = await prisma.bookEntity.findUniqueOrThrow({
-				where: { id: bookId }
-			});
-
-			if (bookType === BookType.NAVBAR) {
-				revalidateAll();
-			} else {
-				revalidateBook({
-					bookId: bookId,
-					bookSlug: book.slug
-				});
-			}
+			revalidateAll();
 
 			return TreeNodeService.getTreeNodesByBookId(bookId);
 		} catch (error) {
@@ -409,13 +335,11 @@ export class TreeNodeService {
 	static async unpublish({
 		nodeIds,
 		docIds,
-		bookId,
-		bookType
+		bookId
 	}: {
 		nodeIds: TreeNodeEntity['id'][];
 		docIds: DocEntity['id'][];
 		bookId: BookEntity['id'];
-		bookType: BookEntity['type'];
 	}) {
 		try {
 			await prisma.$transaction(async (tx) => {
@@ -431,18 +355,7 @@ export class TreeNodeService {
 				]);
 			});
 
-			const book = await prisma.bookEntity.findUniqueOrThrow({
-				where: { id: bookId }
-			});
-
-			if (bookType === BookType.NAVBAR) {
-				revalidateAll();
-			} else {
-				revalidateBook({
-					bookId: bookId,
-					bookSlug: book.slug
-				});
-			}
+			revalidateAll();
 
 			return TreeNodeService.getTreeNodesByBookId(bookId);
 		} catch (error) {

@@ -1,25 +1,6 @@
 import { BookEntity, DocEntity } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 
-export const revalidateBook = ({
-	bookId,
-	bookSlug,
-	oldSlug
-}: {
-	bookId: BookEntity['id'];
-	bookSlug: BookEntity['slug'];
-	oldSlug?: string;
-}) => {
-	revalidatePath('/');
-	revalidatePath(`/${bookSlug}`, 'layout');
-	revalidatePath(`/dashboard`);
-	revalidatePath(`/dashboard/${bookId}`, 'layout');
-
-	if (oldSlug) {
-		revalidatePath(`/${oldSlug}`, 'layout');
-	}
-};
-
 export const revalidateDoc = ({
 	bookId,
 	bookSlug,
@@ -43,8 +24,8 @@ export const revalidateDoc = ({
 	}
 };
 
-export const revalidateDashboardBookIndex = (bookId: BookEntity['id']) => {
-	revalidatePath(`/dashboard/${bookId}`);
+export const revalidateDashboardBook = () => {
+	revalidatePath('/dashboard/[bookId]');
 };
 
 export const revalidateAll = () => revalidatePath('/', 'layout');

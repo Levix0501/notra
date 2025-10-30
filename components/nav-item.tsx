@@ -1,5 +1,5 @@
 import { DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
-import { BookEntity, BookType } from '@prisma/client';
+import { BookEntity } from '@prisma/client';
 import { ChevronRight, ExternalLink, Link, Plus } from 'lucide-react';
 import { CSSProperties, useState } from 'react';
 
@@ -83,8 +83,7 @@ export const NavItem = ({
 		mutateTree(bookId, async () => {
 			const result = await updateTitle({
 				id: item.id,
-				title,
-				bookType: BookType.NAVBAR
+				title
 			});
 
 			if (!result.success || !result.data) {

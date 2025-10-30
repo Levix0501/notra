@@ -65,17 +65,14 @@ export const moveAfter = async ({
 
 export const updateTitle = async ({
 	id,
-	title,
-	bookType
+	title
 }: {
 	id: TreeNodeEntity['id'];
 	title: TreeNodeEntity['title'];
-	bookType: BookEntity['type'];
 }) => {
 	const serviceResult = await TreeNodeService.updateTitle({
 		id,
-		title,
-		bookType
+		title
 	});
 
 	return serviceResult.toPlainObject();

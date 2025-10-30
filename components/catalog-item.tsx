@@ -96,8 +96,7 @@ export const CatalogItem = ({
 		mutateTree(book.id, async () => {
 			const result = await updateTitle({
 				id: item.id,
-				title,
-				bookType: book.type
+				title
 			});
 
 			if (!result.success || !result.data) {
