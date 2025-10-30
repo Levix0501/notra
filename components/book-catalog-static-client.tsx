@@ -4,9 +4,10 @@ import { TreeNodeType } from '@prisma/client';
 import { ChevronRight, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { create } from 'zustand';
 
+import { useIsMobile } from '@/hooks/use-is-mobile';
 import { cn } from '@/lib/utils';
 import { ChildrenProps } from '@/types/common';
 import { TreeNodeVoWithLevel } from '@/types/tree-node';
@@ -41,10 +42,19 @@ export function BookCatalogStaticAside({ children }: Readonly<ChildrenProps>) {
 }
 
 export function BookCatalogStaticBackdrop() {
+	const isMobile = useIsMobile();
 	const mobileOpen = useBookCatalogStaticAside((state) => state.mobileOpen);
 	const toggleMobileOpen = useBookCatalogStaticAside(
 		(state) => state.toggleMobileOpen
 	);
+
+	useEffect(() => {
+		if (isMobile && mobileOpen) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
+	}, [isMobile, mobileOpen]);
 
 	const handleClick = () => {
 		toggleMobileOpen();
