@@ -229,7 +229,7 @@ export const zh = {
 	},
 	components_notra_footer: {
 		powered_by:
-			'由 <a href="https://www.notra.tech" target="_blank" class="underline">Notra</a> 驱动'
+			'由 <a href="https://cn.notra.tech" target="_blank" class="underline">Notra</a> 驱动'
 	},
 	components_publish_button: {
 		publish: '发布',
