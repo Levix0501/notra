@@ -13,10 +13,12 @@ export function NotraBackdrop() {
 	const toggleMobileOpen = useNotraSidebar((state) => state.toggleMobileOpen);
 
 	useEffect(() => {
-		if (isMobile && mobileOpen) {
-			document.body.style.overflow = 'hidden';
-		} else {
-			document.body.style.overflow = 'auto';
+		if (isMobile) {
+			if (mobileOpen) {
+				document.body.style.overflowY = 'hidden';
+			} else {
+				document.body.style.removeProperty('overflowY');
+			}
 		}
 	}, [isMobile, mobileOpen]);
 

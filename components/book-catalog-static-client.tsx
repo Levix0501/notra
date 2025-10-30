@@ -50,9 +50,11 @@ export function BookCatalogStaticBackdrop() {
 
 	useEffect(() => {
 		if (isMobile) {
-			document.body.style.overflow = 'hidden';
-		} else {
-			document.body.style.overflow = 'auto';
+			if (mobileOpen) {
+				document.body.style.overflow = 'hidden';
+			} else {
+				document.body.style.removeProperty('overflow');
+			}
 		}
 	}, [isMobile, mobileOpen]);
 
