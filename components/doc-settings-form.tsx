@@ -181,10 +181,11 @@ export function DocSettingsForm({
 											field.onChange(e);
 										}}
 									/>
-									<InputGroupAddon>
-										<InputGroupText>
-											{location.origin + '/' + bookSlug + '/'}
+									<InputGroupAddon className="max-w-2/5 gap-0">
+										<InputGroupText className="inline-block flex-1 truncate">
+											{location.origin + '/' + bookSlug}
 										</InputGroupText>
+										<InputGroupText>/</InputGroupText>
 									</InputGroupAddon>
 								</InputGroup>
 							</FormControl>
