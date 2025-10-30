@@ -135,7 +135,7 @@ export class TreeNodeService {
 				}
 
 				if (parentNode) {
-					tx.treeNodeEntity.update({
+					await tx.treeNodeEntity.update({
 						where: { id: parentNode.id },
 						data: { childId: node.id }
 					});
