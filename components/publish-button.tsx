@@ -52,7 +52,8 @@ export function PublishButton({ bookId }: Readonly<PublishButtonProps>) {
 			const result = await publishWithParent({
 				nodeIds,
 				docIds,
-				bookId: book.id
+				bookId: book.id,
+				bookType: book.type
 			});
 
 			if (!result.success || !result.data) {
@@ -95,7 +96,8 @@ export function PublishButton({ bookId }: Readonly<PublishButtonProps>) {
 			const result = await unpublishWithChildren({
 				nodeIds,
 				docIds,
-				bookId: book.id
+				bookId: book.id,
+				bookType: book.type
 			});
 
 			if (!result.success || !result.data) {

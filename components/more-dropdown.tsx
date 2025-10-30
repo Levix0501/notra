@@ -100,7 +100,8 @@ export const MoreDropdown = ({ bookId, item, onRename }: MoreDropdownProps) => {
 				const result = await publishWithParent({
 					nodeIds,
 					docIds,
-					bookId: book.id
+					bookId: book.id,
+					bookType: book.type
 				});
 
 				if (!result.success || !result.data) {
@@ -146,7 +147,8 @@ export const MoreDropdown = ({ bookId, item, onRename }: MoreDropdownProps) => {
 				const result = await unpublishWithChildren({
 					nodeIds,
 					docIds,
-					bookId: book.id
+					bookId: book.id,
+					bookType: book.type
 				});
 
 				if (!result.success || !result.data) {

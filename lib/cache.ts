@@ -46,3 +46,5 @@ export const revalidateDoc = ({
 export const revalidateDashboardBookIndex = (bookId: BookEntity['id']) => {
 	revalidatePath(`/dashboard/${bookId}`);
 };
+
+export const revalidateAll = () => revalidatePath('/', 'layout');

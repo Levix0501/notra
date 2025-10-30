@@ -1,4 +1,4 @@
-import { BookEntity } from '@prisma/client';
+import { BookEntity, BookType } from '@prisma/client';
 import {
 	Ellipsis,
 	Globe,
@@ -54,7 +54,8 @@ export const NavItemMoreDropdown = ({
 				const result = await publishWithParent({
 					nodeIds,
 					docIds,
-					bookId
+					bookId,
+					bookType: BookType.NAVBAR
 				});
 
 				if (!result.success || !result.data) {
@@ -82,7 +83,8 @@ export const NavItemMoreDropdown = ({
 				const result = await unpublishWithChildren({
 					nodeIds,
 					docIds,
-					bookId
+					bookId,
+					bookType: BookType.NAVBAR
 				});
 
 				if (!result.success || !result.data) {

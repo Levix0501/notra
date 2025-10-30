@@ -65,12 +65,18 @@ export const moveAfter = async ({
 
 export const updateTitle = async ({
 	id,
-	title
+	title,
+	bookType
 }: {
 	id: TreeNodeEntity['id'];
 	title: TreeNodeEntity['title'];
+	bookType: BookEntity['type'];
 }) => {
-	const serviceResult = await TreeNodeService.updateTitle({ id, title });
+	const serviceResult = await TreeNodeService.updateTitle({
+		id,
+		title,
+		bookType
+	});
 
 	return serviceResult.toPlainObject();
 };
@@ -79,6 +85,7 @@ export const publishWithParent = async (publishDto: {
 	nodeIds: TreeNodeEntity['id'][];
 	docIds: DocEntity['id'][];
 	bookId: BookEntity['id'];
+	bookType: BookEntity['type'];
 }) => {
 	const serviceResult = await TreeNodeService.publish(publishDto);
 
@@ -89,6 +96,7 @@ export const unpublishWithChildren = async (unpublishDto: {
 	nodeIds: TreeNodeEntity['id'][];
 	docIds: DocEntity['id'][];
 	bookId: BookEntity['id'];
+	bookType: BookEntity['type'];
 }) => {
 	const serviceResult = await TreeNodeService.unpublish(unpublishDto);
 

@@ -8,6 +8,7 @@ import {
 
 import { getTranslations } from '@/i18n';
 import {
+	revalidateAll,
 	revalidateBook,
 	revalidateDashboardBookIndex,
 	revalidateDoc
@@ -166,10 +167,12 @@ export class TreeNodeService {
 
 	static async updateTitle({
 		id,
-		title
+		title,
+		bookType
 	}: {
 		id: TreeNodeEntity['id'];
 		title: TreeNodeEntity['title'];
+		bookType: BookEntity['type'];
 	}) {
 		try {
 			const node = await prisma.$transaction(async (tx) => {
@@ -191,12 +194,16 @@ export class TreeNodeService {
 						}
 					});
 
-					revalidateDoc({
-						bookId: doc.bookId,
-						bookSlug: doc.book.slug,
-						docId: doc.id,
-						docSlug: doc.slug
-					});
+					if (bookType === BookType.NAVBAR) {
+						revalidateAll();
+					} else {
+						revalidateDoc({
+							bookId: doc.bookId,
+							bookSlug: doc.book.slug,
+							docId: doc.id,
+							docSlug: doc.slug
+						});
+					}
 				}
 
 				return node;
@@ -238,7 +245,18 @@ export class TreeNodeService {
 				]);
 			});
 
-			revalidateDashboardBookIndex(bookId);
+			const book = await prisma.bookEntity.findUniqueOrThrow({
+				where: { id: bookId }
+			});
+
+			if (book.type === BookType.NAVBAR) {
+				revalidateAll();
+			} else {
+				revalidateBook({
+					bookId,
+					bookSlug: book.slug
+				});
+			}
 
 			return TreeNodeService.getTreeNodesByBookId(bookId);
 		} catch (error) {
@@ -268,7 +286,18 @@ export class TreeNodeService {
 				});
 			});
 
-			revalidateDashboardBookIndex(bookId);
+			const book = await prisma.bookEntity.findUniqueOrThrow({
+				where: { id: bookId }
+			});
+
+			if (book.type === BookType.NAVBAR) {
+				revalidateAll();
+			} else {
+				revalidateBook({
+					bookId,
+					bookSlug: book.slug
+				});
+			}
 
 			return TreeNodeService.getTreeNodesByBookId(bookId);
 		} catch (error) {
@@ -304,7 +333,18 @@ export class TreeNodeService {
 				});
 			});
 
-			revalidateDashboardBookIndex(bookId);
+			const book = await prisma.bookEntity.findUniqueOrThrow({
+				where: { id: bookId }
+			});
+
+			if (book.type === BookType.NAVBAR) {
+				revalidateAll();
+			} else {
+				revalidateBook({
+					bookId,
+					bookSlug: book.slug
+				});
+			}
 
 			return TreeNodeService.getTreeNodesByBookId(bookId);
 		} catch (error) {
@@ -318,11 +358,13 @@ export class TreeNodeService {
 	static async publish({
 		nodeIds,
 		docIds,
-		bookId
+		bookId,
+		bookType
 	}: {
 		nodeIds: TreeNodeEntity['id'][];
 		docIds: DocEntity['id'][];
 		bookId: BookEntity['id'];
+		bookType: BookEntity['type'];
 	}) {
 		try {
 			await prisma.$transaction(async (tx) => {
@@ -346,10 +388,14 @@ export class TreeNodeService {
 				where: { id: bookId }
 			});
 
-			revalidateBook({
-				bookId: bookId,
-				bookSlug: book.slug
-			});
+			if (bookType === BookType.NAVBAR) {
+				revalidateAll();
+			} else {
+				revalidateBook({
+					bookId: bookId,
+					bookSlug: book.slug
+				});
+			}
 
 			return TreeNodeService.getTreeNodesByBookId(bookId);
 		} catch (error) {
@@ -363,11 +409,13 @@ export class TreeNodeService {
 	static async unpublish({
 		nodeIds,
 		docIds,
-		bookId
+		bookId,
+		bookType
 	}: {
 		nodeIds: TreeNodeEntity['id'][];
 		docIds: DocEntity['id'][];
 		bookId: BookEntity['id'];
+		bookType: BookEntity['type'];
 	}) {
 		try {
 			await prisma.$transaction(async (tx) => {
@@ -387,10 +435,14 @@ export class TreeNodeService {
 				where: { id: bookId }
 			});
 
-			revalidateBook({
-				bookId: bookId,
-				bookSlug: book.slug
-			});
+			if (bookType === BookType.NAVBAR) {
+				revalidateAll();
+			} else {
+				revalidateBook({
+					bookId: bookId,
+					bookSlug: book.slug
+				});
+			}
 
 			return TreeNodeService.getTreeNodesByBookId(bookId);
 		} catch (error) {
@@ -479,6 +531,10 @@ export class TreeNodeService {
 				data: { type, title, url, isExternal }
 			});
 
+			if (node.isPublished) {
+				revalidateAll();
+			}
+
 			return ServiceResult.success(node);
 		} catch (error) {
 			logger('TreeNodeService.updateNavItem', error);
@@ -494,6 +550,8 @@ export class TreeNodeService {
 				where: { bookId, book: { type: BookType.NAVBAR } },
 				data: { isPublished: true }
 			});
+
+			revalidateAll();
 
 			return ServiceResult.success(null);
 		} catch (error) {
