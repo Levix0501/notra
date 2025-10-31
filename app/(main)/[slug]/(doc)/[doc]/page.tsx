@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import { BlogPageMeta } from '@/components/blog-page-meta';
+import { DocFooterNav } from '@/components/doc-footer-nav';
 import { EditorView } from '@/components/editor/editor-view';
 import { ViewCountUpdater } from '@/components/view-count-updater';
 import { BookService } from '@/services/book';
@@ -49,12 +50,11 @@ export const generateStaticParams = async () => {
 export default async function Page({ params }: Readonly<PageProps>) {
 	const { slug: bookSlug, doc: docSlug } = await params;
 	const { data: doc } = await DocService.getPublishedDoc(bookSlug, docSlug);
+	const { data: book } = await BookService.getPublishedBookBySlug(bookSlug);
 
-	if (!doc) {
+	if (!doc || !book) {
 		notFound();
 	}
-
-	const { data: book } = await BookService.getPublishedBookBySlug(bookSlug);
 
 	return (
 		<div className="min-w-0 flex-1 md:px-16">
@@ -83,6 +83,8 @@ export default async function Page({ params }: Readonly<PageProps>) {
 						<EditorView content={doc.content as unknown as JSONContent} />
 					)}
 				</article>
+
+				<DocFooterNav bookId={book.id} bookSlug={bookSlug} docId={doc.id} />
 			</div>
 		</div>
 	);

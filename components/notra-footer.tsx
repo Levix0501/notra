@@ -9,7 +9,7 @@ export async function NotraFooter() {
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
 
 	return (
-		<div className="border-t border-border">
+		<div className="border-t">
 			<div className="mx-auto max-w-[1248px] px-6">
 				<footer className="py-9 text-sm text-muted-foreground">
 					<h2 className="sr-only">Footer</h2>

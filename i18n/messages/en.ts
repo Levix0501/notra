@@ -89,6 +89,10 @@ export const en = {
 		dashboard: 'Dashboard',
 		appearance: 'Appearance'
 	},
+	components_doc_footer_nav: {
+		previous: 'Previous',
+		next: 'Next'
+	},
 	components_doc_settings_button: {
 		doc_settings: 'Doc Settings'
 	},

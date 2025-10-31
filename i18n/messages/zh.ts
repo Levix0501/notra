@@ -88,6 +88,10 @@ export const zh = {
 		dashboard: '工作台',
 		appearance: '外观'
 	},
+	components_doc_footer_nav: {
+		previous: '上一篇',
+		next: '下一篇'
+	},
 	components_doc_settings_button: {
 		doc_settings: '文档设置'
 	},

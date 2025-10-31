@@ -5,6 +5,7 @@ import {
 	TreeNodeEntity,
 	TreeNodeType
 } from '@prisma/client';
+import { cache } from 'react';
 
 import { getTranslations } from '@/i18n';
 import { revalidateAll, revalidateDashboardBook } from '@/lib/cache';
@@ -24,29 +25,31 @@ import {
 const t = getTranslations('services_tree_node');
 
 export class TreeNodeService {
-	static async getPublishedTreeNodesByBookId(bookId: BookEntity['id']) {
-		try {
-			const nodes = await prisma.treeNodeEntity.findMany({
-				where: {
-					bookId,
-					book: { isPublished: true }
-				},
-				omit: {
-					createdAt: true,
-					updatedAt: true,
-					bookId: true
-				}
-			});
+	static readonly getPublishedTreeNodesByBookId = cache(
+		async (bookId: BookEntity['id']) => {
+			try {
+				const nodes = await prisma.treeNodeEntity.findMany({
+					where: {
+						bookId,
+						book: { isPublished: true }
+					},
+					omit: {
+						createdAt: true,
+						updatedAt: true,
+						bookId: true
+					}
+				});
 
-			return ServiceResult.success(
-				flattenTreeNodeNodes(nodes).filter((node) => node.isPublished)
-			);
-		} catch (error) {
-			logger('TreeNodeService.getPublishedTreeNodesByBookId', error);
+				return ServiceResult.success(
+					flattenTreeNodeNodes(nodes).filter((node) => node.isPublished)
+				);
+			} catch (error) {
+				logger('TreeNodeService.getPublishedTreeNodesByBookId', error);
 
-			return ServiceResult.fail(t.get_published_tree_nodes_by_book_id_error);
+				return ServiceResult.fail(t.get_published_tree_nodes_by_book_id_error);
+			}
 		}
-	}
+	);
 
 	static async getTreeNodesByBookId(bookId: BookEntity['id']) {
 		try {
@@ -475,7 +478,7 @@ export class TreeNodeService {
 		}
 	}
 
-	static async getPublishedNavItems() {
+	static readonly getPublishedNavItems = cache(async () => {
 		try {
 			const nodes = await prisma.treeNodeEntity.findMany({
 				where: { book: { type: BookType.NAVBAR } }
@@ -507,5 +510,5 @@ export class TreeNodeService {
 
 			return ServiceResult.fail(t.get_published_nav_items_error);
 		}
-	}
+	});
 }
