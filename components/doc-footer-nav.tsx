@@ -22,7 +22,7 @@ export const DocFooterNav = async ({
 		await TreeNodeService.getPublishedTreeNodesByBookId(bookId);
 	const docNodes =
 		treeNodes?.filter((node) => node.type === TreeNodeType.DOC) ?? [];
-	const currentDocIndex = docNodes?.findIndex((node) => node.id === docId);
+	const currentDocIndex = docNodes?.findIndex((node) => node.docId === docId);
 	const prevDoc = currentDocIndex > 0 ? docNodes?.[currentDocIndex - 1] : null;
 	const nextDoc =
 		currentDocIndex < docNodes?.length - 1
