@@ -1,7 +1,9 @@
+'use server';
+
 import { BookEntity, DocEntity } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 
-export const revalidateDoc = ({
+export const revalidateDoc = async ({
 	bookId,
 	bookSlug,
 	docId,
@@ -24,8 +26,8 @@ export const revalidateDoc = ({
 	}
 };
 
-export const revalidateDashboardBook = () => {
+export const revalidateDashboardBook = async () => {
 	revalidatePath('/dashboard/[bookId]');
 };
 
-export const revalidateAll = () => revalidatePath('/', 'layout');
+export const revalidateAll = async () => revalidatePath('/', 'layout');

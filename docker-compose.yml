@@ -26,7 +26,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/18/main
 
   pgbouncer:
     image: edoburu/pgbouncer:v1.24.1-p1

@@ -3,6 +3,7 @@ import './globals.css';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Toaster } from 'sonner';
 
+import { AppRevalidator } from '@/components/app-revalidator';
 import { ClientEnvInjector } from '@/components/client-env-injector';
 import { GoogleAnalytics } from '@/components/google-analytics';
 import {
@@ -65,6 +66,7 @@ export default function RootLayout({
 		<html suppressHydrationWarning lang={ENV_LOCALE}>
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
 				<ClientEnvInjector />
+				<AppRevalidator />
 				<Providers>
 					<Toaster richColors position="bottom-right" />
 					{children}

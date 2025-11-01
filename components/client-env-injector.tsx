@@ -16,9 +16,7 @@ export const ClientEnvInjector = () => {
 	return (
 		// eslint-disable-next-line @next/next/no-before-interactive-script-outside-document
 		<Script id="client-env-injector" strategy="beforeInteractive">
-			{`window.__ENV__ = {
-                    LOCALE: '${process.env.NEXT_PUBLIC_LOCALE}',
-                };`}
+			{`window.__ENV__ = {LOCALE: '${process.env.NEXT_PUBLIC_LOCALE}',REVALIDATE: ${process.env.BUILDER}};`}
 		</Script>
 	);
 };
