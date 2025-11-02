@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 
 import { BlogPageMeta } from '@/components/blog-page-meta';
 import { DocFooterNav } from '@/components/doc-footer-nav';
+import { EditButton } from '@/components/edit-button';
 import { EditorView } from '@/components/editor/editor-view';
 import { ViewCountUpdater } from '@/components/view-count-updater';
 import { BookService } from '@/services/book';
@@ -71,7 +72,9 @@ export default async function Page({ params }: Readonly<PageProps>) {
 					</div>
 				)}
 				<article className="notra-editor pt-6">
-					<h1>{doc.title}</h1>
+					<h1>
+						{doc.title} <EditButton bookId={book.id} docId={doc.id} />
+					</h1>
 
 					{book?.type === BookType.BLOGS && (
 						<BlogPageMeta docId={doc.id} publishedAt={doc.publishedAt} />

@@ -107,6 +107,9 @@ export const zh = {
 		update: '更新',
 		slug_exists: '链接已存在！'
 	},
+	components_edit_button: {
+		edit: '编辑'
+	},
 	components_empty_book: {
 		no_documents: '当前知识库暂无可访问内容',
 		no_documents_description: '您还没有创建任何文档。开始创建您的第一个文档。',

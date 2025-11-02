@@ -111,6 +111,9 @@ export const en = {
 	components_doc_settings_sheet: {
 		doc_settings: 'Doc Settings'
 	},
+	components_edit_button: {
+		edit: 'Edit'
+	},
 	components_empty_book: {
 		no_documents: 'No accessible content in this book',
 		no_documents_description:
