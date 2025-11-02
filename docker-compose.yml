@@ -7,7 +7,7 @@ services:
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@pgbouncer:5432/postgres
       DIRECT_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/postgres
-      AUTH_URL: ${CADDY_DOMAIN}
+      AUTH_URL: https://${CADDY_DOMAIN}
     ports:
       - '3000:3000'
     depends_on:

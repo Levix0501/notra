@@ -1,11 +1,3 @@
-localhost {
-    reverse_proxy app:3000
-}
-
-localhost:9000 {
-    reverse_proxy storage:9000
-}
-
 {$CADDY_DOMAIN} {
     tls {$CADDY_EMAIL}
     redir https://www.{$CADDY_DOMAIN}{uri} 301
