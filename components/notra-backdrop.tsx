@@ -15,9 +15,9 @@ export function NotraBackdrop() {
 	useEffect(() => {
 		if (isMobile) {
 			if (mobileOpen) {
-				document.body.style.overflowY = 'hidden';
+				document.body.style.overflow = 'hidden';
 			} else {
-				document.body.style.removeProperty('overflowY');
+				document.body.style.removeProperty('overflow');
 			}
 		}
 	}, [isMobile, mobileOpen]);

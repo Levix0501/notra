@@ -3,7 +3,7 @@
 import { ArrowUpRight, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { create } from 'zustand';
 
 import { cn } from '@/lib/utils';
@@ -18,20 +18,20 @@ type NavbarStaticMobileStore = {
 
 const useNavbarStaticMobile = create<NavbarStaticMobileStore>((set) => ({
 	isOpen: false,
-	setIsOpen: (isOpen) => {
-		set({ isOpen });
-
-		if (isOpen) {
-			document.body.style.overflow = 'hidden';
-		} else {
-			document.body.style.removeProperty('overflow');
-		}
-	}
+	setIsOpen: (isOpen) => set({ isOpen })
 }));
 
 export const NavbarStaticMobileButton = () => {
 	const isOpen = useNavbarStaticMobile((state) => state.isOpen);
 	const setIsOpen = useNavbarStaticMobile((state) => state.setIsOpen);
+
+	useEffect(() => {
+		if (isOpen) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.removeProperty('overflow');
+		}
+	}, [isOpen]);
 
 	const handleClick = () => {
 		setIsOpen(!isOpen);
@@ -97,7 +97,7 @@ export const NavbarStaticMobile = ({ navItems }: { navItems: NavItemVo[] }) => {
 	return (
 		<div
 			className={cn(
-				'fixed top-0 right-0 bottom-0 left-0 z-50 border-t border-accent bg-background pr-4 pl-8',
+				'fixed top-0 right-0 bottom-0 left-0 z-50 bg-background pr-4 pl-8',
 				isOpen ? 'translate-y-14' : '-translate-y-full'
 			)}
 		>
