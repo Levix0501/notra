@@ -364,6 +364,7 @@ export const zh = {
 		or_drag_and_drop: '或拖拽上传',
 		upload_limit: '最多上传 {limit} 个文件，每个文件大小不超过 {maxSize}MB',
 		media: '媒体',
-		image: '图片'
+		image: '图片',
+		placeholder: '输入文本，按“/”启用指令…'
 	}
 };

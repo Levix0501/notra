@@ -32,7 +32,7 @@ export function BookCatalogStaticAside({ children }: Readonly<ChildrenProps>) {
 	return (
 		<aside
 			className={cn(
-				'fixed top-0 bottom-0 left-0 z-45 w-80 translate-x-[-100%] overscroll-contain bg-background opacity-0 transition-[translate,opacity] duration-250 ease-[ease] md:sticky md:top-20 md:z-30 md:h-[calc(100dvh-80px)] md:w-64 md:shrink-0 md:translate-x-0 md:opacity-100',
+				'fixed top-0 bottom-0 left-0 z-45 w-80 translate-x-[-100%] overscroll-contain bg-background opacity-0 transition-[translate,opacity] duration-250 ease-[ease] md:sticky md:top-20 md:z-30 md:max-h-[calc(100dvh-80px)] md:w-64 md:shrink-0 md:translate-x-0 md:opacity-100',
 				mobileOpen && 'translate-x-0 opacity-100'
 			)}
 		>

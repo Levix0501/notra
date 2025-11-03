@@ -32,7 +32,7 @@ export const DocFooterNav = async ({
 	return (
 		<nav
 			aria-label="pagination"
-			className="my-12 flex w-full justify-between border-t border-gray-200 pt-8 [&_a]:inline-block [&_a]:max-w-[48%]"
+			className="my-12 flex w-full justify-between border-t pt-8 [&_a]:inline-block [&_a]:max-w-[48%]"
 		>
 			{prevDoc && (
 				<Link className="group" href={`/${bookSlug}/${prevDoc.url}`}>

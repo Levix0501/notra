@@ -63,6 +63,7 @@
 		"@tiptap/extension-subscript": "^3.4.3",
 		"@tiptap/extension-superscript": "^3.4.3",
 		"@tiptap/extension-text-align": "^3.3.0",
+		"@tiptap/extensions": "^3.10.1",
 		"@tiptap/pm": "^3.3.0",
 		"@tiptap/react": "^3.3.0",
 		"@tiptap/starter-kit": "^3.3.0",

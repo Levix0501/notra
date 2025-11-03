@@ -367,6 +367,7 @@ export const en = {
 		or_drag_and_drop: 'or drag and drop',
 		upload_limit: 'Maximum {limit} file(s), {maxSize}MB each.',
 		media: 'Media',
-		image: 'Image'
+		image: 'Image',
+		placeholder: "Write, '/' for commands…"
 	}
 };

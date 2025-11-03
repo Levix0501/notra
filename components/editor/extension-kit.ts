@@ -1,4 +1,7 @@
+import { Focus, Placeholder } from '@tiptap/extensions';
 import { Extensions } from '@tiptap/react';
+
+import { getTranslations } from '@/i18n';
 
 import { SharedExtensions } from './extension-kit-base';
 import { CodeBlock } from './extensions/code-block-extension';
@@ -24,5 +27,15 @@ export const ExtensionKit: Extensions = [
 		onError: (error) => console.error('Upload failed:', error)
 	}),
 	MarkdownPaste,
-	FileHandler
+	FileHandler,
+	Focus,
+	Placeholder.configure({
+		placeholder: ({ node }) => {
+			if (node.type.name === 'paragraph') {
+				return getTranslations('notra_editor').placeholder;
+			}
+
+			return '';
+		}
+	})
 ];
