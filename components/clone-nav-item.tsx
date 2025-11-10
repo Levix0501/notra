@@ -1,28 +1,27 @@
 import { DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
-import { ChevronRight, FileText } from 'lucide-react';
+import { TreeNodeType } from '@prisma/client';
+import { ChevronRight, ExternalLink, Link } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 import { cn } from '@/lib/utils';
-import { useBookCatalogTree } from '@/stores/tree';
+import { useNavbarTree } from '@/stores/tree';
 import { TreeNodeVoWithLevel } from '@/types/tree-node';
 
-import { Button } from './ui/button';
-
-export interface CatalogItemProps {
+export interface CloneNavItemProps {
 	dragProvided: DraggableProvided;
 	dragSnapshot: DraggableStateSnapshot;
 	item: TreeNodeVoWithLevel;
 }
 
-export const CloneCatalogItem = ({
+export const CloneNavItem = ({
 	dragProvided,
 	dragSnapshot,
 	item
-}: CatalogItemProps) => {
+}: CloneNavItemProps) => {
 	const targetLevel = useRef(item.level);
 
-	const setIsDragging = useBookCatalogTree((state) => state.setIsDragging);
-	const setCurrentDropNodeReachLevel = useBookCatalogTree(
+	const setIsDragging = useNavbarTree((state) => state.setIsDragging);
+	const setCurrentDropNodeReachLevel = useNavbarTree(
 		(state) => state.setCurrentDropNodeReachLevel
 	);
 
@@ -58,6 +57,8 @@ export const CloneCatalogItem = ({
 		setIsDragging(!dragSnapshot.isDropAnimating);
 	}, [dragSnapshot.isDropAnimating, setIsDragging]);
 
+	const LinkIcon = item.isExternal ? ExternalLink : Link;
+
 	return (
 		<div
 			{...dragProvided.draggableProps}
@@ -81,28 +82,11 @@ export const CloneCatalogItem = ({
 				)}
 				style={{ paddingLeft: 24 * item.level + 'px' }}
 			>
-				<div className="relative mr-1 size-6">
-					{item.type === 'GROUP' || item.childId !== null ? (
-						<Button
-							className="size-6 hover:bg-border"
-							size="icon"
-							variant="ghost"
-						>
-							<ChevronRight
-								className={'absolute transition-transform duration-200'}
-								size={16}
-							/>
-						</Button>
+				<div className="mr-1 flex size-6 items-center justify-center">
+					{item.type === TreeNodeType.GROUP || item.childId !== null ? (
+						<ChevronRight size={16} />
 					) : (
-						<div className={'flex size-6 items-center justify-center'}>
-							<FileText size={16} />
-						</div>
-					)}
-
-					{!item.isPublished && (
-						<div className="pointer-events-none absolute right-0.5 bottom-0.5 size-2 rounded-full bg-sidebar">
-							<div className="absolute top-1/2 left-1/2 size-[5px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#EA580C]"></div>
-						</div>
+						<LinkIcon size={16} />
 					)}
 				</div>
 				<div className="flex-1 truncate select-none">{item.title}</div>

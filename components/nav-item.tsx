@@ -1,18 +1,18 @@
 import { DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
-import { BookEntity } from '@prisma/client';
+import { BookEntity, TreeNodeType } from '@prisma/client';
 import { ChevronRight, ExternalLink, Link, Plus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { CSSProperties, useState } from 'react';
 
 import { updateTitle } from '@/actions/tree-node';
 import { Button } from '@/components/ui/button';
 import { getTranslations } from '@/i18n';
 import { cn } from '@/lib/utils';
-import { useTree, nodeMap, mutateTree } from '@/stores/tree';
+import { mutateTree, NAVBAR_MAP, useNavbarTree } from '@/stores/tree';
 import { TreeNodeVoWithLevel } from '@/types/tree-node';
 
-import { CatalogItemWrapper } from './catalog-item-wrapper';
 import { EditTitleForm } from './edit-title-form';
-import { LevelIndicator } from './level-indicator';
+import { NavItemLevelIndicator } from './nav-item-level-indicator';
 import { NavItemMoreDropdown } from './nav-item-more-dropdown';
 import { useNavItemSheet } from './nav-item-sheet';
 
@@ -35,8 +35,10 @@ export const NavItem = ({
 }: NavItemProps) => {
 	const [isEditingTitle, setIsEditingTitle] = useState(false);
 
-	const expandedKeys = useTree((state) => state.expandedKeys);
-	const setExpandedKeys = useTree((state) => state.setExpandedKeys);
+	const router = useRouter();
+
+	const expandedKeys = useNavbarTree((state) => state.expandedKeys);
+	const setExpandedKeys = useNavbarTree((state) => state.setExpandedKeys);
 
 	const toggleExpandedKey = (key: number) => {
 		if (expandedKeys.has(key)) {
@@ -49,11 +51,17 @@ export const NavItem = ({
 	};
 
 	const handleClick = () => {
-		if (item.type === 'GROUP') {
+		if (item.type === TreeNodeType.GROUP) {
 			toggleExpandedKey(item.id);
-		} else if (item.type === 'DOC') {
+		} else if (item.type === TreeNodeType.LINK) {
 			expandedKeys.add(item.id);
 			setExpandedKeys(expandedKeys);
+
+			if (item.isExternal) {
+				window.open(item.url ?? '', '_blank');
+			} else {
+				router.push(item.url ?? '');
+			}
 		}
 	};
 
@@ -72,7 +80,7 @@ export const NavItem = ({
 			title = t.default_nav_item_name;
 		}
 
-		const node = nodeMap.get(item.id);
+		const node = NAVBAR_MAP.get(item.id);
 
 		if (!node) {
 			return;
@@ -80,7 +88,7 @@ export const NavItem = ({
 
 		node.title = title;
 
-		mutateTree(bookId, async () => {
+		mutateTree(bookId, NAVBAR_MAP, async () => {
 			const result = await updateTitle({
 				id: item.id,
 				title
@@ -96,6 +104,8 @@ export const NavItem = ({
 		setIsEditingTitle(false);
 	};
 
+	const LinkIcon = item.isExternal ? ExternalLink : Link;
+
 	return (
 		<div
 			{...dragProvided.draggableProps}
@@ -108,33 +118,52 @@ export const NavItem = ({
 				cursor: 'pointer'
 			}}
 		>
-			<CatalogItemWrapper
-				bookId={bookId}
+			<div
+				key={isEditingTitle ? 'editing' : 'normal'}
 				className={cn(
-					'my-px flex h-[34px] items-center rounded-md border-[1.5px] border-transparent pr-1 text-sm hover:bg-sidebar-accent',
+					'my-px flex h-8.5 items-center rounded-md border-[1.5px] border-transparent pr-1 text-sm hover:bg-sidebar-accent',
 					Boolean(dragSnapshot.combineTargetFor) &&
 						'border-[#117cee] dark:border-[#3b82ce]'
 				)}
-				isEditingTitle={isEditingTitle}
-				item={item}
+				role="button"
 				style={{ paddingLeft: 24 * item.level + 'px' }}
-				onClick={handleClick}
+				onClick={isEditingTitle ? void 0 : handleClick}
 			>
 				<div className="relative mr-1 size-6">
 					<div className={'flex size-6 items-center justify-center'}>
-						{item.type === 'GROUP' && (
-							<ChevronRight
+						{item.type === TreeNodeType.LINK && (
+							<LinkIcon
 								className={cn(
-									'absolute transition-transform duration-200',
-									expandedKeys.has(item.id) && 'rotate-90'
+									item.childId !== null && 'group-hover/item:hidden'
 								)}
 								size={16}
 							/>
 						)}
-						{item.type === 'LINK' && item.isExternal && (
-							<ExternalLink size={16} />
+
+						{(item.type === TreeNodeType.GROUP || item.childId !== null) && (
+							<Button
+								className={cn(
+									'size-6 hover:bg-border',
+									item.type !== TreeNodeType.GROUP &&
+										item.childId !== null &&
+										'hidden group-hover/item:inline-flex'
+								)}
+								size="icon"
+								variant="ghost"
+								onClick={(e) => {
+									e.stopPropagation();
+									toggleExpandedKey(item.id);
+								}}
+							>
+								<ChevronRight
+									className={cn(
+										'absolute transition-transform duration-200',
+										expandedKeys.has(item.id) && 'rotate-90'
+									)}
+									size={16}
+								/>
+							</Button>
 						)}
-						{item.type === 'LINK' && !item.isExternal && <Link size={16} />}
 					</div>
 
 					{!item.isPublished && (
@@ -181,9 +210,9 @@ export const NavItem = ({
 						/>
 					</div>
 				</div>
-			</CatalogItemWrapper>
+			</div>
 
-			<LevelIndicator nodeId={item.id} />
+			<NavItemLevelIndicator nodeId={item.id} />
 		</div>
 	);
 };

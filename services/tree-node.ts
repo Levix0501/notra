@@ -16,9 +16,11 @@ import { moveNode, removeNodeFromOldPosition } from '@/lib/tree/server';
 import { flattenTreeNodeNodes } from '@/lib/tree/shared';
 import { Nullable } from '@/types/common';
 import {
+	CreateContactInfoDto,
 	CreateNavItemDto,
 	CreateTreeNodeDto,
 	NavItemVo,
+	UpdateContactInfoDto,
 	UpdateNavItemDto
 } from '@/types/tree-node';
 
@@ -460,10 +462,10 @@ export class TreeNodeService {
 		}
 	}
 
-	static async publishNavbar(bookId: BookEntity['id']) {
+	static async publishTreeNodes(bookId: BookEntity['id']) {
 		try {
 			await prisma.treeNodeEntity.updateMany({
-				where: { bookId, book: { type: BookType.NAVBAR } },
+				where: { bookId },
 				data: { isPublished: true }
 			});
 
@@ -471,10 +473,10 @@ export class TreeNodeService {
 
 			return ServiceResult.success(null);
 		} catch (error) {
-			logger('TreeNodeService.publishNavbar', error);
+			logger('TreeNodeService.publishTreeNodes', error);
 			const t = getTranslations('services_tree_node');
 
-			return ServiceResult.fail(t.publish_navbar_error);
+			return ServiceResult.fail(t.publish_tree_nodes_error);
 		}
 	}
 
@@ -509,6 +511,87 @@ export class TreeNodeService {
 			const t = getTranslations('services_tree_node');
 
 			return ServiceResult.fail(t.get_published_nav_items_error);
+		}
+	});
+
+	static async createContactInfo({ bookId, url, icon }: CreateContactInfoDto) {
+		try {
+			const lastNode = await prisma.treeNodeEntity.findFirst({
+				where: {
+					bookId,
+					parentId: null,
+					siblingId: null
+				}
+			});
+
+			const node = await prisma.$transaction(async (tx) => {
+				const node = await tx.treeNodeEntity.create({
+					data: {
+						title: '',
+						type: TreeNodeType.LINK,
+						bookId,
+						prevId: lastNode ? lastNode.id : null,
+						url,
+						isExternal: true,
+						icon
+					}
+				});
+
+				if (lastNode) {
+					await tx.treeNodeEntity.update({
+						where: { id: lastNode.id },
+						data: { siblingId: node.id }
+					});
+				}
+
+				return node;
+			});
+
+			return ServiceResult.success(node);
+		} catch (error) {
+			logger('TreeNodeService.createContactInfo', error);
+			const t = getTranslations('services_tree_node');
+
+			return ServiceResult.fail(t.create_contact_info_error);
+		}
+	}
+
+	static async updateContactInfo({ id, url, icon }: UpdateContactInfoDto) {
+		try {
+			const node = await prisma.treeNodeEntity.update({
+				where: { id },
+				data: { url, icon }
+			});
+
+			if (node.isPublished) {
+				revalidateAll();
+			}
+
+			return ServiceResult.success(node);
+		} catch (error) {
+			logger('TreeNodeService.updateContactInfo', error);
+			const t = getTranslations('services_tree_node');
+
+			return ServiceResult.fail(t.update_contact_info_error);
+		}
+	}
+
+	static readonly getPublishedContactInfo = cache(async () => {
+		try {
+			const nodes = await prisma.treeNodeEntity.findMany({
+				where: { book: { type: BookType.CONTACT } }
+			});
+
+			const treeNodes = flattenTreeNodeNodes(nodes).filter(
+				(node) => node.isPublished && node.level === 0
+			);
+
+			return ServiceResult.success(treeNodes);
+		} catch (error) {
+			logger('TreeNodeService.getPublishedContactInfo', error);
+			const t = getTranslations('services_tree_node');
+
+			return ServiceResult.fail(t.get_published_contact_info_error);
 		}
 	});
 }

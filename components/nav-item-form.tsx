@@ -33,7 +33,7 @@ import { getTranslations } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { useGetBooks } from '@/queries/book';
 import { useGetAllDocsMeta } from '@/queries/doc';
-import { mutateTree } from '@/stores/tree';
+import { mutateTree, NAVBAR_MAP } from '@/stores/tree';
 import { Nullable } from '@/types/common';
 import { NavItemFormSchema, NavItemFormValues } from '@/types/tree-node';
 
@@ -123,7 +123,7 @@ export function NavItemForm({
 				setOpen(false);
 			}
 
-			mutateTree(bookId);
+			mutateTree(bookId, NAVBAR_MAP);
 		})();
 
 		toast

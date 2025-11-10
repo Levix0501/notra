@@ -9,7 +9,9 @@ export const zh = {
 	},
 	app_dashboard_main_page: {
 		navbar: '导航栏',
-		configure_navbar: '配置导航栏'
+		configure_navbar: '配置导航栏',
+		contact_info: '联系方式',
+		configure_contact_info: '配置联系方式'
 	},
 	components_account_dropdown: {
 		settings: '设置',
@@ -69,6 +71,44 @@ export const zh = {
 	components_catalog_item: {
 		default_catalog_node_name: '无标题'
 	},
+	components_catalog_item_create_dropdown: {
+		new_doc: '文档',
+		new_group: '分组'
+	},
+	components_catalog_item_more_dropdown: {
+		rename: '重命名',
+		settings: '设置',
+		publish: '发布',
+		unpublish: '取消发布',
+		delete: '删除',
+		delete_loading: '删除中...',
+		delete_error: '删除失败！',
+		delete_success: '删除成功！',
+		publish_loading: '发布中...',
+		publish_error: '发布失败！',
+		publish_success: '发布成功！',
+		unpublish_loading: '取消发布中...',
+		unpublish_error: '取消发布失败！',
+		unpublish_success: '取消发布成功！'
+	},
+	components_contact_info_form: {
+		icon: '图标',
+		content: '内容',
+		content_description:
+			'不同类型的内容会有不同的交互形式，可选填：以 http 或 https 开头的链接，电子邮箱，纯文本',
+		add: '添加',
+		update: '更新',
+		add_loading: '添加中...',
+		add_success: '添加成功！',
+		add_error: '添加失败！',
+		update_loading: '更新中...',
+		update_success: '更新成功！',
+		update_error: '更新失败！'
+	},
+	components_contact_info_sheet: {
+		add_contact_info: '添加联系方式',
+		edit_contact_info: '编辑联系方式'
+	},
 	components_create_book_dialog: {
 		new_book: '创建知识库',
 		create: '创建',
@@ -76,10 +116,6 @@ export const zh = {
 		create_loading: '创建中...',
 		create_success: '创建成功！',
 		create_error: '创建失败！'
-	},
-	components_create_dropdown: {
-		new_doc: '文档',
-		new_group: '分组'
 	},
 	components_dashboard_button: {
 		dashboard: '工作台'
@@ -91,6 +127,13 @@ export const zh = {
 	components_doc_footer_nav: {
 		previous: '上一篇',
 		next: '下一篇'
+	},
+	components_doc_publish_button: {
+		publish: '发布',
+		share: '分享',
+		unpublish: '取消发布',
+		view_page: '查看页面',
+		publish_to_web: '公开至互联网'
 	},
 	components_doc_settings_button: {
 		doc_settings: '文档设置'
@@ -106,6 +149,17 @@ export const zh = {
 		upload_error: '上传图片失败！',
 		update: '更新',
 		slug_exists: '链接已存在！'
+	},
+	components_doc_settings_sheet: {
+		doc_settings: '文档设置'
+	},
+	components_draggable_contact_info_items: {
+		no_contact_info: '没有联系方式',
+		no_contact_info_description: '您还没有添加任何联系方式。'
+	},
+	components_draggable_nav_items: {
+		no_nav_items: '没有导航项',
+		no_nav_items_description: '您还没有创建任何导航项。'
 	},
 	components_edit_button: {
 		edit: '编辑'
@@ -153,47 +207,8 @@ export const zh = {
 		no_more: '没有更多了',
 		no_blogs_found: '没有找到内容'
 	},
-	components_more_dropdown: {
-		rename: '重命名',
-		settings: '设置',
-		publish: '发布',
-		unpublish: '取消发布',
-		delete: '删除',
-		delete_loading: '删除中...',
-		delete_error: '删除失败！',
-		delete_success: '删除成功！',
-		publish_loading: '发布中...',
-		publish_error: '发布失败！',
-		publish_success: '发布成功！',
-		unpublish_loading: '取消发布中...',
-		unpublish_error: '取消发布失败！',
-		unpublish_success: '取消发布成功！'
-	},
-	components_navbar: {
-		no_navbar_items: '没有导航项',
-		no_navbar_items_description: '您还没有创建任何导航项。'
-	},
-	components_navbar_publish_button: {
-		publish: '发布',
-		publish_loading: '发布中...',
-		publish_success: '发布成功！',
-		publish_error: '发布失败！'
-	},
 	components_nav_item: {
 		default_nav_item_name: '未命名'
-	},
-	components_nav_item_add_button: {
-		add: '添加导航项'
-	},
-	components_nav_item_delete_dialog: {
-		delete: '删除',
-		delete_loading: '删除中...',
-		delete_success: '删除成功！',
-		delete_error: '删除失败！',
-		cancel: '取消',
-		confirm: '确定',
-		title: '确认删除？',
-		description: '此操作不可逆。'
 	},
 	components_nav_item_form: {
 		add: '新增',
@@ -238,13 +253,6 @@ export const zh = {
 		powered_by:
 			'由 <a href="https://cn.notra.tech" target="_blank" class="underline">Notra</a> 驱动'
 	},
-	components_publish_button: {
-		publish: '发布',
-		share: '分享',
-		unpublish: '取消发布',
-		view_page: '查看页面',
-		publish_to_web: '公开至互联网'
-	},
 	components_site_settings_form: {
 		title: '站点标题',
 		description: '站点描述',
@@ -261,10 +269,26 @@ export const zh = {
 		update_success: '更新成功！',
 		update_error: '更新失败！'
 	},
-	components_doc_settings_sheet: {
-		doc_settings: '文档设置'
+	components_tree_node_add_button: {
+		add: '添加'
 	},
-	hooks_use_create_tree_node: {
+	components_tree_node_delete_dialog: {
+		delete: '删除',
+		delete_loading: '删除中...',
+		delete_success: '删除成功！',
+		delete_error: '删除失败！',
+		cancel: '取消',
+		confirm: '确定',
+		title: '确认删除？',
+		description: '此操作不可逆。'
+	},
+	components_tree_nodes_publish_button: {
+		publish: '发布',
+		publish_loading: '发布中...',
+		publish_success: '发布成功！',
+		publish_error: '发布失败！'
+	},
+	hooks_use_create_catalog_item: {
 		create_loading: '创建中...',
 		create_success: '创建成功！',
 		create_error: '创建失败！'
@@ -285,7 +309,8 @@ export const zh = {
 		check_book_slug_error: '检查知识库 slug 失败！',
 		update_book_error: '更新知识库失败！',
 		get_published_book_by_slug_error: '获取已发布知识库失败！',
-		get_navbar_book_error: '获取导航栏知识库失败！'
+		get_navbar_book_error: '获取导航栏知识库失败！',
+		get_contact_info_book_error: '获取联系方式知识库失败！'
 	},
 	services_doc: {
 		get_published_blogs_error: '获取已发布博客失败！',
@@ -323,8 +348,11 @@ export const zh = {
 		unpublish_error: '取消发布失败！',
 		create_nav_item_error: '创建导航项失败！',
 		update_nav_item_error: '更新导航项失败！',
-		publish_navbar_error: '发布导航栏失败！',
-		get_published_nav_items_error: '获取已发布导航项失败！'
+		publish_tree_nodes_error: '发布节点失败！',
+		get_published_nav_items_error: '获取已发布导航项失败！',
+		create_contact_info_error: '创建联系方式失败！',
+		update_contact_info_error: '更新联系方式失败！',
+		get_published_contact_info_error: '获取已发布联系方式失败！'
 	},
 	types_book: {
 		name_required: '名称是必填项',
@@ -338,7 +366,8 @@ export const zh = {
 	},
 	types_tree_node: {
 		title_required: '标题是必填项',
-		url_regex: 'URL 需以 “http://”, “https://” 或者 “/” 开头'
+		url_regex: 'URL 需以 “http://”, “https://” 或者 “/” 开头',
+		required: '必填项'
 	},
 	notra_editor: {
 		code_block_code: '代码',

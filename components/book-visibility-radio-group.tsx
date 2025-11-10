@@ -30,8 +30,8 @@ export const BookVisibilityRadioGroup = ({
 				</div>
 
 				<div>
-					<p className="text-base font-medium text-foreground"> {t.public}</p>
-					<p className="text-sm text-muted-foreground">
+					<p className="text-sm font-medium text-foreground"> {t.public}</p>
+					<p className="text-xs text-muted-foreground">
 						{t.public_description}
 					</p>
 				</div>
@@ -48,8 +48,8 @@ export const BookVisibilityRadioGroup = ({
 				</div>
 
 				<div>
-					<p className="text-base font-medium text-foreground"> {t.hidden}</p>
-					<p className="text-sm text-muted-foreground">
+					<p className="text-sm font-medium text-foreground"> {t.hidden}</p>
+					<p className="text-xs text-muted-foreground">
 						{t.hidden_description}
 					</p>
 				</div>

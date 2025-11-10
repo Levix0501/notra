@@ -1,6 +1,7 @@
 import { cache } from 'react';
 
 import { getTranslations } from '@/i18n';
+import { revalidateAll } from '@/lib/cache';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
 import { ServiceResult } from '@/lib/service-result';
@@ -88,6 +89,8 @@ export class SiteSettingsService {
 				where: { id: 'default' },
 				data: values
 			});
+
+			revalidateAll();
 
 			return ServiceResult.success(siteSettings);
 		} catch (error) {

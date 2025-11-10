@@ -1,16 +1,20 @@
 import { TreeNodeEntity } from '@prisma/client';
 
-import { useTree } from '@/stores/tree';
+import { useContactInfoTree } from '@/stores/tree';
 
-export interface LevelIndicatorProps {
+export interface ContactInfoItemLevelIndicatorProps {
 	nodeId: TreeNodeEntity['id'];
 }
 
-export function LevelIndicator({ nodeId }: Readonly<LevelIndicatorProps>) {
-	const isDragging = useTree((state) => state.isDragging);
-	const currentDropNode = useTree((state) => state.currentDropNode);
-	const reachLevel = useTree((state) => state.reachLevelMap.get(nodeId));
-	const minReachLevel = useTree(
+export function ContactInfoItemLevelIndicator({
+	nodeId
+}: Readonly<ContactInfoItemLevelIndicatorProps>) {
+	const isDragging = useContactInfoTree((state) => state.isDragging);
+	const currentDropNode = useContactInfoTree((state) => state.currentDropNode);
+	const reachLevel = useContactInfoTree((state) =>
+		state.reachLevelMap.get(nodeId)
+	);
+	const minReachLevel = useContactInfoTree(
 		(state) => state.reachLevelRangeMap.get(nodeId)?.[0] ?? 0
 	);
 

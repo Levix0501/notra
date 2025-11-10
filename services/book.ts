@@ -176,4 +176,25 @@ export class BookService {
 			return ServiceResult.fail(t.get_navbar_book_error);
 		}
 	});
+
+	static readonly getContactInfoBook = cache(async () => {
+		try {
+			let book = await prisma.bookEntity.findFirst({
+				where: { type: BookType.CONTACT }
+			});
+
+			if (!book) {
+				book = await prisma.bookEntity.create({
+					data: { type: BookType.CONTACT, name: 'Contact Info' }
+				});
+			}
+
+			return ServiceResult.success(book);
+		} catch (error) {
+			logger('BookService.getContactInfoBook', error);
+			const t = getTranslations('services_book');
+
+			return ServiceResult.fail(t.get_contact_info_book_error);
+		}
+	});
 }

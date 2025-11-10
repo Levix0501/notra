@@ -46,6 +46,7 @@ model SiteSettingsEntity {
   redirectToBookId     Int?         @map("redirect_to_book_id")
   redirectToDoc        DocEntity?   @relation(fields: [redirectToDocId], references: [id])
   redirectToDocId      Int?         @map("redirect_to_doc_id")
+  coloredContactIcons  Boolean      @default(false) @map("colored_contact_icons")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -73,6 +74,7 @@ enum BookType {
   DOCS
   PAGES
   NAVBAR
+  CONTACT
 }
 
 // Represents a book in the system
@@ -134,6 +136,7 @@ model TreeNodeEntity {
   type        TreeNodeType
   title       String
   url         String?
+  icon        String?
   isPublished Boolean      @default(false) @map("is_published")
   isExternal  Boolean      @default(false) @map("is_external")
 

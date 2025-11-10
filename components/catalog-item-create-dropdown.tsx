@@ -11,36 +11,36 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { useCreateTreeNode } from '@/hooks/use-create-tree-node';
+import { useCreateCatalogItem } from '@/hooks/use-create-catalog-item';
 import { getTranslations } from '@/i18n';
 
-export interface CreateDropdownProps extends PropsWithChildren {
+export interface CatalogItemCreateDropdownProps extends PropsWithChildren {
 	bookId: BookEntity['id'];
 	parentTreeNodeId: TreeNodeEntity['parentId'];
 }
 
-const t = getTranslations('components_create_dropdown');
+const t = getTranslations('components_catalog_item_create_dropdown');
 
-export function CreateDropdown({
+export function CatalogItemCreateDropdown({
 	bookId,
 	parentTreeNodeId,
 	children
-}: Readonly<CreateDropdownProps>) {
-	const createTreeNode = useCreateTreeNode({
+}: Readonly<CatalogItemCreateDropdownProps>) {
+	const createCatalogItem = useCreateCatalogItem({
 		bookId,
 		parentTreeNodeId
 	});
 
-	if (!createTreeNode) {
+	if (!createCatalogItem) {
 		return null;
 	}
 
 	const handleCreateDoc = () => {
-		createTreeNode('DOC');
+		createCatalogItem('DOC');
 	};
 
 	const handleCreateGroup = () => {
-		createTreeNode('GROUP');
+		createCatalogItem('GROUP');
 	};
 
 	return (

@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { updateDocMeta } from '@/actions/doc';
 import { getTranslations } from '@/i18n';
 import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
-import { mutateTree } from '@/stores/tree';
+import { BOOK_CATALOG_MAP, mutateTree } from '@/stores/tree';
 
 const t = getTranslations('hooks_use_edit_doc_title');
 
@@ -37,7 +37,7 @@ export const useEditDocTitle = () => {
 							throw new Error(result.message);
 						}
 
-						mutateTree(data.bookId);
+						mutateTree(data.bookId, BOOK_CATALOG_MAP);
 						setIsSaving(false);
 
 						return result.data;

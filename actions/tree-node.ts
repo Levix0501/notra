@@ -5,8 +5,10 @@ import { BookEntity, TreeNodeEntity, DocEntity } from '@prisma/client';
 import { TreeNodeService } from '@/services/tree-node';
 import { Nullable } from '@/types/common';
 import {
+	CreateContactInfoDto,
 	CreateNavItemDto,
 	CreateTreeNodeDto,
+	UpdateContactInfoDto,
 	UpdateNavItemDto
 } from '@/types/tree-node';
 
@@ -112,8 +114,26 @@ export const updateNavItem = async (updateNavItemDto: UpdateNavItemDto) => {
 	return serviceResult.toPlainObject();
 };
 
-export const publishNavbar = async (bookId: BookEntity['id']) => {
-	const serviceResult = await TreeNodeService.publishNavbar(bookId);
+export const publishTreeNodes = async (bookId: BookEntity['id']) => {
+	const serviceResult = await TreeNodeService.publishTreeNodes(bookId);
+
+	return serviceResult.toPlainObject();
+};
+
+export const createContactInfo = async (
+	createContactInfoDto: CreateContactInfoDto
+) => {
+	const serviceResult =
+		await TreeNodeService.createContactInfo(createContactInfoDto);
+
+	return serviceResult.toPlainObject();
+};
+
+export const updateContactInfo = async (
+	updateContactInfoDto: UpdateContactInfoDto
+) => {
+	const serviceResult =
+		await TreeNodeService.updateContactInfo(updateContactInfoDto);
 
 	return serviceResult.toPlainObject();
 };

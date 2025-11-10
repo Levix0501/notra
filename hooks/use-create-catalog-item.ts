@@ -5,22 +5,26 @@ import { toast } from 'sonner';
 import { createTreeNode } from '@/actions/tree-node';
 import { getTranslations } from '@/i18n';
 import { useGetBook } from '@/queries/book';
-import { useTree, mutateTree } from '@/stores/tree';
+import {
+	BOOK_CATALOG_MAP,
+	mutateTree,
+	useBookCatalogTree
+} from '@/stores/tree';
 
-interface UseCreateTreeNodeProps {
+interface UseCreateCatalogItemProps {
 	bookId: BookEntity['id'];
 	parentTreeNodeId: TreeNodeEntity['parentId'];
 }
 
-const t = getTranslations('hooks_use_create_tree_node');
+const t = getTranslations('hooks_use_create_catalog_item');
 
-export const useCreateTreeNode = ({
+export const useCreateCatalogItem = ({
 	bookId,
 	parentTreeNodeId
-}: UseCreateTreeNodeProps) => {
+}: UseCreateCatalogItemProps) => {
 	const { data: book } = useGetBook(bookId);
-	const expandedKeys = useTree((state) => state.expandedKeys);
-	const setExpandedKeys = useTree((state) => state.setExpandedKeys);
+	const expandedKeys = useBookCatalogTree((state) => state.expandedKeys);
+	const setExpandedKeys = useBookCatalogTree((state) => state.setExpandedKeys);
 	const router = useRouter();
 
 	if (!book) {
@@ -59,7 +63,7 @@ export const useCreateTreeNode = ({
 					router.push(`/dashboard/${book.id}/${data.docId}`);
 				}
 
-				mutateTree(book.id);
+				mutateTree(book.id, BOOK_CATALOG_MAP);
 			})
 			.catch((error) => {
 				console.log(error);

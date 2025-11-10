@@ -59,3 +59,26 @@ export type UpdateNavItemDto = {
 export type NavItemVo = TreeNodeVoWithLevel & {
 	children: NavItemVo[];
 };
+
+export const ContactInfoFormSchema = z.object({
+	icon: z.string(),
+	url: z.string().min(1, {
+		message: getTranslations('types_tree_node').required
+	})
+});
+
+export type ContactInfoFormValues = z.infer<typeof ContactInfoFormSchema>;
+
+export type CreateContactInfoDto = {
+	bookId: BookEntity['id'];
+	url: TreeNodeEntity['url'];
+	icon: TreeNodeEntity['icon'];
+};
+
+export type UpdateContactInfoDto = {
+	id: TreeNodeEntity['id'];
+	url: TreeNodeEntity['url'];
+	icon: TreeNodeEntity['icon'];
+};
+
+export type ContactInfoVo = TreeNodeVoWithLevel;

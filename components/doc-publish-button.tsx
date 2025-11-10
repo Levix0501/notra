@@ -10,7 +10,7 @@ import { getTranslations } from '@/i18n';
 import { publishNode, unpublishNode } from '@/lib/tree/client';
 import { useGetBook } from '@/queries/book';
 import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
-import { mutateTree, nodeMap } from '@/stores/tree';
+import { mutateTree, BOOK_CATALOG_MAP } from '@/stores/tree';
 
 import { CopyButton } from './copy-button';
 import { Button } from './ui/button';
@@ -18,13 +18,13 @@ import { Input } from './ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
-interface PublishButtonProps {
+interface DocPublishButtonProps {
 	bookId: BookEntity['id'];
 }
 
-const t = getTranslations('components_publish_button');
+const t = getTranslations('components_doc_publish_button');
 
-export function PublishButton({ bookId }: Readonly<PublishButtonProps>) {
+export function DocPublishButton({ bookId }: Readonly<DocPublishButtonProps>) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isPending, setIsPending] = useState(false);
 
@@ -39,15 +39,15 @@ export function PublishButton({ bookId }: Readonly<PublishButtonProps>) {
 	const publishedPageUrl = `${location.origin}/${book.slug}/${docMeta.slug}`;
 
 	const handlePublish = async () => {
-		const item = nodeMap.values().find((e) => e.docId === docMeta.id);
+		const item = BOOK_CATALOG_MAP.values().find((e) => e.docId === docMeta.id);
 
 		if (!item) {
 			return;
 		}
 
-		const [nodeIds, docIds] = publishNode(nodeMap, item.id);
+		const [nodeIds, docIds] = publishNode(BOOK_CATALOG_MAP, item.id);
 
-		mutateTree(book.id, async () => {
+		mutateTree(book.id, BOOK_CATALOG_MAP, async () => {
 			setIsPending(true);
 			const result = await publishWithParent({
 				nodeIds,
@@ -83,15 +83,15 @@ export function PublishButton({ bookId }: Readonly<PublishButtonProps>) {
 	};
 
 	const handleUnpublish = async () => {
-		const item = nodeMap.values().find((e) => e.docId === docMeta.id);
+		const item = BOOK_CATALOG_MAP.values().find((e) => e.docId === docMeta.id);
 
 		if (!item) {
 			return;
 		}
 
-		const [nodeIds, docIds] = unpublishNode(nodeMap, item.id);
+		const [nodeIds, docIds] = unpublishNode(BOOK_CATALOG_MAP, item.id);
 
-		mutateTree(book.id, async () => {
+		mutateTree(book.id, BOOK_CATALOG_MAP, async () => {
 			setIsPending(true);
 			const result = await unpublishWithChildren({
 				nodeIds,

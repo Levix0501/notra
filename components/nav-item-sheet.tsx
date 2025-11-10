@@ -4,7 +4,7 @@ import { BookEntity, TreeNodeEntity } from '@prisma/client';
 import { create } from 'zustand';
 
 import { getTranslations } from '@/i18n';
-import { nodeMap } from '@/stores/tree';
+import { NAVBAR_MAP } from '@/stores/tree';
 import { Nullable } from '@/types/common';
 
 import { NavItemForm } from './nav-item-form';
@@ -36,7 +36,7 @@ export const NavItemSheet = ({ bookId }: { bookId: BookEntity['id'] }) => {
 	const parentTreeNodeId = useNavItemSheet((state) => state.parentTreeNodeId);
 	const id = useNavItemSheet((state) => state.id);
 
-	const node = id ? nodeMap.get(id) : null;
+	const node = id ? NAVBAR_MAP.get(id) : null;
 	const defaultTitle = node?.title;
 	const defaultType = node?.type;
 	const defaultUrl = node?.url;

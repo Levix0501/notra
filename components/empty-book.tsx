@@ -12,7 +12,7 @@ import {
 	EmptyMedia,
 	EmptyTitle
 } from '@/components/ui/empty';
-import { useCreateTreeNode } from '@/hooks/use-create-tree-node';
+import { useCreateCatalogItem } from '@/hooks/use-create-catalog-item';
 import { getTranslations } from '@/i18n';
 
 interface EmptyBookProps {
@@ -23,7 +23,7 @@ const t = getTranslations('components_empty_book');
 
 export function EmptyBook({ bookId }: EmptyBookProps) {
 	const [isCreating, setIsCreating] = useState(false);
-	const createTreeNode = useCreateTreeNode({
+	const createCatalogItem = useCreateCatalogItem({
 		bookId,
 		parentTreeNodeId: null
 	});
@@ -32,7 +32,7 @@ export function EmptyBook({ bookId }: EmptyBookProps) {
 		setIsCreating(true);
 
 		try {
-			await createTreeNode?.('DOC');
+			await createCatalogItem?.('DOC');
 		} catch {
 		} finally {
 			setIsCreating(false);
@@ -50,7 +50,7 @@ export function EmptyBook({ bookId }: EmptyBookProps) {
 			</EmptyHeader>
 			<EmptyContent>
 				<Button
-					disabled={!createTreeNode || isCreating}
+					disabled={!createCatalogItem || isCreating}
 					onClick={handleCreateDoc}
 				>
 					{t.create_document}

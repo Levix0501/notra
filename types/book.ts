@@ -38,7 +38,7 @@ export const UpdateBookInfoSchema = z.object({
 			},
 			{ message: getTranslations('types_book').slug_invalid }
 		),
-	type: z.enum(['DOCS', 'BLOGS', 'PAGES', 'NAVBAR'])
+	type: z.enum(['DOCS', 'BLOGS', 'PAGES', 'NAVBAR', 'CONTACT'])
 });
 
 export type UpdateBookInfoValues = z.infer<typeof UpdateBookInfoSchema>;

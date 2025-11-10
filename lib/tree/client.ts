@@ -42,12 +42,15 @@ export const checkShouldMoveNode = (
 	}
 ) => {
 	const node = nodeMap.get(nodeId);
+	const newParentNode = newParentId ? nodeMap.get(newParentId) : null;
+	const subTreeMaxLevel =
+		getSubTreeMaxLevel(nodeMap, nodeId) - (node?.level ?? 0);
 
 	return {
 		shouldUpdateNode:
 			node?.parentId !== newParentId || node?.prevId !== newPrevId,
 		node,
-		subTreeMaxLevel: getSubTreeMaxLevel(nodeMap, nodeId)
+		updatedMaxLevel: (newParentNode?.level ?? -1) + 1 + subTreeMaxLevel
 	};
 };
 

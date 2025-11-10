@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/form';
 import { getTranslations } from '@/i18n';
 import { uploadFile } from '@/lib/utils';
-import { mutateTree } from '@/stores/tree';
+import { BOOK_CATALOG_MAP, mutateTree } from '@/stores/tree';
 import { DocSettingsFormSchema, DocSettingsFormValues } from '@/types/doc';
 
 import { ImageCropper } from './image-cropper';
@@ -103,7 +103,7 @@ export function DocSettingsForm({
 			});
 
 			mutateDocMeta();
-			mutateTree(bookId);
+			mutateTree(bookId, BOOK_CATALOG_MAP);
 		})();
 
 		toast
@@ -135,7 +135,7 @@ export function DocSettingsForm({
 								defaultImage={defaultDocCover}
 								disabled={isPending}
 								placeholder={
-									<div className="flex flex-col items-center justify-center gap-2 text-muted-foreground">
+									<div className="flex flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
 										<Upload size={20} />
 										<p>{t.cover_placeholder}</p>
 									</div>

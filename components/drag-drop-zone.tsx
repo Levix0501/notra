@@ -10,7 +10,7 @@ import {
 	DropResult
 } from '@hello-pangea/dnd';
 import { BookEntity, TreeNodeEntity } from '@prisma/client';
-import { CSSProperties, JSX, useCallback, useRef } from 'react';
+import { CSSProperties, JSX, useRef } from 'react';
 import { FixedSizeList } from 'react-window';
 
 import {
@@ -18,53 +18,49 @@ import {
 	moveAfter as moveAfterAction
 } from '@/actions/tree-node';
 import { checkShouldMoveNode, moveNode } from '@/lib/tree/client';
-import { useTree, nodeMap, mutateTree } from '@/stores/tree';
+import { mutateTree, TreeStore } from '@/stores/tree';
 import { TreeNodeView, TreeNodeVoWithLevel } from '@/types/tree-node';
-
-import { CloneCatalogItem } from './clone-catalog-item';
 
 interface DragDropZoneProps {
 	bookId: BookEntity['id'];
+	nodeMap: Map<TreeNodeEntity['id'], TreeNodeView>;
 	draggableList: TreeNodeVoWithLevel[];
 	height: number;
 	maxLevel?: number;
+	expandedKeys: TreeStore['expandedKeys'];
+	reachLevelMap: TreeStore['reachLevelMap'];
+	setExpandedKeys: TreeStore['setExpandedKeys'];
+	setIsDragging: TreeStore['setIsDragging'];
+	setCurrentDropNode: TreeStore['setCurrentDropNode'];
+	setReachLevelRange: TreeStore['setReachLevelRange'];
 	renderItem: (props: {
 		data: TreeNodeVoWithLevel[];
 		index: number;
 		style: CSSProperties;
 	}) => JSX.Element;
+	renderCloneItem: (
+		dragProvided: DraggableProvided,
+		dragSnapshot: DraggableStateSnapshot,
+		rubric: DraggableRubric
+	) => JSX.Element;
 }
 
 export function DragDropZone({
 	bookId,
+	nodeMap,
 	draggableList,
 	height,
 	maxLevel = 999,
-	renderItem
+	expandedKeys,
+	reachLevelMap,
+	setExpandedKeys,
+	setIsDragging,
+	setCurrentDropNode,
+	setReachLevelRange,
+	renderItem,
+	renderCloneItem
 }: Readonly<DragDropZoneProps>) {
 	const expandedKeysBeforeDrag = useRef<Set<number>>(new Set());
-
-	const expandedKeys = useTree((state) => state.expandedKeys);
-	const reachLevelMap = useTree((state) => state.reachLevelMap);
-	const setExpandedKeys = useTree((state) => state.setExpandedKeys);
-	const setIsDragging = useTree((state) => state.setIsDragging);
-	const setCurrentDropNode = useTree((state) => state.setCurrentDropNode);
-	const setReachLevelRange = useTree((state) => state.setReachLevelRange);
-
-	const renderCloneItem = useCallback(
-		(
-			dragProvided: DraggableProvided,
-			dragSnapshot: DraggableStateSnapshot,
-			rubric: DraggableRubric
-		) => (
-			<CloneCatalogItem
-				dragProvided={dragProvided}
-				dragSnapshot={dragSnapshot}
-				item={draggableList[rubric.source.index]}
-			/>
-		),
-		[draggableList]
-	);
 
 	const updateDropNode = ({
 		dropNode,
@@ -106,7 +102,7 @@ export function DragDropZone({
 	}) => {
 		const newPrevId = newParentId;
 
-		const { shouldUpdateNode, node, subTreeMaxLevel } = checkShouldMoveNode(
+		const { shouldUpdateNode, node, updatedMaxLevel } = checkShouldMoveNode(
 			nodeMap,
 			{
 				nodeId,
@@ -115,7 +111,7 @@ export function DragDropZone({
 			}
 		);
 
-		if (!shouldUpdateNode || !node || subTreeMaxLevel > maxLevel) {
+		if (!shouldUpdateNode || !node || updatedMaxLevel > maxLevel) {
 			return;
 		}
 
@@ -129,7 +125,7 @@ export function DragDropZone({
 			expandedKeysBeforeDrag.current.add(newParentId);
 		}
 
-		mutateTree(bookId, async () => {
+		mutateTree(bookId, nodeMap, async () => {
 			const result = await prependChildAction({
 				bookId,
 				nodeId,
@@ -157,7 +153,7 @@ export function DragDropZone({
 			return;
 		}
 
-		const { shouldUpdateNode, node, subTreeMaxLevel } = checkShouldMoveNode(
+		const { shouldUpdateNode, node, updatedMaxLevel } = checkShouldMoveNode(
 			nodeMap,
 			{
 				nodeId,
@@ -166,7 +162,7 @@ export function DragDropZone({
 			}
 		);
 
-		if (!shouldUpdateNode || !node || subTreeMaxLevel > maxLevel) {
+		if (!shouldUpdateNode || !node || updatedMaxLevel > maxLevel) {
 			return;
 		}
 
@@ -176,7 +172,7 @@ export function DragDropZone({
 			newPrevId
 		});
 
-		mutateTree(bookId, async () => {
+		mutateTree(bookId, nodeMap, async () => {
 			const result = await moveAfterAction({
 				bookId,
 				nodeId,
@@ -348,8 +344,8 @@ export function DragDropZone({
 			onDragUpdate={handleDragUpdate}
 		>
 			<Droppable
-				isCombineEnabled
 				droppableId="Catalog"
+				isCombineEnabled={maxLevel > 0}
 				mode="virtual"
 				renderClone={renderCloneItem}
 			>

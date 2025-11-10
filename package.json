@@ -27,7 +27,8 @@
 		"prepare": "husky",
 		"commit": "git add -A && git-cz",
 		"db:generate": "prisma generate",
-		"db:migrate": "prisma migrate dev"
+		"db:migrate": "prisma migrate dev",
+		"db:deploy": "prisma migrate deploy"
 	},
 	"dependencies": {
 		"@hello-pangea/dnd": "^18.0.1",
@@ -97,6 +98,7 @@
 		"react-remove-scroll": "^2.7.1",
 		"react-window": "^1.8.11",
 		"sass": "^1.91.0",
+		"simple-icons": "^15.19.0",
 		"sonner": "^2.0.6",
 		"swr": "^2.3.4",
 		"tailwind-merge": "^3.3.1",

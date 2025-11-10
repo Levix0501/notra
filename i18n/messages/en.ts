@@ -9,7 +9,9 @@ export const en = {
 	},
 	app_dashboard_main_page: {
 		navbar: 'Navbar',
-		configure_navbar: 'Configure the navbar for your site'
+		configure_navbar: 'Configure the navbar for your site',
+		contact_info: 'Contact Info',
+		configure_contact_info: 'Configure the contact info for your site'
 	},
 	components_account_dropdown: {
 		settings: 'Settings',
@@ -70,6 +72,44 @@ export const en = {
 	components_catalog_item: {
 		default_catalog_node_name: 'Untitled'
 	},
+	components_catalog_item_create_dropdown: {
+		new_doc: 'Document',
+		new_group: 'Group'
+	},
+	components_catalog_item_more_dropdown: {
+		rename: 'Rename',
+		settings: 'Settings',
+		publish: 'Publish',
+		unpublish: 'Unpublish',
+		delete: 'Delete',
+		delete_loading: 'Deleting...',
+		delete_error: 'Failed to delete!',
+		delete_success: 'Deleted successfully!',
+		publish_loading: 'Publishing...',
+		publish_error: 'Failed to publish!',
+		publish_success: 'Published successfully!',
+		unpublish_loading: 'Unpublishing...',
+		unpublish_error: 'Failed to unpublish!',
+		unpublish_success: 'Unpublished successfully!'
+	},
+	components_contact_info_form: {
+		icon: 'Icon',
+		content: 'Content',
+		content_description:
+			'Different types of content will have different interactive forms. Optional content: link starting with http or https, email, plain text',
+		add: 'Add',
+		update: 'Update',
+		add_loading: 'Adding...',
+		add_success: 'Added successfully!',
+		add_error: 'Failed to add!',
+		update_loading: 'Updating...',
+		update_success: 'Updated successfully!',
+		update_error: 'Failed to update!'
+	},
+	components_contact_info_sheet: {
+		add_contact_info: 'Add Contact Info',
+		edit_contact_info: 'Edit Contact Info'
+	},
 	components_create_book_dialog: {
 		new_book: 'New Book',
 		create: 'Create',
@@ -77,10 +117,6 @@ export const en = {
 		create_loading: 'Creating a new book...',
 		create_success: 'Created successfully!',
 		create_error: 'Failed to create!'
-	},
-	components_create_dropdown: {
-		new_doc: 'Document',
-		new_group: 'Group'
 	},
 	components_dashboard_button: {
 		dashboard: 'Dashboard'
@@ -92,6 +128,13 @@ export const en = {
 	components_doc_footer_nav: {
 		previous: 'Previous',
 		next: 'Next'
+	},
+	components_doc_publish_button: {
+		publish: 'Publish',
+		share: 'Share',
+		unpublish: 'Unpublish',
+		view_page: 'View page',
+		publish_to_web: 'Publish to web'
 	},
 	components_doc_settings_button: {
 		doc_settings: 'Doc Settings'
@@ -110,6 +153,14 @@ export const en = {
 	},
 	components_doc_settings_sheet: {
 		doc_settings: 'Doc Settings'
+	},
+	components_draggable_contact_info_items: {
+		no_contact_info: 'No Contact Info',
+		no_contact_info_description: "You haven't added any contact info yet."
+	},
+	components_draggable_nav_items: {
+		no_nav_items: 'No Nav Items',
+		no_nav_items_description: "You haven't created any nav items yet."
 	},
 	components_edit_button: {
 		edit: 'Edit'
@@ -158,47 +209,8 @@ export const en = {
 		no_more: 'No more blogs.',
 		no_blogs_found: 'No blogs found.'
 	},
-	components_more_dropdown: {
-		rename: 'Rename',
-		settings: 'Settings',
-		publish: 'Publish',
-		unpublish: 'Unpublish',
-		delete: 'Delete',
-		delete_loading: 'Deleting...',
-		delete_error: 'Failed to delete!',
-		delete_success: 'Deleted successfully!',
-		publish_loading: 'Publishing...',
-		publish_error: 'Failed to publish!',
-		publish_success: 'Published successfully!',
-		unpublish_loading: 'Unpublishing...',
-		unpublish_error: 'Failed to unpublish!',
-		unpublish_success: 'Unpublished successfully!'
-	},
-	components_navbar: {
-		no_navbar_items: 'No Navbar Items',
-		no_navbar_items_description: "You haven't created any navbar items yet."
-	},
-	components_navbar_publish_button: {
-		publish: 'Publish',
-		publish_loading: 'Publishing...',
-		publish_success: 'Published successfully!',
-		publish_error: 'Failed to publish!'
-	},
 	components_nav_item: {
 		default_nav_item_name: 'Untitled'
-	},
-	components_nav_item_add_button: {
-		add: 'Add Navbar Item'
-	},
-	components_nav_item_delete_dialog: {
-		delete: 'Delete',
-		delete_loading: 'Deleting...',
-		delete_success: 'Deleted successfully!',
-		delete_error: 'Failed to delete!',
-		cancel: 'Cancel',
-		confirm: 'Confirm',
-		title: 'Confirm deletion?',
-		description: 'This action cannot be undone.'
 	},
 	components_nav_item_form: {
 		add: 'Add',
@@ -243,13 +255,6 @@ export const en = {
 		powered_by:
 			'Powered by <a href="https://www.notra.tech" target="_blank" class="underline">Notra</a>'
 	},
-	components_publish_button: {
-		publish: 'Publish',
-		share: 'Share',
-		unpublish: 'Unpublish',
-		view_page: 'View page',
-		publish_to_web: 'Publish to web'
-	},
 	components_site_settings_form: {
 		title: 'Site Title',
 		description: 'Site Description',
@@ -266,7 +271,26 @@ export const en = {
 		update_success: 'Updated successfully!',
 		update_error: 'Failed to update!'
 	},
-	hooks_use_create_tree_node: {
+	components_tree_node_add_button: {
+		add: 'Add'
+	},
+	components_tree_node_delete_dialog: {
+		delete: 'Delete',
+		delete_loading: 'Deleting...',
+		delete_success: 'Deleted successfully!',
+		delete_error: 'Failed to delete!',
+		cancel: 'Cancel',
+		confirm: 'Confirm',
+		title: 'Confirm deletion?',
+		description: 'This action cannot be undone.'
+	},
+	components_tree_nodes_publish_button: {
+		publish: 'Publish',
+		publish_loading: 'Publishing...',
+		publish_success: 'Published successfully!',
+		publish_error: 'Failed to publish!'
+	},
+	hooks_use_create_catalog_item: {
 		create_loading: 'Creating...',
 		create_success: 'Created successfully!',
 		create_error: 'Failed to create!'
@@ -287,7 +311,8 @@ export const en = {
 		check_book_slug_error: 'Failed to check book slug!',
 		update_book_error: 'Failed to update book!',
 		get_published_book_by_slug_error: 'Failed to get published book by slug!',
-		get_navbar_book_error: 'Failed to get navbar book!'
+		get_navbar_book_error: 'Failed to get navbar book!',
+		get_contact_info_book_error: 'Failed to get contact info book!'
 	},
 	services_doc: {
 		get_published_blogs_error: 'Failed to get published blogs!',
@@ -325,8 +350,11 @@ export const en = {
 		unpublish_error: 'Failed to unpublish!',
 		create_nav_item_error: 'Failed to create nav item!',
 		update_nav_item_error: 'Failed to update nav item!',
-		publish_navbar_error: 'Failed to publish navbar!',
-		get_published_nav_items_error: 'Failed to get published nav items!'
+		publish_tree_nodes_error: 'Failed to publish tree nodes!',
+		get_published_nav_items_error: 'Failed to get published nav items!',
+		create_contact_info_error: 'Failed to create contact info!',
+		update_contact_info_error: 'Failed to update contact info!',
+		get_published_contact_info_error: 'Failed to get published contact info!'
 	},
 	types_book: {
 		name_required: 'Name is required',
@@ -341,7 +369,8 @@ export const en = {
 	},
 	types_tree_node: {
 		title_required: 'Title is required',
-		url_regex: 'URL should start with "http://", "https://" or "/"'
+		url_regex: 'URL should start with "http://", "https://" or "/"',
+		required: 'Required'
 	},
 	notra_editor: {
 		code_block_code: 'Code',

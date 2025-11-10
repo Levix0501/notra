@@ -1,12 +1,5 @@
 import { BookEntity, BookType } from '@prisma/client';
-import {
-	Ellipsis,
-	Globe,
-	GlobeLock,
-	Pencil,
-	TextCursorInput,
-	Trash2
-} from 'lucide-react';
+import { Ellipsis, Globe, GlobeLock, Pencil, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { publishWithParent, unpublishWithChildren } from '@/actions/tree-node';
@@ -20,42 +13,40 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { getTranslations } from '@/i18n';
 import { publishNode, unpublishNode } from '@/lib/tree/client';
-import { mutateTree, NAVBAR_MAP } from '@/stores/tree';
+import { CONTACT_INFO_MAP, mutateTree } from '@/stores/tree';
 import { TreeNodeVoWithLevel } from '@/types/tree-node';
 
-import { useNavItemSheet } from './nav-item-sheet';
+import { useContactInfoSheet } from './contact-info-sheet';
 import { useTreeNodeDeleteDialog } from './tree-node-delete-dialog';
 
-interface NavItemMoreDropdownProps {
+interface ContactInfoItemMoreDropdownProps {
 	bookId: BookEntity['id'];
 	item: TreeNodeVoWithLevel;
-	onRename: () => void;
 }
 
 const t = getTranslations('components_nav_item_more_dropdown');
 
-export const NavItemMoreDropdown = ({
+export const ContactInfoItemMoreDropdown = ({
 	bookId,
-	item,
-	onRename
-}: NavItemMoreDropdownProps) => {
+	item
+}: ContactInfoItemMoreDropdownProps) => {
 	const handleEdit = () => {
-		useNavItemSheet.setState({
+		useContactInfoSheet.setState({
 			open: true,
 			id: item.id
 		});
 	};
 
 	const handlePublish = () => {
-		const [nodeIds, docIds] = publishNode(NAVBAR_MAP, item.id);
+		const [nodeIds, docIds] = publishNode(CONTACT_INFO_MAP, item.id);
 
-		mutateTree(bookId, NAVBAR_MAP, async () => {
+		mutateTree(bookId, CONTACT_INFO_MAP, async () => {
 			const promise = (async () => {
 				const result = await publishWithParent({
 					nodeIds,
 					docIds,
 					bookId,
-					bookType: BookType.NAVBAR
+					bookType: BookType.CONTACT
 				});
 
 				if (!result.success || !result.data) {
@@ -76,15 +67,15 @@ export const NavItemMoreDropdown = ({
 	};
 
 	const handleUnpublish = () => {
-		const [nodeIds, docIds] = unpublishNode(NAVBAR_MAP, item.id);
+		const [nodeIds, docIds] = unpublishNode(CONTACT_INFO_MAP, item.id);
 
-		mutateTree(bookId, NAVBAR_MAP, async () => {
+		mutateTree(bookId, CONTACT_INFO_MAP, async () => {
 			const promise = (async () => {
 				const result = await unpublishWithChildren({
 					nodeIds,
 					docIds,
 					bookId,
-					bookType: BookType.NAVBAR
+					bookType: BookType.CONTACT
 				});
 
 				if (!result.success || !result.data) {
@@ -128,11 +119,6 @@ export const NavItemMoreDropdown = ({
 					{t.edit}
 				</DropdownMenuItem>
 
-				<DropdownMenuItem onClick={onRename}>
-					<TextCursorInput className="text-popover-foreground" />
-					{t.rename}
-				</DropdownMenuItem>
-
 				<DropdownMenuSeparator />
 
 				<DropdownMenuItem
@@ -153,7 +139,7 @@ export const NavItemMoreDropdown = ({
 							open: true,
 							id: item.id,
 							bookId,
-							type: 'navbar'
+							type: 'contact'
 						})
 					}
 				>

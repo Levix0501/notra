@@ -27,20 +27,24 @@ import { getTranslations } from '@/i18n';
 import { deleteNode, publishNode, unpublishNode } from '@/lib/tree/client';
 import { useGetBook } from '@/queries/book';
 import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
-import { mutateTree, nodeMap } from '@/stores/tree';
+import { mutateTree, BOOK_CATALOG_MAP } from '@/stores/tree';
 import { TreeNodeVoWithLevel } from '@/types/tree-node';
 
 import { useDocSettingsSheet } from './doc-settings-sheet';
 
-interface MoreDropdownProps {
+interface CatalogItemMoreDropdownProps {
 	bookId: BookEntity['id'];
 	item: TreeNodeVoWithLevel;
 	onRename: () => void;
 }
 
-const t = getTranslations('components_more_dropdown');
+const t = getTranslations('components_catalog_item_more_dropdown');
 
-export const MoreDropdown = ({ bookId, item, onRename }: MoreDropdownProps) => {
+export const CatalogItemMoreDropdown = ({
+	bookId,
+	item,
+	onRename
+}: CatalogItemMoreDropdownProps) => {
 	const { docId } = useParams<{ bookId: string; docId: string }>();
 	const router = useRouter();
 	const { data: book } = useGetBook(bookId);
@@ -60,9 +64,9 @@ export const MoreDropdown = ({ bookId, item, onRename }: MoreDropdownProps) => {
 	};
 
 	const handleDelete = () => {
-		const [nodeIds, docIds] = deleteNode(nodeMap, item.id);
+		const [nodeIds, docIds] = deleteNode(BOOK_CATALOG_MAP, item.id);
 
-		mutateTree(book.id, async () => {
+		mutateTree(book.id, BOOK_CATALOG_MAP, async () => {
 			const promise = (async () => {
 				const result = await deleteNodeWithChildren({
 					nodeId: item.id,
@@ -93,9 +97,9 @@ export const MoreDropdown = ({ bookId, item, onRename }: MoreDropdownProps) => {
 	};
 
 	const handlePublish = () => {
-		const [nodeIds, docIds] = publishNode(nodeMap, item.id);
+		const [nodeIds, docIds] = publishNode(BOOK_CATALOG_MAP, item.id);
 
-		mutateTree(book.id, async () => {
+		mutateTree(book.id, BOOK_CATALOG_MAP, async () => {
 			const promise = (async () => {
 				const result = await publishWithParent({
 					nodeIds,
@@ -140,9 +144,9 @@ export const MoreDropdown = ({ bookId, item, onRename }: MoreDropdownProps) => {
 	};
 
 	const handleUnpublish = () => {
-		const [nodeIds, docIds] = unpublishNode(nodeMap, item.id);
+		const [nodeIds, docIds] = unpublishNode(BOOK_CATALOG_MAP, item.id);
 
-		mutateTree(book.id, async () => {
+		mutateTree(book.id, BOOK_CATALOG_MAP, async () => {
 			const promise = (async () => {
 				const result = await unpublishWithChildren({
 					nodeIds,

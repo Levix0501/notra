@@ -3,20 +3,22 @@
 import {
 	Draggable,
 	DraggableProvided,
+	DraggableRubric,
 	DraggableStateSnapshot
 } from '@hello-pangea/dnd';
 import { BookEntity } from '@prisma/client';
-import { AppWindowMac } from 'lucide-react';
+import { Contact } from 'lucide-react';
 import { CSSProperties, RefObject, useCallback, useRef } from 'react';
 import { useResizeObserver } from 'usehooks-ts';
 
 import { getTranslations } from '@/i18n';
-import { useGetTreeNodes } from '@/queries/tree-node';
-import { setNodeMap, useTree } from '@/stores/tree';
+import { useGetContactInfoTreeNodes } from '@/queries/tree-node';
+import { CONTACT_INFO_MAP, useContactInfoTree } from '@/stores/tree';
 import { TreeNodeVoWithLevel } from '@/types/tree-node';
 
+import { CloneContactInfoItem } from './clone-contact-info-item';
+import { ContactInfoItem } from './contact-info-item';
 import { DragDropZone } from './drag-drop-zone';
-import { NavItem } from './nav-item';
 import { NotraSkeleton } from './notra-skeleton';
 import {
 	Empty,
@@ -26,41 +28,49 @@ import {
 	EmptyTitle
 } from './ui/empty';
 
-const t = getTranslations('components_navbar');
+const t = getTranslations('components_draggable_contact_info_items');
 
-export function Navbar({ bookId }: Readonly<{ bookId: BookEntity['id'] }>) {
+export function DraggableContactInfoItems({
+	bookId
+}: Readonly<{ bookId: BookEntity['id'] }>) {
 	const ref = useRef<HTMLDivElement>(null);
-	const hasDefaultExpandedKeysGenerated = useRef(false);
 
 	const { height = 9999 } = useResizeObserver({
 		ref: ref as RefObject<HTMLElement>
 	});
 
-	const expandedKeys = useTree((state) => state.expandedKeys);
-	const setExpandedKeys = useTree((state) => state.setExpandedKeys);
-	const { data, isLoading: isNavbarTreeNodesLoading } = useGetTreeNodes(
-		bookId,
-		{
-			onSuccess(data) {
-				setNodeMap(data);
-
-				if (data && !hasDefaultExpandedKeysGenerated.current) {
-					hasDefaultExpandedKeysGenerated.current = true;
-					const defaultExpandedKeys = data
-						.filter((node) => node.level === 0)
-						.map((node) => node.id);
-
-					setExpandedKeys(defaultExpandedKeys);
-				}
-			}
-		}
+	const expandedKeys = useContactInfoTree((state) => state.expandedKeys);
+	const reachLevelMap = useContactInfoTree((state) => state.reachLevelMap);
+	const setExpandedKeys = useContactInfoTree((state) => state.setExpandedKeys);
+	const setIsDragging = useContactInfoTree((state) => state.setIsDragging);
+	const setCurrentDropNode = useContactInfoTree(
+		(state) => state.setCurrentDropNode
 	);
-	const isLoading = isNavbarTreeNodesLoading;
-	const isEmpty = !isLoading && !data?.length;
+	const setReachLevelRange = useContactInfoTree(
+		(state) => state.setReachLevelRange
+	);
 
+	const { data, isLoading } = useGetContactInfoTreeNodes(bookId);
+
+	const isEmpty = !isLoading && !data?.length;
 	const draggableList = (data ?? []).filter(
 		(node) =>
 			node.level === 0 || (node.parentId && expandedKeys.has(node.parentId))
+	);
+
+	const renderCloneItem = useCallback(
+		(
+			dragProvided: DraggableProvided,
+			dragSnapshot: DraggableStateSnapshot,
+			rubric: DraggableRubric
+		) => (
+			<CloneContactInfoItem
+				dragProvided={dragProvided}
+				dragSnapshot={dragSnapshot}
+				item={draggableList[rubric.source.index]}
+			/>
+		),
+		[draggableList]
 	);
 
 	const renderItem = useCallback(
@@ -78,7 +88,7 @@ export function Navbar({ bookId }: Readonly<{ bookId: BookEntity['id'] }>) {
 						dragProvided: DraggableProvided,
 						dragSnapshot: DraggableStateSnapshot
 					) => (
-						<NavItem
+						<ContactInfoItem
 							bookId={bookId}
 							dragProvided={dragProvided}
 							dragSnapshot={dragSnapshot}
@@ -106,10 +116,10 @@ export function Navbar({ bookId }: Readonly<{ bookId: BookEntity['id'] }>) {
 				<Empty>
 					<EmptyHeader>
 						<EmptyMedia variant="icon">
-							<AppWindowMac />
+							<Contact />
 						</EmptyMedia>
-						<EmptyTitle>{t.no_navbar_items}</EmptyTitle>
-						<EmptyDescription>{t.no_navbar_items_description}</EmptyDescription>
+						<EmptyTitle>{t.no_contact_info}</EmptyTitle>
+						<EmptyDescription>{t.no_contact_info_description}</EmptyDescription>
 					</EmptyHeader>
 				</Empty>
 			)}
@@ -118,9 +128,17 @@ export function Navbar({ bookId }: Readonly<{ bookId: BookEntity['id'] }>) {
 				<DragDropZone
 					bookId={bookId}
 					draggableList={draggableList}
+					expandedKeys={expandedKeys}
 					height={Math.min(height, (data ?? []).length * 36)}
-					maxLevel={1}
+					maxLevel={0}
+					nodeMap={CONTACT_INFO_MAP}
+					reachLevelMap={reachLevelMap}
+					renderCloneItem={renderCloneItem}
 					renderItem={renderItem}
+					setCurrentDropNode={setCurrentDropNode}
+					setExpandedKeys={setExpandedKeys}
+					setIsDragging={setIsDragging}
+					setReachLevelRange={setReachLevelRange}
 				/>
 			)}
 		</div>

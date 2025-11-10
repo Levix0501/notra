@@ -12,14 +12,18 @@ import { getTranslations } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { useGetBook } from '@/queries/book';
 import { useDocStore } from '@/stores/doc';
-import { useTree, nodeMap, mutateTree } from '@/stores/tree';
+import {
+	useBookCatalogTree,
+	mutateTree,
+	BOOK_CATALOG_MAP
+} from '@/stores/tree';
 import { TreeNodeVoWithLevel } from '@/types/tree-node';
 
+import { CatalogItemCreateDropdown } from './catalog-item-create-dropdown';
+import { CatalogItemLevelIndicator } from './catalog-item-level-indicator';
+import { CatalogItemMoreDropdown } from './catalog-item-more-dropdown';
 import { CatalogItemWrapper } from './catalog-item-wrapper';
-import { CreateDropdown } from './create-dropdown';
 import { EditTitleForm } from './edit-title-form';
-import { LevelIndicator } from './level-indicator';
-import { MoreDropdown } from './more-dropdown';
 
 export interface CatalogItemProps {
 	dragProvided: DraggableProvided;
@@ -41,8 +45,8 @@ export const CatalogItem = ({
 	const [isEditingTitle, setIsEditingTitle] = useState(false);
 
 	const { data: book } = useGetBook(bookId);
-	const expandedKeys = useTree((state) => state.expandedKeys);
-	const setExpandedKeys = useTree((state) => state.setExpandedKeys);
+	const expandedKeys = useBookCatalogTree((state) => state.expandedKeys);
+	const setExpandedKeys = useBookCatalogTree((state) => state.setExpandedKeys);
 	const pathname = usePathname();
 
 	const isActive = pathname === `/dashboard/${book?.id}/${item.docId}`;
@@ -85,7 +89,7 @@ export const CatalogItem = ({
 			title = t.default_catalog_node_name;
 		}
 
-		const node = nodeMap.get(item.id);
+		const node = BOOK_CATALOG_MAP.get(item.id);
 
 		if (!node) {
 			return;
@@ -93,7 +97,7 @@ export const CatalogItem = ({
 
 		node.title = title;
 
-		mutateTree(book.id, async () => {
+		mutateTree(book.id, BOOK_CATALOG_MAP, async () => {
 			const result = await updateTitle({
 				id: item.id,
 				title
@@ -154,7 +158,7 @@ export const CatalogItem = ({
 			<CatalogItemWrapper
 				bookId={bookId}
 				className={cn(
-					'my-px flex h-[34px] items-center rounded-md border-[1.5px] border-transparent pr-1 text-sm hover:bg-sidebar-accent',
+					'my-px flex h-8.5 items-center rounded-md border-[1.5px] border-transparent pr-1 text-sm hover:bg-sidebar-accent',
 					Boolean(dragSnapshot.combineTargetFor) &&
 						'border-[#117cee] dark:border-[#3b82ce]',
 					isActive && 'bg-sidebar-accent font-bold'
@@ -214,7 +218,10 @@ export const CatalogItem = ({
 					)}
 				>
 					<div className="flex items-center gap-px">
-						<CreateDropdown bookId={bookId} parentTreeNodeId={item.id}>
+						<CatalogItemCreateDropdown
+							bookId={bookId}
+							parentTreeNodeId={item.id}
+						>
 							<Button
 								className="size-6 hover:bg-border"
 								size="icon"
@@ -222,14 +229,18 @@ export const CatalogItem = ({
 							>
 								<Plus />
 							</Button>
-						</CreateDropdown>
+						</CatalogItemCreateDropdown>
 
-						<MoreDropdown bookId={bookId} item={item} onRename={handleRename} />
+						<CatalogItemMoreDropdown
+							bookId={bookId}
+							item={item}
+							onRename={handleRename}
+						/>
 					</div>
 				</div>
 			</CatalogItemWrapper>
 
-			<LevelIndicator nodeId={item.id} />
+			<CatalogItemLevelIndicator nodeId={item.id} />
 		</div>
 	);
 };
