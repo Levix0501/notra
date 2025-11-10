@@ -91,6 +91,9 @@ export const zh = {
 		unpublish_error: '取消发布失败！',
 		unpublish_success: '取消发布成功！'
 	},
+	components_colored_contact_icon_switch: {
+		colored_contact_icons: '彩色图标'
+	},
 	components_contact_info_form: {
 		icon: '图标',
 		content: '内容',

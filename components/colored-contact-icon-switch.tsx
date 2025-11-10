@@ -3,10 +3,13 @@
 import { useState } from 'react';
 
 import { updateSiteSettings } from '@/actions/site-settings';
+import { getTranslations } from '@/i18n';
 import { useGetSiteSettings } from '@/queries/site-settings';
 
 import { Label } from './ui/label';
 import { Switch } from './ui/switch';
+
+const t = getTranslations('components_colored_contact_icon_switch');
 
 export const ColoredContactIconSwitch = () => {
 	const [isPending, setIsPending] = useState(false);
@@ -55,7 +58,7 @@ export const ColoredContactIconSwitch = () => {
 				id="colored-contact-icons"
 				onCheckedChange={handleChange}
 			/>
-			<Label htmlFor="colored-contact-icons">彩色图标</Label>
+			<Label htmlFor="colored-contact-icons">{t.colored_contact_icons}</Label>
 		</div>
 	);
 };

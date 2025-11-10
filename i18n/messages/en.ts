@@ -92,6 +92,9 @@ export const en = {
 		unpublish_error: 'Failed to unpublish!',
 		unpublish_success: 'Unpublished successfully!'
 	},
+	components_colored_contact_icon_switch: {
+		colored_contact_icons: 'Colored Contact Icons'
+	},
 	components_contact_info_form: {
 		icon: 'Icon',
 		content: 'Content',
