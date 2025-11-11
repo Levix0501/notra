@@ -27,7 +27,7 @@ export const revalidateDoc = async ({
 };
 
 export const revalidateDashboardBook = async () => {
-	revalidatePath('/dashboard/[bookId]');
+	revalidatePath('/dashboard/[bookId]', 'layout');
 };
 
 export const revalidateAll = async () => revalidatePath('/', 'layout');

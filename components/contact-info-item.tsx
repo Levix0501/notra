@@ -46,7 +46,7 @@ export const ContactInfoItem = ({
 			}}
 		>
 			<ContactInfoItemWrapper url={item.url}>
-				<div className="my-px flex h-8.5 items-center justify-between rounded-md border-[1.5px] border-transparent px-1 text-sm">
+				<div className="my-px flex h-8.5 items-center justify-between rounded-md border-[1.5px] border-transparent px-1 text-sm hover:bg-sidebar-accent">
 					<div className="relative mr-1 size-6">
 						<div className="flex size-6 items-center justify-center">
 							<ContactInfoIcon
