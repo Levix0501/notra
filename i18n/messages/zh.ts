@@ -32,6 +32,9 @@ export const zh = {
 	components_book_catalog: {
 		new: '新增'
 	},
+	components_book_catalog_static_client: {
+		menu: '菜单'
+	},
 	components_book_settings_form: {
 		visibility: '可见性',
 		name: '名称',
@@ -155,6 +158,9 @@ export const zh = {
 	},
 	components_doc_settings_sheet: {
 		doc_settings: '文档设置'
+	},
+	components_doc_toc: {
+		on_this_page: '本页内容'
 	},
 	components_draggable_contact_info_items: {
 		no_contact_info: '没有联系方式',

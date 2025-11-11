@@ -41,6 +41,8 @@
 	--radius-md: calc(var(--radius) - 2px);
 	--radius-lg: var(--radius);
 	--radius-xl: calc(var(--radius) + 4px);
+	--spacing-header-height: 3.5rem;
+	--spacing-doc-aside-height: calc(100dvh - 80px);
 }
 
 :root {

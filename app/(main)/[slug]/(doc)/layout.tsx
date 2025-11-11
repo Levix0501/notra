@@ -4,8 +4,7 @@ import { notFound } from 'next/navigation';
 import { BookCatalogStatic } from '@/components/book-catalog-static';
 import {
 	BookCatalogStaticAside,
-	BookCatalogStaticBackdrop,
-	BookCatalogStaticTrigger
+	BookCatalogStaticBackdrop
 } from '@/components/book-catalog-static-client';
 import { BookService } from '@/services/book';
 
@@ -25,18 +24,13 @@ export default async function Layout({
 
 	return (
 		<>
-			<div className="px-4 md:flex md:justify-center">
-				<div className="flex h-12 items-center md:hidden">
-					{book.type === BookType.DOCS && <BookCatalogStaticTrigger />}
-				</div>
-
+			<div className="md:flex md:justify-center md:px-4">
 				<BookCatalogStaticAside>
 					{book.type === BookType.DOCS && (
 						<BookCatalogStatic bookId={book.id} bookSlug={book.slug} />
 					)}
 				</BookCatalogStaticAside>
 				{children}
-				<div className="hidden w-64 shrink-0 lg:block"></div>
 			</div>
 
 			<BookCatalogStaticBackdrop />

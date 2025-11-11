@@ -32,6 +32,9 @@ export const en = {
 	components_book_catalog: {
 		new: 'Add New'
 	},
+	components_book_catalog_static_client: {
+		menu: 'Menu'
+	},
 	components_book_settings_form: {
 		visibility: 'Visibility',
 		name: 'Name',
@@ -156,6 +159,9 @@ export const en = {
 	},
 	components_doc_settings_sheet: {
 		doc_settings: 'Doc Settings'
+	},
+	components_doc_toc: {
+		on_this_page: 'On this page'
 	},
 	components_draggable_contact_info_items: {
 		no_contact_info: 'No Contact Info',

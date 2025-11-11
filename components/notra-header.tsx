@@ -14,7 +14,7 @@ export async function NotraHeader() {
 	const { data: navItems } = await TreeNodeService.getPublishedNavItems();
 
 	return (
-		<header className="sticky top-0 z-40 h-14 border-b bg-background px-6 not-md:pr-3">
+		<header className="sticky top-0 z-40 h-header-height border-b bg-background px-6 not-md:pr-3">
 			<div className="container mx-auto flex h-full items-center gap-3">
 				<Link className="flex h-full items-center gap-2 font-semibold" href="/">
 					<NotraLogo size={24} />

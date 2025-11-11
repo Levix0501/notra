@@ -63,6 +63,7 @@
 		"@tiptap/extension-paragraph": "^3.4.1",
 		"@tiptap/extension-subscript": "^3.4.3",
 		"@tiptap/extension-superscript": "^3.4.3",
+		"@tiptap/extension-table-of-contents": "^3.10.5",
 		"@tiptap/extension-text-align": "^3.3.0",
 		"@tiptap/extensions": "^3.10.1",
 		"@tiptap/pm": "^3.3.0",

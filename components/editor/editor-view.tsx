@@ -48,6 +48,26 @@ export const EditorView = ({ content }: EditorViewProps) => {
 							)}
 						</div>
 					);
+				},
+				heading: ({ node, parent }) => {
+					const index = parent?.children.indexOf(node);
+
+					switch (node.attrs.level) {
+						case 1:
+							return <h1 data-id={`h1-${index}`}>{node.textContent}</h1>;
+						case 2:
+							return <h2 data-id={`h2-${index}`}>{node.textContent}</h2>;
+						case 3:
+							return <h3 data-id={`h3-${index}`}>{node.textContent}</h3>;
+						case 4:
+							return <h4 data-id={`h4-${index}`}>{node.textContent}</h4>;
+						case 5:
+							return <h5 data-id={`h5-${index}`}>{node.textContent}</h5>;
+						case 6:
+							return <h6 data-id={`h6-${index}`}>{node.textContent}</h6>;
+						default:
+							return null;
+					}
 				}
 			}
 		}

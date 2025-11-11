@@ -1,6 +1,7 @@
 import { createHash } from 'crypto';
 
 import { FileEntity } from '@prisma/client';
+import { JSONContent } from '@tiptap/react';
 import { clsx, type ClassValue } from 'clsx';
 import { toast } from 'sonner';
 import { twMerge } from 'tailwind-merge';
@@ -83,4 +84,27 @@ export const uploadFile = async (file: File) => {
 	});
 
 	return result;
+};
+
+export const getToc = (docContent: JSONContent) => {
+	if (docContent.type === 'doc' && docContent.content) {
+		return docContent.content
+			.filter(
+				(node) =>
+					node.type === 'heading' &&
+					node.attrs?.level &&
+					node.attrs.level <= 3 &&
+					node.content?.length === 1 &&
+					node.content[0].type === 'text'
+			)
+			.map((node) => {
+				return {
+					id: `h${node.attrs?.level}-${docContent.content?.indexOf(node)}`,
+					text: node.content![0].text as string,
+					level: node.attrs!.level as number
+				};
+			});
+	}
+
+	return [];
 };

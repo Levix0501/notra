@@ -8,11 +8,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { create } from 'zustand';
 
 import { useIsMobile } from '@/hooks/use-is-mobile';
+import { getTranslations } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { ChildrenProps } from '@/types/common';
 import { TreeNodeVoWithLevel } from '@/types/tree-node';
 
 import { Button } from './ui/button';
+
+const t = getTranslations('components_book_catalog_static_client');
 
 type BookCatalogStaticAsideStore = {
 	mobileOpen: boolean;
@@ -32,7 +35,7 @@ export function BookCatalogStaticAside({ children }: Readonly<ChildrenProps>) {
 	return (
 		<aside
 			className={cn(
-				'fixed top-0 bottom-0 left-0 z-45 w-80 translate-x-[-100%] overscroll-contain bg-background opacity-0 transition-[translate,opacity] duration-250 ease-[ease] md:sticky md:top-20 md:z-30 md:max-h-[calc(100dvh-80px)] md:w-64 md:shrink-0 md:translate-x-0 md:opacity-100',
+				'fixed top-0 bottom-0 left-0 z-45 w-80 translate-x-[-100%] overflow-y-auto overscroll-contain bg-background opacity-0 transition-[translate,opacity] duration-250 ease-[ease] md:sticky md:top-20 md:z-30 md:h-doc-aside-height md:w-64 md:shrink-0 md:translate-x-0 md:opacity-100',
 				mobileOpen && 'translate-x-0 opacity-100'
 			)}
 		>
@@ -80,7 +83,7 @@ export function BookCatalogStaticTrigger() {
 
 	return (
 		<Button variant="ghost" onClick={toggleMobileOpen}>
-			<Menu />
+			<Menu /> {t.menu}
 		</Button>
 	);
 }

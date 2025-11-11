@@ -15,7 +15,9 @@ export default async function Layout({
 	return (
 		<>
 			<NotraHeader />
-			<main className="container mx-auto md:pt-6">{children}</main>
+			<main className="mx-auto min-h-[calc(100dvh-3.5rem)] max-w-screen-2xl md:pt-6">
+				{children}
+			</main>
 			{navItems && navItems.length > 0 && (
 				<NavbarStaticMobile navItems={navItems} />
 			)}
