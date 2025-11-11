@@ -55,8 +55,8 @@ export function SiteSettingsForm({
 		defaultValues: {
 			title: defaultTitle,
 			description: defaultDescription,
-			logo: defaultLogo ? new File([], '') : void 0,
-			darkLogo: defaultDarkLogo ? new File([], '') : void 0,
+			logo: void 0,
+			darkLogo: void 0,
 			copyright: defaultCopyright
 		}
 	});

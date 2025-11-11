@@ -26,7 +26,7 @@ export function SettingsDialog({
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent
-				className="block flex max-h-[85vh] flex-col overflow-hidden p-0 focus-visible:outline-0 max-md:min-h-[60vh] md:h-[600px] md:max-w-[680px]"
+				className="flex max-h-[85vh] flex-col overflow-hidden p-0 focus-visible:outline-0 max-md:min-h-[60vh] md:h-[600px] md:max-w-[680px]"
 				showCloseButton={false}
 				onCloseAutoFocus={(e) => e.preventDefault()}
 				onOpenAutoFocus={(e) => e.preventDefault()}
