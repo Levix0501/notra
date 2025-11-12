@@ -7,5 +7,5 @@ export default function Layout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	return <>{children}</>;
+	return <div className="min-h-[calc(100dvh-3.5rem)]">{children}</div>;
 }

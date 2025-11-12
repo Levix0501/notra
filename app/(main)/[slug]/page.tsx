@@ -25,7 +25,7 @@ export const generateMetadata = async ({
 	const { data: page } = await DocService.getPublishedPageBySlug(slug);
 
 	return {
-		title: page?.title ?? ''
+		title: page?.title ?? '404'
 	};
 };
 

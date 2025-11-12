@@ -178,6 +178,11 @@ export const zh = {
 		no_documents_description: '您还没有创建任何文档。开始创建您的第一个文档。',
 		create_document: '创建文档'
 	},
+	components_empty_state: {
+		not_found: '404 - 未找到页面',
+		not_found_description: '您访问的页面不存在',
+		go_to_home: '返回首页'
+	},
 	components_global_settings_dialog: {
 		appearance: '外观',
 		general_settings: '常规设置',

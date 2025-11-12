@@ -180,6 +180,11 @@ export const en = {
 			"You haven't created any documents yet. Get started by creating your first document.",
 		create_document: 'Create Document'
 	},
+	components_empty_state: {
+		not_found: '404 - Not Found',
+		not_found_description: "The page you're looking for doesn't exist.",
+		go_to_home: 'Go to Home'
+	},
 	components_global_settings_dialog: {
 		appearance: 'Appearance',
 		general_settings: 'General Settings',
