@@ -178,6 +178,7 @@ function IconSelect({ value, onChange, isPending }: IconSelectProps) {
 					{icon ? (
 						<ContactInfoIcon
 							colored={siteSettings?.coloredContactIcons ?? false}
+							darkInvert={icon.darkInvert ?? false}
 							hex={icon.hex}
 							svg={icon.svg}
 						/>
@@ -192,7 +193,7 @@ function IconSelect({ value, onChange, isPending }: IconSelectProps) {
 				onCloseAutoFocus={(e) => e.preventDefault()}
 			>
 				<div className="flex flex-wrap gap-2 p-2">
-					{CONTACT_INFO_ICONS.map(({ slug, svg, hex }) => (
+					{CONTACT_INFO_ICONS.map(({ slug, svg, hex, darkInvert }) => (
 						<div
 							key={slug}
 							className="cursor-pointer rounded-sm p-1.5 hover:bg-accent"
@@ -203,6 +204,7 @@ function IconSelect({ value, onChange, isPending }: IconSelectProps) {
 						>
 							<ContactInfoIcon
 								colored={siteSettings?.coloredContactIcons ?? false}
+								darkInvert={darkInvert ?? false}
 								hex={hex}
 								svg={svg}
 							/>

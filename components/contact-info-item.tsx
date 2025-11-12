@@ -51,6 +51,7 @@ export const ContactInfoItem = ({
 						<div className="flex size-6 items-center justify-center">
 							<ContactInfoIcon
 								colored={siteSettings?.coloredContactIcons ?? false}
+								darkInvert={icon?.darkInvert ?? false}
 								hex={icon?.hex ?? ''}
 								svg={icon?.svg ?? ''}
 							/>

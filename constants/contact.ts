@@ -21,12 +21,14 @@ export const CONTACT_INFO_ICONS = [
 	{
 		slug: siGithub.slug,
 		svg: siGithub.svg,
-		hex: siGithub.hex
+		hex: siGithub.hex,
+		darkInvert: true
 	},
 	{
 		slug: siX.slug,
 		svg: siX.svg,
-		hex: siX.hex
+		hex: siX.hex,
+		darkInvert: true
 	},
 	{
 		slug: siDiscord.slug,
@@ -56,7 +58,8 @@ export const CONTACT_INFO_ICONS = [
 	{
 		slug: siTiktok.slug,
 		svg: siTiktok.svg,
-		hex: siTiktok.hex
+		hex: siTiktok.hex,
+		darkInvert: true
 	},
 	{
 		slug: siWechat.slug,

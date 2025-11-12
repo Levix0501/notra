@@ -26,6 +26,7 @@ export async function ContactInfo() {
 				<ContactInfoItemWrapper key={item.id} url={item.url}>
 					<ContactInfoIcon
 						colored={Boolean(siteSettings?.coloredContactIcons)}
+						darkInvert={item.icon?.darkInvert ?? false}
 						hex={item.icon?.hex ?? ''}
 						svg={item.icon?.svg ?? ''}
 					/>
