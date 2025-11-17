@@ -91,7 +91,9 @@ export const DocToc = ({ toc, onClickItem, showTitle = true }: DocTocProps) => {
 	return (
 		<nav className="text-sm">
 			{showTitle && (
-				<div className="mt-2 mb-0.5 font-medium">{t.on_this_page}</div>
+				<div className="mt-2 mb-0.5 font-medium text-muted-foreground">
+					{t.on_this_page}
+				</div>
 			)}
 			<ul className="space-y-2.5 py-2 text-muted-foreground">
 				{toc.map((item) => (

@@ -9,12 +9,12 @@ export const NavbarStatic = async () => {
 	const { data: navItems } = await TreeNodeService.getPublishedNavItems();
 
 	return (
-		<nav className="hidden h-full items-center md:flex">
+		<nav className="hidden h-full items-center text-muted-foreground md:flex">
 			{navItems?.map((item) =>
 				item.children.length === 0 ? (
 					<Link
 						key={item.id}
-						className="px-3 text-sm leading-14 transition-colors duration-250 hover:text-primary"
+						className="px-3 text-sm leading-14 transition-colors duration-150 hover:text-primary"
 						href={item.url ?? '#'}
 						target={item.isExternal ? '_blank' : void 0}
 					>
@@ -24,7 +24,7 @@ export const NavbarStatic = async () => {
 					<div key={item.id} className="group relative h-full">
 						{item.type === 'GROUP' ? (
 							<Button
-								className="h-full cursor-default gap-1 px-3 leading-14 transition-colors duration-250 group-hover:text-muted-foreground hover:bg-transparent hover:text-muted-foreground dark:hover:bg-transparent"
+								className="h-full cursor-default gap-1 px-3 leading-14 font-normal transition-colors duration-250 group-hover:text-muted-foreground hover:bg-transparent hover:text-muted-foreground dark:hover:bg-transparent"
 								variant="ghost"
 							>
 								{item.title}
