@@ -79,6 +79,7 @@
 		"cropperjs": "^1.6.2",
 		"dayjs": "^1.11.13",
 		"hast-util-to-html": "^9.0.5",
+		"idb": "^8.0.3",
 		"image-size": "^2.0.2",
 		"lowlight": "^3.3.0",
 		"lucide-react": "^0.534.0",

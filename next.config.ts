@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
 			},
 			{
 				hostname: '__CADDY_DOMAIN__' // do not change this, is will be replaced by the Caddy domain in the entrypoint.sh script
+			},
+			{
+				hostname: 'fecoder.cn'
 			}
 		],
 		minimumCacheTTL: 60 * 60 * 24 * 365
