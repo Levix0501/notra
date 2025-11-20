@@ -52,7 +52,10 @@ export const DocSettingsSheet = () => {
 	const isSaving = useDocStore((state) => state.isSaving);
 	const { data: book } = useGetBook(docMeta ? docMeta.bookId : null);
 
-	const publishedPageUrl = `${location.origin}/${book?.slug}/${docMeta?.slug}`;
+	const publishedPageUrl =
+		typeof window !== 'undefined'
+			? `${window.location.origin}/${book?.slug}/${docMeta?.slug}`
+			: '';
 
 	const handlePublish = async () => {
 		if (!docMeta || !book) {

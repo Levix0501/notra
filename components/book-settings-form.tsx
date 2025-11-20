@@ -170,12 +170,12 @@ export function BookSettingsForm({
 											field.onChange(e);
 										}}
 									/>
-									<InputGroupAddon className="max-w-2/5 gap-0">
-										<InputGroupText className="inline-block flex-1 truncate">
-											{location.origin}
-										</InputGroupText>
-										<InputGroupText>/</InputGroupText>
-									</InputGroupAddon>
+								<InputGroupAddon className="max-w-2/5 gap-0">
+									<InputGroupText className="inline-block flex-1 truncate">
+										{typeof window !== 'undefined' ? window.location.origin : ''}
+									</InputGroupText>
+									<InputGroupText>/</InputGroupText>
+								</InputGroupAddon>
 									<InputGroupAddon align="inline-end">
 										<Button
 											size="icon"
