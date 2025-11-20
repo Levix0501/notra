@@ -3,7 +3,11 @@ import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 import { FlatCompat } from '@eslint/eslintrc';
-import tailwind from '@hyoban/eslint-plugin-tailwindcss';
+import nextPlugin from '@next/eslint-plugin-next';
+import { defineConfig, globalIgnores } from 'eslint/config';
+import nextTs from 'eslint-config-next/typescript';
+import prettier from 'eslint-config-prettier/flat';
+import tailwind from 'eslint-plugin-tailwindcss';
 
 /**
  * Recursively walks `dir`, looking for the first .css file
@@ -46,17 +50,27 @@ const compat = new FlatCompat({
 	baseDirectory: __dirname
 });
 
-const eslintConfig = [
+const eslintConfig = defineConfig([
 	{
-		ignores: ['.next/**']
+		files: ['**/*.{js,jsx,ts,tsx,mjs}'],
+		plugins: {
+			'@next/next': nextPlugin
+		},
+		rules: {
+			...nextPlugin.configs.recommended.rules
+		}
 	},
-	...compat.extends(
-		'next/core-web-vitals',
-		'next/typescript',
-		'plugin:import/recommended',
-		'plugin:import/typescript',
-		'prettier'
-	),
+	...nextTs,
+	prettier,
+	// Override default ignores of eslint-config-next.
+	globalIgnores([
+		// Default ignores of eslint-config-next:
+		'.next/**',
+		'out/**',
+		'build/**',
+		'next-env.d.ts'
+	]),
+	...compat.extends('plugin:import/recommended', 'plugin:import/typescript'),
 	...compat.plugins('import', 'react'),
 	...tailwind.configs['flat/recommended'],
 	{
@@ -164,6 +178,6 @@ const eslintConfig = [
 			]
 		}
 	}
-];
+]);
 
 export default eslintConfig;

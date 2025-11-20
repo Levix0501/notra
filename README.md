@@ -6,7 +6,7 @@ Please follow the documentation at [notra.tech](https://notra.tech/)!
 
 ## Main Tech Stack
 
-- **[Next.js 15](https://nextjs.org/)** - React full-stack framework with App Router
+- **[Next.js 16](https://nextjs.org/)** - React full-stack framework with App Router
 - **[React 19](https://react.dev/)** - User interface library
 - **[TipTap](https://tiptap.dev/)** - Rich text editor based on ProseMirror
 - **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript

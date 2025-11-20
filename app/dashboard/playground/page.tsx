@@ -1,3 +1,11 @@
+import { cn } from '@/lib/utils';
+
 export default function Page() {
-	return <div>Page</div>;
+	return (
+		<div
+			className={cn('flex items-center justify-around text-card-foreground')}
+		>
+			Page
+		</div>
+	);
 }
