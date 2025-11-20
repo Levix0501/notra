@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 
 import { DocPublishButton } from '@/components/doc-publish-button';
-import { DocSettingsButton } from '@/components/doc-settings-button';
 import { HeaderEditableTitle } from '@/components/header-editable-title';
 import { NotraEditor } from '@/components/notra-editor';
 import { NotraInsetHeader } from '@/components/notra-sidebar';
@@ -36,7 +35,6 @@ export default async function Page({ params }: Readonly<PageProps>) {
 				<div className="flex size-full items-center justify-between">
 					<HeaderEditableTitle />
 					<div className="flex items-center">
-						<DocSettingsButton bookId={Number(bookId)} />
 						<DocPublishButton bookId={Number(bookId)} />
 					</div>
 				</div>

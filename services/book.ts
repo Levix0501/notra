@@ -1,4 +1,5 @@
 import { BookEntity, BookType } from '@prisma/client';
+import limax from 'limax';
 import { cache } from 'react';
 
 import { getTranslations } from '@/i18n';
@@ -66,10 +67,20 @@ export class BookService {
 					}
 				});
 
-				return await tx.bookEntity.update({
+				const slug = limax(values.name, { tone: false });
+
+				const slugExists = await tx.bookEntity.findUnique({
+					where: { slug }
+				});
+
+				if (slugExists) {
+					return book;
+				}
+
+				return tx.bookEntity.update({
 					where: { id: book.id },
 					data: {
-						slug: (book.id * 100000).toString(36)
+						slug
 					}
 				});
 			});

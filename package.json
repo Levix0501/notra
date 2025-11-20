@@ -81,6 +81,7 @@
 		"hast-util-to-html": "^9.0.5",
 		"idb": "^8.0.3",
 		"image-size": "^2.0.2",
+		"limax": "^4.2.1",
 		"lowlight": "^3.3.0",
 		"lucide-react": "^0.534.0",
 		"mdast-util-from-markdown": "^2.0.2",

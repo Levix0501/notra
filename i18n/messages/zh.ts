@@ -135,14 +135,7 @@ export const zh = {
 		next: '下一篇'
 	},
 	components_doc_publish_button: {
-		publish: '发布',
-		share: '分享',
-		unpublish: '取消发布',
-		view_page: '查看页面',
-		publish_to_web: '公开至互联网'
-	},
-	components_doc_settings_button: {
-		doc_settings: '文档设置'
+		publish: '发布'
 	},
 	components_doc_settings_form: {
 		cover: '封面',
@@ -157,7 +150,10 @@ export const zh = {
 		slug_exists: '链接已存在！'
 	},
 	components_doc_settings_sheet: {
-		doc_settings: '文档设置'
+		doc_settings: '文档设置',
+		publish: '发布',
+		unpublish: '取消发布',
+		view_page: '查看页面'
 	},
 	components_doc_toc: {
 		on_this_page: '本页内容'

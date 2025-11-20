@@ -2,7 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BookEntity, DocEntity, FileEntity } from '@prisma/client';
-import { Upload } from 'lucide-react';
+import limax from 'limax';
+import { Sparkles, Upload } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -23,6 +24,7 @@ import { BOOK_CATALOG_MAP, mutateTree } from '@/stores/tree';
 import { DocSettingsFormSchema, DocSettingsFormValues } from '@/types/doc';
 
 import { ImageCropper } from './image-cropper';
+import { Button } from './ui/button';
 import {
 	InputGroup,
 	InputGroupAddon,
@@ -38,6 +40,7 @@ export interface DocSettingsFormProps {
 	defaultDocCover: DocEntity['cover'];
 	defaultDocSummary: DocEntity['summary'];
 	defaultDocSlug: DocEntity['slug'];
+	title: DocEntity['title'];
 	mutateDocMeta: () => void;
 }
 
@@ -50,6 +53,7 @@ export function DocSettingsForm({
 	defaultDocCover,
 	defaultDocSummary,
 	defaultDocSlug,
+	title,
 	mutateDocMeta
 }: Readonly<DocSettingsFormProps>) {
 	const [isPending, setIsPending] = useState(false);
@@ -186,6 +190,18 @@ export function DocSettingsForm({
 											{location.origin + '/' + bookSlug}
 										</InputGroupText>
 										<InputGroupText>/</InputGroupText>
+									</InputGroupAddon>
+									<InputGroupAddon align="inline-end">
+										<Button
+											size="icon"
+											type="button"
+											variant="ghost"
+											onClick={() =>
+												field.onChange(limax(title, { tone: false }))
+											}
+										>
+											<Sparkles />
+										</Button>
 									</InputGroupAddon>
 								</InputGroup>
 							</FormControl>

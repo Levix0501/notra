@@ -136,14 +136,7 @@ export const en = {
 		next: 'Next'
 	},
 	components_doc_publish_button: {
-		publish: 'Publish',
-		share: 'Share',
-		unpublish: 'Unpublish',
-		view_page: 'View page',
-		publish_to_web: 'Publish to web'
-	},
-	components_doc_settings_button: {
-		doc_settings: 'Doc Settings'
+		publish: 'Publish'
 	},
 	components_doc_settings_form: {
 		cover: 'Cover',
@@ -158,7 +151,10 @@ export const en = {
 		slug_exists: 'Slug already exists!'
 	},
 	components_doc_settings_sheet: {
-		doc_settings: 'Doc Settings'
+		doc_settings: 'Doc Settings',
+		publish: 'Publish',
+		unpublish: 'Unpublish',
+		view_page: 'View page'
 	},
 	components_doc_toc: {
 		on_this_page: 'On this page'

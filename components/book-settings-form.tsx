@@ -2,6 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BookEntity, BookType } from '@prisma/client';
+import limax from 'limax';
+import { Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -22,6 +24,7 @@ import { useGetBooks } from '@/queries/book';
 import { UpdateBookInfoSchema, UpdateBookInfoValues } from '@/types/book';
 
 import { BookVisibilityRadioGroup } from './book-visibility-radio-group';
+import { Button } from './ui/button';
 import {
 	InputGroup,
 	InputGroupAddon,
@@ -172,6 +175,20 @@ export function BookSettingsForm({
 											{location.origin}
 										</InputGroupText>
 										<InputGroupText>/</InputGroupText>
+									</InputGroupAddon>
+									<InputGroupAddon align="inline-end">
+										<Button
+											size="icon"
+											type="button"
+											variant="ghost"
+											onClick={() =>
+												field.onChange(
+													limax(form.watch('name'), { tone: false })
+												)
+											}
+										>
+											<Sparkles />
+										</Button>
 									</InputGroupAddon>
 								</InputGroup>
 							</FormControl>
