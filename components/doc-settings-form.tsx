@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BookEntity, DocEntity, FileEntity } from '@prisma/client';
+import { JSONContent } from '@tiptap/react';
 import limax from 'limax';
 import { Sparkles, Upload } from 'lucide-react';
 import { useState } from 'react';
@@ -20,6 +21,7 @@ import {
 } from '@/components/ui/form';
 import { getTranslations } from '@/i18n';
 import { uploadFile } from '@/lib/utils';
+import { useGetDoc } from '@/queries/doc';
 import { BOOK_CATALOG_MAP, mutateTree } from '@/stores/tree';
 import { DocSettingsFormSchema, DocSettingsFormValues } from '@/types/doc';
 
@@ -29,9 +31,9 @@ import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupInput,
-	InputGroupText
+	InputGroupText,
+	InputGroupTextarea
 } from './ui/input-group';
-import { Textarea } from './ui/textarea';
 
 export interface DocSettingsFormProps {
 	docId: DocEntity['id'];
@@ -67,6 +69,7 @@ export function DocSettingsForm({
 			slug: defaultDocSlug
 		}
 	});
+	const { data: doc } = useGetDoc(docId);
 
 	const onSubmit = async (values: DocSettingsFormValues) => {
 		setIsPending(true);
@@ -161,7 +164,26 @@ export function DocSettingsForm({
 						<FormItem>
 							<FormLabel>{t.summary}</FormLabel>
 							<FormControl>
-								<Textarea {...field} disabled={isPending} />
+								<InputGroup>
+									<InputGroupTextarea {...field} disabled={isPending} />
+									<InputGroupAddon align="inline-end">
+										<Button
+											disabled={!doc}
+											size="icon"
+											type="button"
+											variant="ghost"
+											onClick={() => {
+												if (doc) {
+													field.onChange(
+														extractTextFromTiptap(doc.content as JSONContent)
+													);
+												}
+											}}
+										>
+											<Sparkles />
+										</Button>
+									</InputGroupAddon>
+								</InputGroup>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -223,3 +245,28 @@ export function DocSettingsForm({
 		</Form>
 	);
 }
+
+const extractTextFromTiptap = (json: JSONContent) => {
+	let result = '';
+
+	function recur(node: JSONContent) {
+		if (!node || result.length > 120) {
+			return;
+		}
+
+		if (node.type === 'text' && node.text) {
+			result += node.text;
+
+			return;
+		}
+
+		if (Array.isArray(node.content)) {
+			node.content.forEach((child) => recur(child));
+			result += ' ';
+		}
+	}
+
+	recur(json);
+
+	return result.length > 120 ? result.slice(0, 120) : result;
+};
