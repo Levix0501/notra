@@ -40,7 +40,7 @@ export const ContactInfoItemMoreDropdown = ({
 	const handlePublish = () => {
 		const [nodeIds, docIds] = publishNode(CONTACT_INFO_MAP, item.id);
 
-		mutateTree(bookId, CONTACT_INFO_MAP, async () => {
+		mutateTree(bookId, CONTACT_INFO_MAP, false, async () => {
 			const promise = (async () => {
 				const result = await publishWithParent({
 					nodeIds,
@@ -69,7 +69,7 @@ export const ContactInfoItemMoreDropdown = ({
 	const handleUnpublish = () => {
 		const [nodeIds, docIds] = unpublishNode(CONTACT_INFO_MAP, item.id);
 
-		mutateTree(bookId, CONTACT_INFO_MAP, async () => {
+		mutateTree(bookId, CONTACT_INFO_MAP, false, async () => {
 			const promise = (async () => {
 				const result = await unpublishWithChildren({
 					nodeIds,

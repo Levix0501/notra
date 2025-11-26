@@ -49,7 +49,7 @@ export const NavItemMoreDropdown = ({
 	const handlePublish = () => {
 		const [nodeIds, docIds] = publishNode(NAVBAR_MAP, item.id);
 
-		mutateTree(bookId, NAVBAR_MAP, async () => {
+		mutateTree(bookId, NAVBAR_MAP, false, async () => {
 			const promise = (async () => {
 				const result = await publishWithParent({
 					nodeIds,
@@ -78,7 +78,7 @@ export const NavItemMoreDropdown = ({
 	const handleUnpublish = () => {
 		const [nodeIds, docIds] = unpublishNode(NAVBAR_MAP, item.id);
 
-		mutateTree(bookId, NAVBAR_MAP, async () => {
+		mutateTree(bookId, NAVBAR_MAP, false, async () => {
 			const promise = (async () => {
 				const result = await unpublishWithChildren({
 					nodeIds,

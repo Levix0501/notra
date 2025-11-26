@@ -6,7 +6,11 @@ import { revalidateDoc } from '@/lib/cache';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
 import { ServiceResult } from '@/lib/service-result';
-import { UpdateDocContentDto, UpdateDocMetaDto } from '@/types/doc';
+import {
+	CheckDocSlugDto,
+	UpdateDocContentDto,
+	UpdateDocMetaDto
+} from '@/types/doc';
 
 export class DocService {
 	static readonly getPublishedBlogs = cache(
@@ -263,10 +267,10 @@ export class DocService {
 		}
 	});
 
-	static readonly checkDocSlug = async (
-		bookId: BookEntity['id'],
-		docSlug: DocEntity['slug']
-	) => {
+	static readonly checkDocSlug = async ({
+		bookId,
+		docSlug
+	}: CheckDocSlugDto) => {
 		try {
 			const doc = await prisma.docEntity.findFirst({
 				where: { slug: docSlug, bookId }

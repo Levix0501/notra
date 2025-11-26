@@ -19,8 +19,10 @@ import {
 	FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useApp } from '@/contexts/app-context';
 import { getTranslations } from '@/i18n';
 import { useGetBooks } from '@/queries/book';
+import { DemoService } from '@/services/demo';
 import { UpdateBookInfoSchema, UpdateBookInfoValues } from '@/types/book';
 
 import { BookVisibilityRadioGroup } from './book-visibility-radio-group';
@@ -72,12 +74,16 @@ export function BookSettingsForm({
 	});
 	const { mutate: mutateBooks } = useGetBooks();
 
+	const { isDemo } = useApp();
+
 	const onSubmit = async (values: UpdateBookInfoValues) => {
 		setIsPending(true);
 
 		const promise = (async () => {
 			if (values.slug !== defaultSlug) {
-				const checkResult = await checkBookSlug(values.slug);
+				const checkResult = isDemo
+					? await DemoService.checkBookSlug(values.slug)
+					: await checkBookSlug(values.slug);
 
 				if (checkResult.success && !checkResult.data) {
 					form.setError('slug', { message: t.slug_exists });
@@ -87,10 +93,15 @@ export function BookSettingsForm({
 				}
 			}
 
-			const updateResult = await updateBook({
-				...values,
-				id: bookId
-			});
+			const updateResult = isDemo
+				? await DemoService.updateBook({
+						...values,
+						id: bookId
+					})
+				: await updateBook({
+						...values,
+						id: bookId
+					});
 
 			if (!updateResult.success) {
 				throw new Error(updateResult.message);
@@ -125,19 +136,21 @@ export function BookSettingsForm({
 	return (
 		<Form {...form}>
 			<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-				<FormField
-					control={form.control}
-					name="isPublished"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>{t.visibility}</FormLabel>
-							<FormControl>
-								<BookVisibilityRadioGroup {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+				{!isDemo && (
+					<FormField
+						control={form.control}
+						name="isPublished"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>{t.visibility}</FormLabel>
+								<FormControl>
+									<BookVisibilityRadioGroup {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				)}
 
 				<FormField
 					control={form.control}
@@ -170,12 +183,14 @@ export function BookSettingsForm({
 											field.onChange(e);
 										}}
 									/>
-								<InputGroupAddon className="max-w-2/5 gap-0">
-									<InputGroupText className="inline-block flex-1 truncate">
-										{typeof window !== 'undefined' ? window.location.origin : ''}
-									</InputGroupText>
-									<InputGroupText>/</InputGroupText>
-								</InputGroupAddon>
+									<InputGroupAddon className="max-w-2/5 gap-0">
+										<InputGroupText className="inline-block flex-1 truncate">
+											{typeof window !== 'undefined'
+												? window.location.origin
+												: ''}
+										</InputGroupText>
+										<InputGroupText>/</InputGroupText>
+									</InputGroupAddon>
 									<InputGroupAddon align="inline-end">
 										<Button
 											size="icon"

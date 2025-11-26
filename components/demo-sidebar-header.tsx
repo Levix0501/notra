@@ -1,12 +1,11 @@
 import Link from 'next/link';
 
-import { DEFAULT_SITE_TITLE } from '@/constants/default';
+import { DEFAULT_SITE_TITLE } from '@/constants';
 import { SiteSettingsService } from '@/services/site-settings';
 
-import { AccountDropdown } from './account-dropdown';
 import { NotraLogo } from './notra-logo';
 
-export async function DashboardSidebarHeader() {
+export async function DemoSidebarHeader() {
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
 	const title = siteSettings?.title ?? DEFAULT_SITE_TITLE;
 
@@ -19,8 +18,6 @@ export async function DashboardSidebarHeader() {
 				<NotraLogo size={28} />
 				<span className="flex-1 truncate text-base font-semibold">{title}</span>
 			</Link>
-
-			<AccountDropdown />
 		</div>
 	);
 }

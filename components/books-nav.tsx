@@ -19,8 +19,10 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { useApp } from '@/contexts/app-context';
 import { getTranslations } from '@/i18n';
 import { useGetBooks } from '@/queries/book';
+import { DemoService } from '@/services/demo';
 import { BookVo } from '@/types/book';
 
 import { useBookSettingsSheet } from './book-settings-sheet';
@@ -41,10 +43,12 @@ export function BooksNav() {
 	const [openDeleteBookDialog, setOpenDeleteBookDialog] = useState(false);
 
 	const { data: books, isLoading, mutate } = useGetBooks();
-	const setOpenCreateBookDialog = useCreateBookDialog((state) => state.setOpen);
+	const { isDemo } = useApp();
 
 	const handleOpenCreateBookDialog = () => {
-		setOpenCreateBookDialog(true);
+		useCreateBookDialog.setState({
+			open: true
+		});
 	};
 
 	const handleDeleteBook = async () => {
@@ -52,7 +56,17 @@ export function BooksNav() {
 			return;
 		}
 
-		const promise = deleteBook(bookToDelete.id);
+		const promise = (async () => {
+			const result = isDemo
+				? await DemoService.deleteBook(bookToDelete.id)
+				: await deleteBook(bookToDelete.id);
+
+			if (!result.success) {
+				throw new Error(result.message);
+			}
+
+			return result.data;
+		})();
 
 		toast
 			.promise(promise, {
@@ -87,7 +101,9 @@ export function BooksNav() {
 
 						{books?.map((item) => (
 							<NotraSidebarMenuItem key={item.id}>
-								<NotraSidebarButton href={`/dashboard/${item.id}`}>
+								<NotraSidebarButton
+									href={isDemo ? `/demo/${item.id}` : `/dashboard/${item.id}`}
+								>
 									<div className="flex w-full items-center">
 										<BookText className="mr-2" size={16} />
 

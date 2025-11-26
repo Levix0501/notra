@@ -21,54 +21,7 @@ const useNavbarStaticMobile = create<NavbarStaticMobileStore>((set) => ({
 	setIsOpen: (isOpen) => set({ isOpen })
 }));
 
-export const NavbarStaticMobileButton = () => {
-	const isOpen = useNavbarStaticMobile((state) => state.isOpen);
-	const setIsOpen = useNavbarStaticMobile((state) => state.setIsOpen);
-
-	useEffect(() => {
-		if (isOpen) {
-			document.body.style.overflow = 'hidden';
-		} else {
-			document.body.style.removeProperty('overflow');
-		}
-	}, [isOpen]);
-
-	const handleClick = () => {
-		setIsOpen(!isOpen);
-	};
-
-	return (
-		<Button
-			className="h-full w-10 hover:bg-transparent md:hidden dark:hover:bg-transparent"
-			size="icon"
-			variant="ghost"
-			onClick={handleClick}
-		>
-			<div className="relative h-3.5 w-4 overflow-hidden">
-				<div
-					className={cn(
-						'absolute left-0 h-0.5 w-4 rounded-full bg-foreground transition-all duration-250',
-						isOpen ? 'top-1.5 rotate-225' : 'top-0'
-					)}
-				></div>
-				<div
-					className={cn(
-						'absolute top-1.5 left-0 h-0.5 w-4 rounded-full bg-foreground transition-all duration-250',
-						isOpen ? 'top-1.5 translate-x-4' : 'translate-x-2'
-					)}
-				></div>
-				<div
-					className={cn(
-						'absolute left-0 h-0.5 w-4 rounded-full bg-foreground transition-all duration-250',
-						isOpen ? 'top-1.5 translate-0 rotate-135' : 'top-3 translate-x-1'
-					)}
-				></div>
-			</div>
-		</Button>
-	);
-};
-
-export const NavbarStaticMobile = ({ navItems }: { navItems: NavItemVo[] }) => {
+const NavbarStaticMobile = ({ navItems }: { navItems: NavItemVo[] }) => {
 	const [expandedKeys, setExpandedKeys] = useState(new Set<number>());
 
 	const pathname = usePathname();
@@ -206,5 +159,59 @@ export const NavbarStaticMobile = ({ navItems }: { navItems: NavItemVo[] }) => {
 				</nav>
 			</div>
 		</div>
+	);
+};
+
+export const NavbarStaticMobileButton = ({
+	navItems
+}: {
+	navItems: NavItemVo[];
+}) => {
+	const isOpen = useNavbarStaticMobile((state) => state.isOpen);
+	const setIsOpen = useNavbarStaticMobile((state) => state.setIsOpen);
+
+	useEffect(() => {
+		if (isOpen) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.removeProperty('overflow');
+		}
+	}, [isOpen]);
+
+	const handleClick = () => {
+		setIsOpen(!isOpen);
+	};
+
+	return (
+		<>
+			<Button
+				className="h-full w-10 hover:bg-transparent md:hidden dark:hover:bg-transparent"
+				size="icon"
+				variant="ghost"
+				onClick={handleClick}
+			>
+				<div className="relative h-3.5 w-4 overflow-hidden">
+					<div
+						className={cn(
+							'absolute left-0 h-0.5 w-4 rounded-full bg-foreground transition-all duration-250',
+							isOpen ? 'top-1.5 rotate-225' : 'top-0'
+						)}
+					></div>
+					<div
+						className={cn(
+							'absolute top-1.5 left-0 h-0.5 w-4 rounded-full bg-foreground transition-all duration-250',
+							isOpen ? 'top-1.5 translate-x-4' : 'translate-x-2'
+						)}
+					></div>
+					<div
+						className={cn(
+							'absolute left-0 h-0.5 w-4 rounded-full bg-foreground transition-all duration-250',
+							isOpen ? 'top-1.5 translate-0 rotate-135' : 'top-3 translate-x-1'
+						)}
+					></div>
+				</div>
+			</Button>
+			<NavbarStaticMobile navItems={navItems} />
+		</>
 	);
 };

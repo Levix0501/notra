@@ -7,11 +7,43 @@ export const en = {
 		card_title: 'Admin Login',
 		card_description: 'An account will be created on first login.'
 	},
-	app_dashboard_main_page: {
+	app_dashboard_page: {
 		navbar: 'Navbar',
 		configure_navbar: 'Configure the navbar for your site',
 		contact_info: 'Contact Info',
 		configure_contact_info: 'Configure the contact info for your site'
+	},
+	app_demo_layout: {
+		alert_title: '🚀 Demo Mode Notice',
+		alert_description:
+			"In demo mode, all data you create and edit will only be saved in your browser's local storage. Clearing browser data may result in content loss."
+	},
+	app_demo_page: {
+		hero_title: 'Build Your Second Brain',
+		hero_description:
+			'An open-source, high-performance knowledge management system',
+		try_demo: 'Try it',
+		view_docs: 'View Docs',
+		feature_knowledge_management: 'Knowledge Management',
+		feature_knowledge_management_desc:
+			'Create and organize multiple knowledge bases, supporting blogs, docs and more',
+		feature_rich_editor: 'Rich Text Editor',
+		feature_rich_editor_desc:
+			'Powerful rich text editor with Markdown, code highlighting, image upload and more',
+		feature_tree_structure: 'Tree Structure',
+		feature_tree_structure_desc:
+			'Flexible tree directory structure with drag-and-drop sorting and nested grouping',
+		feature_quick_setup: 'Quick Setup',
+		feature_quick_setup_desc:
+			'Easily create your own blog, documentation or knowledge website without complex configuration',
+		feature_theme_switch: 'Theme Switch',
+		feature_theme_switch_desc:
+			'Support light and dark themes for an elegant reading experience',
+		feature_responsive: 'Responsive Design',
+		feature_responsive_desc:
+			'Perfect for desktop and mobile, manage knowledge anytime, anywhere',
+		footer_github: 'GitHub',
+		footer_docs: 'Docs'
 	},
 	components_account_dropdown: {
 		settings: 'Settings',
@@ -93,7 +125,8 @@ export const en = {
 		publish_success: 'Published successfully!',
 		unpublish_loading: 'Unpublishing...',
 		unpublish_error: 'Failed to unpublish!',
-		unpublish_success: 'Unpublished successfully!'
+		unpublish_success: 'Unpublished successfully!',
+		demo_mode_cannot_publish: 'Cannot publish in demo mode!'
 	},
 	components_colored_contact_icon_switch: {
 		colored_contact_icons: 'Colored Contact Icons'
@@ -131,6 +164,9 @@ export const en = {
 		dashboard: 'Dashboard',
 		appearance: 'Appearance'
 	},
+	components_demo_sidebar_nav: {
+		demo: 'Try it'
+	},
 	components_doc_footer_nav: {
 		previous: 'Previous',
 		next: 'Next'
@@ -154,7 +190,8 @@ export const en = {
 		doc_settings: 'Doc Settings',
 		publish: 'Publish',
 		unpublish: 'Unpublish',
-		view_page: 'View page'
+		view_page: 'View page',
+		demo_mode_cannot_publish: 'Cannot publish in demo mode!'
 	},
 	components_doc_toc: {
 		on_this_page: 'On this page'

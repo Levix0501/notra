@@ -19,9 +19,11 @@ import {
 	FormLabel,
 	FormMessage
 } from '@/components/ui/form';
+import { useApp } from '@/contexts/app-context';
 import { getTranslations } from '@/i18n';
 import { uploadFile } from '@/lib/utils';
 import { useGetDoc } from '@/queries/doc';
+import { DemoService } from '@/services/demo';
 import { BOOK_CATALOG_MAP, mutateTree } from '@/stores/tree';
 import { DocSettingsFormSchema, DocSettingsFormValues } from '@/types/doc';
 
@@ -70,13 +72,22 @@ export function DocSettingsForm({
 		}
 	});
 	const { data: doc } = useGetDoc(docId);
+	const { isDemo } = useApp();
 
 	const onSubmit = async (values: DocSettingsFormValues) => {
 		setIsPending(true);
 
 		const promise = (async () => {
 			if (values.slug !== defaultDocSlug) {
-				const checkResult = await checkDocSlug(bookId, values.slug);
+				const checkResult = isDemo
+					? await DemoService.checkDocSlug({
+							bookId,
+							docSlug: values.slug
+						})
+					: await checkDocSlug({
+							bookId,
+							docSlug: values.slug
+						});
 
 				if (checkResult.success && !checkResult.data) {
 					form.setError('slug', { message: t.slug_exists });
@@ -89,15 +100,19 @@ export function DocSettingsForm({
 			let cover: FileEntity | undefined;
 
 			if (values.cover) {
-				cover = await uploadFile(values.cover);
+				cover = isDemo
+					? await DemoService.uploadFile(values.cover)
+					: await uploadFile(values.cover);
 			}
 
-			const result = await updateDocMeta({
-				id: docId,
-				cover: values.cover === null ? null : cover?.url,
-				summary: values.summary,
-				slug: values.slug
-			});
+			const result = await (isDemo ? DemoService.updateDocMeta : updateDocMeta)(
+				{
+					id: docId,
+					cover: values.cover === null ? null : cover?.url,
+					summary: values.summary,
+					slug: values.slug
+				}
+			);
 
 			if (!result.success) {
 				throw new Error(result.message);
@@ -110,7 +125,7 @@ export function DocSettingsForm({
 			});
 
 			mutateDocMeta();
-			mutateTree(bookId, BOOK_CATALOG_MAP);
+			mutateTree(bookId, BOOK_CATALOG_MAP, isDemo);
 		})();
 
 		toast
@@ -207,14 +222,14 @@ export function DocSettingsForm({
 											field.onChange(e);
 										}}
 									/>
-								<InputGroupAddon className="max-w-2/5 gap-0">
-									<InputGroupText className="inline-block flex-1 truncate">
-										{typeof window !== 'undefined'
-											? window.location.origin + '/' + bookSlug
-											: '/' + bookSlug}
-									</InputGroupText>
-									<InputGroupText>/</InputGroupText>
-								</InputGroupAddon>
+									<InputGroupAddon className="max-w-2/5 gap-0">
+										<InputGroupText className="inline-block flex-1 truncate">
+											{typeof window !== 'undefined'
+												? window.location.origin + '/' + bookSlug
+												: '/' + bookSlug}
+										</InputGroupText>
+										<InputGroupText>/</InputGroupText>
+									</InputGroupAddon>
 									<InputGroupAddon align="inline-end">
 										<Button
 											size="icon"

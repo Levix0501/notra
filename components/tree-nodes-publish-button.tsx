@@ -44,7 +44,7 @@ const TreeNodesPublishButton = ({
 			}
 
 			setIsPending(false);
-			mutateTree(bookId, nodeMap);
+			mutateTree(bookId, nodeMap, false);
 		})();
 
 		toast.promise(promise, {

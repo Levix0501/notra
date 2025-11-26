@@ -4,7 +4,7 @@ import { BookEntity, TreeNodeEntity } from '@prisma/client';
 import { toast } from 'sonner';
 import { create } from 'zustand';
 
-import { deleteNodeWithChildren } from '@/actions/tree-node';
+import { deleteTreeNodeWithChildren } from '@/actions/tree-node';
 import { getTranslations } from '@/i18n';
 import { deleteNode } from '@/lib/tree/client';
 import { CONTACT_INFO_MAP, mutateTree, NAVBAR_MAP } from '@/stores/tree';
@@ -58,9 +58,10 @@ export const TreeNodeDeleteDialog = () => {
 		mutateTree(
 			bookId,
 			type === 'navbar' ? NAVBAR_MAP : CONTACT_INFO_MAP,
+			false,
 			async () => {
 				const promise = (async () => {
-					const result = await deleteNodeWithChildren({
+					const result = await deleteTreeNodeWithChildren({
 						nodeId: id,
 						nodeIds,
 						docIds,

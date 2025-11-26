@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
 import { EmptyBook } from '@/components/empty-book';
-import { NotraInsetHeader } from '@/components/notra-sidebar';
 import { BookService } from '@/services/book';
 import { TreeNodeService } from '@/services/tree-node';
 import { TreeNodeVoWithLevel } from '@/types/tree-node';
@@ -45,16 +44,8 @@ export default async function Page({ params }: Readonly<PageProps>) {
 	}
 
 	return (
-		<>
-			<NotraInsetHeader>
-				<div className="flex size-full items-center justify-between">
-					<span></span>
-				</div>
-			</NotraInsetHeader>
-
-			<main className="container mx-auto p-4 md:p-8">
-				<EmptyBook bookId={book.id} />
-			</main>
-		</>
+		<main className="container mx-auto p-4 md:p-8">
+			<EmptyBook bookId={book.id} />
+		</main>
 	);
 }

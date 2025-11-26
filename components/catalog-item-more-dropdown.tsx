@@ -11,7 +11,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import {
-	deleteNodeWithChildren,
+	deleteTreeNodeWithChildren,
 	publishWithParent,
 	unpublishWithChildren
 } from '@/actions/tree-node';
@@ -23,9 +23,11 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { useApp } from '@/contexts/app-context';
 import { getTranslations } from '@/i18n';
 import { deleteNode, publishNode, unpublishNode } from '@/lib/tree/client';
 import { useGetBook } from '@/queries/book';
+import { DemoService } from '@/services/demo';
 import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
 import { mutateTree, BOOK_CATALOG_MAP } from '@/stores/tree';
 import { TreeNodeVoWithLevel } from '@/types/tree-node';
@@ -49,6 +51,7 @@ export const CatalogItemMoreDropdown = ({
 	const router = useRouter();
 	const { data: book } = useGetBook(bookId);
 	const { data: docMeta, mutate } = useCurrentDocMeta();
+	const { isDemo } = useApp();
 
 	if (!book || (!docMeta && docId)) {
 		return null;
@@ -66,14 +69,21 @@ export const CatalogItemMoreDropdown = ({
 	const handleDelete = () => {
 		const [nodeIds, docIds] = deleteNode(BOOK_CATALOG_MAP, item.id);
 
-		mutateTree(book.id, BOOK_CATALOG_MAP, async () => {
+		mutateTree(book.id, BOOK_CATALOG_MAP, isDemo, async () => {
 			const promise = (async () => {
-				const result = await deleteNodeWithChildren({
-					nodeId: item.id,
-					nodeIds,
-					docIds,
-					bookId: book.id
-				});
+				const result = isDemo
+					? await DemoService.deleteTreeNodeWithChildren({
+							nodeId: item.id,
+							nodeIds,
+							docIds,
+							bookId: book.id
+						})
+					: await deleteTreeNodeWithChildren({
+							nodeId: item.id,
+							nodeIds,
+							docIds,
+							bookId: book.id
+						});
 
 				if (!result.success || !result.data) {
 					throw new Error(result.message);
@@ -92,14 +102,20 @@ export const CatalogItemMoreDropdown = ({
 		});
 
 		if (item.docId === useDocStore.getState().id) {
-			router.replace(`/dashboard/${book.id}`);
+			router.replace(isDemo ? `/demo/${book.id}` : `/dashboard/${book.id}`);
 		}
 	};
 
 	const handlePublish = () => {
+		if (isDemo) {
+			toast.warning(t.demo_mode_cannot_publish);
+
+			return;
+		}
+
 		const [nodeIds, docIds] = publishNode(BOOK_CATALOG_MAP, item.id);
 
-		mutateTree(book.id, BOOK_CATALOG_MAP, async () => {
+		mutateTree(book.id, BOOK_CATALOG_MAP, isDemo, async () => {
 			const promise = (async () => {
 				const result = await publishWithParent({
 					nodeIds,
@@ -146,7 +162,7 @@ export const CatalogItemMoreDropdown = ({
 	const handleUnpublish = () => {
 		const [nodeIds, docIds] = unpublishNode(BOOK_CATALOG_MAP, item.id);
 
-		mutateTree(book.id, BOOK_CATALOG_MAP, async () => {
+		mutateTree(book.id, BOOK_CATALOG_MAP, isDemo, async () => {
 			const promise = (async () => {
 				const result = await unpublishWithChildren({
 					nodeIds,

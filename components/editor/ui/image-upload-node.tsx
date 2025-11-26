@@ -12,7 +12,9 @@ import {
 	isValidPosition
 } from '@/components/editor/tiptap-utils';
 import { Button } from '@/components/ui/button';
+import { useApp } from '@/contexts/app-context';
 import { getTranslations } from '@/i18n';
+import { DemoService } from '@/services/demo';
 
 import type { NodeViewProps } from '@tiptap/react';
 
@@ -473,11 +475,13 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
 	const inputRef = React.useRef<HTMLInputElement>(null);
 	const autoUpload = React.useRef(Boolean(pasteFile));
 
+	const { isDemo } = useApp();
+
 	const uploadOptions: UploadOptions = {
 		maxSize,
 		limit,
 		accept,
-		upload: extension.options.upload,
+		upload: isDemo ? DemoService.uploadFile : extension.options.upload,
 		onSuccess: extension.options.onSuccess,
 		onError: extension.options.onError
 	};

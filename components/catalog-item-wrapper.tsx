@@ -2,6 +2,7 @@ import { BookEntity } from '@prisma/client';
 import Link from 'next/link';
 import { CSSProperties } from 'react';
 
+import { useApp } from '@/contexts/app-context';
 import { useGetBook } from '@/queries/book';
 import { ChildrenProps } from '@/types/common';
 import { TreeNodeVoWithLevel } from '@/types/tree-node';
@@ -25,12 +26,13 @@ export function CatalogItemWrapper({
 	onClick
 }: Readonly<CatalogItemWrapperProps>) {
 	const { data: book } = useGetBook(bookId);
+	const { isDemo } = useApp();
 
 	if (item.type === 'DOC' && !isEditingTitle) {
 		return (
 			<Link
 				className={className}
-				href={`/dashboard/${book?.id}/${item.docId}`}
+				href={`/${isDemo ? 'demo' : 'dashboard'}/${book?.id}/${item.docId}`}
 				style={style}
 				onClick={onClick}
 			>

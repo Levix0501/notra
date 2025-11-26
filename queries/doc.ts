@@ -1,10 +1,12 @@
 import { BookEntity, DocEntity } from '@prisma/client';
-import { SWRConfiguration } from 'swr';
+import useSWR, { SWRConfiguration } from 'swr';
 import useSWRInfinite from 'swr/infinite';
 
 import { CARD_LIST_PAGE_SIZE } from '@/constants/pagination';
+import { useApp } from '@/contexts/app-context';
 import { useFetcher } from '@/hooks/use-fetcher';
 import { fetcher } from '@/lib/fetcher';
+import { DemoService } from '@/services/demo';
 import { Nullable } from '@/types/common';
 import { DocMetaVo, DocVo, PublishedBlogVo } from '@/types/doc';
 
@@ -72,10 +74,30 @@ export const useGetPublishedBlogs = (
 export const useGetDocMeta = (
 	docId: Nullable<DocEntity['id']>,
 	config?: SWRConfiguration<DocMetaVo>
-) => useFetcher<DocMetaVo>(docId ? `/api/docs/${docId}/meta` : void 0, config);
+) => {
+	const { isDemo } = useApp();
+	const demo = useSWR(
+		isDemo && docId ? `/demo/docs/${docId}/meta` : void 0,
+		() => DemoService.getDocMeta(docId!),
+		config
+	);
+	const api = useFetcher<DocMetaVo>(
+		!isDemo && docId ? `/api/docs/${docId}/meta` : void 0,
+		config
+	);
 
-export const useGetDoc = (docId: DocEntity['id']) =>
-	useFetcher<DocVo>(`/api/docs/${docId}`);
+	return isDemo ? demo : api;
+};
+
+export const useGetDoc = (docId: DocEntity['id']) => {
+	const { isDemo } = useApp();
+	const demo = useSWR(isDemo ? `/demo/docs/${docId}` : void 0, () =>
+		DemoService.getDoc(docId)
+	);
+	const api = useFetcher<DocVo>(isDemo ? void 0 : `/api/docs/${docId}`);
+
+	return isDemo ? demo : api;
+};
 
 export const useGetAllDocsMeta = () =>
 	useFetcher<DocMetaVo[]>('/api/docs/meta');

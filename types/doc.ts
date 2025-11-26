@@ -37,6 +37,11 @@ export type UpdateDocContentDto = {
 	content: string;
 };
 
+export type CheckDocSlugDto = {
+	bookId: BookEntity['id'];
+	docSlug: DocEntity['slug'];
+};
+
 export const DocSettingsFormSchema = z.object({
 	cover: z.instanceof(File).nullable().optional(),
 	summary: z.string(),

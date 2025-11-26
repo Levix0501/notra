@@ -24,7 +24,7 @@ import {
 import { getTranslations } from '@/i18n';
 import { BookService } from '@/services/book';
 
-const t = getTranslations('app_dashboard_main_page');
+const t = getTranslations('app_dashboard_page');
 
 export default async function Page() {
 	const { data: navbarBook } = await BookService.getNavbarBook();

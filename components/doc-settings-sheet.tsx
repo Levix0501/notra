@@ -3,9 +3,11 @@
 import { DocEntity } from '@prisma/client';
 import Link from 'next/link';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { create } from 'zustand';
 
 import { publishWithParent, unpublishWithChildren } from '@/actions/tree-node';
+import { useApp } from '@/contexts/app-context';
 import { getTranslations } from '@/i18n';
 import { publishNode, unpublishNode } from '@/lib/tree/client';
 import { useGetBook } from '@/queries/book';
@@ -51,6 +53,7 @@ export const DocSettingsSheet = () => {
 	const { data: docMeta, mutate } = useGetDocMeta(docId);
 	const isSaving = useDocStore((state) => state.isSaving);
 	const { data: book } = useGetBook(docMeta ? docMeta.bookId : null);
+	const { isDemo } = useApp();
 
 	const publishedPageUrl =
 		typeof window !== 'undefined'
@@ -58,6 +61,12 @@ export const DocSettingsSheet = () => {
 			: '';
 
 	const handlePublish = async () => {
+		if (isDemo) {
+			toast.warning(t.demo_mode_cannot_publish);
+
+			return;
+		}
+
 		if (!docMeta || !book) {
 			return;
 		}
@@ -70,7 +79,7 @@ export const DocSettingsSheet = () => {
 
 		const [nodeIds, docIds] = publishNode(BOOK_CATALOG_MAP, item.id);
 
-		mutateTree(book.id, BOOK_CATALOG_MAP, async () => {
+		mutateTree(book.id, BOOK_CATALOG_MAP, isDemo, async () => {
 			setIsPending(true);
 			const result = await publishWithParent({
 				nodeIds,
@@ -118,7 +127,7 @@ export const DocSettingsSheet = () => {
 
 		const [nodeIds, docIds] = unpublishNode(BOOK_CATALOG_MAP, item.id);
 
-		mutateTree(book.id, BOOK_CATALOG_MAP, async () => {
+		mutateTree(book.id, BOOK_CATALOG_MAP, isDemo, async () => {
 			setIsPending(true);
 			const result = await unpublishWithChildren({
 				nodeIds,

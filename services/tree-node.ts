@@ -14,14 +14,17 @@ import prisma from '@/lib/prisma';
 import { ServiceResult } from '@/lib/service-result';
 import { moveNode, removeNodeFromOldPosition } from '@/lib/tree/server';
 import { flattenTreeNodeNodes } from '@/lib/tree/shared';
-import { Nullable } from '@/types/common';
 import {
 	CreateContactInfoDto,
 	CreateNavItemDto,
 	CreateTreeNodeDto,
+	DeleteTreeNodeWithChildrenDto,
+	MoveAfterDto,
 	NavItemVo,
+	PrependChildDto,
 	UpdateContactInfoDto,
-	UpdateNavItemDto
+	UpdateNavItemDto,
+	UpdateTreeNodeTitleDto
 } from '@/types/tree-node';
 
 const t = getTranslations('services_tree_node');
@@ -165,13 +168,7 @@ export class TreeNodeService {
 		}
 	}
 
-	static async updateTitle({
-		id,
-		title
-	}: {
-		id: TreeNodeEntity['id'];
-		title: TreeNodeEntity['title'];
-	}) {
+	static async updateTitle({ id, title }: UpdateTreeNodeTitleDto) {
 		try {
 			const node = await prisma.$transaction(async (tx) => {
 				const node = await tx.treeNodeEntity.update({
@@ -200,12 +197,7 @@ export class TreeNodeService {
 		nodeIds,
 		docIds,
 		bookId
-	}: {
-		nodeId: TreeNodeEntity['id'];
-		nodeIds: TreeNodeEntity['id'][];
-		docIds: DocEntity['id'][];
-		bookId: BookEntity['id'];
-	}) {
+	}: DeleteTreeNodeWithChildrenDto) {
 		try {
 			await prisma.$transaction(async (tx) => {
 				const node = await tx.treeNodeEntity.findUniqueOrThrow({
@@ -233,15 +225,7 @@ export class TreeNodeService {
 		}
 	}
 
-	static async prependChild({
-		bookId,
-		nodeId,
-		targetId
-	}: {
-		bookId: TreeNodeEntity['bookId'];
-		nodeId: TreeNodeEntity['id'];
-		targetId: Nullable<TreeNodeEntity['id']>;
-	}) {
+	static async prependChild({ bookId, nodeId, targetId }: PrependChildDto) {
 		try {
 			await prisma.$transaction(async (tx) => {
 				await moveNode(tx, {
@@ -263,15 +247,7 @@ export class TreeNodeService {
 		}
 	}
 
-	static async moveAfter({
-		bookId,
-		nodeId,
-		targetId
-	}: {
-		bookId: TreeNodeEntity['bookId'];
-		nodeId: TreeNodeEntity['id'];
-		targetId: TreeNodeEntity['id'];
-	}) {
+	static async moveAfter({ bookId, nodeId, targetId }: MoveAfterDto) {
 		try {
 			await prisma.$transaction(async (tx) => {
 				const newPrevNode = await tx.treeNodeEntity.findUnique({

@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import { updateDocMeta } from '@/actions/doc';
+import { useApp } from '@/contexts/app-context';
 import { getTranslations } from '@/i18n';
 import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
 import { BOOK_CATALOG_MAP, mutateTree } from '@/stores/tree';
@@ -10,6 +11,7 @@ const t = getTranslations('hooks_use_edit_doc_title');
 export const useEditDocTitle = () => {
 	const { data, mutate } = useCurrentDocMeta();
 	const setIsSaving = useDocStore((state) => state.setIsSaving);
+	const { isDemo } = useApp();
 
 	const handleEditDocTitle = useCallback(
 		(newTitle: string) => {
@@ -37,7 +39,7 @@ export const useEditDocTitle = () => {
 							throw new Error(result.message);
 						}
 
-						mutateTree(data.bookId, BOOK_CATALOG_MAP);
+						mutateTree(data.bookId, BOOK_CATALOG_MAP, isDemo);
 						setIsSaving(false);
 
 						return result.data;

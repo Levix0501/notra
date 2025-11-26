@@ -123,7 +123,7 @@ export function NavItemForm({
 				setOpen(false);
 			}
 
-			mutateTree(bookId, NAVBAR_MAP);
+			mutateTree(bookId, NAVBAR_MAP, false);
 		})();
 
 		toast

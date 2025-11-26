@@ -6,11 +6,13 @@ import { CSSProperties, useState } from 'react';
 import { mutate } from 'swr';
 
 import { updateDocMeta } from '@/actions/doc';
-import { updateTitle } from '@/actions/tree-node';
+import { updateTreeNodeTitle } from '@/actions/tree-node';
 import { Button } from '@/components/ui/button';
+import { useApp } from '@/contexts/app-context';
 import { getTranslations } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { useGetBook } from '@/queries/book';
+import { DemoService } from '@/services/demo';
 import { useDocStore } from '@/stores/doc';
 import {
 	useBookCatalogTree,
@@ -48,8 +50,10 @@ export const CatalogItem = ({
 	const expandedKeys = useBookCatalogTree((state) => state.expandedKeys);
 	const setExpandedKeys = useBookCatalogTree((state) => state.setExpandedKeys);
 	const pathname = usePathname();
+	const { isDemo } = useApp();
 
-	const isActive = pathname === `/dashboard/${book?.id}/${item.docId}`;
+	const isActive =
+		pathname === `/${isDemo ? 'demo' : 'dashboard'}/${book?.id}/${item.docId}`;
 
 	const toggleExpandedKey = (key: number) => {
 		if (expandedKeys.has(key)) {
@@ -97,8 +101,10 @@ export const CatalogItem = ({
 
 		node.title = title;
 
-		mutateTree(book.id, BOOK_CATALOG_MAP, async () => {
-			const result = await updateTitle({
+		mutateTree(book.id, BOOK_CATALOG_MAP, isDemo, async () => {
+			const result = await (
+				isDemo ? DemoService.updateTreeNodeTitle : updateTreeNodeTitle
+			)({
 				id: item.id,
 				title
 			});
@@ -112,11 +118,15 @@ export const CatalogItem = ({
 
 		if (item.docId !== null && item.docId === useDocStore.getState().id) {
 			mutate(
-				`/api/docs/${item.docId}/meta`,
+				isDemo
+					? `/demo/docs/${item.docId}/meta`
+					: `/api/docs/${item.docId}/meta`,
 				async () => {
 					useDocStore.getState().setIsSaving(true);
 
-					const result = await updateDocMeta({
+					const result = await (
+						isDemo ? DemoService.updateDocMeta : updateDocMeta
+					)({
 						id: item.docId!,
 						title
 					});

@@ -10,7 +10,7 @@ import {
 	DEFAULT_SITE_LOGO,
 	DEFAULT_SITE_LOGO_DARK,
 	DEFAULT_SITE_TITLE
-} from '@/constants/default';
+} from '@/constants';
 import { ENV_LOCALE } from '@/constants/env';
 import { SiteSettingsService } from '@/services/site-settings';
 

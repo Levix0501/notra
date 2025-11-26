@@ -1,7 +1,14 @@
-import { BookEntity, TreeNodeEntity, TreeNodeType } from '@prisma/client';
+import {
+	BookEntity,
+	DocEntity,
+	TreeNodeEntity,
+	TreeNodeType
+} from '@prisma/client';
 import { z } from 'zod';
 
 import { getTranslations } from '@/i18n';
+
+import { Nullable } from './common';
 
 export type TreeNodeVo = Omit<
 	TreeNodeEntity,
@@ -21,6 +28,30 @@ export type CreateTreeNodeDto = {
 	bookId: TreeNodeEntity['bookId'];
 	parentId: TreeNodeEntity['parentId'];
 	type: TreeNodeType;
+};
+
+export type DeleteTreeNodeWithChildrenDto = {
+	nodeId: TreeNodeEntity['id'];
+	nodeIds: TreeNodeEntity['id'][];
+	docIds: DocEntity['id'][];
+	bookId: TreeNodeEntity['bookId'];
+};
+
+export type PrependChildDto = {
+	bookId: TreeNodeEntity['bookId'];
+	nodeId: TreeNodeEntity['id'];
+	targetId: Nullable<TreeNodeEntity['id']>;
+};
+
+export type MoveAfterDto = {
+	bookId: TreeNodeEntity['bookId'];
+	nodeId: TreeNodeEntity['id'];
+	targetId: TreeNodeEntity['id'];
+};
+
+export type UpdateTreeNodeTitleDto = {
+	id: TreeNodeEntity['id'];
+	title: TreeNodeEntity['title'];
 };
 
 export const NavItemFormSchema = z.object({

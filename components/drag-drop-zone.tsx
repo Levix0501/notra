@@ -17,7 +17,9 @@ import {
 	prependChild as prependChildAction,
 	moveAfter as moveAfterAction
 } from '@/actions/tree-node';
+import { useApp } from '@/contexts/app-context';
 import { checkShouldMoveNode, moveNode } from '@/lib/tree/client';
+import { DemoService } from '@/services/demo';
 import { mutateTree, TreeStore } from '@/stores/tree';
 import { TreeNodeView, TreeNodeVoWithLevel } from '@/types/tree-node';
 
@@ -61,6 +63,8 @@ export function DragDropZone({
 	renderCloneItem
 }: Readonly<DragDropZoneProps>) {
 	const expandedKeysBeforeDrag = useRef<Set<number>>(new Set());
+
+	const { isDemo } = useApp();
 
 	const updateDropNode = ({
 		dropNode,
@@ -125,12 +129,18 @@ export function DragDropZone({
 			expandedKeysBeforeDrag.current.add(newParentId);
 		}
 
-		mutateTree(bookId, nodeMap, async () => {
-			const result = await prependChildAction({
-				bookId,
-				nodeId,
-				targetId: newParentId
-			});
+		mutateTree(bookId, nodeMap, isDemo, async () => {
+			const result = isDemo
+				? await DemoService.prependChild({
+						bookId,
+						nodeId,
+						targetId: newParentId
+					})
+				: await prependChildAction({
+						bookId,
+						nodeId,
+						targetId: newParentId
+					});
 
 			if (!result.success || !result.data) {
 				throw new Error(result.message);
@@ -172,12 +182,18 @@ export function DragDropZone({
 			newPrevId
 		});
 
-		mutateTree(bookId, nodeMap, async () => {
-			const result = await moveAfterAction({
-				bookId,
-				nodeId,
-				targetId: newPrevId
-			});
+		mutateTree(bookId, nodeMap, isDemo, async () => {
+			const result = isDemo
+				? await DemoService.moveAfter({
+						bookId,
+						nodeId,
+						targetId: newPrevId
+					})
+				: await moveAfterAction({
+						bookId,
+						nodeId,
+						targetId: newPrevId
+					});
 
 			if (!result.success || !result.data) {
 				throw new Error(result.message);

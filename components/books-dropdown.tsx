@@ -4,6 +4,7 @@ import { BookEntity } from '@prisma/client';
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 
+import { useApp } from '@/contexts/app-context';
 import { useGetBook, useGetBooks } from '@/queries/book';
 
 import { Button } from './ui/button';
@@ -21,6 +22,7 @@ interface BooksDropdownProps {
 export const BooksDropdown = ({ bookId }: BooksDropdownProps) => {
 	const { data: books } = useGetBooks();
 	const { data: book } = useGetBook(bookId);
+	const { isDemo } = useApp();
 
 	if (!books || !book) {
 		return null;
@@ -38,7 +40,10 @@ export const BooksDropdown = ({ bookId }: BooksDropdownProps) => {
 				onCloseAutoFocus={(e) => e.preventDefault()}
 			>
 				{books.map((book) => (
-					<Link key={book.id} href={`/dashboard/${book.id}`}>
+					<Link
+						key={book.id}
+						href={`/${isDemo ? 'demo' : 'dashboard'}/${book.id}`}
+					>
 						<DropdownMenuItem>{book.name}</DropdownMenuItem>
 					</Link>
 				))}

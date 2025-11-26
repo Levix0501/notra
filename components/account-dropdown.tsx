@@ -15,7 +15,7 @@ import {
 import {
 	DEFAULT_ACCOUNT_AVATAR,
 	DEFAULT_ACCOUNT_AVATAR_DARK
-} from '@/constants/default';
+} from '@/constants';
 import { getTranslations } from '@/i18n';
 
 import { useGlobalSettingsDialog } from './global-settings-dialog';

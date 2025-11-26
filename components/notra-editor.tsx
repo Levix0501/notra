@@ -5,7 +5,9 @@ import { Content } from '@tiptap/react';
 import { useDebounceCallback } from 'usehooks-ts';
 
 import { updateDocContent } from '@/actions/doc';
+import { useApp } from '@/contexts/app-context';
 import { useGetDoc } from '@/queries/doc';
+import { DemoService } from '@/services/demo';
 import { useCurrentDocMeta, useDocStore } from '@/stores/doc';
 
 import { EditorCore } from './editor/editor-core';
@@ -19,6 +21,7 @@ export function NotraEditor({ docId }: Readonly<NotraEditorProps>) {
 	const setUpdateAt = useDocStore((state) => state.setUpdateAt);
 	const { data: doc, mutate } = useGetDoc(docId);
 	const { mutate: mutateDocMeta } = useCurrentDocMeta();
+	const { isDemo } = useApp();
 	const debouncedUpdateDocContent = useDebounceCallback(
 		async (content: Content) => {
 			if (!doc) {
@@ -28,7 +31,9 @@ export function NotraEditor({ docId }: Readonly<NotraEditorProps>) {
 			mutate(
 				async () => {
 					setIsSaving(true);
-					const result = await updateDocContent({
+					const result = await (
+						isDemo ? DemoService.updateDocContent : updateDocContent
+					)({
 						id: doc.id,
 						content: JSON.stringify(content)
 					});

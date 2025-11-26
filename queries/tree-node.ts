@@ -1,8 +1,10 @@
 import { BookEntity } from '@prisma/client';
 import { useRef } from 'react';
-import { SWRConfiguration } from 'swr';
+import useSWR, { SWRConfiguration } from 'swr';
 
+import { useApp } from '@/contexts/app-context';
 import { useFetcher } from '@/hooks/use-fetcher';
+import { DemoService } from '@/services/demo';
 import {
 	CONTACT_INFO_MAP,
 	NAVBAR_MAP,
@@ -13,13 +15,22 @@ import {
 import { TreeNodeVoWithLevel } from '@/types/tree-node';
 
 export const useGetTreeNodes = (
-	bookId: BookEntity['id'] | undefined,
+	bookId: BookEntity['id'],
 	config?: SWRConfiguration<TreeNodeVoWithLevel[]>
-) =>
-	useFetcher<TreeNodeVoWithLevel[]>(
-		bookId ? `/api/tree-nodes/${bookId}` : void 0,
+) => {
+	const { isDemo } = useApp();
+	const demo = useSWR(
+		isDemo ? `/demo/tree-nodes/${bookId}` : void 0,
+		() => DemoService.getTreeNodesByBookId(bookId),
 		config
 	);
+	const api = useFetcher<TreeNodeVoWithLevel[]>(
+		isDemo ? void 0 : `/api/tree-nodes/${bookId}`,
+		config
+	);
+
+	return isDemo ? demo : api;
+};
 
 export const useGetNavbarTreeNodes = (bookId: BookEntity['id']) => {
 	const hasDefaultExpandedKeysGenerated = useRef(false);

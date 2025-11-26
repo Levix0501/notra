@@ -7,11 +7,38 @@ export const zh = {
 		card_title: '管理员登录',
 		card_description: '首次登录会自动创建账户'
 	},
-	app_dashboard_main_page: {
+	app_dashboard_page: {
 		navbar: '导航栏',
 		configure_navbar: '配置导航栏',
 		contact_info: '联系方式',
 		configure_contact_info: '配置联系方式'
+	},
+	app_demo_layout: {
+		alert_title: '🚀 在线体验模式提示',
+		alert_description:
+			'体验模式下，您创建、编辑的所有数据将仅保存在您的浏览器本地存储中，清除浏览器数据将可能丢失内容。'
+	},
+	app_demo_page: {
+		hero_title: '构建你的第二大脑',
+		hero_description: '一个开源、高性能的知识管理系统',
+		try_demo: '在线体验',
+		view_docs: '查看文档',
+		feature_knowledge_management: '知识库管理',
+		feature_knowledge_management_desc:
+			'创建和组织多个知识库,支持博客、文档等多种类型',
+		feature_rich_editor: '富文本编辑',
+		feature_rich_editor_desc:
+			'强大的富文本编辑器,支持 Markdown、代码高亮、图片上传等',
+		feature_tree_structure: '树形结构',
+		feature_tree_structure_desc: '灵活的树形目录结构,支持拖拽排序和嵌套分组',
+		feature_quick_setup: '快速搭建',
+		feature_quick_setup_desc: '轻松创建自己的博客、文档或知识网站,无需复杂配置',
+		feature_theme_switch: '主题切换',
+		feature_theme_switch_desc: '支持亮色和暗色主题,提供优雅的阅读体验',
+		feature_responsive: '响应式设计',
+		feature_responsive_desc: '完美适配桌面端和移动端,随时随地管理知识',
+		footer_github: 'GitHub',
+		footer_docs: '文档'
 	},
 	components_account_dropdown: {
 		settings: '设置',
@@ -92,7 +119,8 @@ export const zh = {
 		publish_success: '发布成功！',
 		unpublish_loading: '取消发布中...',
 		unpublish_error: '取消发布失败！',
-		unpublish_success: '取消发布成功！'
+		unpublish_success: '取消发布成功！',
+		demo_mode_cannot_publish: '体验模式无法发布内容！'
 	},
 	components_colored_contact_icon_switch: {
 		colored_contact_icons: '彩色图标'
@@ -130,6 +158,9 @@ export const zh = {
 		dashboard: '工作台',
 		appearance: '外观'
 	},
+	components_demo_sidebar_nav: {
+		demo: '在线体验'
+	},
 	components_doc_footer_nav: {
 		previous: '上一篇',
 		next: '下一篇'
@@ -153,7 +184,8 @@ export const zh = {
 		doc_settings: '文档设置',
 		publish: '发布',
 		unpublish: '取消发布',
-		view_page: '查看页面'
+		view_page: '查看页面',
+		demo_mode_cannot_publish: '体验模式无法发布内容！'
 	},
 	components_doc_toc: {
 		on_this_page: '本页内容'

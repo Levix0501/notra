@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { DEFAULT_SITE_TITLE } from '@/constants/default';
+import { DEFAULT_SITE_TITLE } from '@/constants';
 import { SiteSettingsService } from '@/services/site-settings';
 import { TreeNodeService } from '@/services/tree-node';
 
@@ -28,7 +28,9 @@ export async function NotraHeader() {
 				<div className="flex h-full items-center gap-1">
 					<DashboardButton />
 
-					{navItems && navItems.length > 0 && <NavbarStaticMobileButton />}
+					{navItems && navItems.length > 0 && (
+						<NavbarStaticMobileButton navItems={navItems} />
+					)}
 				</div>
 			</div>
 		</header>

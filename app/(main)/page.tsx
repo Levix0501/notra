@@ -1,16 +1,20 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
 import { BlogCards } from '@/components/blog-cards';
 import { SiteSettingsService } from '@/services/site-settings';
 
 export default async function Page() {
+	if (process.env.NOTRA_LANDING_REDIRECT) {
+		permanentRedirect(process.env.NOTRA_LANDING_REDIRECT);
+	}
+
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
 
 	if (
 		siteSettings?.homePageRedirectType === 'BOOK' &&
 		siteSettings.redirectToBook?.isPublished
 	) {
-		redirect(`/${siteSettings.redirectToBook?.slug}`);
+		permanentRedirect(`/${siteSettings.redirectToBook?.slug}`);
 	}
 
 	if (
@@ -19,7 +23,7 @@ export default async function Page() {
 		!siteSettings.redirectToDoc.isDeleted &&
 		siteSettings.redirectToDoc.book?.isPublished
 	) {
-		redirect(
+		permanentRedirect(
 			`/${siteSettings.redirectToDoc.book?.slug}/${siteSettings.redirectToDoc.slug}`
 		);
 	}

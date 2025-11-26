@@ -34,15 +34,20 @@ export const setTreeNodeMap = (
 export const mutateTree = (
 	bookId: BookEntity['id'],
 	nodeMap: TreeNodeMap,
+	isDemo: boolean,
 	mutateFn?: () => Promise<TreeNodeVoWithLevel[]>
 ) => {
 	const optimisticData = flattenTreeNodeNodes(Array.from(nodeMap.values()));
 
 	setTreeNodeMap(nodeMap, optimisticData);
-	mutate(`/api/tree-nodes/${bookId}`, mutateFn || ((state) => state), {
-		optimisticData,
-		revalidate: !mutateFn
-	});
+	mutate(
+		isDemo ? `/demo/tree-nodes/${bookId}` : `/api/tree-nodes/${bookId}`,
+		mutateFn || ((state) => state),
+		{
+			optimisticData,
+			revalidate: !mutateFn
+		}
+	);
 };
 
 export type TreeStore = {

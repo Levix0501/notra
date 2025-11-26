@@ -4,8 +4,9 @@ import { ChevronRight, ExternalLink, Link, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { CSSProperties, useState } from 'react';
 
-import { updateTitle } from '@/actions/tree-node';
+import { updateTreeNodeTitle } from '@/actions/tree-node';
 import { Button } from '@/components/ui/button';
+import { useApp } from '@/contexts/app-context';
 import { getTranslations } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { mutateTree, NAVBAR_MAP, useNavbarTree } from '@/stores/tree';
@@ -39,6 +40,7 @@ export const NavItem = ({
 
 	const expandedKeys = useNavbarTree((state) => state.expandedKeys);
 	const setExpandedKeys = useNavbarTree((state) => state.setExpandedKeys);
+	const { isDemo } = useApp();
 
 	const toggleExpandedKey = (key: number) => {
 		if (expandedKeys.has(key)) {
@@ -88,8 +90,8 @@ export const NavItem = ({
 
 		node.title = title;
 
-		mutateTree(bookId, NAVBAR_MAP, async () => {
-			const result = await updateTitle({
+		mutateTree(bookId, NAVBAR_MAP, isDemo, async () => {
+			const result = await updateTreeNodeTitle({
 				id: item.id,
 				title
 			});

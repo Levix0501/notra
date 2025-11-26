@@ -88,7 +88,7 @@ export function ContactInfoForm({
 				setOpen(false);
 			}
 
-			mutateTree(bookId, CONTACT_INFO_MAP);
+			mutateTree(bookId, CONTACT_INFO_MAP, false);
 		})();
 
 		toast

@@ -19,8 +19,10 @@ import {
 } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useApp } from '@/contexts/app-context';
 import { getTranslations } from '@/i18n';
 import { useGetBooks } from '@/queries/book';
+import { DemoService } from '@/services/demo';
 import { CreateBookFormValues, CreateBookFormSchema } from '@/types/book';
 
 type CreateBookDialogStore = {
@@ -49,12 +51,15 @@ export function CreateBookDialog() {
 			name: ''
 		}
 	});
+	const { isDemo } = useApp();
 
 	const onSubmit = async (values: CreateBookFormValues) => {
 		setIsPending(true);
 
 		const promise = (async () => {
-			const result = await createBook(values);
+			const result = isDemo
+				? await DemoService.createBook(values)
+				: await createBook(values);
 
 			if (!result.success) {
 				throw new Error(result.message);
@@ -71,7 +76,7 @@ export function CreateBookDialog() {
 			})
 			.unwrap()
 			.then((data) => {
-				router.push(`/dashboard/${data?.id}`);
+				router.push(isDemo ? `/demo/${data?.id}` : `/dashboard/${data?.id}`);
 				mutate();
 				setOpen(false);
 				form.reset();

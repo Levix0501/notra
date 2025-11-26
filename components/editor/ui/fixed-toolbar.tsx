@@ -76,7 +76,7 @@ export const FixedToolbar = () => {
 	return (
 		<div
 			className={cn(
-				'fixed top-14 right-0 left-0 z-30 h-11 border-b border-accent bg-background md:left-(--sidebar-width,256px)',
+				'fixed top-header-height right-0 left-0 z-30 h-11 border-b border-accent bg-background md:left-(--sidebar-width,256px)',
 				mobileOpen && 'md:left-0',
 				!isResizing && 'transition-[left] duration-250 ease-[ease]'
 			)}
