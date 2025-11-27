@@ -1,3 +1,4 @@
+import { AccountDropdown } from '@/components/account-dropdown';
 import { BookSettingsSheet } from '@/components/book-settings-sheet';
 import { CreateBookDialog } from '@/components/create-book-dialog';
 import { DashboardSidebarFooter } from '@/components/dashboard-sidebar-footer';
@@ -25,6 +26,7 @@ export default function Layout({
 				<NotraSidebar>
 					<div className="flex h-14 items-center justify-between px-4 md:px-2.5">
 						{breadcrumb}
+						<AccountDropdown />
 					</div>
 
 					<NotraSidebarContent>{sidebar}</NotraSidebarContent>
