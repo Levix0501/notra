@@ -124,8 +124,8 @@
 		"@types/react": "19.2.6",
 		"@types/react-dom": "19.2.3",
 		"@types/react-window": "^1.8.8",
-		"@vitest/coverage-v8": "4.0.13",
-		"@vitest/ui": "^4.0.13",
+		"@vitest/coverage-v8": "^4.0.14",
+		"@vitest/ui": "^4.0.14",
 		"commitlint": "^19.8.1",
 		"cz-git": "^1.12.0",
 		"eslint": "^9",
@@ -145,7 +145,7 @@
 		"tailwindcss": "^4",
 		"tw-animate-css": "^1.3.6",
 		"typescript": "^5",
-		"vitest": "^4.0.13"
+		"vitest": "^4.0.14"
 	},
 	"engines": {
 		"node": ">=20.10.0",

@@ -8,7 +8,6 @@ import { CodeBlock } from './extensions/code-block-extension';
 import { FileHandler } from './extensions/file-handler-extension';
 import { Image } from './extensions/image-extension';
 import { ImageUpload } from './extensions/image-upload-extension';
-import { MarkdownPaste } from './extensions/markdown-paste-extension';
 import { ResetEmptyToParagraph } from './extensions/reset-empty-to-paragraph-extension';
 import { SlashCommand } from './extensions/slash-command-extension';
 import { handleImageUpload, MAX_FILE_SIZE } from './tiptap-utils';
@@ -26,7 +25,6 @@ export const ExtensionKit: Extensions = [
 		upload: handleImageUpload,
 		onError: (error) => console.error('Upload failed:', error)
 	}),
-	MarkdownPaste,
 	FileHandler,
 	Focus,
 	Placeholder.configure({
