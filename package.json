@@ -2,6 +2,14 @@
 	"name": "notra",
 	"version": "0.0.1",
 	"private": true,
+	"packageManager": "pnpm@10.22.0",
+	"author": {
+		"name": "Levix",
+		"email": "1176891456@qq.com",
+		"url": "https://github.com/Levix0501"
+	},
+	"license": "MIT",
+	"repository": "Levix0501/notra.git",
 	"keywords": [
 		"knowledge-base",
 		"blog",
@@ -9,12 +17,9 @@
 		"nextjs",
 		"react"
 	],
-	"repository": "Levix0501/notra.git",
-	"license": "MIT",
-	"author": {
-		"name": "Levix",
-		"email": "1176891456@qq.com",
-		"url": "https://github.com/Levix0501"
+	"engines": {
+		"node": ">=20.12.0",
+		"pnpm": ">=10.0.0"
 	},
 	"scripts": {
 		"dev": "prisma generate && next dev",
@@ -133,6 +138,7 @@
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-import-resolver-typescript": "^4.4.4",
 		"eslint-plugin-import": "^2.32.0",
+		"eslint-plugin-jsonc": "^2.21.0",
 		"eslint-plugin-react": "^7.37.5",
 		"eslint-plugin-tailwindcss": "4.0.0-beta.0",
 		"fake-indexeddb": "^6.2.5",
@@ -147,11 +153,6 @@
 		"typescript": "^5",
 		"vitest": "^4.0.14"
 	},
-	"engines": {
-		"node": ">=20.12.0",
-		"pnpm": ">=10.0.0"
-	},
-	"packageManager": "pnpm@10.22.0",
 	"config": {
 		"commitizen": {
 			"path": "node_modules/cz-git"

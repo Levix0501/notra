@@ -7,6 +7,7 @@ import nextPlugin from '@next/eslint-plugin-next';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import nextTs from 'eslint-config-next/typescript';
 import prettier from 'eslint-config-prettier/flat';
+import jsonc from 'eslint-plugin-jsonc';
 import tailwind from 'eslint-plugin-tailwindcss';
 
 /**
@@ -62,6 +63,96 @@ const eslintConfig = defineConfig([
 	},
 	...nextTs,
 	prettier,
+	// JSON/JSONC configuration
+	...jsonc.configs['flat/recommended-with-json'],
+	{
+		files: ['**/package.json'],
+		rules: {
+			'jsonc/sort-array-values': [
+				'error',
+				{
+					order: { type: 'asc' },
+					pathPattern: '^files$'
+				}
+			],
+			'jsonc/sort-keys': [
+				'error',
+				{
+					order: [
+						'publisher',
+						'name',
+						'displayName',
+						'type',
+						'version',
+						'private',
+						'packageManager',
+						'description',
+						'author',
+						'contributors',
+						'license',
+						'funding',
+						'homepage',
+						'repository',
+						'bugs',
+						'keywords',
+						'categories',
+						'sideEffects',
+						'imports',
+						'exports',
+						'main',
+						'module',
+						'unpkg',
+						'jsdelivr',
+						'types',
+						'typesVersions',
+						'bin',
+						'icon',
+						'files',
+						'engines',
+						'activationEvents',
+						'contributes',
+						'scripts',
+						'peerDependencies',
+						'peerDependenciesMeta',
+						'dependencies',
+						'optionalDependencies',
+						'devDependencies',
+						'pnpm',
+						'overrides',
+						'resolutions',
+						'husky',
+						'simple-git-hooks',
+						'lint-staged',
+						'eslintConfig'
+					],
+					pathPattern: '^$'
+				},
+				{
+					order: { type: 'asc' },
+					pathPattern: '^(?:dev|peer|optional|bundled)?[Dd]ependencies(Meta)?$'
+				},
+				{
+					order: ['types', 'import', 'require', 'default'],
+					pathPattern: '^exports.*$'
+				},
+				{
+					order: [
+						'pre-commit',
+						'prepare-commit-msg',
+						'commit-msg',
+						'post-commit',
+						'pre-rebase',
+						'post-rewrite',
+						'post-checkout',
+						'post-merge',
+						'pre-push',
+						'pre-auto-gc'
+					],
+					pathPattern: '^(?:gitHooks|husky|simple-git-hooks)$'
+				}
+			]
+		}
+	},
 	// Override default ignores of eslint-config-next.
 	globalIgnores([
 		// Default ignores of eslint-config-next:
