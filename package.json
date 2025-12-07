@@ -39,7 +39,7 @@
 	"dependencies": {
 		"@hello-pangea/dnd": "^18.0.1",
 		"@hookform/resolvers": "^5.2.1",
-		"@next/third-parties": "16.0.3",
+		"@next/third-parties": "^16.0.7",
 		"@prisma/client": "^6.13.0",
 		"@radix-ui/react-alert-dialog": "^1.1.14",
 		"@radix-ui/react-aspect-ratio": "^1.1.7",
@@ -94,13 +94,13 @@
 		"mdast-util-gfm": "^3.1.0",
 		"micromark-extension-gfm": "^3.0.0",
 		"minio": "^8.0.6",
-		"next": "16.0.3",
+		"next": "^16.0.7",
 		"next-auth": "5.0.0-beta.29",
 		"next-themes": "^0.4.6",
-		"react": "19.2.0",
+		"react": "^19.2.0",
 		"react-cropper": "^2.3.3",
 		"react-day-picker": "^9.9.0",
-		"react-dom": "19.2.0",
+		"react-dom": "^19.2.0",
 		"react-hook-form": "^7.61.1",
 		"react-hotkeys-hook": "^5.1.0",
 		"react-icons": "^5.5.0",
@@ -121,20 +121,20 @@
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
 		"@eslint/eslintrc": "^3",
-		"@next/eslint-plugin-next": "^16.0.3",
+		"@next/eslint-plugin-next": "^16.0.7",
 		"@tailwindcss/postcss": "^4",
 		"@types/lodash": "^4.17.20",
 		"@types/mdast": "^4.0.4",
 		"@types/node": "^20",
-		"@types/react": "19.2.6",
-		"@types/react-dom": "19.2.3",
+		"@types/react": "^19.2.6",
+		"@types/react-dom": "^19.2.3",
 		"@types/react-window": "^1.8.8",
 		"@vitest/coverage-v8": "^4.0.14",
 		"@vitest/ui": "^4.0.14",
 		"commitlint": "^19.8.1",
 		"cz-git": "^1.12.0",
 		"eslint": "^9",
-		"eslint-config-next": "16.0.3",
+		"eslint-config-next": "^16.0.7",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-import-resolver-typescript": "^4.4.4",
 		"eslint-plugin-import": "^2.32.0",
@@ -160,8 +160,8 @@
 	},
 	"pnpm": {
 		"overrides": {
-			"@types/react": "19.2.6",
-			"@types/react-dom": "19.2.3"
+			"@types/react": "^19.2.6",
+			"@types/react-dom": "^19.2.3"
 		}
 	}
 }
