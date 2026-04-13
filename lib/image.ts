@@ -13,6 +13,7 @@ export const isAllowedDomain = (src: string) => {
 
 export const normalizeStorageImageUrl = (src?: string | null) => {
 	if (!src) return src;
+
 	if (src.startsWith('/minio/')) return src;
 
 	try {

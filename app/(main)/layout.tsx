@@ -3,6 +3,8 @@ import React from 'react';
 import { NotraFooter } from '@/components/notra-footer';
 import { NotraHeader } from '@/components/notra-header';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Layout({
 	children
 }: Readonly<{

@@ -1,6 +1,5 @@
-import Link from 'next/link';
-
 import { BookEntity } from '@prisma/client';
+import Link from 'next/link';
 
 import { CARD_LIST_PAGE_SIZE } from '@/constants/pagination';
 import { getTranslations } from '@/i18n';

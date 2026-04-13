@@ -14,6 +14,7 @@ export async function GET(request: Request) {
 			status: 401
 		});
 	}
+
 	if (!isAdminSession(session)) {
 		const t = getTranslations('app_api');
 

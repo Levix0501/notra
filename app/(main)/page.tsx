@@ -3,6 +3,8 @@ import { permanentRedirect } from 'next/navigation';
 import { BlogCards } from '@/components/blog-cards';
 import { SiteSettingsService } from '@/services/site-settings';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page() {
 	if (process.env.NOTRA_LANDING_REDIRECT) {
 		permanentRedirect(process.env.NOTRA_LANDING_REDIRECT);

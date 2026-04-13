@@ -19,6 +19,8 @@ import { BookService } from '@/services/book';
 import { DocService } from '@/services/doc';
 import { TreeNodeService } from '@/services/tree-node';
 
+export const dynamic = 'force-dynamic';
+
 interface PageProps {
 	params: Promise<{
 		slug: string;

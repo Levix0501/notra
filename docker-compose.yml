@@ -7,8 +7,8 @@ services:
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@pgbouncer:5432/${POSTGRES_DB:-postgres}
       DIRECT_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-postgres}
-      # Must match how users open the site (http://localhost via Caddy :80 or http://localhost:3000)
-      AUTH_URL: http://${CADDY_DOMAIN}
+      # Must match how users open the site (https://localhost via Caddy :443)
+      AUTH_URL: https://${CADDY_DOMAIN}
     ports:
       - '3000:3000'
     depends_on:

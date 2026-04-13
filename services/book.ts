@@ -98,38 +98,49 @@ export class BookService {
 		async (
 			input:
 				| BookEntity['id']
+				| string
 				| {
-						id?: BookEntity['id'] | null;
+						id?: BookEntity['id'] | string | null;
 						slug?: BookEntity['slug'] | null;
 				  }
 		) => {
-			const id =
-				typeof input === 'number' ? input : (input?.id ?? undefined);
+			const rawId =
+				typeof input === 'number' || typeof input === 'string'
+					? input
+					: (input?.id ?? undefined);
 			const slug =
-				typeof input === 'number'
-					? undefined
-					: (input?.slug?.trim() ?? undefined);
+				typeof input === 'object' && input
+					? (input.slug?.trim() ?? undefined)
+					: undefined;
+			const parsedId =
+				typeof rawId === 'number'
+					? rawId
+					: typeof rawId === 'string'
+						? Number(rawId)
+						: NaN;
+			const id =
+				Number.isInteger(parsedId) && parsedId > 0 ? parsedId : undefined;
 
-			if ((!id || isNaN(id)) && !slug) {
+			if (!id && !slug) {
 				return ServiceResult.success(null);
 			}
 
-		try {
-			const book = await prisma.bookEntity.findUnique({
-				where: slug ? { slug } : { id: id as BookEntity['id'] },
-				omit: {
-					createdAt: true,
-					updatedAt: true
-				}
-			});
+			try {
+				const book = await prisma.bookEntity.findUnique({
+					where: slug ? { slug } : { id },
+					omit: {
+						createdAt: true,
+						updatedAt: true
+					}
+				});
 
-			return ServiceResult.success(book);
-		} catch (error) {
-			logger('BookService.getBook', error);
-			const t = getTranslations('services_book');
+				return ServiceResult.success(book);
+			} catch (error) {
+				logger('BookService.getBook', error);
+				const t = getTranslations('services_book');
 
-			return ServiceResult.fail(t.get_book_error);
-		}
+				return ServiceResult.fail(t.get_book_error);
+			}
 		}
 	);
 

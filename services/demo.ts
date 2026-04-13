@@ -139,7 +139,9 @@ export class DemoService {
 	static async createComment(docId: DocEntity['id'], input: CreateCommentDto) {
 		const comments = readDemoComments();
 		const nextId =
-			comments.length > 0 ? Math.max(...comments.map((item) => item.id)) + 1 : 1;
+			comments.length > 0
+				? Math.max(...comments.map((item) => item.id)) + 1
+				: 1;
 		const now = new Date();
 
 		const comment: CommentEntity = {
@@ -173,6 +175,7 @@ export class DemoService {
 
 		while (changed) {
 			changed = false;
+
 			for (const comment of comments) {
 				if (comment.parentId && idsToDelete.has(comment.parentId)) {
 					if (!idsToDelete.has(comment.id)) {
@@ -183,7 +186,9 @@ export class DemoService {
 			}
 		}
 
-		writeDemoComments(comments.filter((comment) => !idsToDelete.has(comment.id)));
+		writeDemoComments(
+			comments.filter((comment) => !idsToDelete.has(comment.id))
+		);
 
 		return ServiceResult.success(true);
 	}

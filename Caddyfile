@@ -1,6 +1,12 @@
-# HTTP only — avoids broken HTTPS redirects for localhost (TLS would need a real cert or mkcert).
+# Local HTTPS with Caddy internal CA (self-signed-like, no public ACME).
 # Service names match docker-compose: `app` (Next.js), `storage` (MinIO).
 http://:80 {
+	redir https://{host}{uri} permanent
+}
+
+https://localhost {
+	tls internal
+
 	# MinIO public objects (paths stored in DB as /minio/notra/...)
 	handle_path /minio/* {
 		reverse_proxy storage:9000

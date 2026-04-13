@@ -17,6 +17,7 @@ export async function PATCH(
 			status: 401
 		});
 	}
+
 	if (!isAdminSession(session)) {
 		const t = getTranslations('app_api');
 

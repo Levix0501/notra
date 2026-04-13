@@ -1,0 +1,4 @@
+caddy/
+**/caddy/**
+node_modules/
+.next/
