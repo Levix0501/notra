@@ -1,148 +1,23 @@
-# AGENTS.md — Notra Project Agent Guide
+# Agent Guidelines for Notra Project: Comment System Feature
 
-> Этот файл читают AI-агенты перед началом работы.
-> Обновляй его каждый раз, когда агент чему-то "не знал".
+This document contains all necessary information for AI agents to work on this project. Read it carefully before writing any code.
 
----
+## 1. Environment & Stack
+- **OS:** Ubuntu 22.04.3 LTS (running on WSL2 on Windows)
+- **Stack:** Next.js 16 (App Router), TypeScript, Prisma, PostgreSQL, React Server Components (RSC), Tailwind CSS, shadcn/ui.
+- **State/Data:** SWR for client-side fetching, Next.js Server Actions/Route Handlers for mutations.
 
-## 1. Среда разработки
+## 2. Execution & Database
+- **Run dev server:** `npm run dev`
+- **Database Schema Updates:** After modifying `prisma/schema.prisma`, ALWAYS run `npx prisma format`, `npx prisma generate` and suggest `npx prisma db push` to sync the DB.
 
-- **ОС:** [ВСТАВЬ СВОЮ: Windows 11 / macOS / Ubuntu]
-- **Node.js:** >=20.12.0
-- **Package manager:** `pnpm` версия >=10.0.0 (НЕ npm, НЕ yarn)
-- **IDE:** Cursor
+## 3. SDD (Spec-Driven Development) Workflow
+- **Rule 1:** NEVER write implementation code immediately.
+- **Rule 2:** Always start by exploring the current codebase and proposing a step-by-step implementation plan (Spec).
+- **Rule 3:** Wait for the user to approve the plan before writing any code.
+- **Rule 4:** Execute the plan one step at a time. Do not try to complete the entire feature in one prompt.
 
----
-
-## 2. Структура проекта
-
-```
-notra/
-├── app/                    # Next.js App Router
-│   ├── (auth)/            # Auth.js конфигурация
-│   ├── (main)/            # Публичные страницы
-│   │   └── [slug]/(doc)/[doc]/   # Страница документа
-│   ├── api/               # API routes
-│   └── dashboard/         # Админ-панель
-├── actions/               # Server Actions
-├── services/              # Бизнес-логика (классы DocService, etc.)
-├── lib/                   # Утилиты
-├── components/            # React-компоненты
-├── prisma/schema.prisma   # Схема БД — редактировать осторожно!
-├── i18n/                  # Переводы (en.ts, zh.ts)
-└── types/                 # TypeScript типы
-```
-
----
-
-## 3. Запуск проекта
-
-```bash
-pnpm install
-pnpm dev           # = prisma generate && next dev
-pnpm build         # = prisma generate + migrate deploy + next build
-```
-
-**ВАЖНО:** Всегда используй `pnpm`, не `npm` и не `yarn`.
-
----
-
-## 4. База данных
-
-- **СУБД:** PostgreSQL, **ORM:** Prisma 6.x
-
-```bash
-pnpm db:generate   # генерация клиента
-pnpm db:migrate    # создать + применить миграцию (dev)
-pnpm db:deploy     # применить миграции (prod)
-```
-
-**Соглашения schema.prisma:**
-- Модели называются `XxxEntity`
-- Таблицы: `@@map("snake_case")`
-- Поля: `@map("snake_case")`
-- Всегда: `createdAt` и `updatedAt`
-
----
-
-## 5. Паттерны кода
-
-### Service Layer (services/)
-```typescript
-export class CommentService {
-  static readonly getComments = cache(async (docId: number) => {
-    try {
-      return ServiceResult.success(data);
-    } catch (error) {
-      logger('CommentService.getComments', error);
-      return ServiceResult.fail('Error message');
-    }
-  });
-}
-```
-
-### API Routes
-```typescript
-// app/api/docs/[id]/comments/route.ts
-export async function GET(_, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;  // params — всегда Promise в App Router!
-  const result = await CommentService.getComments(Number(id));
-  return result.nextResponse();
-}
-```
-
-### i18n — добавлять в ОБА файла
-- `i18n/en.ts` — английский
-- `i18n/zh.ts` — китайский
-
-### Клиентский fetching — SWR
-### Валидация — Zod (уже установлен)
-### UI — shadcn/ui (Card, Button, Input, Textarea, Avatar, Skeleton)
-
----
-
-## 6. Тесты
-
-```bash
-pnpm test              # запуск всех тестов (Vitest)
-pnpm test -- --watch   # watch mode
-```
-
----
-
-## 7. Линтинг
-
-```bash
-pnpm lint      # ESLint + Prettier + Stylelint + TypeScript
-pnpm lint:fix  # автоисправление
-pnpm check-types  # только TypeScript
-```
-
----
-
-## 8. Что НЕЛЬЗЯ делать агенту
-
-- ❌ Использовать `npm` или `yarn` — только `pnpm`
-- ❌ Удалять существующие модели в schema.prisma
-- ❌ Менять сигнатуры существующих функций
-- ❌ Использовать Disqus, Commento или другие внешние сервисы
-- ❌ Делать breaking changes в существующих API
-- ❌ Изменять существующие тесты
-
----
-
-## 9. Демо-режим
-
-```typescript
-const isDemoMode = process.env.NEXT_PUBLIC_DEMO === 'true';
-// В демо-режиме данные → localStorage
-```
-
----
-
-## 10. Известные подводные камни
-
-- `params` в App Router — это `Promise`, всегда `await params`
-- `cache()` из React — для дедупликации в Server Components
-- `revalidatePath` — после мутаций для инвалидации кэша
-- Аутентификация: `const session = await auth();` → null если не авторизован
+## 4. Coding Guidelines
+- Follow existing project patterns (services, actions, SWR).
+- Use `shadcn/ui` components located in the project. Do not install new UI libraries.
+- Maintain backward compatibility. Do not break existing core features.
