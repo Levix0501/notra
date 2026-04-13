@@ -20,4 +20,10 @@ export const useGetAdminComments = (status: AdminCommentStatus) => {
 	>(`/api/comments?status=${status}`);
 };
 
+export const useGetPendingCommentsCount = () => {
+	return useFetcher<number>('/api/comments/pending-count', {
+		refreshInterval: 30000
+	});
+};
+
 export type { AdminCommentStatus };

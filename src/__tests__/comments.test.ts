@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CreateCommentSchema } from '@/src/lib/validations/comment';
 import { CommentService } from '@/src/services/comment.service';
 
-const { prismaMock } = vi.hoisted(() => ({
+const { prismaMock, notificationServiceMock } = vi.hoisted(() => ({
 	prismaMock: {
 		commentEntity: {
 			findMany: vi.fn(),
@@ -13,6 +13,9 @@ const { prismaMock } = vi.hoisted(() => ({
 			update: vi.fn(),
 			delete: vi.fn()
 		}
+	},
+	notificationServiceMock: {
+		sendReplyEmailMock: vi.fn().mockResolvedValue(undefined)
 	}
 }));
 
@@ -22,6 +25,10 @@ vi.mock('@/lib/prisma', () => ({
 
 vi.mock('@/lib/logger', () => ({
 	logger: vi.fn()
+}));
+
+vi.mock('@/src/services/notification.service', () => ({
+	NotificationService: notificationServiceMock
 }));
 
 function makeComment(partial: Partial<CommentEntity> = {}): CommentEntity {
@@ -61,6 +68,16 @@ describe('Comment validation (Step 2)', () => {
 			authorName: 'User',
 			authorEmail: 'user@example.com',
 			honeypot: 'bot-field'
+		});
+
+		expect(result.success).toBe(false);
+	});
+
+	it('rejects invalid email', () => {
+		const result = CreateCommentSchema.safeParse({
+			content: 'Valid content',
+			authorName: 'User',
+			authorEmail: 'not-an-email'
 		});
 
 		expect(result.success).toBe(false);
@@ -122,6 +139,7 @@ describe('Comment service (Step 3)', () => {
 				authorEmail: 'alice@example.com'
 			})
 		});
+		expect(notificationServiceMock.sendReplyEmailMock).toHaveBeenCalledTimes(1);
 	});
 
 	it('rejects comments with bad words', async () => {

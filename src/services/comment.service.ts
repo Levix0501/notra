@@ -3,6 +3,7 @@ import { CommentEntity, DocEntity } from '@prisma/client';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
 import { ServiceResult } from '@/lib/service-result';
+import { NotificationService } from '@/src/services/notification.service';
 import { CommentWithReplies, CreateCommentDto } from '@/types/comment';
 
 import { CreateCommentSchema } from '../lib/validations/comment';
@@ -68,15 +69,62 @@ function toCommentTree(comments: CommentEntity[]): CommentWithReplies[] {
 	return roots;
 }
 
-function sendReplyNotification(parent: CommentEntity, reply: CommentEntity) {
-	console.info('sendReplyNotification', {
-		parentCommentId: parent.id,
-		parentAuthorEmail: parent.authorEmail,
-		replyCommentId: reply.id
-	});
-}
-
 export class CommentService {
+	static async getPendingCount() {
+		try {
+			const count = await prisma.commentEntity.count({
+				where: {
+					isApproved: false
+				}
+			});
+
+			return ServiceResult.success(count);
+		} catch (error) {
+			logger('CommentService.getPendingCount', error);
+
+			return ServiceResult.fail('Failed to load pending comments count.');
+		}
+	}
+
+	static async bulkApprove(ids: number[]) {
+		try {
+			const result = await prisma.commentEntity.updateMany({
+				where: {
+					id: {
+						in: ids
+					}
+				},
+				data: {
+					isApproved: true
+				}
+			});
+
+			return ServiceResult.success(result.count);
+		} catch (error) {
+			logger('CommentService.bulkApprove', error);
+
+			return ServiceResult.fail('Failed to approve comments.');
+		}
+	}
+
+	static async bulkDelete(ids: number[]) {
+		try {
+			const result = await prisma.commentEntity.deleteMany({
+				where: {
+					id: {
+						in: ids
+					}
+				}
+			});
+
+			return ServiceResult.success(result.count);
+		} catch (error) {
+			logger('CommentService.bulkDelete', error);
+
+			return ServiceResult.fail('Failed to delete comments.');
+		}
+	}
+
 	static async getAdminComments(
 		status: 'all' | 'pending' | 'approved' = 'all'
 	) {
@@ -185,9 +233,9 @@ export class CommentService {
 				}
 			});
 
-			if (parent) {
-				sendReplyNotification(parent, comment);
-			}
+			void NotificationService.sendReplyEmailMock(comment).catch((error) => {
+				logger('CommentService.sendReplyEmailMock', error);
+			});
 
 			return ServiceResult.success(
 				comment,

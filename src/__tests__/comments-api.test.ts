@@ -5,6 +5,10 @@ const { authMock, commentServiceMock, prismaMock } = vi.hoisted(() => ({
 	commentServiceMock: {
 		getComments: vi.fn(),
 		createComment: vi.fn(),
+		getAdminComments: vi.fn(),
+		getPendingCount: vi.fn(),
+		bulkApprove: vi.fn(),
+		bulkDelete: vi.fn(),
 		approveComment: vi.fn(),
 		deleteComment: vi.fn()
 	},
@@ -30,6 +34,9 @@ vi.mock('@/lib/prisma', () => ({
 import * as ApproveRoute from '@/app/api/comments/[id]/approve/route';
 import * as ReplyRoute from '@/app/api/comments/[id]/reply/route';
 import * as CommentRoute from '@/app/api/comments/[id]/route';
+import * as BulkRoute from '@/app/api/comments/bulk/route';
+import * as PendingCountRoute from '@/app/api/comments/pending-count/route';
+import * as AdminCommentsRoute from '@/app/api/comments/route';
 import * as DocCommentsRoute from '@/app/api/docs/[id]/comments/route';
 
 describe('Comment API routes (Step 4)', () => {
@@ -210,5 +217,61 @@ describe('Comment API routes (Step 4)', () => {
 
 		expect(response.status).toBe(201);
 		vi.unstubAllEnvs();
+	});
+
+	it('GET /api/comments/pending-count returns count for admin', async () => {
+		authMock.mockResolvedValue({ user: { id: 'admin' } });
+		commentServiceMock.getPendingCount.mockResolvedValue({
+			success: true,
+			nextResponse: vi
+				.fn()
+				.mockResolvedValue(new Response('ok', { status: 200 }))
+		});
+
+		const response = await PendingCountRoute.GET();
+
+		expect(commentServiceMock.getPendingCount).toHaveBeenCalled();
+		expect(response.status).toBe(200);
+	});
+
+	it('POST /api/comments/bulk approves selected comments', async () => {
+		authMock.mockResolvedValue({ user: { id: 'admin' } });
+		commentServiceMock.bulkApprove.mockResolvedValue({
+			success: true,
+			nextResponse: vi
+				.fn()
+				.mockResolvedValue(new Response('ok', { status: 200 }))
+		});
+
+		const response = await BulkRoute.POST(
+			new Request('http://localhost', {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify({
+					action: 'approve',
+					ids: [1, 2, 3]
+				})
+			})
+		);
+
+		expect(commentServiceMock.bulkApprove).toHaveBeenCalledWith([1, 2, 3]);
+		expect(response.status).toBe(200);
+	});
+
+	it('GET /api/comments filters by status', async () => {
+		authMock.mockResolvedValue({ user: { id: 'admin' } });
+		commentServiceMock.getAdminComments.mockResolvedValue({
+			success: true,
+			nextResponse: vi
+				.fn()
+				.mockResolvedValue(new Response('ok', { status: 200 }))
+		});
+
+		const response = await AdminCommentsRoute.GET(
+			new Request('http://localhost/api/comments?status=pending')
+		);
+
+		expect(commentServiceMock.getAdminComments).toHaveBeenCalledWith('pending');
+		expect(response.status).toBe(200);
 	});
 });
