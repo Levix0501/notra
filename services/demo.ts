@@ -1,5 +1,6 @@
 import {
 	BookEntity,
+	CommentEntity,
 	DocEntity,
 	FileEntity,
 	TreeNodeType
@@ -13,6 +14,7 @@ import { ServiceResult } from '@/lib/service-result';
 import { moveNode, removeNodeFromOldPosition } from '@/lib/tree/demo';
 import { flattenTreeNodeNodes } from '@/lib/tree/shared';
 import { BookVo, CreateBookFormValues, UpdateBookDto } from '@/types/book';
+import { CreateCommentDto } from '@/types/comment';
 import { DemoDB } from '@/types/demo';
 import {
 	CheckDocSlugDto,
@@ -28,6 +30,70 @@ import {
 	PrependChildDto,
 	UpdateTreeNodeTitleDto
 } from '@/types/tree-node';
+
+const DEMO_COMMENTS_KEY = 'notra_demo_comments';
+
+function readDemoComments(): CommentEntity[] {
+	if (typeof window === 'undefined') {
+		return [];
+	}
+
+	const raw = window.localStorage.getItem(DEMO_COMMENTS_KEY);
+
+	if (!raw) {
+		return [];
+	}
+
+	try {
+		const parsed = JSON.parse(raw) as CommentEntity[];
+
+		return parsed.map((item) => ({
+			...item,
+			createdAt: new Date(item.createdAt),
+			updatedAt: new Date(item.updatedAt)
+		}));
+	} catch {
+		return [];
+	}
+}
+
+function writeDemoComments(comments: CommentEntity[]) {
+	if (typeof window === 'undefined') {
+		return;
+	}
+
+	window.localStorage.setItem(DEMO_COMMENTS_KEY, JSON.stringify(comments));
+}
+
+function toCommentTree(comments: CommentEntity[]) {
+	const byId = new Map<number, CommentEntity & { replies: CommentEntity[] }>();
+	const roots: Array<CommentEntity & { replies: CommentEntity[] }> = [];
+
+	for (const comment of comments) {
+		byId.set(comment.id, { ...comment, replies: [] });
+	}
+
+	for (const comment of comments) {
+		const node = byId.get(comment.id);
+
+		if (!node) {
+			continue;
+		}
+
+		if (comment.parentId) {
+			const parent = byId.get(comment.parentId);
+
+			if (parent) {
+				parent.replies.push(node);
+				continue;
+			}
+		}
+
+		roots.push(node);
+	}
+
+	return roots;
+}
 
 // Create database instance factory to allow proper cleanup in tests
 function createDatabase() {
@@ -62,6 +128,84 @@ export async function closeDatabase() {
 }
 
 export class DemoService {
+	static async getComments(docId: DocEntity['id']) {
+		const comments = readDemoComments()
+			.filter((comment) => comment.docId === docId && comment.isApproved)
+			.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+
+		return ServiceResult.success(toCommentTree(comments));
+	}
+
+	static async createComment(docId: DocEntity['id'], input: CreateCommentDto) {
+		const comments = readDemoComments();
+		const nextId =
+			comments.length > 0 ? Math.max(...comments.map((item) => item.id)) + 1 : 1;
+		const now = new Date();
+
+		const comment: CommentEntity = {
+			id: nextId,
+			docId,
+			content: input.content.trim(),
+			authorName: input.authorName.trim(),
+			authorEmail: input.authorEmail.trim().toLowerCase(),
+			authorWebsite:
+				input.authorWebsite && input.authorWebsite.trim() !== ''
+					? input.authorWebsite.trim()
+					: null,
+			honeypot: input.honeypot?.trim() || null,
+			parentId: input.parentId ?? null,
+			isApproved: true,
+			createdAt: now,
+			updatedAt: now
+		};
+
+		comments.push(comment);
+		writeDemoComments(comments);
+
+		return ServiceResult.success(comment);
+	}
+
+	static async deleteComment(commentId: CommentEntity['id']) {
+		const comments = readDemoComments();
+		const idsToDelete = new Set<number>([commentId]);
+
+		let changed = true;
+
+		while (changed) {
+			changed = false;
+			for (const comment of comments) {
+				if (comment.parentId && idsToDelete.has(comment.parentId)) {
+					if (!idsToDelete.has(comment.id)) {
+						idsToDelete.add(comment.id);
+						changed = true;
+					}
+				}
+			}
+		}
+
+		writeDemoComments(comments.filter((comment) => !idsToDelete.has(comment.id)));
+
+		return ServiceResult.success(true);
+	}
+
+	static async updateCommentStatus(
+		commentId: CommentEntity['id'],
+		isApproved: boolean
+	) {
+		const comments = readDemoComments();
+		const target = comments.find((item) => item.id === commentId);
+
+		if (!target) {
+			return ServiceResult.fail('Comment not found.');
+		}
+
+		target.isApproved = isApproved;
+		target.updatedAt = new Date();
+		writeDemoComments(comments);
+
+		return ServiceResult.success(target);
+	}
+
 	static async createBook({ name }: CreateBookFormValues) {
 		const t = getTranslations('services_book');
 

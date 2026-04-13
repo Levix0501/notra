@@ -1,6 +1,7 @@
 export const en = {
 	app_api: {
-		unauthorized: 'Unauthorized'
+		unauthorized: 'Unauthorized',
+		forbidden: 'Forbidden'
 	},
 	app_login_page: {
 		metadata_title: 'Login',
@@ -240,6 +241,16 @@ export const en = {
 		no_documents_description:
 			"You haven't created any documents yet. Get started by creating your first document.",
 		create_document: 'Create Document'
+	},
+	components_blog_cards: {
+		empty_title: 'No published posts yet',
+		empty_description:
+			'Sign in to the dashboard to create and publish content, or open the demo to explore the UI.',
+		sign_in: 'Sign in',
+		try_demo: 'Try demo'
+	},
+	components_header_auth: {
+		sign_in: 'Sign in'
 	},
 	components_empty_state: {
 		not_found: '404 - Not Found',

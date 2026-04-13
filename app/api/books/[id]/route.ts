@@ -18,7 +18,10 @@ export async function GET(
 	}
 
 	const { id } = await params;
-	const result = await BookService.getBook(Number(id));
+	const numericId = Number(id);
+	const result = await BookService.getBook(
+		Number.isFinite(numericId) ? { id: numericId } : { slug: id }
+	);
 
 	return result.nextResponse();
 }

@@ -1,6 +1,7 @@
 export const zh = {
 	app_api: {
-		unauthorized: '未授权'
+		unauthorized: '未授权',
+		forbidden: '禁止访问'
 	},
 	app_login_page: {
 		metadata_title: '登录',
@@ -233,6 +234,16 @@ export const zh = {
 		no_documents: '当前知识库暂无可访问内容',
 		no_documents_description: '您还没有创建任何文档。开始创建您的第一个文档。',
 		create_document: '创建文档'
+	},
+	components_blog_cards: {
+		empty_title: '暂无已发布的文章',
+		empty_description:
+			'登录控制台后即可创建并发布内容，或打开演示模式体验界面。',
+		sign_in: '登录',
+		try_demo: '体验演示'
+	},
+	components_header_auth: {
+		sign_in: '登录'
 	},
 	components_empty_state: {
 		not_found: '404 - 未找到页面',

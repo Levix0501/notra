@@ -2,8 +2,10 @@
 
 import { toast } from 'sonner';
 
+import { useApp } from '@/contexts/app-context';
 import { getTranslations } from '@/i18n';
 import { useGetComments } from '@/queries/comment';
+import { DemoService } from '@/services/demo';
 
 import { CommentForm } from './comment-form';
 import { CommentFormPayload, CommentItem } from './comment-item';
@@ -42,6 +44,7 @@ export function CommentsSection({
 	docId,
 	isAdmin = false
 }: CommentsSectionProps) {
+	const { isDemo } = useApp();
 	const {
 		data: comments = [],
 		isLoading,
@@ -50,10 +53,19 @@ export function CommentsSection({
 	} = useGetComments(docId);
 
 	const createComment = async (values: CommentFormPayload) => {
-		await requestJson(`/api/docs/${docId}/comments`, {
-			method: 'POST',
-			body: JSON.stringify(values)
-		});
+		if (isDemo) {
+			const result = await DemoService.createComment(docId, values);
+
+			if (!result.success) {
+				throw new Error(result.message);
+			}
+		} else {
+			await requestJson(`/api/docs/${docId}/comments`, {
+				method: 'POST',
+				body: JSON.stringify(values)
+			});
+		}
+
 		toast.success(t.form_submit);
 		await mutate();
 	};
@@ -62,22 +74,52 @@ export function CommentsSection({
 		parentId: number,
 		values: CommentFormPayload
 	) => {
-		await requestJson(`/api/comments/${parentId}/reply`, {
-			method: 'POST',
-			body: JSON.stringify(values)
-		});
+		if (isDemo) {
+			const result = await DemoService.createComment(docId, {
+				...values,
+				parentId
+			});
+
+			if (!result.success) {
+				throw new Error(result.message);
+			}
+		} else {
+			await requestJson(`/api/comments/${parentId}/reply`, {
+				method: 'POST',
+				body: JSON.stringify(values)
+			});
+		}
+
 		toast.success(t.form_reply_submit);
 		await mutate();
 	};
 
 	const approveComment = async (id: number) => {
-		await requestJson(`/api/comments/${id}/approve`, { method: 'PATCH' });
+		if (isDemo) {
+			const result = await DemoService.updateCommentStatus(id, true);
+
+			if (!result.success) {
+				throw new Error(result.message);
+			}
+		} else {
+			await requestJson(`/api/comments/${id}/approve`, { method: 'PATCH' });
+		}
+
 		toast.success(t.admin_approve_success);
 		await mutate();
 	};
 
 	const deleteComment = async (id: number) => {
-		await requestJson(`/api/comments/${id}`, { method: 'DELETE' });
+		if (isDemo) {
+			const result = await DemoService.deleteComment(id);
+
+			if (!result.success) {
+				throw new Error(result.message);
+			}
+		} else {
+			await requestJson(`/api/comments/${id}`, { method: 'DELETE' });
+		}
+
 		toast.success(t.admin_delete_success);
 		await mutate();
 	};

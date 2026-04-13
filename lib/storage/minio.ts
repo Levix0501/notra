@@ -69,7 +69,9 @@ export default class MinioStorage implements IStorage {
 			Buffer.from(await file.arrayBuffer())
 		);
 
-		const publicUrl = `https://${ENV_MINIO_ENDPOINT}/minio/${this.BUCKET_NAME}/${path}`;
+		// Use relative path so images work in both http and https deployments
+		// and avoid hard-coding scheme/domain into persisted DB values.
+		const publicUrl = `/minio/${this.BUCKET_NAME}/${path}`;
 
 		return publicUrl;
 	}

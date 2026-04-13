@@ -32,4 +32,5 @@ class MockNotificationService implements INotificationService {
 	}
 }
 
-export const NotificationService: INotificationService = new MockNotificationService();
+export const NotificationService: INotificationService =
+	new MockNotificationService();

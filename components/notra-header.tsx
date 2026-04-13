@@ -5,6 +5,7 @@ import { SiteSettingsService } from '@/services/site-settings';
 import { TreeNodeService } from '@/services/tree-node';
 
 import { DashboardButton } from './dashboard-button';
+import { HeaderAuthLinks } from './header-auth';
 import { NavbarStatic } from './navbar-static';
 import { NavbarStaticMobileButton } from './navbar-static-mobile';
 import { NotraLogo } from './notra-logo';
@@ -26,6 +27,7 @@ export async function NotraHeader() {
 				</div>
 
 				<div className="flex h-full items-center gap-1">
+					<HeaderAuthLinks />
 					<DashboardButton />
 
 					{navItems && navItems.length > 0 && (

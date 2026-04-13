@@ -190,6 +190,26 @@ describe('Comment API routes (Step 4)', () => {
 		expect(deleteResponse.status).toBe(200);
 	});
 
+	it('admin routes return 403 for non-admin role', async () => {
+		authMock.mockResolvedValue({ user: { id: 'u1', role: 'user' } });
+
+		const approveResponse = await ApproveRoute.PATCH(
+			new Request('http://localhost'),
+			{
+				params: Promise.resolve({ id: '1' })
+			}
+		);
+		const deleteResponse = await CommentRoute.DELETE(
+			new Request('http://localhost'),
+			{
+				params: Promise.resolve({ id: '1' })
+			}
+		);
+
+		expect(approveResponse.status).toBe(403);
+		expect(deleteResponse.status).toBe(403);
+	});
+
 	it('demo mode keeps service approval behavior unchanged', async () => {
 		vi.stubEnv('NEXT_PUBLIC_DEMO', 'true');
 		commentServiceMock.createComment.mockResolvedValue({

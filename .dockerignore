@@ -1,15 +1,29 @@
+# Git / IDE
 .git
 .github
 .husky
-.next
 .vscode
+
+# Build outputs (host) — never send into Docker context
+.next
+out
+dist
+coverage
+.turbo
+*.tsbuildinfo
+
+# Dependencies
 node_modules
-.dockerignore
+
+# Local env and docs (image gets env from compose / runtime, not baked from .env)
 .env
-.env.example
+.env.*
+!.env.example
+
+# Repo meta (not needed to build the app)
 .gitignore
-docker-compose.yml
-Dockerfile
 LICENSE
 README.md
-tsconfig.tsbuildinfo
+docker-compose.yml
+Dockerfile
+caddy/

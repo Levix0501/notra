@@ -94,10 +94,29 @@ export class BookService {
 		}
 	}
 
-	static readonly getBook = cache(async (id: BookEntity['id']) => {
+	static readonly getBook = cache(
+		async (
+			input:
+				| BookEntity['id']
+				| {
+						id?: BookEntity['id'] | null;
+						slug?: BookEntity['slug'] | null;
+				  }
+		) => {
+			const id =
+				typeof input === 'number' ? input : (input?.id ?? undefined);
+			const slug =
+				typeof input === 'number'
+					? undefined
+					: (input?.slug?.trim() ?? undefined);
+
+			if ((!id || isNaN(id)) && !slug) {
+				return ServiceResult.success(null);
+			}
+
 		try {
 			const book = await prisma.bookEntity.findUnique({
-				where: { id },
+				where: slug ? { slug } : { id: id as BookEntity['id'] },
 				omit: {
 					createdAt: true,
 					updatedAt: true
@@ -111,7 +130,8 @@ export class BookService {
 
 			return ServiceResult.fail(t.get_book_error);
 		}
-	});
+		}
+	);
 
 	static readonly checkBookSlug = async (slug: BookEntity['slug']) => {
 		try {
@@ -149,7 +169,11 @@ export class BookService {
 	static readonly getPublishedBookBySlug = cache(
 		async (slug: BookEntity['slug']) => {
 			try {
-				const book = await prisma.bookEntity.findUnique({
+				if (!slug) {
+					return ServiceResult.success(null);
+				}
+
+				const book = await prisma.bookEntity.findFirst({
 					where: { slug, isPublished: true },
 					omit: {
 						createdAt: true,

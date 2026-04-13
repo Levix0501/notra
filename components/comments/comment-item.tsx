@@ -61,7 +61,7 @@ export function CommentItem({
 							variant="outline"
 							onClick={() => onApprove(comment.id)}
 						>
-							Approve
+							{t.admin_approve}
 						</Button>
 					)}
 					{isAdmin && (
@@ -70,7 +70,7 @@ export function CommentItem({
 							variant="destructive"
 							onClick={() => onDelete(comment.id)}
 						>
-							Delete
+							{t.admin_delete}
 						</Button>
 					)}
 				</div>
