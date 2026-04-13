@@ -5,8 +5,8 @@ export type CreateCommentDto = {
 	authorName: string;
 	authorEmail: string;
 	authorWebsite?: string;
-	honeypot?: string;
-	parentId?: number;
+	honeypot?: string | null;
+	parentId?: number | null;
 };
 
 export type CommentWithReplies = Omit<CommentEntity, 'honeypot'> & {
