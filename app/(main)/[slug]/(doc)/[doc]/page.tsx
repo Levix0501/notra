@@ -4,8 +4,10 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
+import { auth } from '@/app/(auth)/auth';
 import { BlogPageMeta } from '@/components/blog-page-meta';
 import { BookCatalogStaticTrigger } from '@/components/book-catalog-static-client';
+import { CommentsSection } from '@/components/comments';
 import { DocFooterNav } from '@/components/doc-footer-nav';
 import { DocToc, DocTocPopover } from '@/components/doc-toc';
 import { EditButton } from '@/components/edit-button';
@@ -53,6 +55,7 @@ export const generateStaticParams = async () => {
 };
 
 export default async function Page({ params }: Readonly<PageProps>) {
+	const session = await auth();
 	const { slug: bookSlug, doc: docSlug } = await params;
 	const { data: doc } = await DocService.getPublishedDoc(bookSlug, docSlug);
 	const { data: book } = await BookService.getPublishedBookBySlug(bookSlug);
@@ -109,6 +112,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 						</article>
 
 						<DocFooterNav bookId={book.id} bookSlug={bookSlug} docId={doc.id} />
+						<CommentsSection docId={doc.id} isAdmin={!!session} />
 					</div>
 				</div>
 			</div>

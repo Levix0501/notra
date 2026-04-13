@@ -83,11 +83,13 @@ describe('Comment service (Step 3)', () => {
 		const result = await CommentService.getComments(10);
 
 		expect(result.success).toBe(true);
+
 		if (!result.data) {
 			throw new Error('Expected comments tree data');
 		}
 
 		const data = result.data;
+
 		expect(data).toHaveLength(1);
 		expect(data[0].replies?.[0].id).toBe(2);
 		expect(data[0].replies?.[0].replies?.[0].id).toBe(3);
@@ -204,6 +206,7 @@ describe('Comment service (Step 3)', () => {
 		const deleteResult = await CommentService.deleteComment(77);
 
 		expect(approveResult.success).toBe(true);
+
 		if (!approveResult.data) {
 			throw new Error('Expected approved comment data');
 		}
