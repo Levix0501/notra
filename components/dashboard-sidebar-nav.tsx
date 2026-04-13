@@ -1,6 +1,6 @@
 'use client';
 
-import { LayoutDashboard } from 'lucide-react';
+import { LayoutDashboard, MessageSquare } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 import { getTranslations } from '@/i18n';
@@ -22,6 +22,11 @@ export function DashboardSidebarNav() {
 			title: t.dashboard,
 			url: '/dashboard',
 			icon: LayoutDashboard
+		},
+		{
+			title: t.comments,
+			url: '/dashboard/comments',
+			icon: MessageSquare
 		}
 
 		// {

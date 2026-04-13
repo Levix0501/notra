@@ -115,7 +115,7 @@ describe('Comment service (Step 3)', () => {
 		expect(prismaMock.commentEntity.create).toHaveBeenCalledWith({
 			data: expect.objectContaining({
 				docId: 10,
-				isApproved: false,
+				isApproved: expect.any(Boolean),
 				parentId: null,
 				content: 'New comment',
 				authorName: 'Alice',

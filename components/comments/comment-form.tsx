@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { getTranslations } from '@/i18n';
 import { CreateCommentSchema } from '@/src/lib/validations/comment';
 
 const CommentFormSchema = CreateCommentSchema.pick({
@@ -32,9 +33,11 @@ type CommentFormProps = {
 	onSubmit: (values: CommentFormValues) => Promise<void>;
 };
 
+const t = getTranslations('comments');
+
 export function CommentForm({
 	onSubmit,
-	submitText = 'Post comment'
+	submitText = t.form_submit
 }: CommentFormProps) {
 	const [isPending, setIsPending] = useState(false);
 	const form = useForm<CommentFormValues>({
@@ -69,7 +72,7 @@ export function CommentForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormControl>
-									<Input placeholder="Your name" {...field} />
+									<Input placeholder={t.form_name_placeholder} {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -81,7 +84,11 @@ export function CommentForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormControl>
-									<Input placeholder="your@email.com" type="email" {...field} />
+									<Input
+										placeholder={t.form_email_placeholder}
+										type="email"
+										{...field}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -95,7 +102,7 @@ export function CommentForm({
 					render={({ field }) => (
 						<FormItem>
 							<FormControl>
-								<Input placeholder="Website (optional)" {...field} />
+								<Input placeholder={t.form_website_placeholder} {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -109,7 +116,7 @@ export function CommentForm({
 						<FormItem>
 							<FormControl>
 								<Textarea
-									placeholder="Write your comment..."
+									placeholder={t.form_content_placeholder}
 									rows={4}
 									{...field}
 								/>

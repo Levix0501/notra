@@ -156,7 +156,30 @@ export const zh = {
 	},
 	components_dashboard_sidebar_nav: {
 		dashboard: '工作台',
-		appearance: '外观'
+		appearance: '外观',
+		comments: '评论'
+	},
+	comments: {
+		title: '评论',
+		loading: '评论加载中...',
+		empty: '暂无评论，来发表第一条评论吧。',
+		error: '请求失败，请稍后再试。',
+		form_submit: '发表评论',
+		form_reply_submit: '发表回复',
+		form_name_placeholder: '你的名字',
+		form_email_placeholder: '你的邮箱',
+		form_website_placeholder: '网站（可选）',
+		form_content_placeholder: '写下你的评论...',
+		reply: '回复',
+		admin_title: '评论审核',
+		admin_approve: '通过',
+		admin_delete: '删除',
+		admin_approve_success: '评论已通过。',
+		admin_delete_success: '评论已删除。',
+		filter_pending: '待审核',
+		filter_approved: '已通过',
+		filter_all: '全部',
+		pending_count: '待审核：{count}'
 	},
 	components_demo_sidebar_nav: {
 		demo: '在线体验'

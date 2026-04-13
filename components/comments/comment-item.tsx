@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { getTranslations } from '@/i18n';
 import { CommentWithReplies } from '@/types/comment';
 
 import { CommentForm } from './comment-form';
@@ -24,6 +25,8 @@ type CommentFormPayload = {
 	authorWebsite?: string;
 	honeypot?: string | null;
 };
+
+const t = getTranslations('comments');
 
 export function CommentItem({
 	comment,
@@ -50,7 +53,7 @@ export function CommentItem({
 						variant="ghost"
 						onClick={() => setIsReplying((v) => !v)}
 					>
-						Reply
+						{t.reply}
 					</Button>
 					{isAdmin && !comment.isApproved && (
 						<Button
@@ -78,7 +81,7 @@ export function CommentItem({
 			{isReplying && (
 				<div className="rounded-md border bg-muted/20 p-3">
 					<CommentForm
-						submitText="Post reply"
+						submitText={t.form_reply_submit}
 						onSubmit={async (values) => {
 							await onReply(comment.id, values);
 							setIsReplying(false);

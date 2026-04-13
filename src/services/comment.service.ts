@@ -11,6 +11,7 @@ const BAD_WORDS = ['spam', 'scam', 'casino', 'viagra', 'xxx'];
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const rateLimitStore = new Map<string, number[]>();
+const isDemoMode = process.env.NEXT_PUBLIC_DEMO === 'true';
 
 function containsBadWords(content: string): boolean {
 	const normalized = content.toLowerCase();
@@ -76,6 +77,39 @@ function sendReplyNotification(parent: CommentEntity, reply: CommentEntity) {
 }
 
 export class CommentService {
+	static async getAdminComments(
+		status: 'all' | 'pending' | 'approved' = 'all'
+	) {
+		try {
+			const comments = await prisma.commentEntity.findMany({
+				where:
+					status === 'all'
+						? void 0
+						: {
+								isApproved: status === 'approved'
+							},
+				orderBy: {
+					createdAt: 'desc'
+				},
+				include: {
+					doc: {
+						select: {
+							id: true,
+							title: true,
+							slug: true
+						}
+					}
+				}
+			});
+
+			return ServiceResult.success(comments);
+		} catch (error) {
+			logger('CommentService.getAdminComments', error);
+
+			return ServiceResult.fail('Failed to load admin comments.');
+		}
+	}
+
 	static async getComments(docId: DocEntity['id']) {
 		try {
 			const comments = await prisma.commentEntity.findMany({
@@ -147,7 +181,7 @@ export class CommentService {
 							? parsed.data.authorWebsite?.trim()
 							: null,
 					honeypot: parsed.data.honeypot?.trim() || null,
-					isApproved: false
+					isApproved: isDemoMode
 				}
 			});
 

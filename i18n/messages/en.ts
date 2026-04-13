@@ -162,7 +162,30 @@ export const en = {
 	},
 	components_dashboard_sidebar_nav: {
 		dashboard: 'Dashboard',
-		appearance: 'Appearance'
+		appearance: 'Appearance',
+		comments: 'Comments'
+	},
+	comments: {
+		title: 'Comments',
+		loading: 'Loading comments...',
+		empty: 'No comments yet. Be the first to comment.',
+		error: 'Something went wrong.',
+		form_submit: 'Post comment',
+		form_reply_submit: 'Post reply',
+		form_name_placeholder: 'Your name',
+		form_email_placeholder: 'your@email.com',
+		form_website_placeholder: 'Website (optional)',
+		form_content_placeholder: 'Write your comment...',
+		reply: 'Reply',
+		admin_title: 'Comment moderation',
+		admin_approve: 'Approve',
+		admin_delete: 'Delete',
+		admin_approve_success: 'Comment approved.',
+		admin_delete_success: 'Comment deleted.',
+		filter_pending: 'Pending',
+		filter_approved: 'Approved',
+		filter_all: 'All',
+		pending_count: 'Pending: {count}'
 	},
 	components_demo_sidebar_nav: {
 		demo: 'Try it'

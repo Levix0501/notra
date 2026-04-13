@@ -2,6 +2,7 @@
 
 import { toast } from 'sonner';
 
+import { getTranslations } from '@/i18n';
 import { useGetComments } from '@/queries/comment';
 
 import { CommentForm } from './comment-form';
@@ -11,6 +12,8 @@ type CommentsSectionProps = {
 	docId: number;
 	isAdmin?: boolean;
 };
+
+const t = getTranslations('comments');
 
 async function requestJson(
 	path: string,
@@ -51,7 +54,7 @@ export function CommentsSection({
 			method: 'POST',
 			body: JSON.stringify(values)
 		});
-		toast.success('Comment submitted.');
+		toast.success(t.form_submit);
 		await mutate();
 	};
 
@@ -63,36 +66,36 @@ export function CommentsSection({
 			method: 'POST',
 			body: JSON.stringify(values)
 		});
-		toast.success('Reply submitted.');
+		toast.success(t.form_reply_submit);
 		await mutate();
 	};
 
 	const approveComment = async (id: number) => {
 		await requestJson(`/api/comments/${id}/approve`, { method: 'PATCH' });
-		toast.success('Comment approved.');
+		toast.success(t.admin_approve_success);
 		await mutate();
 	};
 
 	const deleteComment = async (id: number) => {
 		await requestJson(`/api/comments/${id}`, { method: 'DELETE' });
-		toast.success('Comment deleted.');
+		toast.success(t.admin_delete_success);
 		await mutate();
 	};
 
 	return (
 		<section className="mt-10 space-y-6 border-t pt-8">
-			<h2 className="text-xl font-semibold">Comments ({comments.length})</h2>
+			<h2 className="text-xl font-semibold">
+				{t.title} ({comments.length})
+			</h2>
 
 			<CommentForm onSubmit={createComment} />
 
-			{isLoading && <p className="text-sm text-muted-foreground">Loading...</p>}
-			{error && (
-				<p className="text-sm text-destructive">Failed to load comments.</p>
+			{isLoading && (
+				<p className="text-sm text-muted-foreground">{t.loading}</p>
 			)}
+			{error && <p className="text-sm text-destructive">{t.error}</p>}
 			{!isLoading && !error && comments.length === 0 && (
-				<p className="text-sm text-muted-foreground">
-					No comments yet. Be the first to comment.
-				</p>
+				<p className="text-sm text-muted-foreground">{t.empty}</p>
 			)}
 
 			<div className="space-y-4">
