@@ -5,6 +5,7 @@
 ---
 
 ## Цель
+
 Добавить систему комментариев: древовидная структура (3 уровня),
 модерация, защита от спама, демо-режим, переводы EN+ZH.
 
@@ -52,6 +53,7 @@ model CommentEntity {
 ## Шаг 2: TypeScript типы
 
 Новый файл `types/comment.ts`:
+
 - CreateCommentDto (content, authorName, authorEmail, authorWebsite?, honeypot?, parentId?)
 - CommentWithReplies (с полем replies?: CommentWithReplies[])
 - PaginatedComments (items, total, page, pageSize, hasMore)
@@ -61,6 +63,7 @@ model CommentEntity {
 ## Шаг 3: Zod валидация
 
 Новый файл `lib/comment-schemas.ts`:
+
 - CreateCommentSchema: content (1-5000 символов), authorName, authorEmail, honeypot должен быть пустым
 - SPAM_WORDS: базовый список
 
@@ -69,6 +72,7 @@ model CommentEntity {
 ## Шаг 4: Rate Limiting
 
 Новый файл `lib/rate-limit.ts`:
+
 - In-memory Map<ip, {count, resetAt}>
 - Лимит: 5 комментариев / 10 минут с одного IP
 - Экспорт: checkRateLimit(ip: string): boolean
@@ -79,18 +83,18 @@ model CommentEntity {
 
 Новый файл `services/comment.ts` — методы:
 
-| Метод | Описание |
-|-------|----------|
-| getComments(docId, page, pageSize) | Одобренные комментарии, вложенность 3 уровня |
-| createComment(docId, dto, ip) | Создание: валидация + spam + rate limit |
-| replyToComment(parentId, dto, ip) | Ответ (проверка глубины max 3) |
-| deleteComment(id) | Удаление каскадное |
-| approveComment(id) | Одобрение |
-| getPendingComments(page, pageSize) | Для admin |
-| getAllComments(filters, page, pageSize) | Для admin с фильтрами |
-| getPendingCount() | Счётчик неодобренных |
-| bulkApprove(ids) / bulkDelete(ids) | Массовые операции |
-| sendReplyNotification(...) | Email (mock если нет SMTP) |
+| Метод                                   | Описание                                     |
+| --------------------------------------- | -------------------------------------------- |
+| getComments(docId, page, pageSize)      | Одобренные комментарии, вложенность 3 уровня |
+| createComment(docId, dto, ip)           | Создание: валидация + spam + rate limit      |
+| replyToComment(parentId, dto, ip)       | Ответ (проверка глубины max 3)               |
+| deleteComment(id)                       | Удаление каскадное                           |
+| approveComment(id)                      | Одобрение                                    |
+| getPendingComments(page, pageSize)      | Для admin                                    |
+| getAllComments(filters, page, pageSize) | Для admin с фильтрами                        |
+| getPendingCount()                       | Счётчик неодобренных                         |
+| bulkApprove(ids) / bulkDelete(ids)      | Массовые операции                            |
+| sendReplyNotification(...)              | Email (mock если нет SMTP)                   |
 
 ---
 
@@ -125,9 +129,10 @@ GET  /api/comments/pending-count     — только admin
 ## Шаг 8: Интеграция в DocView
 
 Найти страницу просмотра документа → добавить в КОНЕЦ (не менять существующее):
+
 ```tsx
 import { CommentsSection } from '@/components/comments';
-<CommentsSection docId={doc.id} isAdmin={!!session} />
+<CommentsSection docId={doc.id} isAdmin={!!session} />;
 ```
 
 ---
@@ -135,6 +140,7 @@ import { CommentsSection } from '@/components/comments';
 ## Шаг 9: i18n (en.ts + zh.ts)
 
 Добавить ключ `comments` с секциями:
+
 - заголовок, счётчик, empty/loading/error state
 - form: name, email, website, comment, submit, reply, cancel, success
 - errors: name_required, email_invalid, content_required, spam_detected, rate_limit, depth_exceeded
@@ -154,12 +160,13 @@ import { CommentsSection } from '@/components/comments';
 ## Шаг 11: Демо-режим
 
 Новый файл `lib/demo-comments.ts`:
+
 - Если `NEXT_PUBLIC_DEMO === 'true'`: localStorage ключ `notra_demo_comments`
 - Та же структура данных, что и серверная версия
 
 ---
 
-## Шаг 12: Тесты (__tests__/comment.test.ts)
+## Шаг 12: Тесты (**tests**/comment.test.ts)
 
 **Минимум 3 теста (обязательно):**
 
