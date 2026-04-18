@@ -11,8 +11,7 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// Represents account settings
-// This entity is designed to store account information with only one record
+// Legacy single-site credentials (pre–multi-user). Prefer `User` for auth; rows may be migrated into `users`.
 model AccountEntity {
   id       String @id @default("default")
   username String @unique
@@ -22,6 +21,20 @@ model AccountEntity {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("account")
+}
+
+// Application user (credentials). role: "USER" | "ADMIN"
+model User {
+  id       String  @id @default(cuid())
+  username String  @unique
+  password String
+  role     String  @default("USER")
+  image    String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
 }
 
 enum RedirectType {
@@ -114,9 +127,35 @@ model DocEntity {
   bookId       Int                  @map("book_id")
   book         BookEntity           @relation(fields: [bookId], references: [id])
   treeNode     TreeNodeEntity?
+  comments     CommentEntity[]
   siteSettings SiteSettingsEntity[]
 
   @@map("docs")
+}
+
+model CommentEntity {
+  id            Int     @id @default(autoincrement())
+  content       String
+  authorName    String  @map("author_name")
+  authorEmail   String  @map("author_email")
+  authorWebsite String? @map("author_website")
+  isApproved    Boolean @default(false) @map("is_approved")
+  honeypot      String?
+
+  parentId Int?            @map("parent_id")
+  parent   CommentEntity?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies  CommentEntity[] @relation("CommentReplies")
+
+  docId Int       @map("doc_id")
+  doc   DocEntity @relation(fields: [docId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([docId])
+  @@index([parentId])
+  @@index([isApproved])
+  @@map("comments")
 }
 
 // Represents the type of a tree node

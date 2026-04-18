@@ -17,9 +17,22 @@ export const authConfig = {
 			const isLoggedIn = !!auth?.user;
 
 			if (isOnLogin && isLoggedIn) {
-				const callbackUrl = nextUrl.searchParams.get('callbackUrl');
+				const rawCallback = nextUrl.searchParams.get('callbackUrl');
+				let path = '/dashboard';
 
-				return Response.redirect(new URL(callbackUrl ?? '/dashboard', nextUrl));
+				if (rawCallback) {
+					try {
+						const target = new URL(rawCallback, nextUrl);
+
+						if (target.origin === nextUrl.origin) {
+							path = `${target.pathname}${target.search}${target.hash}`;
+						}
+					} catch {
+						// ignore invalid callbackUrl
+					}
+				}
+
+				return Response.redirect(new URL(path, nextUrl));
 			}
 
 			if (isOnDashboard && !isLoggedIn) {

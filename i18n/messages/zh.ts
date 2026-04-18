@@ -1,6 +1,13 @@
 export const zh = {
 	app_api: {
-		unauthorized: '未授权'
+		unauthorized: '未授权',
+		forbidden: '禁止访问',
+		bad_request: '请求无效',
+		avatar_no_file: '未提供图片文件。',
+		avatar_invalid_type: '仅支持图片文件。',
+		avatar_too_large: '图片大小不能超过 2MB。',
+		avatar_save_error: '保存头像失败。',
+		avatar_save_success: '头像已更新。'
 	},
 	app_login_page: {
 		metadata_title: '登录',
@@ -42,7 +49,10 @@ export const zh = {
 	},
 	components_account_dropdown: {
 		settings: '设置',
-		logout: '退出登录'
+		logout: '退出登录',
+		change_avatar: '更换头像',
+		avatar_upload_error: '头像上传失败。',
+		avatar_upload_success: '头像已更新。'
 	},
 	components_analytics_form: {
 		google_analytics_id: '谷歌分析 ID',
@@ -156,7 +166,35 @@ export const zh = {
 	},
 	components_dashboard_sidebar_nav: {
 		dashboard: '工作台',
-		appearance: '外观'
+		appearance: '外观',
+		comments: '评论'
+	},
+	comments: {
+		title: '评论',
+		loading: '评论加载中...',
+		empty: '暂无评论，来发表第一条评论吧。',
+		error: '请求失败，请稍后再试。',
+		form_submit: '发表评论',
+		form_reply_submit: '发表回复',
+		form_name_placeholder: '你的名字',
+		form_email_placeholder: '你的邮箱',
+		form_website_placeholder: '网站（可选）',
+		form_content_placeholder: '写下你的评论...',
+		reply: '回复',
+		admin_title: '评论审核',
+		admin_approve: '通过',
+		admin_delete: '删除',
+		admin_approve_success: '评论已通过。',
+		admin_delete_success: '评论已删除。',
+		admin_bulk_approve: '批量通过',
+		admin_bulk_delete: '批量删除',
+		admin_bulk_approve_success: '已批量通过评论。',
+		admin_bulk_delete_success: '已批量删除评论。',
+		admin_select_all: '全选',
+		filter_pending: '待审核',
+		filter_approved: '已通过',
+		filter_all: '全部',
+		pending_count: '待审核：{count}'
 	},
 	components_demo_sidebar_nav: {
 		demo: '在线体验'
@@ -206,6 +244,16 @@ export const zh = {
 		no_documents_description: '您还没有创建任何文档。开始创建您的第一个文档。',
 		create_document: '创建文档'
 	},
+	components_blog_cards: {
+		empty_title: '暂无已发布的文章',
+		empty_description:
+			'登录控制台后即可创建并发布内容，或打开演示模式体验界面。',
+		sign_in: '登录',
+		try_demo: '体验演示'
+	},
+	components_header_auth: {
+		sign_in: '登录'
+	},
 	components_empty_state: {
 		not_found: '404 - 未找到页面',
 		not_found_description: '您访问的页面不存在',
@@ -231,6 +279,7 @@ export const zh = {
 		update_error: '更新失败！'
 	},
 	components_image_cropper: {
+		title_crop_area: '将图片裁剪到合适区域。',
 		re_select: '重新选择',
 		cancel: '取消',
 		crop: '裁剪',
@@ -341,7 +390,10 @@ export const zh = {
 	services_account: {
 		get_account_error: '获取账户失败！',
 		create_account_error: '创建账户失败！',
-		login_error: '登录失败'
+		login_error: '登录失败',
+		update_user_image_invalid_session: '会话无效，请重新登录。',
+		update_user_image_user_not_found:
+			'未找到用户。会话可能已过期，请退出后重新登录。'
 	},
 	services_book: {
 		get_books_error: '获取知识库失败！',

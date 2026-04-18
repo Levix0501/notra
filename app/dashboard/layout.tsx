@@ -11,7 +11,6 @@ import {
 	NotraSidebar,
 	NotraSidebarContent
 } from '@/components/notra-sidebar';
-import { AppProvider } from '@/contexts/app-context';
 
 export default function Layout({
 	children,
@@ -20,30 +19,28 @@ export default function Layout({
 	header
 }: Readonly<LayoutProps<'/dashboard'>>) {
 	return (
-		<AppProvider isDemo={false}>
-			<div className="min-h-dvh">
-				<NotraBackdrop />
-				<NotraSidebar>
-					<div className="flex h-14 items-center justify-between px-4 md:px-2.5">
-						{breadcrumb}
-						<AccountDropdown />
-					</div>
+		<div className="min-h-dvh">
+			<NotraBackdrop />
+			<NotraSidebar>
+				<div className="flex h-14 items-center justify-between px-4 md:px-2.5">
+					{breadcrumb}
+					<AccountDropdown />
+				</div>
 
-					<NotraSidebarContent>{sidebar}</NotraSidebarContent>
+				<NotraSidebarContent>{sidebar}</NotraSidebarContent>
 
-					<DashboardSidebarFooter />
-				</NotraSidebar>
+				<DashboardSidebarFooter />
+			</NotraSidebar>
 
-				<NotraInset>
-					<NotraInsetHeader>{header}</NotraInsetHeader>
-					{children}
-				</NotraInset>
+			<NotraInset>
+				<NotraInsetHeader>{header}</NotraInsetHeader>
+				{children}
+			</NotraInset>
 
-				<CreateBookDialog />
-				<GlobalSettingsDialog />
-				<BookSettingsSheet />
-				<DocSettingsSheet />
-			</div>
-		</AppProvider>
+			<CreateBookDialog />
+			<GlobalSettingsDialog />
+			<BookSettingsSheet />
+			<DocSettingsSheet />
+		</div>
 	);
 }

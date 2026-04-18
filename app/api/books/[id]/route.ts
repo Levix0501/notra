@@ -18,7 +18,13 @@ export async function GET(
 	}
 
 	const { id } = await params;
-	const result = await BookService.getBook(Number(id));
+	const result = await BookService.getBook(id);
+
+	if (result.success && !result.data) {
+		return ServiceResult.fail('Not Found').nextResponse({
+			status: 404
+		});
+	}
 
 	return result.nextResponse();
 }

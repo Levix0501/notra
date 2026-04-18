@@ -3,7 +3,18 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
 	output: 'standalone',
 	images: {
+		dangerouslyAllowSVG: true,
 		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'localhost',
+				pathname: '/**'
+			},
+			{
+				protocol: 'http',
+				hostname: 'localhost',
+				pathname: '/**'
+			},
 			{
 				hostname: '**.supabase.co'
 			},
@@ -14,6 +25,7 @@ const nextConfig: NextConfig = {
 				hostname: 'fecoder.cn'
 			}
 		],
+		unoptimized: true,
 		minimumCacheTTL: 60 * 60 * 24 * 365
 	}
 };

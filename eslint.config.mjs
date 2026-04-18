@@ -159,7 +159,11 @@ const eslintConfig = defineConfig([
 		'.next/**',
 		'out/**',
 		'build/**',
-		'next-env.d.ts'
+		'next-env.d.ts',
+		'**/caddy/**',
+		'caddy/',
+		'node_modules/**',
+		'dist/**'
 	]),
 	...compat.extends('plugin:import/recommended', 'plugin:import/typescript'),
 	...compat.plugins('import', 'react'),

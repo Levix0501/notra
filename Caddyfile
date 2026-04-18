@@ -1,18 +1,26 @@
-{$CADDY_DOMAIN} {
-    tls {$CADDY_EMAIL}
-    redir https://www.{$CADDY_DOMAIN}{uri} 301
+# Local HTTPS with Caddy internal CA (self-signed-like, no public ACME).
+# Service names match docker-compose: `app` (Next.js), `storage` (MinIO).
+http://localhost {
+	redir https://localhost{uri} permanent
 }
 
-www.{$CADDY_DOMAIN} {
-    tls {$CADDY_EMAIL}
-
-    handle_path /minio/* {
-        reverse_proxy storage:9000
-    }
-
-    reverse_proxy app:3000 {
-        header_up Origin https://www.{$CADDY_DOMAIN}
-    }
+http://:80 {
+	redir https://{host}{uri} permanent
 }
 
+https://localhost {
+	tls internal
 
+	# MinIO public objects (paths stored in DB as /minio/notra/...)
+	handle_path /minio/* {
+		reverse_proxy storage:9000 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	reverse_proxy app:3000 {
+		header_up Host {host}
+		header_up X-Real-IP {remote_host}
+	}
+}

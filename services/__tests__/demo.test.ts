@@ -3370,4 +3370,65 @@ describe('DemoService', () => {
 			).toBe(true);
 		});
 	});
+
+	describe('Comment Demo Mode Operations', () => {
+		beforeEach(() => {
+			localStorage.removeItem('notra_demo_comments');
+		});
+
+		it('should create comment in demo mode storage', async () => {
+			const result = await DemoService.createComment(1, {
+				content: 'First demo comment',
+				authorName: 'Demo User',
+				authorEmail: 'demo@example.com'
+			});
+
+			expect(result.success).toBe(true);
+			expect(result.data).toBeDefined();
+			expect(result.data?.id).toBeGreaterThan(0);
+			expect(result.data?.docId).toBe(1);
+		});
+
+		it('should preserve parentId nesting for replies', async () => {
+			const parent = await DemoService.createComment(2, {
+				content: 'Parent',
+				authorName: 'Parent User',
+				authorEmail: 'parent@example.com'
+			});
+
+			const child = await DemoService.createComment(2, {
+				content: 'Reply',
+				authorName: 'Reply User',
+				authorEmail: 'reply@example.com',
+				parentId: parent.data?.id
+			});
+
+			expect(child.success).toBe(true);
+			expect(child.data?.parentId).toBe(parent.data?.id);
+
+			const comments = await DemoService.getComments(2);
+			const root = comments.data?.[0];
+
+			expect(comments.success).toBe(true);
+			expect(root?.id).toBe(parent.data?.id);
+			expect(root?.replies?.[0]?.id).toBe(child.data?.id);
+		});
+
+		it('should delete comment from demo storage', async () => {
+			const created = await DemoService.createComment(3, {
+				content: 'To be deleted',
+				authorName: 'Delete User',
+				authorEmail: 'delete@example.com'
+			});
+
+			const deleted = await DemoService.deleteComment(created.data!.id);
+
+			expect(deleted.success).toBe(true);
+
+			const comments = await DemoService.getComments(3);
+
+			expect(comments.success).toBe(true);
+			expect(comments.data).toHaveLength(0);
+		});
+	});
 });

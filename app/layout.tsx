@@ -6,6 +6,7 @@ import { Toaster } from 'sonner';
 import { AppRevalidator } from '@/components/app-revalidator';
 import { ClientEnvInjector } from '@/components/client-env-injector';
 import { GoogleAnalytics } from '@/components/google-analytics';
+import { RootProviders } from '@/components/root-providers';
 import {
 	DEFAULT_SITE_LOGO,
 	DEFAULT_SITE_LOGO_DARK,
@@ -13,8 +14,6 @@ import {
 } from '@/constants';
 import { ENV_LOCALE } from '@/constants/env';
 import { SiteSettingsService } from '@/services/site-settings';
-
-import { Providers } from './providers';
 
 import type { Metadata } from 'next';
 
@@ -29,9 +28,39 @@ const geistMono = Geist_Mono({
 });
 
 export const generateMetadata = async (): Promise<Metadata> => {
+	const metadataBase = new URL(
+		process.env.AUTH_URL?.replace(/\/$/, '') ?? 'https://localhost'
+	);
+
+	// During `next build` (e.g. Docker builder stage), DATABASE_URL is usually not set.
+	// Avoid DB calls so the build can prerender pages safely.
+	if (!process.env.DATABASE_URL) {
+		return {
+			metadataBase,
+			title: {
+				template: `%s - ${DEFAULT_SITE_TITLE}`,
+				default: DEFAULT_SITE_TITLE
+			},
+			description: '',
+			icons: {
+				icon: [
+					{
+						media: '(prefers-color-scheme: light)',
+						url: DEFAULT_SITE_LOGO
+					},
+					{
+						media: '(prefers-color-scheme: dark)',
+						url: DEFAULT_SITE_LOGO_DARK
+					}
+				]
+			}
+		};
+	}
+
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
 
 	return {
+		metadataBase,
 		title: {
 			template: `%s - ${siteSettings?.title ?? DEFAULT_SITE_TITLE}`,
 			default: siteSettings?.title ?? DEFAULT_SITE_TITLE
@@ -67,10 +96,10 @@ export default function RootLayout({
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
 				<ClientEnvInjector />
 				<AppRevalidator />
-				<Providers>
+				<RootProviders>
 					<Toaster richColors position="bottom-right" />
 					{children}
-				</Providers>
+				</RootProviders>
 			</body>
 			<GoogleAnalytics />
 		</html>

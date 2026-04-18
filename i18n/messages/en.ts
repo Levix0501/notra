@@ -1,6 +1,13 @@
 export const en = {
 	app_api: {
-		unauthorized: 'Unauthorized'
+		unauthorized: 'Unauthorized',
+		forbidden: 'Forbidden',
+		bad_request: 'Bad request',
+		avatar_no_file: 'No image file provided.',
+		avatar_invalid_type: 'Only image files are allowed.',
+		avatar_too_large: 'Image must be 2MB or smaller.',
+		avatar_save_error: 'Failed to save avatar.',
+		avatar_save_success: 'Avatar updated.'
 	},
 	app_login_page: {
 		metadata_title: 'Login',
@@ -47,7 +54,10 @@ export const en = {
 	},
 	components_account_dropdown: {
 		settings: 'Settings',
-		logout: 'Logout'
+		logout: 'Logout',
+		change_avatar: 'Change avatar',
+		avatar_upload_error: 'Could not upload avatar.',
+		avatar_upload_success: 'Avatar updated.'
 	},
 	components_analytics_form: {
 		google_analytics_id: 'Google Analytics ID',
@@ -162,7 +172,35 @@ export const en = {
 	},
 	components_dashboard_sidebar_nav: {
 		dashboard: 'Dashboard',
-		appearance: 'Appearance'
+		appearance: 'Appearance',
+		comments: 'Comments'
+	},
+	comments: {
+		title: 'Comments',
+		loading: 'Loading comments...',
+		empty: 'No comments yet. Be the first to comment.',
+		error: 'Something went wrong.',
+		form_submit: 'Post comment',
+		form_reply_submit: 'Post reply',
+		form_name_placeholder: 'Your name',
+		form_email_placeholder: 'your@email.com',
+		form_website_placeholder: 'Website (optional)',
+		form_content_placeholder: 'Write your comment...',
+		reply: 'Reply',
+		admin_title: 'Comment moderation',
+		admin_approve: 'Approve',
+		admin_delete: 'Delete',
+		admin_approve_success: 'Comment approved.',
+		admin_delete_success: 'Comment deleted.',
+		admin_bulk_approve: 'Approve selected',
+		admin_bulk_delete: 'Delete selected',
+		admin_bulk_approve_success: 'Selected comments approved.',
+		admin_bulk_delete_success: 'Selected comments deleted.',
+		admin_select_all: 'Select all',
+		filter_pending: 'Pending',
+		filter_approved: 'Approved',
+		filter_all: 'All',
+		pending_count: 'Pending: {count}'
 	},
 	components_demo_sidebar_nav: {
 		demo: 'Try it'
@@ -213,6 +251,16 @@ export const en = {
 			"You haven't created any documents yet. Get started by creating your first document.",
 		create_document: 'Create Document'
 	},
+	components_blog_cards: {
+		empty_title: 'No published posts yet',
+		empty_description:
+			'Sign in to the dashboard to create and publish content, or open the demo to explore the UI.',
+		sign_in: 'Sign in',
+		try_demo: 'Try demo'
+	},
+	components_header_auth: {
+		sign_in: 'Sign in'
+	},
 	components_empty_state: {
 		not_found: '404 - Not Found',
 		not_found_description: "The page you're looking for doesn't exist.",
@@ -238,6 +286,7 @@ export const en = {
 		update_error: 'Failed to update!'
 	},
 	components_image_cropper: {
+		title_crop_area: 'Crop the image to fit the frame.',
 		re_select: 'Re-select',
 		cancel: 'Cancel',
 		crop: 'Crop',
@@ -348,7 +397,10 @@ export const en = {
 	services_account: {
 		get_account_error: 'Failed to get account!',
 		create_account_error: 'Failed to create account!',
-		login_error: 'Failed to login!'
+		login_error: 'Failed to login!',
+		update_user_image_invalid_session: 'Invalid session. Please sign in again.',
+		update_user_image_user_not_found:
+			'User not found. Your session may be outdated — please sign out and sign in again.'
 	},
 	services_book: {
 		get_books_error: 'Failed to get books!',

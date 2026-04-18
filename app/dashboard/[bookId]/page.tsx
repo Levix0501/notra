@@ -15,7 +15,7 @@ export const generateMetadata = async ({
 	params
 }: Readonly<PageProps>): Promise<Metadata> => {
 	const { bookId } = await params;
-	const { data: book } = await BookService.getBook(Number(bookId));
+	const { data: book } = await BookService.getBook(bookId);
 
 	return {
 		title: book?.name ?? ''
@@ -24,7 +24,7 @@ export const generateMetadata = async ({
 
 export default async function Page({ params }: Readonly<PageProps>) {
 	const { bookId } = await params;
-	const { data: book } = await BookService.getBook(Number(bookId));
+	const { data: book } = await BookService.getBook(bookId);
 
 	if (!book) {
 		notFound();

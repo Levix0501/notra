@@ -94,24 +94,55 @@ export class BookService {
 		}
 	}
 
-	static readonly getBook = cache(async (id: BookEntity['id']) => {
-		try {
-			const book = await prisma.bookEntity.findUnique({
-				where: { id },
-				omit: {
-					createdAt: true,
-					updatedAt: true
-				}
-			});
+	static readonly getBook = cache(
+		async (
+			input:
+				| BookEntity['id']
+				| string
+				| {
+						id?: BookEntity['id'] | string | null;
+						slug?: BookEntity['slug'] | null;
+				  }
+		) => {
+			const rawId =
+				typeof input === 'number' || typeof input === 'string'
+					? input
+					: (input?.id ?? undefined);
+			const slug =
+				typeof input === 'object' && input
+					? (input.slug?.trim() ?? undefined)
+					: undefined;
+			const parsedId =
+				typeof rawId === 'number'
+					? rawId
+					: typeof rawId === 'string'
+						? Number(rawId)
+						: NaN;
+			const id =
+				Number.isInteger(parsedId) && parsedId > 0 ? parsedId : undefined;
 
-			return ServiceResult.success(book);
-		} catch (error) {
-			logger('BookService.getBook', error);
-			const t = getTranslations('services_book');
+			if (!id && !slug) {
+				return ServiceResult.success(null);
+			}
 
-			return ServiceResult.fail(t.get_book_error);
+			try {
+				const book = await prisma.bookEntity.findUnique({
+					where: slug ? { slug } : { id },
+					omit: {
+						createdAt: true,
+						updatedAt: true
+					}
+				});
+
+				return ServiceResult.success(book);
+			} catch (error) {
+				logger('BookService.getBook', error);
+				const t = getTranslations('services_book');
+
+				return ServiceResult.fail(t.get_book_error);
+			}
 		}
-	});
+	);
 
 	static readonly checkBookSlug = async (slug: BookEntity['slug']) => {
 		try {
@@ -149,7 +180,11 @@ export class BookService {
 	static readonly getPublishedBookBySlug = cache(
 		async (slug: BookEntity['slug']) => {
 			try {
-				const book = await prisma.bookEntity.findUnique({
+				if (!slug) {
+					return ServiceResult.success(null);
+				}
+
+				const book = await prisma.bookEntity.findFirst({
 					where: { slug, isPublished: true },
 					omit: {
 						createdAt: true,

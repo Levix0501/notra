@@ -131,6 +131,7 @@
 		"@types/react-window": "^1.8.8",
 		"@vitest/coverage-v8": "^4.0.14",
 		"@vitest/ui": "^4.0.14",
+		"baseline-browser-mapping": "^2.10.18",
 		"commitlint": "^19.8.1",
 		"cz-git": "^1.12.0",
 		"eslint": "^9",

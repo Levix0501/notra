@@ -69,9 +69,14 @@ export default class MinioStorage implements IStorage {
 			Buffer.from(await file.arrayBuffer())
 		);
 
-		const publicUrl = `https://${ENV_MINIO_ENDPOINT}/minio/${this.BUCKET_NAME}/${path}`;
+		// Always persist canonical public URL (browser + Caddy → /minio), never storage:9000.
+		const relativePath = `/minio/${this.BUCKET_NAME}/${path}`;
+		const base = (process.env.AUTH_URL ?? 'https://localhost').replace(
+			/\/$/,
+			''
+		);
 
-		return publicUrl;
+		return `${base}${relativePath}`;
 	}
 
 	async delete(path: string): Promise<void> {

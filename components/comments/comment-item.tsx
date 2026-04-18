@@ -1,0 +1,123 @@
+'use client';
+
+import dayjs from 'dayjs';
+import { useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { getTranslations } from '@/i18n';
+import { CommentWithReplies } from '@/types/comment';
+
+import { CommentForm } from './comment-form';
+
+type CommentItemProps = {
+	comment: CommentWithReplies;
+	/** @deprecated use canModerate / canDelete */
+	isAdmin?: boolean;
+	canModerate?: boolean;
+	canDelete?: boolean;
+	depth?: number;
+	onReply: (parentId: number, values: CommentFormPayload) => Promise<void>;
+	onApprove: (id: number) => Promise<void>;
+	onDelete: (id: number) => Promise<void>;
+};
+
+type CommentFormPayload = {
+	content: string;
+	authorName: string;
+	authorEmail: string;
+	authorWebsite?: string;
+	honeypot?: string | null;
+};
+
+const t = getTranslations('comments');
+
+export function CommentItem({
+	comment,
+	isAdmin = false,
+	canModerate: canModerateProp,
+	canDelete: canDeleteProp,
+	depth = 0,
+	onReply,
+	onApprove,
+	onDelete
+}: CommentItemProps) {
+	const [isReplying, setIsReplying] = useState(false);
+	const canModerate = canModerateProp ?? isAdmin;
+	const canDelete = canDeleteProp ?? isAdmin;
+
+	return (
+		<div className="space-y-3 rounded-md border p-4">
+			<div className="flex items-center justify-between gap-3">
+				<div>
+					<p className="text-sm font-semibold">{comment.authorName}</p>
+					<p className="text-xs text-muted-foreground">
+						{dayjs(comment.createdAt).format('YYYY-MM-DD HH:mm')}
+					</p>
+				</div>
+				<div className="flex items-center gap-2">
+					<Button
+						size="sm"
+						variant="ghost"
+						onClick={() => setIsReplying((v) => !v)}
+					>
+						{t.reply}
+					</Button>
+					{canModerate && !comment.isApproved && (
+						<Button
+							size="sm"
+							variant="outline"
+							onClick={() => onApprove(comment.id)}
+						>
+							{t.admin_approve}
+						</Button>
+					)}
+					{canDelete && (
+						<Button
+							size="sm"
+							variant="destructive"
+							onClick={() => onDelete(comment.id)}
+						>
+							{t.admin_delete}
+						</Button>
+					)}
+				</div>
+			</div>
+
+			<p className="text-sm whitespace-pre-wrap">{comment.content}</p>
+
+			{isReplying && (
+				<div className="rounded-md border bg-muted/20 p-3">
+					<CommentForm
+						submitText={t.form_reply_submit}
+						onSubmit={async (values) => {
+							await onReply(comment.id, values);
+							setIsReplying(false);
+						}}
+					/>
+				</div>
+			)}
+
+			{comment.replies && comment.replies.length > 0 && (
+				<div
+					className="space-y-3 pl-4"
+					style={{ marginLeft: `${depth * 8}px` }}
+				>
+					{comment.replies.map((reply) => (
+						<CommentItem
+							key={reply.id}
+							canDelete={canDelete}
+							canModerate={canModerate}
+							comment={reply}
+							depth={depth + 1}
+							onApprove={onApprove}
+							onDelete={onDelete}
+							onReply={onReply}
+						/>
+					))}
+				</div>
+			)}
+		</div>
+	);
+}
+
+export type { CommentFormPayload };

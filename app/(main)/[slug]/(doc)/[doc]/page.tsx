@@ -1,20 +1,25 @@
 import { BookType } from '@prisma/client';
 import { JSONContent } from '@tiptap/react';
 import { Metadata } from 'next';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
+import { auth } from '@/app/(auth)/auth';
 import { BlogPageMeta } from '@/components/blog-page-meta';
 import { BookCatalogStaticTrigger } from '@/components/book-catalog-static-client';
+import { CommentsSection } from '@/components/comments';
 import { DocFooterNav } from '@/components/doc-footer-nav';
 import { DocToc, DocTocPopover } from '@/components/doc-toc';
 import { EditButton } from '@/components/edit-button';
 import { EditorView } from '@/components/editor/editor-view';
+import { PublicStorageImg } from '@/components/public-storage-img';
 import { ViewCountUpdater } from '@/components/view-count-updater';
+import { isLoopbackImageUrl, normalizeStorageImageUrl } from '@/lib/image';
 import { getToc } from '@/lib/utils';
 import { BookService } from '@/services/book';
 import { DocService } from '@/services/doc';
 import { TreeNodeService } from '@/services/tree-node';
+
+export const dynamic = 'force-dynamic';
 
 interface PageProps {
 	params: Promise<{
@@ -28,6 +33,9 @@ export const generateMetadata = async ({
 }: Readonly<PageProps>): Promise<Metadata> => {
 	const { slug: bookSlug, doc: docSlug } = await params;
 	const { data: doc } = await DocService.getPublishedDoc(bookSlug, docSlug);
+	const coverUrl = normalizeStorageImageUrl(doc?.cover);
+	const ogImageUrl =
+		coverUrl && !isLoopbackImageUrl(coverUrl) ? coverUrl : undefined;
 
 	return {
 		title: doc?.title,
@@ -37,13 +45,13 @@ export const generateMetadata = async ({
 			title: doc?.title,
 			description: doc?.summary ?? '',
 			publishedTime: doc?.publishedAt?.toISOString(),
-			...(doc?.cover ? { images: { url: doc.cover } } : void 0)
+			...(ogImageUrl ? { images: { url: ogImageUrl } } : void 0)
 		},
 		twitter: {
 			title: doc?.title,
 			card: 'summary_large_image',
 			description: doc?.summary ?? '',
-			...(doc?.cover ? { images: { url: doc.cover } } : void 0)
+			...(ogImageUrl ? { images: { url: ogImageUrl } } : void 0)
 		}
 	};
 };
@@ -53,9 +61,11 @@ export const generateStaticParams = async () => {
 };
 
 export default async function Page({ params }: Readonly<PageProps>) {
+	const session = await auth();
 	const { slug: bookSlug, doc: docSlug } = await params;
 	const { data: doc } = await DocService.getPublishedDoc(bookSlug, docSlug);
 	const { data: book } = await BookService.getPublishedBookBySlug(bookSlug);
+	const coverUrl = normalizeStorageImageUrl(doc?.cover);
 
 	if (!doc || !book) {
 		notFound();
@@ -81,16 +91,13 @@ export default async function Page({ params }: Readonly<PageProps>) {
 
 				<div className="px-6 lg:px-12">
 					<div className="mx-auto max-w-screen-md">
-						{doc.cover && (
-							<div className="relative aspect-video w-full">
-								<Image
-									fill
-									alt={doc.title}
-									className="rounded-[4px]"
-									sizes="768px"
-									src={doc.cover}
-								/>
-							</div>
+						{coverUrl && (
+							<PublicStorageImg
+								alt={doc.title}
+								className="aspect-video w-full rounded-[4px]"
+								imgClassName="rounded-[4px]"
+								src={coverUrl}
+							/>
 						)}
 						<article className="notra-editor pt-6">
 							<h1>
@@ -109,6 +116,11 @@ export default async function Page({ params }: Readonly<PageProps>) {
 						</article>
 
 						<DocFooterNav bookId={book.id} bookSlug={bookSlug} docId={doc.id} />
+						<CommentsSection
+							canDelete={session?.user?.role === 'ADMIN'}
+							canModerate={session?.user?.role === 'ADMIN'}
+							docId={doc.id}
+						/>
 					</div>
 				</div>
 			</div>
