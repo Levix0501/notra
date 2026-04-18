@@ -69,11 +69,14 @@ export default class MinioStorage implements IStorage {
 			Buffer.from(await file.arrayBuffer())
 		);
 
-		// Use relative path so images work in both http and https deployments
-		// and avoid hard-coding scheme/domain into persisted DB values.
-		const publicUrl = `/minio/${this.BUCKET_NAME}/${path}`;
+		// Always persist canonical public URL (browser + Caddy → /minio), never storage:9000.
+		const relativePath = `/minio/${this.BUCKET_NAME}/${path}`;
+		const base = (process.env.AUTH_URL ?? 'https://localhost').replace(
+			/\/$/,
+			''
+		);
 
-		return publicUrl;
+		return `${base}${relativePath}`;
 	}
 
 	async delete(path: string): Promise<void> {

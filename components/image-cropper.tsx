@@ -105,6 +105,9 @@ export function ImageCropper({
 		onCrop(null);
 	};
 
+	const previewUnoptimized =
+		typeof croppedImage === 'string' && croppedImage.startsWith('data:');
+
 	return (
 		<>
 			<AspectRatio className={disabled ? 'opacity-50' : ''} ratio={aspectRatio}>
@@ -125,6 +128,7 @@ export function ImageCropper({
 								className="object-cover"
 								sizes="100%"
 								src={croppedImage}
+								unoptimized={previewUnoptimized}
 							/>
 						</div>
 						<div className="absolute inset-0 p-2">
@@ -153,35 +157,43 @@ export function ImageCropper({
 			</AspectRatio>
 
 			<AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-				<AlertDialogContent>
-					<AlertDialogHeader>
+				<AlertDialogContent className="flex max-h-[90vh] w-[calc(100%-2rem)] max-w-lg flex-col gap-0 overflow-hidden p-0 sm:max-w-lg">
+					<AlertDialogHeader className="shrink-0 border-b px-6 py-4 text-left">
 						<AlertDialogTitle>{title}</AlertDialogTitle>
 					</AlertDialogHeader>
-					<AlertDialogDescription></AlertDialogDescription>
-					<AspectRatio ratio={aspectRatio}>
-						{image && (
-							<Cropper
-								ref={cropperRef}
-								aspectRatio={aspectRatio}
-								autoCropArea={1}
-								className="size-full"
-								dragMode="move"
-								src={image}
-								viewMode={2}
-							/>
-						)}
-					</AspectRatio>
 
-					<Button
-						className="w-fit cursor-pointer"
-						variant="outline"
-						onClick={openFilePicker}
-					>
-						<Upload />
-						{t.re_select}
-					</Button>
+					<AlertDialogDescription className="sr-only">
+						{t.title_crop_area}
+					</AlertDialogDescription>
 
-					<AlertDialogFooter className="mt-4">
+					<div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-6 py-4">
+						<div className="relative mx-auto w-full max-w-full overflow-hidden rounded-md border bg-muted/30">
+							<div className="relative mx-auto aspect-square max-h-[min(500px,60vh)] w-full max-w-[min(500px,60vh)] overflow-hidden">
+								{image ? (
+									<Cropper
+										ref={cropperRef}
+										aspectRatio={aspectRatio}
+										autoCropArea={1}
+										className="cropper-dialog block h-full max-h-full w-full"
+										dragMode="move"
+										src={image}
+										viewMode={2}
+									/>
+								) : null}
+							</div>
+						</div>
+
+						<Button
+							className="mt-4 w-fit cursor-pointer self-start"
+							variant="outline"
+							onClick={openFilePicker}
+						>
+							<Upload />
+							{t.re_select}
+						</Button>
+					</div>
+
+					<AlertDialogFooter className="shrink-0 gap-2 border-t bg-background px-6 py-4 sm:justify-end">
 						<Button
 							className="cursor-pointer"
 							variant="outline"

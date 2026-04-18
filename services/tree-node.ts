@@ -8,6 +8,7 @@ import {
 import { cache } from 'react';
 
 import { getTranslations } from '@/i18n';
+import { parseBookId } from '@/lib/book-id';
 import { revalidateAll, revalidateDashboardBook } from '@/lib/cache';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
@@ -32,10 +33,16 @@ const t = getTranslations('services_tree_node');
 export class TreeNodeService {
 	static readonly getPublishedTreeNodesByBookId = cache(
 		async (bookId: BookEntity['id']) => {
+			const id = parseBookId(bookId);
+
+			if (id === null) {
+				return ServiceResult.success([]);
+			}
+
 			try {
 				const nodes = await prisma.treeNodeEntity.findMany({
 					where: {
-						bookId,
+						bookId: id,
 						book: { isPublished: true }
 					},
 					omit: {
@@ -57,10 +64,16 @@ export class TreeNodeService {
 	);
 
 	static async getTreeNodesByBookId(bookId: BookEntity['id']) {
+		const id = parseBookId(bookId);
+
+		if (id === null) {
+			return ServiceResult.success([]);
+		}
+
 		try {
 			const nodes = await prisma.treeNodeEntity.findMany({
 				where: {
-					bookId
+					bookId: id
 				},
 				omit: {
 					createdAt: true,

@@ -1,5 +1,9 @@
 # Local HTTPS with Caddy internal CA (self-signed-like, no public ACME).
 # Service names match docker-compose: `app` (Next.js), `storage` (MinIO).
+http://localhost {
+	redir https://localhost{uri} permanent
+}
+
 http://:80 {
 	redir https://{host}{uri} permanent
 }
@@ -9,8 +13,14 @@ https://localhost {
 
 	# MinIO public objects (paths stored in DB as /minio/notra/...)
 	handle_path /minio/* {
-		reverse_proxy storage:9000
+		reverse_proxy storage:9000 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+		}
 	}
 
-	reverse_proxy app:3000
+	reverse_proxy app:3000 {
+		header_up Host {host}
+		header_up X-Real-IP {remote_host}
+	}
 }

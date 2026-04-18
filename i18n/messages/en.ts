@@ -1,7 +1,13 @@
 export const en = {
 	app_api: {
 		unauthorized: 'Unauthorized',
-		forbidden: 'Forbidden'
+		forbidden: 'Forbidden',
+		bad_request: 'Bad request',
+		avatar_no_file: 'No image file provided.',
+		avatar_invalid_type: 'Only image files are allowed.',
+		avatar_too_large: 'Image must be 2MB or smaller.',
+		avatar_save_error: 'Failed to save avatar.',
+		avatar_save_success: 'Avatar updated.'
 	},
 	app_login_page: {
 		metadata_title: 'Login',
@@ -48,7 +54,10 @@ export const en = {
 	},
 	components_account_dropdown: {
 		settings: 'Settings',
-		logout: 'Logout'
+		logout: 'Logout',
+		change_avatar: 'Change avatar',
+		avatar_upload_error: 'Could not upload avatar.',
+		avatar_upload_success: 'Avatar updated.'
 	},
 	components_analytics_form: {
 		google_analytics_id: 'Google Analytics ID',
@@ -277,6 +286,7 @@ export const en = {
 		update_error: 'Failed to update!'
 	},
 	components_image_cropper: {
+		title_crop_area: 'Crop the image to fit the frame.',
 		re_select: 'Re-select',
 		cancel: 'Cancel',
 		crop: 'Crop',
@@ -387,7 +397,10 @@ export const en = {
 	services_account: {
 		get_account_error: 'Failed to get account!',
 		create_account_error: 'Failed to create account!',
-		login_error: 'Failed to login!'
+		login_error: 'Failed to login!',
+		update_user_image_invalid_session: 'Invalid session. Please sign in again.',
+		update_user_image_user_not_found:
+			'User not found. Your session may be outdated — please sign out and sign in again.'
 	},
 	services_book: {
 		get_books_error: 'Failed to get books!',

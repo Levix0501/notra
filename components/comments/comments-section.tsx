@@ -12,6 +12,11 @@ import { CommentFormPayload, CommentItem } from './comment-item';
 
 type CommentsSectionProps = {
 	docId: number;
+	/** Approve / moderate (typically ADMIN only). */
+	canModerate?: boolean;
+	/** Delete (ADMIN only). */
+	canDelete?: boolean;
+	/** @deprecated use canModerate / canDelete */
 	isAdmin?: boolean;
 };
 
@@ -42,9 +47,13 @@ async function requestJson(
 
 export function CommentsSection({
 	docId,
-	isAdmin = false
+	isAdmin = false,
+	canModerate: canModerateProp,
+	canDelete: canDeleteProp
 }: CommentsSectionProps) {
 	const { isDemo } = useApp();
+	const canModerate = canModerateProp ?? isAdmin;
+	const canDelete = canDeleteProp ?? isAdmin;
 	const {
 		data: comments = [],
 		isLoading,
@@ -144,8 +153,9 @@ export function CommentsSection({
 				{comments.map((comment) => (
 					<CommentItem
 						key={comment.id}
+						canDelete={canDelete}
+						canModerate={canModerate}
 						comment={comment}
-						isAdmin={isAdmin}
 						onApprove={approveComment}
 						onDelete={deleteComment}
 						onReply={replyToComment}

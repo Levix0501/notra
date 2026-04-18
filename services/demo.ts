@@ -9,6 +9,7 @@ import { Dexie } from 'dexie';
 import limax from 'limax';
 
 import { getTranslations } from '@/i18n';
+import { parseBookId } from '@/lib/book-id';
 import { logger } from '@/lib/logger';
 import { ServiceResult } from '@/lib/service-result';
 import { moveNode, removeNodeFromOldPosition } from '@/lib/tree/demo';
@@ -420,6 +421,10 @@ export class DemoService {
 	}
 
 	static async getTreeNodesByBookId(bookId: BookEntity['id']) {
+		if (parseBookId(bookId) === null) {
+			return [];
+		}
+
 		const db = getDatabase();
 		const nodes = await db.treeNodes.where('bookId').equals(bookId).toArray();
 

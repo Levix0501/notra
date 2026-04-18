@@ -64,4 +64,4 @@ EXPOSE 3000
 
 ENTRYPOINT ["./entrypoint.sh"]
 
-CMD pnpm db:deploy && node ./standalone/server.js
+CMD ["sh", "-c", "pnpm db:deploy && exec node ./standalone/server.js"]

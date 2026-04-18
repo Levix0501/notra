@@ -11,7 +11,10 @@ import { CommentForm } from './comment-form';
 
 type CommentItemProps = {
 	comment: CommentWithReplies;
+	/** @deprecated use canModerate / canDelete */
 	isAdmin?: boolean;
+	canModerate?: boolean;
+	canDelete?: boolean;
 	depth?: number;
 	onReply: (parentId: number, values: CommentFormPayload) => Promise<void>;
 	onApprove: (id: number) => Promise<void>;
@@ -31,12 +34,16 @@ const t = getTranslations('comments');
 export function CommentItem({
 	comment,
 	isAdmin = false,
+	canModerate: canModerateProp,
+	canDelete: canDeleteProp,
 	depth = 0,
 	onReply,
 	onApprove,
 	onDelete
 }: CommentItemProps) {
 	const [isReplying, setIsReplying] = useState(false);
+	const canModerate = canModerateProp ?? isAdmin;
+	const canDelete = canDeleteProp ?? isAdmin;
 
 	return (
 		<div className="space-y-3 rounded-md border p-4">
@@ -55,7 +62,7 @@ export function CommentItem({
 					>
 						{t.reply}
 					</Button>
-					{isAdmin && !comment.isApproved && (
+					{canModerate && !comment.isApproved && (
 						<Button
 							size="sm"
 							variant="outline"
@@ -64,7 +71,7 @@ export function CommentItem({
 							{t.admin_approve}
 						</Button>
 					)}
-					{isAdmin && (
+					{canDelete && (
 						<Button
 							size="sm"
 							variant="destructive"
@@ -98,9 +105,10 @@ export function CommentItem({
 					{comment.replies.map((reply) => (
 						<CommentItem
 							key={reply.id}
+							canDelete={canDelete}
+							canModerate={canModerate}
 							comment={reply}
 							depth={depth + 1}
-							isAdmin={isAdmin}
 							onApprove={onApprove}
 							onDelete={onDelete}
 							onReply={onReply}

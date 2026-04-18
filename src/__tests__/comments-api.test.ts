@@ -157,7 +157,7 @@ describe('Comment API routes (Step 4)', () => {
 	});
 
 	it('admin routes call service when session exists', async () => {
-		authMock.mockResolvedValue({ user: { id: 'admin' } });
+		authMock.mockResolvedValue({ user: { id: 'admin', role: 'ADMIN' } });
 		commentServiceMock.approveComment.mockResolvedValue({
 			success: true,
 			nextResponse: vi
@@ -191,7 +191,7 @@ describe('Comment API routes (Step 4)', () => {
 	});
 
 	it('admin routes return 403 for non-admin role', async () => {
-		authMock.mockResolvedValue({ user: { id: 'u1', role: 'user' } });
+		authMock.mockResolvedValue({ user: { id: 'u1', role: 'USER' } });
 
 		const approveResponse = await ApproveRoute.PATCH(
 			new Request('http://localhost'),
@@ -240,7 +240,7 @@ describe('Comment API routes (Step 4)', () => {
 	});
 
 	it('GET /api/comments/pending-count returns count for admin', async () => {
-		authMock.mockResolvedValue({ user: { id: 'admin' } });
+		authMock.mockResolvedValue({ user: { id: 'admin', role: 'ADMIN' } });
 		commentServiceMock.getPendingCount.mockResolvedValue({
 			success: true,
 			nextResponse: vi
@@ -255,7 +255,7 @@ describe('Comment API routes (Step 4)', () => {
 	});
 
 	it('POST /api/comments/bulk approves selected comments', async () => {
-		authMock.mockResolvedValue({ user: { id: 'admin' } });
+		authMock.mockResolvedValue({ user: { id: 'admin', role: 'ADMIN' } });
 		commentServiceMock.bulkApprove.mockResolvedValue({
 			success: true,
 			nextResponse: vi
@@ -279,7 +279,7 @@ describe('Comment API routes (Step 4)', () => {
 	});
 
 	it('GET /api/comments filters by status', async () => {
-		authMock.mockResolvedValue({ user: { id: 'admin' } });
+		authMock.mockResolvedValue({ user: { id: 'admin', role: 'ADMIN' } });
 		commentServiceMock.getAdminComments.mockResolvedValue({
 			success: true,
 			nextResponse: vi

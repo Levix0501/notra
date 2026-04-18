@@ -4,6 +4,7 @@ import useSWR, { SWRConfiguration } from 'swr';
 
 import { useApp } from '@/contexts/app-context';
 import { useFetcher } from '@/hooks/use-fetcher';
+import { parseBookId } from '@/lib/book-id';
 import { DemoService } from '@/services/demo';
 import {
 	CONTACT_INFO_MAP,
@@ -15,17 +16,18 @@ import {
 import { TreeNodeVoWithLevel } from '@/types/tree-node';
 
 export const useGetTreeNodes = (
-	bookId: BookEntity['id'],
+	bookId: BookEntity['id'] | null | undefined,
 	config?: SWRConfiguration<TreeNodeVoWithLevel[]>
 ) => {
 	const { isDemo } = useApp();
+	const id = parseBookId(bookId);
 	const demo = useSWR(
-		isDemo ? `/demo/tree-nodes/${bookId}` : void 0,
-		() => DemoService.getTreeNodesByBookId(bookId),
+		isDemo && id != null ? `/demo/tree-nodes/${id}` : void 0,
+		() => DemoService.getTreeNodesByBookId(id!),
 		config
 	);
 	const api = useFetcher<TreeNodeVoWithLevel[]>(
-		isDemo ? void 0 : `/api/tree-nodes/${bookId}`,
+		isDemo || id == null ? void 0 : `/api/tree-nodes/${id}`,
 		config
 	);
 

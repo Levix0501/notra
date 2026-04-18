@@ -1,7 +1,13 @@
 export const zh = {
 	app_api: {
 		unauthorized: '未授权',
-		forbidden: '禁止访问'
+		forbidden: '禁止访问',
+		bad_request: '请求无效',
+		avatar_no_file: '未提供图片文件。',
+		avatar_invalid_type: '仅支持图片文件。',
+		avatar_too_large: '图片大小不能超过 2MB。',
+		avatar_save_error: '保存头像失败。',
+		avatar_save_success: '头像已更新。'
 	},
 	app_login_page: {
 		metadata_title: '登录',
@@ -43,7 +49,10 @@ export const zh = {
 	},
 	components_account_dropdown: {
 		settings: '设置',
-		logout: '退出登录'
+		logout: '退出登录',
+		change_avatar: '更换头像',
+		avatar_upload_error: '头像上传失败。',
+		avatar_upload_success: '头像已更新。'
 	},
 	components_analytics_form: {
 		google_analytics_id: '谷歌分析 ID',
@@ -270,6 +279,7 @@ export const zh = {
 		update_error: '更新失败！'
 	},
 	components_image_cropper: {
+		title_crop_area: '将图片裁剪到合适区域。',
 		re_select: '重新选择',
 		cancel: '取消',
 		crop: '裁剪',
@@ -380,7 +390,10 @@ export const zh = {
 	services_account: {
 		get_account_error: '获取账户失败！',
 		create_account_error: '创建账户失败！',
-		login_error: '登录失败'
+		login_error: '登录失败',
+		update_user_image_invalid_session: '会话无效，请重新登录。',
+		update_user_image_user_not_found:
+			'未找到用户。会话可能已过期，请退出后重新登录。'
 	},
 	services_book: {
 		get_books_error: '获取知识库失败！',

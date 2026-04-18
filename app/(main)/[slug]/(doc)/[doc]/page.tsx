@@ -1,7 +1,6 @@
 import { BookType } from '@prisma/client';
 import { JSONContent } from '@tiptap/react';
 import { Metadata } from 'next';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import { auth } from '@/app/(auth)/auth';
@@ -12,8 +11,9 @@ import { DocFooterNav } from '@/components/doc-footer-nav';
 import { DocToc, DocTocPopover } from '@/components/doc-toc';
 import { EditButton } from '@/components/edit-button';
 import { EditorView } from '@/components/editor/editor-view';
+import { PublicStorageImg } from '@/components/public-storage-img';
 import { ViewCountUpdater } from '@/components/view-count-updater';
-import { normalizeStorageImageUrl } from '@/lib/image';
+import { isLoopbackImageUrl, normalizeStorageImageUrl } from '@/lib/image';
 import { getToc } from '@/lib/utils';
 import { BookService } from '@/services/book';
 import { DocService } from '@/services/doc';
@@ -34,6 +34,8 @@ export const generateMetadata = async ({
 	const { slug: bookSlug, doc: docSlug } = await params;
 	const { data: doc } = await DocService.getPublishedDoc(bookSlug, docSlug);
 	const coverUrl = normalizeStorageImageUrl(doc?.cover);
+	const ogImageUrl =
+		coverUrl && !isLoopbackImageUrl(coverUrl) ? coverUrl : undefined;
 
 	return {
 		title: doc?.title,
@@ -43,13 +45,13 @@ export const generateMetadata = async ({
 			title: doc?.title,
 			description: doc?.summary ?? '',
 			publishedTime: doc?.publishedAt?.toISOString(),
-			...(coverUrl ? { images: { url: coverUrl } } : void 0)
+			...(ogImageUrl ? { images: { url: ogImageUrl } } : void 0)
 		},
 		twitter: {
 			title: doc?.title,
 			card: 'summary_large_image',
 			description: doc?.summary ?? '',
-			...(coverUrl ? { images: { url: coverUrl } } : void 0)
+			...(ogImageUrl ? { images: { url: ogImageUrl } } : void 0)
 		}
 	};
 };
@@ -90,15 +92,12 @@ export default async function Page({ params }: Readonly<PageProps>) {
 				<div className="px-6 lg:px-12">
 					<div className="mx-auto max-w-screen-md">
 						{coverUrl && (
-							<div className="relative aspect-video w-full">
-								<Image
-									fill
-									alt={doc.title}
-									className="rounded-[4px]"
-									sizes="768px"
-									src={coverUrl}
-								/>
-							</div>
+							<PublicStorageImg
+								alt={doc.title}
+								className="aspect-video w-full rounded-[4px]"
+								imgClassName="rounded-[4px]"
+								src={coverUrl}
+							/>
 						)}
 						<article className="notra-editor pt-6">
 							<h1>
@@ -117,7 +116,11 @@ export default async function Page({ params }: Readonly<PageProps>) {
 						</article>
 
 						<DocFooterNav bookId={book.id} bookSlug={bookSlug} docId={doc.id} />
-						<CommentsSection docId={doc.id} isAdmin={!!session} />
+						<CommentsSection
+							canDelete={session?.user?.role === 'ADMIN'}
+							canModerate={session?.user?.role === 'ADMIN'}
+							docId={doc.id}
+						/>
 					</div>
 				</div>
 			</div>
