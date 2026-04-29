@@ -43,3 +43,6 @@ next-env.d.ts
 
 # caddy
 /caddy
+
+# claude
+.claude
